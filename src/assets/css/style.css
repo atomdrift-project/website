@@ -1,0 +1,373 @@
+@font-face {
+  font-family: 'Oxanium';
+  src: url('/assets/fonts/Oxanium-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --carbon: #0a0a0a;
+  --graphite: #404040;
+  --slate: #6b7280;
+  --silver: #9ca3af;
+  --mist: #f3f4f6;
+  --white: #ffffff;
+  --isotope: #3b82f6;
+  --isotope-dim: rgba(59, 130, 246, 0.1);
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--white);
+  color: var(--carbon);
+  line-height: 1.6;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Header */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 48px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo-text {
+  font-family: 'Oxanium', sans-serif;
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: -0.5px;
+}
+
+nav {
+  display: flex;
+  gap: 32px;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--graphite);
+}
+
+nav a:hover {
+  color: var(--carbon);
+}
+
+/* Hero */
+.hero {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 48px 100px;
+}
+
+.hero-split {
+  display: flex;
+  align-items: center;
+  gap: 60px;
+}
+
+.hero-molecule {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-content {
+  flex: 1;
+}
+
+.hero h1 {
+  font-size: 48px;
+  font-weight: 600;
+  letter-spacing: -2px;
+  line-height: 1.1;
+  margin-bottom: 20px;
+}
+
+.hero p {
+  font-size: 20px;
+  color: var(--slate);
+  max-width: 500px;
+  margin-bottom: 32px;
+  font-weight: 300;
+}
+
+.cta-group {
+  display: flex;
+  gap: 16px;
+}
+
+.btn {
+  padding: 14px 28px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+  font-family: inherit;
+}
+
+.btn-primary {
+  background: var(--carbon);
+  color: var(--white);
+}
+
+.btn-primary:hover {
+  background: var(--graphite);
+}
+
+.btn-secondary {
+  background: var(--mist);
+  color: var(--carbon);
+}
+
+.btn-secondary:hover {
+  background: #e5e7eb;
+}
+
+/* 3D Atom */
+#atom-canvas {
+  width: 400px;
+  height: 350px;
+}
+
+/* Products */
+.products {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 48px 60px;
+}
+
+.section-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--silver);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.products h2 {
+  font-size: 36px;
+  font-weight: 600;
+  letter-spacing: -1px;
+  margin-bottom: 60px;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.product-card {
+  padding: 32px;
+  border: 1px solid var(--mist);
+  border-radius: 12px;
+  transition: all 0.2s;
+}
+
+.product-card:hover {
+  border-color: #e5e7eb;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.product-card h3 {
+  font-family: 'Oxanium', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.product-card .tag {
+  font-size: 10px;
+  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: var(--mist);
+  color: var(--slate);
+}
+
+.product-card .tag-product {
+  background: var(--isotope-dim);
+  color: var(--isotope);
+}
+
+.product-card p {
+  color: var(--slate);
+  font-size: 15px;
+}
+
+.product-card a {
+  display: block;
+  color: inherit;
+}
+
+.product-card a:hover h3 {
+  color: var(--isotope);
+}
+
+/* Philosophy */
+.philosophy {
+  background: var(--mist);
+  padding: 60px 48px;
+}
+
+.philosophy-inner {
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.philosophy h2 {
+  font-size: 32px;
+  font-weight: 600;
+  letter-spacing: -1px;
+  margin-bottom: 24px;
+}
+
+.philosophy p {
+  color: var(--graphite);
+  font-size: 18px;
+  line-height: 1.8;
+}
+
+/* Contribute */
+.contribute {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 48px;
+  text-align: center;
+}
+
+.contribute h2 {
+  font-size: 36px;
+  font-weight: 600;
+  letter-spacing: -1px;
+  margin-bottom: 16px;
+}
+
+.contribute p {
+  color: var(--slate);
+  margin-bottom: 32px;
+}
+
+/* Footer */
+footer {
+  border-top: 1px solid var(--mist);
+  padding: 48px;
+  text-align: center;
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-links {
+  display: flex;
+  gap: 24px;
+  font-size: 14px;
+  color: var(--slate);
+}
+
+.footer-links a:hover {
+  color: var(--carbon);
+}
+
+.copyright {
+  font-size: 14px;
+  color: var(--silver);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  header {
+    padding: 20px 24px;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  nav {
+    gap: 20px;
+  }
+
+  .hero {
+    padding: 40px 24px 60px;
+  }
+
+  .hero-split {
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .hero-content {
+    text-align: center;
+  }
+
+  .hero h1 {
+    font-size: 36px;
+    letter-spacing: -1px;
+  }
+
+  .hero p {
+    font-size: 18px;
+  }
+
+  .cta-group {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #atom-canvas {
+    width: 300px;
+    height: 260px;
+  }
+
+  .products {
+    padding: 0 24px 80px;
+  }
+
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .philosophy {
+    padding: 60px 24px;
+  }
+
+  .contribute {
+    padding: 80px 24px;
+  }
+
+  .footer-inner {
+    flex-direction: column;
+    gap: 20px;
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "name": "isotope13-website",
+  "version": "1.0.0",
+  "description": "Isotope 13 - Atomic-level malware detection",
+  "scripts": {
+    "dev": "eleventy --serve",
+    "build": "eleventy"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^3.1.2",
+    "wrangler": "^4.68.1"
+  }
+}

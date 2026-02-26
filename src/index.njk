@@ -1,0 +1,179 @@
+---
+layout: base.njk
+title: Open Source Supply Chain Security
+---
+
+<section class="hero">
+  <div class="hero-split">
+    <div class="hero-molecule">
+      <canvas id="atom-canvas"></canvas>
+    </div>
+    <div class="hero-content">
+      <h1>See what others miss.</h1>
+      <p>Open-source tools for software supply chain security.</p>
+      <div class="cta-group">
+        <a href="https://codeberg.org/atomdrift" class="btn btn-primary" target="_blank">View on Codeberg</a>
+        <a href="#projects" class="btn btn-secondary">Explore Projects</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="products" id="projects">
+  <p class="section-label">Projects</p>
+  <h2>Multiple layers of analysis.</h2>
+  <div class="product-grid">
+    <div class="product-card">
+      <a href="https://codeberg.org/atomdrift/cleave" target="_blank">
+        <h3>cleave <span class="tag">Beta</span></h3>
+        <p>AST-aware decomposition. Takes binaries and source apart into their atomic components.</p>
+      </a>
+    </div>
+    <div class="product-card">
+      <a href="https://codeberg.org/atomdrift/stng" target="_blank">
+        <h3>stng <span class="tag">Stable</span></h3>
+        <p>Modern string extraction for binary analysis. Fast, precise, and encoding-aware.</p>
+      </a>
+    </div>
+    <div class="product-card">
+      <h3>litmus <span class="tag">Coming Soon</span></h3>
+      <p>ML-powered analysis. Learns to recognize malicious patterns others overlook.</p>
+    </div>
+    <div class="product-card">
+      <h3>atomdrift <span class="tag">Coming Soon</span></h3>
+      <p>Supply-chain intelligence. Contextual differential analysis across versions and dependencies.</p>
+    </div>
+  </div>
+</section>
+
+<script type="module">
+import * as THREE from 'three';
+
+const canvas = document.getElementById('atom-canvas');
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(50, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+camera.position.z = 11;
+
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+// Lighting for 3D appearance
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+scene.add(ambientLight);
+
+const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+directionalLight.position.set(5, 5, 5);
+scene.add(directionalLight);
+
+const backLight = new THREE.DirectionalLight(0xffffff, 0.3);
+backLight.position.set(-5, -5, -5);
+scene.add(backLight);
+
+const moleculeGroup = new THREE.Group();
+scene.add(moleculeGroup);
+
+// Atom materials with 3D shading
+const carbonMat = new THREE.MeshStandardMaterial({ color: 0x1a1a1a, roughness: 0.3, metalness: 0.1 });
+const nitrogenMat = new THREE.MeshStandardMaterial({ color: 0x3b82f6, roughness: 0.3, metalness: 0.1 });
+const oxygenMat = new THREE.MeshStandardMaterial({ color: 0xef4444, roughness: 0.3, metalness: 0.1 });
+const hydrogenMat = new THREE.MeshStandardMaterial({ color: 0xe5e7eb, roughness: 0.4, metalness: 0.0 });
+const bondMat = new THREE.MeshStandardMaterial({ color: 0x9ca3af, roughness: 0.5, metalness: 0.0 });
+
+// Caffeine molecule (C8H10N4O2) - approximate 3D coordinates
+const atoms = [
+  // Purine ring system
+  { pos: [0, 0, 0], type: 'N', r: 0.35 },
+  { pos: [1.2, 0.7, 0], type: 'C', r: 0.4 },
+  { pos: [2.4, 0, 0], type: 'N', r: 0.35 },
+  { pos: [2.4, -1.4, 0], type: 'C', r: 0.4 },
+  { pos: [1.2, -2.1, 0], type: 'C', r: 0.4 },
+  { pos: [0, -1.4, 0], type: 'C', r: 0.4 },
+
+  // Imidazole ring
+  { pos: [3.5, -2.1, 0], type: 'N', r: 0.35 },
+  { pos: [3.5, -3.5, 0], type: 'C', r: 0.4 },
+  { pos: [2.1, -3.5, 0], type: 'N', r: 0.35 },
+
+  // Carbonyl oxygens
+  { pos: [1.2, 2.0, 0], type: 'O', r: 0.35 },
+  { pos: [-1.2, -2.0, 0], type: 'O', r: 0.35 },
+
+  // Methyl groups
+  { pos: [-1.3, 0.7, 0], type: 'C', r: 0.4 },
+  { pos: [3.7, 0.7, 0], type: 'C', r: 0.4 },
+  { pos: [1.5, -4.8, 0], type: 'C', r: 0.4 },
+
+  // Key hydrogens
+  { pos: [4.4, -4.0, 0.3], type: 'H', r: 0.25 },
+  { pos: [-1.8, 1.5, 0.5], type: 'H', r: 0.25 },
+  { pos: [-2.0, 0.2, -0.5], type: 'H', r: 0.25 },
+  { pos: [4.2, 1.4, 0.5], type: 'H', r: 0.25 },
+  { pos: [4.4, 0.2, -0.5], type: 'H', r: 0.25 },
+  { pos: [0.5, -5.2, 0.5], type: 'H', r: 0.25 },
+  { pos: [2.2, -5.5, -0.3], type: 'H', r: 0.25 },
+];
+
+// Bonds between atoms (indices)
+const bonds = [
+  [0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 0],
+  [3, 6], [6, 7], [7, 8], [8, 4],
+  [1, 9], [5, 10],
+  [0, 11], [2, 12], [8, 13],
+  [7, 14], [11, 15], [11, 16], [12, 17], [12, 18], [13, 19], [13, 20],
+];
+
+// Create atoms
+const atomGeometries = {};
+atoms.forEach((atom, i) => {
+  if (!atomGeometries[atom.r]) {
+    atomGeometries[atom.r] = new THREE.SphereGeometry(atom.r, 32, 32);
+  }
+
+  let material;
+  switch(atom.type) {
+    case 'C': material = carbonMat; break;
+    case 'N': material = nitrogenMat; break;
+    case 'O': material = oxygenMat; break;
+    case 'H': material = hydrogenMat; break;
+  }
+
+  const mesh = new THREE.Mesh(atomGeometries[atom.r], material);
+  mesh.position.set(atom.pos[0], atom.pos[1], atom.pos[2]);
+  moleculeGroup.add(mesh);
+});
+
+// Create bonds
+const bondGeometry = new THREE.CylinderGeometry(0.08, 0.08, 1, 12);
+bonds.forEach(([i, j]) => {
+  const start = new THREE.Vector3(...atoms[i].pos);
+  const end = new THREE.Vector3(...atoms[j].pos);
+  const mid = new THREE.Vector3().addVectors(start, end).multiplyScalar(0.5);
+  const length = start.distanceTo(end);
+
+  const bond = new THREE.Mesh(bondGeometry, bondMat);
+  bond.position.copy(mid);
+  bond.scale.y = length;
+  bond.lookAt(end);
+  bond.rotateX(Math.PI / 2);
+  moleculeGroup.add(bond);
+});
+
+// Center the molecule
+moleculeGroup.position.set(-1.5, 1.5, 0);
+
+function animate() {
+  requestAnimationFrame(animate);
+  moleculeGroup.rotation.y += 0.002;
+  moleculeGroup.rotation.x = Math.sin(Date.now() * 0.0003) * 0.15;
+  renderer.render(scene, camera);
+}
+
+animate();
+
+window.addEventListener('resize', () => {
+  camera.aspect = canvas.clientWidth / canvas.clientHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+});
+</script>

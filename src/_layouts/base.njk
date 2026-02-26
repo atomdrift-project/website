@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ title }} - The Atomdrift Project</title>
+  <meta name="description" content="{{ description or 'Open-source tools for software supply chain security. Atomic-level analysis of binaries and source code.' }}">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{{ title }} - The Atomdrift Project">
+  <meta property="og:description" content="{{ description or 'Open-source tools for software supply chain security. Atomic-level analysis of binaries and source code.' }}">
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>%E2%9A%9B</text></svg>">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/assets/css/style.css">
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
+    }
+  }
+  </script>
+</head>
+<body>
+  <header>
+    <a href="/" class="logo">
+      <span class="logo-text">atomdrift</span>
+    </a>
+    <nav>
+      <a href="#projects">Projects</a>
+      <a href="https://codeberg.org/atomdrift" target="_blank">Codeberg</a>
+      <a href="https://matrix.to/#/%23atomdrift:matrix.org" target="_blank">Chat & Collaborate</a>
+    </nav>
+  </header>
+
+  <main>
+    {{ content | safe }}
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-links">
+        <a href="https://codeberg.org/atomdrift" target="_blank">Codeberg</a>
+        <a href="https://matrix.to/#/%23atomdrift:matrix.org" target="_blank">Matrix</a>
+      </div>
+      <p class="copyright">&copy; 2026 The Atomdrift Project</p>
+    </div>
+  </footer>
+</body>
+</html>

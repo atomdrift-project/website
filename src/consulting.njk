@@ -1,0 +1,241 @@
+---
+layout: base.njk
+title: Consulting
+description: Custom security models and integrations for your supply chain.
+---
+
+<section class="hero">
+  <div class="hero-split">
+    <div class="hero-molecule">
+      <canvas id="network-canvas"></canvas>
+    </div>
+    <div class="hero-content">
+      <h1>Secure your supply chain.</h1>
+      <p>Custom models and integrations built on our tools and leading security products.</p>
+      <div class="cta-group">
+        <a href="mailto:hello@isotope13.ai" class="btn btn-primary">Get in Touch</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="products">
+  <p class="section-label">Services</p>
+  <h2>What we offer.</h2>
+  <div class="product-grid">
+    <div class="product-card">
+      <h3>Custom Models</h3>
+      <p>ML models trained on your specific codebase and threat landscape for precision detection.</p>
+    </div>
+    <div class="product-card">
+      <h3>Integrations</h3>
+      <p>Connect Isotope 13 tools with your existing security stack and CI/CD pipelines.</p>
+    </div>
+    <div class="product-card">
+      <h3>Supply Chain Audits</h3>
+      <p>Deep analysis of your dependencies, build processes, and artifact integrity.</p>
+    </div>
+  </div>
+</section>
+
+<section class="philosophy">
+  <div class="philosophy-inner">
+    <h2>Built for your environment.</h2>
+    <p>Every supply chain is different. We work with your team to understand your stack, identify risks, and deploy solutions that fit your workflow. From custom detection models to full integration with your security operations.</p>
+  </div>
+</section>
+
+<script type="module">
+import * as THREE from 'three';
+
+const canvas = document.getElementById('network-canvas');
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(50, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+camera.position.z = 10;
+
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+// Lighting
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+scene.add(ambientLight);
+
+const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+directionalLight.position.set(5, 5, 5);
+scene.add(directionalLight);
+
+const networkGroup = new THREE.Group();
+scene.add(networkGroup);
+
+// Node materials
+const nodeMat = new THREE.MeshStandardMaterial({ color: 0x4b5563, roughness: 0.3, metalness: 0.2 });
+const nodeHighlightMat = new THREE.MeshStandardMaterial({ color: 0x3b82f6, roughness: 0.2, metalness: 0.3, emissive: 0x3b82f6, emissiveIntensity: 0.3 });
+const nodeVulnMat = new THREE.MeshStandardMaterial({ color: 0xef4444, roughness: 0.2, metalness: 0.3, emissive: 0xef4444, emissiveIntensity: 0.5 });
+const edgeMat = new THREE.MeshStandardMaterial({ color: 0x374151, roughness: 0.5, metalness: 0.0, transparent: true, opacity: 0.6 });
+
+// Generate network nodes in a roughly spherical/organic layout
+const nodes = [];
+const nodeCount = 28;
+const nodeMeshes = [];
+
+// Create clustered layout - a few "hub" packages with many dependencies
+const hubs = [
+  { pos: [0, 0, 0], size: 0.7 },
+  { pos: [-3, 2, 1], size: 0.55 },
+  { pos: [3, -1, -1], size: 0.55 },
+  { pos: [1, 3, -2], size: 0.5 },
+];
+
+// Add hub nodes
+hubs.forEach(hub => {
+  nodes.push({ pos: hub.pos, size: hub.size, isHub: true, vuln: false });
+});
+
+// Add peripheral nodes around hubs
+for (let i = 0; i < nodeCount - hubs.length; i++) {
+  const hubIndex = Math.floor(Math.random() * hubs.length);
+  const hub = hubs[hubIndex];
+  const angle = Math.random() * Math.PI * 2;
+  const angle2 = Math.random() * Math.PI * 2;
+  const dist = 1.5 + Math.random() * 2.5;
+
+  const x = hub.pos[0] + Math.cos(angle) * Math.cos(angle2) * dist;
+  const y = hub.pos[1] + Math.sin(angle) * dist * 0.7;
+  const z = hub.pos[2] + Math.cos(angle) * Math.sin(angle2) * dist;
+
+  // Some nodes are vulnerable
+  const isVuln = Math.random() < 0.12;
+
+  nodes.push({
+    pos: [x, y, z],
+    size: 0.25 + Math.random() * 0.2,
+    isHub: false,
+    vuln: isVuln,
+    hubIndex
+  });
+}
+
+// Create edges - connect nodes to their hubs and some interconnections
+const edges = [];
+nodes.forEach((node, i) => {
+  if (!node.isHub && node.hubIndex !== undefined) {
+    edges.push([i, node.hubIndex]);
+  }
+});
+
+// Connect hubs to each other
+edges.push([0, 1], [0, 2], [0, 3], [1, 3], [2, 3]);
+
+// Add some random connections between nearby nodes
+for (let i = 4; i < nodes.length; i++) {
+  for (let j = i + 1; j < nodes.length; j++) {
+    const dist = Math.sqrt(
+      Math.pow(nodes[i].pos[0] - nodes[j].pos[0], 2) +
+      Math.pow(nodes[i].pos[1] - nodes[j].pos[1], 2) +
+      Math.pow(nodes[i].pos[2] - nodes[j].pos[2], 2)
+    );
+    if (dist < 2.2 && Math.random() < 0.3) {
+      edges.push([i, j]);
+    }
+  }
+}
+
+// Create node meshes
+const nodeGeometries = {};
+nodes.forEach((node, i) => {
+  const sizeKey = node.size.toFixed(2);
+  if (!nodeGeometries[sizeKey]) {
+    nodeGeometries[sizeKey] = new THREE.SphereGeometry(node.size, 24, 24);
+  }
+
+  const mesh = new THREE.Mesh(nodeGeometries[sizeKey], nodeMat.clone());
+  mesh.position.set(node.pos[0], node.pos[1], node.pos[2]);
+  mesh.userData = { index: i, originalMat: mesh.material, vuln: node.vuln, isHub: node.isHub };
+  networkGroup.add(mesh);
+  nodeMeshes.push(mesh);
+});
+
+// Create edge meshes
+const edgeGeometry = new THREE.CylinderGeometry(0.04, 0.04, 1, 8);
+edges.forEach(([i, j]) => {
+  const start = new THREE.Vector3(...nodes[i].pos);
+  const end = new THREE.Vector3(...nodes[j].pos);
+  const mid = new THREE.Vector3().addVectors(start, end).multiplyScalar(0.5);
+  const length = start.distanceTo(end);
+
+  const edge = new THREE.Mesh(edgeGeometry, edgeMat.clone());
+  edge.position.copy(mid);
+  edge.scale.y = length;
+  edge.lookAt(end);
+  edge.rotateX(Math.PI / 2);
+  networkGroup.add(edge);
+});
+
+// Scan wave
+let scanProgress = -10;
+const scanSpeed = 0.04;
+const scanWidth = 3;
+
+function updateScan() {
+  scanProgress += scanSpeed;
+  if (scanProgress > 12) {
+    scanProgress = -10;
+  }
+
+  nodeMeshes.forEach(mesh => {
+    const nodeX = mesh.position.x;
+    const distFromScan = nodeX - scanProgress;
+
+    if (distFromScan > 0 && distFromScan < scanWidth) {
+      // In scan zone
+      const intensity = 1 - (distFromScan / scanWidth);
+      if (mesh.userData.vuln) {
+        mesh.material.color.setHex(0xef4444);
+        mesh.material.emissive = new THREE.Color(0xef4444);
+        mesh.material.emissiveIntensity = intensity * 0.8;
+      } else {
+        mesh.material.color.setHex(0x3b82f6);
+        mesh.material.emissive = new THREE.Color(0x3b82f6);
+        mesh.material.emissiveIntensity = intensity * 0.5;
+      }
+    } else if (distFromScan <= 0 && distFromScan > -2) {
+      // Just scanned - fade out
+      const fade = Math.max(0, 1 + distFromScan / 2);
+      if (mesh.userData.vuln) {
+        mesh.material.emissiveIntensity = fade * 0.8;
+      } else {
+        mesh.material.color.lerp(new THREE.Color(0x4b5563), 0.1);
+        mesh.material.emissiveIntensity = fade * 0.3;
+      }
+    } else {
+      // Reset to normal (but keep vuln nodes slightly red)
+      if (mesh.userData.vuln && scanProgress > mesh.position.x) {
+        mesh.material.color.setHex(0xef4444);
+        mesh.material.emissive = new THREE.Color(0xef4444);
+        mesh.material.emissiveIntensity = 0.2;
+      } else if (!mesh.userData.vuln) {
+        mesh.material.color.setHex(0x4b5563);
+        mesh.material.emissiveIntensity = 0;
+      }
+    }
+  });
+}
+
+// Gentle rotation
+function animate() {
+  requestAnimationFrame(animate);
+  networkGroup.rotation.y += 0.001;
+  networkGroup.rotation.x = Math.sin(Date.now() * 0.0002) * 0.1;
+  updateScan();
+  renderer.render(scene, camera);
+}
+
+animate();
+
+window.addEventListener('resize', () => {
+  camera.aspect = canvas.clientWidth / canvas.clientHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+});
+</script>
