@@ -9,6 +9,7 @@ run: node_modules
 	npx eleventy --serve
 
 build: node_modules
+	rm -rf _site
 	npx eleventy
 
 clean:
