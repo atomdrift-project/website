@@ -59,6 +59,10 @@ header {
   letter-spacing: -0.5px;
 }
 
+.logo-accent {
+  color: var(--isotope);
+}
+
 nav {
   display: flex;
   gap: 32px;
@@ -230,6 +234,15 @@ nav a:hover {
   color: var(--isotope);
 }
 
+.section-closing {
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: -0.5px;
+  color: var(--graphite);
+  text-align: center;
+  margin-top: 48px;
+}
+
 /* Philosophy */
 .philosophy {
   background: var(--mist);
@@ -299,6 +312,13 @@ footer {
 
 .footer-links a:hover {
   color: var(--carbon);
+}
+
+.tagline {
+  font-size: 15px;
+  color: var(--slate);
+  letter-spacing: 0.5px;
+  font-weight: 400;
 }
 
 .copyright {
