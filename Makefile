@@ -1,4 +1,4 @@
-.PHONY: run build clean install deploy
+.PHONY: run build clean install deploy deploy-cf
 
 CODEBERG_REMOTE ?= git@codeberg.org:atomdrift/pages.git
 
@@ -22,6 +22,9 @@ deploy: build
 	git add -A && \
 	git commit -q -m "Deploy $$(date -u +%Y-%m-%dT%H:%M:%SZ)" && \
 	git push -f $(CODEBERG_REMOTE) HEAD:pages
+
+deploy-cf: build
+	npx wrangler pages deploy _site --project-name atomdrift
 
 node_modules: package.json
 	npm install
