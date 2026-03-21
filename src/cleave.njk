@@ -1,0 +1,67 @@
+---
+layout: base.njk
+title: "cleave — Deep Static Analysis Engine"
+---
+
+<div class="main">
+  <div class="content">
+
+    <h2 style="margin-top: 0;">cleave <span class="badge badge-stable">stable</span></h2>
+    <p>Deep static analysis engine. Combines AST-aware inspection with
+    automated binary reverse engineering to extract capabilities and behaviors
+    from software. Designed as an input to other analysis tools — it detects
+    neutral micro-behaviors aligned with the
+    <a href="https://github.com/MBCProject/mbc-markdown" target="_blank">Malware Behavior Catalog</a>.</p>
+
+    <h2>Capabilities</h2>
+    <ul class="feature-list">
+      <li><strong>20+ languages</strong> — Python, JavaScript, TypeScript, Go, Rust, C/C++, Java, C#, Swift, Ruby, PHP, Perl, Lua, Shell, PowerShell, and more</li>
+      <li><strong>Binary formats</strong> — ELF, PE (Windows), Mach-O (macOS)</li>
+      <li><strong>Archive formats</strong> — ZIP, TAR (gz/bz2/xz/zst), 7z, RAR, plus package formats (JAR, deb, rpm, apk, gem, crate, wheel)</li>
+      <li><strong>Document &amp; data formats</strong> — RTF, LNK, PNG steganography, PDF, plist, VBScript, Batch, manifests, GitHub Actions workflows</li>
+      <li><strong>AST traversal</strong> via Tree-sitter for source-level analysis</li>
+      <li><strong>Binary reverse engineering</strong> via Radare2/Rizin</li>
+      <li><strong>Signature matching</strong> via YARA-X</li>
+      <li><strong>String extraction</strong> via <a href="/stng/">stng</a> for payload decoding</li>
+    </ul>
+
+    <h2>Install</h2>
+    <pre class="install-block">$ cargo install --git https://codeberg.org/atomdrift/cleave</pre>
+
+    <h2>Usage</h2>
+    <pre class="install-block">$ cleave suspicious.elf
+$ cleave /tmp/box-o-malware/
+$ cleave package.tar.gz</pre>
+
+  </div>
+
+  <div class="sidebar">
+
+    <h3>Links</h3>
+    <ul>
+      <li><a href="https://codeberg.org/atomdrift/cleave" target="_blank">Source code</a></li>
+      <li><a href="https://codeberg.org/atomdrift/cleave/releases" target="_blank">Releases</a></li>
+      <li><a href="https://codeberg.org/atomdrift/cleave/issues" target="_blank">Bug tracker</a></li>
+    </ul>
+
+    <h3>Contributing</h3>
+    <ul>
+      <li><a href="https://codeberg.org/atomdrift/cleave" target="_blank">Fork on Codeberg</a></li>
+      <li><a href="https://codeberg.org/atomdrift/cleave/issues" target="_blank">Open an issue</a></li>
+    </ul>
+
+    <h3>Project Info</h3>
+    <dl class="stats">
+      <dt>Version</dt><dd>0.3.0</dd>
+      <dt>License</dt><dd>Apache 2.0</dd>
+      <dt>Language</dt><dd>Rust</dd>
+    </dl>
+
+    <h3>Related</h3>
+    <ul>
+      <li><a href="/stng/">stng</a> — string extraction</li>
+      <li><a href="/litmus/">litmus</a> — ML classification</li>
+    </ul>
+
+  </div>
+</div>

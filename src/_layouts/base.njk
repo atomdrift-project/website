@@ -17,40 +17,56 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="/assets/css/style.css">
-
-  <script type="importmap">
-  {
-    "imports": {
-      "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
-    }
-  }
-  </script>
 </head>
 <body>
-  <header>
-    <a href="/" class="logo">
-      <span class="logo-text">atom<span class="logo-accent">drift</span></span>
-    </a>
-    <nav>
-      <a href="#projects">Projects</a>
-      <a href="https://codeberg.org/atomdrift" target="_blank">Codeberg</a>
-      <a href="https://matrix.to/#/%23atomdrift:matrix.org" target="_blank">Matrix</a>
-    </nav>
-  </header>
+
+  <div class="site-header">
+    <div class="header-inner">
+      <div class="logo-block">
+        <a href="/">
+          <svg class="atom-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="6" fill="#3b82f6"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(-30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(90 50 50)"/>
+            <circle cx="18" cy="28" r="3.5" fill="#3b82f6"/>
+            <circle cx="82" cy="28" r="3.5" fill="#3b82f6"/>
+            <circle cx="50" cy="88" r="3.5" fill="#3b82f6"/>
+          </svg>
+          <div class="logo-text">
+            <span class="logo-name">atom<span class="logo-accent">drift</span></span>
+            <span class="logo-tagline">Open-source supply chain forensics</span>
+          </div>
+        </a>
+      </div>
+      <div class="header-links">
+        <a href="https://codeberg.org/atomdrift" target="_blank">Codeberg</a>
+        <a href="https://lab.atomdrift.org/" class="hl" target="_blank">Lab</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav">
+    <div class="nav-inner">
+      <a href="/"{% if page.url == "/" %} class="active"{% endif %}>Home</a>
+      <a href="/projects/"{% if page.url == "/projects/" or page.url == "/cleave/" or page.url == "/stng/" or page.url == "/litmus/" %} class="active"{% endif %}>Projects</a>
+      <a href="/news/"{% if page.url and page.url.startsWith("/news") %} class="active"{% endif %}>News</a>
+    </div>
+  </div>
 
   <main>
     {{ content | safe }}
   </main>
 
-  <footer>
+  <div class="site-footer">
     <div class="footer-inner">
-      <div class="footer-links">
-        <a href="https://codeberg.org/atomdrift" target="_blank">Codeberg</a>
-        <a href="https://matrix.to/#/%23atomdrift:matrix.org" target="_blank">Matrix</a>
-      </div>
-      <p class="tagline"></p>
-      <p class="copyright">&copy; 2026 The Atomdrift Project</p>
+      <span>&copy; 2026 The Atomdrift Project</span>
+      <span>
+        <a href="https://codeberg.org/atomdrift" target="_blank">Source</a> &middot;
+        <a href="/.well-known/security.txt">Security</a>
+      </span>
     </div>
-  </footer>
+  </div>
+
 </body>
 </html>

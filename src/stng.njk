@@ -1,0 +1,68 @@
+---
+layout: base.njk
+title: "stng — Advanced String Extraction"
+---
+
+<div class="main">
+  <div class="content">
+
+    <h2 style="margin-top: 0;">stng <span class="badge badge-stable">stable</span></h2>
+    <p>Advanced string extraction specialized for binary analysis. Extracts
+    meaningful strings while filtering garbage, with built-in deobfuscation
+    and IOC classification. Pure safe Rust — no unsafe blocks.</p>
+
+    <h2>Capabilities</h2>
+    <ul class="feature-list">
+      <li><strong>Garbage filtering</strong> — automatically removes unusable noise (override with <code>--unfiltered</code>)</li>
+      <li><strong>XOR obfuscation detection</strong> — single/multi-byte keys with entropy analysis, double-layer (encoding+XOR)</li>
+      <li><strong>Encoding detection</strong> — Base64, Base32, Base85, hex, URL-encoding, Unicode escapes</li>
+      <li><strong>Language-aware extraction</strong> — Go/Rust <code>{ptr, len}</code> structures, DWARF stack strings</li>
+      <li><strong>Binary network structures</strong> — hardcoded IPs/ports in socket structures</li>
+      <li><strong>IOC classification</strong> — IPs, URLs, shell commands, paths, credentials</li>
+      <li><strong>Wide strings</strong> — UTF-16LE support for Windows PE binaries</li>
+      <li><strong>Multi-format</strong> — ELF, PE, Mach-O, raw binaries, overlays</li>
+    </ul>
+
+    <h2>Install</h2>
+    <pre class="install-block">$ cargo install --git https://codeberg.org/atomdrift/stng</pre>
+
+    <h2>Usage</h2>
+    <pre class="install-block">$ stng malware.bin              # full analysis with XOR auto-detection
+$ stng -i malware.bin           # interesting strings only
+$ stng --json malware.bin       # machine-readable with encoding metadata</pre>
+
+    <h2>Library</h2>
+    <pre class="install-block">let strings = stng::extract_strings(&amp;std::fs::read("sample")?, 4);</pre>
+
+  </div>
+
+  <div class="sidebar">
+
+    <h3>Links</h3>
+    <ul>
+      <li><a href="https://codeberg.org/atomdrift/stng" target="_blank">Source code</a></li>
+      <li><a href="https://codeberg.org/atomdrift/stng/releases" target="_blank">Releases</a></li>
+      <li><a href="https://codeberg.org/atomdrift/stng/issues" target="_blank">Bug tracker</a></li>
+    </ul>
+
+    <h3>Contributing</h3>
+    <ul>
+      <li><a href="https://codeberg.org/atomdrift/stng" target="_blank">Fork on Codeberg</a></li>
+      <li><a href="https://codeberg.org/atomdrift/stng/issues" target="_blank">Open an issue</a></li>
+    </ul>
+
+    <h3>Project Info</h3>
+    <dl class="stats">
+      <dt>Version</dt><dd>1.1.1</dd>
+      <dt>License</dt><dd>Apache 2.0</dd>
+      <dt>Language</dt><dd>Rust</dd>
+    </dl>
+
+    <h3>Related</h3>
+    <ul>
+      <li><a href="/cleave/">cleave</a> — deep static analysis</li>
+      <li><a href="/litmus/">litmus</a> — ML classification</li>
+    </ul>
+
+  </div>
+</div>

@@ -1,0 +1,14 @@
+---
+layout: base.njk
+---
+
+<div class="main-full">
+  <div class="post-header">
+    <h1>{{ title }}</h1>
+    <span class="post-meta">{{ date | dateDisplay }}</span>
+  </div>
+  <div class="post-body">
+    {{ content | safe }}
+  </div>
+  <p style="margin-top: 24px; font-size: 13px;"><a href="/news/">&larr; All news</a></p>
+</div>

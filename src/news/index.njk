@@ -1,0 +1,19 @@
+---
+layout: base.njk
+title: News
+permalink: /news/
+eleventyExcludeFromCollections: true
+---
+
+<div class="main-full">
+  <h2 class="content" style="margin-top: 0;">News</h2>
+  <ul class="post-list">
+    {%- for post in collections.news | reverse %}
+    <li class="post-item">
+      <span class="post-date">{{ post.date | dateDisplay }}</span>
+      <a href="{{ post.url }}" class="post-title">{{ post.data.title }}</a>
+      {% if post.data.summary %}<p class="post-summary">{{ post.data.summary }}</p>{% endif %}
+    </li>
+    {%- endfor %}
+  </ul>
+</div>
