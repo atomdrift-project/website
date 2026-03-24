@@ -1,0 +1,74 @@
+---
+layout: base.njk
+title: "xgboost-native — Pure Rust XGBoost Inference"
+---
+
+<div class="main">
+  <div class="content">
+
+    <h2 style="margin-top: 0;">xgboost-native <span class="badge badge-stable">stable</span></h2>
+    <p>Native XGBoost inference in pure Rust — no ONNX, no C++ runtime,
+    runs anywhere Rust does. Reads XGBoost's native JSON format directly
+    and implements inference and exact TreeSHAP without external
+    dependencies.</p>
+
+    <h2>Why</h2>
+    <p>ONNX Runtime's C++ dependency is painful to cross-compile, bloats
+    binaries, and has no support for platforms like FreeBSD. xgboost-native
+    eliminates that entire dependency chain.</p>
+
+    <h2>Capabilities</h2>
+    <ul class="feature-list">
+      <li><strong>Pure Rust inference</strong> — no C/C++ runtime, no FFI, no ONNX</li>
+      <li><strong>Exact TreeSHAP</strong> — per-feature explanations that sum to the raw margin</li>
+      <li><strong>Early stopping aware</strong> — respects <code>best_iteration</code> from trained models</li>
+      <li><strong>Cross-platform</strong> — compiles anywhere Rust does, including FreeBSD</li>
+      <li><strong>Minimal dependencies</strong> — only serde and thiserror</li>
+    </ul>
+
+    <h2>Usage</h2>
+    <pre class="install-block">let model = xgboost_native::Model::load(Path::new("model.json"))?;
+let prob  = model.predict(&features);
+let shap  = model.shap(&features);
+// sum(shap.values) + shap.bias ≈ model.raw_margin(&features)</pre>
+
+    <h2>Verification</h2>
+    <p>Validated against XGBoost 3.2.0 (Python) and ort (ONNX Runtime) on
+    held-out samples:</p>
+    <table class="verify-table">
+      <thead><tr><th>Metric</th><th>Tolerance</th></tr></thead>
+      <tbody>
+        <tr><td>Probability</td><td>&lt; 1e-5 vs. Python, &lt; 1e-4 vs. ort</td></tr>
+        <tr><td>Raw margin</td><td>&lt; 1e-4</td></tr>
+        <tr><td>SHAP values (per feature)</td><td>&lt; 1e-3</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Supported</h2>
+    <p><code>binary:logistic</code> objective, numeric splits, XGBoost native
+    JSON. No multi-class, no categorical splits.</p>
+
+  </div>
+
+  <div class="sidebar">
+
+    <h3>Links</h3>
+    <ul>
+      <li><a href="https://github.com/atomdrift/xgboost-native" target="_blank">Source code</a></li>
+    </ul>
+
+    <h3>Project Info</h3>
+    <dl class="stats">
+      <dt>Version</dt><dd>0.1.0</dd>
+      <dt>License</dt><dd>Apache 2.0</dd>
+      <dt>Language</dt><dd>Rust</dd>
+    </dl>
+
+    <h3>Related</h3>
+    <ul>
+      <li><a href="/litmus/">litmus</a> — ML-powered malware classifier</li>
+      <li><a href="/cleave/">cleave</a> — deep static analysis</li>
+    </ul>
+
+  </div>
+</div>

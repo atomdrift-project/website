@@ -1,6 +1,6 @@
 ---
 layout: base.njk
-title: Open-Source Supply Chain Forensics
+title: Open-Source Malware Detection for the Modern Software Supply Chain
 ---
 
 <div class="main">
@@ -45,6 +45,11 @@ title: Open-Source Supply Chain Forensics
         <span class="proj-name"><a href="/litmus/">litmus</a></span>
         <span class="badge badge-beta">beta</span>
         <div class="proj-desc">ML-powered malware classifier. Trains custom XGBoost models on cleave output to assess threats tailored to your environment. Supports package diff for supply chain attack detection.</div>
+      </li>
+      <li>
+        <span class="proj-name"><a href="/xgboost-native/">xgboost-native</a></span>
+        <span class="badge badge-stable">stable</span>
+        <div class="proj-desc">Pure Rust XGBoost inference with exact TreeSHAP. No ONNX, no C++ runtime — runs anywhere Rust does.</div>
       </li>
       <li>
         <span class="proj-name">atomdrift</span>

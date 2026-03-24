@@ -1,20 +1,23 @@
 ---
-title: "Hello world"
+title: "Atomdrift is here"
 date: 2026-01-15
-summary: "The Atomdrift Project is live."
+summary: "Open-source malware detection for the software supply chain."
 ---
 
-The Atomdrift Project is now public. We're building open-source tools for
-atomic-level software supply chain forensics — decomposing binaries and
-source code into structural primitives to identify threats.
+The open-source supply chain has no workable solution for malware detection.
+Packages get published, artifacts get pulled, and nobody has tooling that
+actually works to tell the good from the bad. We're building that tooling.
 
-All code is developed on [Codeberg](https://codeberg.org/atomdrift) and
-released under the Apache 2.0 license.
+Atomdrift is a suite of open-source tools — written in Rust, released under
+Apache 2.0 — that decompose software into structural primitives and classify
+threats using machine learning. The initial toolkit:
 
-The initial toolset includes:
+- **[litmus](https://codeberg.org/atomdrift/litmus)** — ML-powered malware classifier trained on cleave output
+- **[cleave](https://codeberg.org/atomdrift/cleave)** — deep static analysis engine with AST-aware decomposition across 20+ languages
+- **[stng](https://codeberg.org/atomdrift/stng)** — string extraction for binary analysis, with XOR deobfuscation and IOC classification
+- **[xgboost-native](https://github.com/atomdrift/xgboost-native)** — pure Rust XGBoost inference with exact TreeSHAP, no C++ runtime
 
-- **cleave** — deep static analysis engine with AST-aware decomposition
-- **stng** — advanced string extraction with XOR deobfuscation and IOC classification
-- **litmus** — ML-powered malware classifier built on cleave output
+All development happens in the open on
+[Codeberg](https://codeberg.org/atomdrift).
 
-More to come. Watch the repos, file issues, send patches.
+More to come.
