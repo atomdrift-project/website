@@ -1,0 +1,22 @@
+---
+permalink: /feed.xml
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Atomdrift News</title>
+  <link href="https://atomdrift.org/feed.xml" rel="self"/>
+  <link href="https://atomdrift.org/"/>
+  <id>https://atomdrift.org/</id>
+  {%- set latestPost = collections.news | reverse | first %}
+  <updated>{{ latestPost.date | dateDisplay }}T00:00:00Z</updated>
+  {%- for post in collections.news | reverse %}
+  <entry>
+    <title>{{ post.data.title }}</title>
+    <link href="https://atomdrift.org{{ post.url }}"/>
+    <id>https://atomdrift.org{{ post.url }}</id>
+    <updated>{{ post.date | dateDisplay }}T00:00:00Z</updated>
+    {% if post.data.summary %}<summary>{{ post.data.summary }}</summary>{% endif %}
+  </entry>
+  {%- endfor %}
+</feed>
