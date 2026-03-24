@@ -7,33 +7,29 @@ title: "litmus — ML-Powered Malware Classifier"
   <div class="content">
 
     <h2 style="margin-top: 0;">litmus <span class="badge badge-beta">beta</span></h2>
-    <p>ML-powered malware classifier that leverages
-    <a href="/cleave/">cleave</a> output to make threat assessment decisions.
-    Trains custom XGBoost models tailored to your specific threat environment.
-    Unlike cleave, which reports neutral capabilities, litmus makes the call
-    on whether something is malicious.</p>
+    <p>ML-powered malware classifier for supply-chain security. Uses
+    <a href="/cleave/">cleave</a> static analysis to extract capabilities,
+    then classifies threat level — built for security engineers and automated
+    pipelines alike.</p>
 
     <h2>Capabilities</h2>
     <ul class="feature-list">
-      <li><strong>Custom model training</strong> — train XGBoost models on your own labeled data</li>
-      <li><strong>File scanning</strong> — scan individual files, directories, and archives</li>
-      <li><strong>Supply chain detection</strong> — compare package versions with <code>litmus diff</code> to catch tampering</li>
-      <li><strong>Feature explanation</strong> — understand why something was flagged</li>
-      <li><strong>Model management</strong> — maintain multiple trained models for different environments</li>
-      <li><strong>Server mode</strong> — HTTP API for integration into pipelines</li>
+      <li><strong>File scanning</strong> — scan files, directories, and archives against a local <a href="https://codeberg.org/atomdrift/litmus-models/" target="_blank">ML model</a></li>
     </ul>
 
     <h2>Install</h2>
-    <pre class="install-block">$ cargo install --git https://codeberg.org/atomdrift/litmus</pre>
+    <pre class="install-block"># macOS (Homebrew)
+$ brew tap atomdrift/tap https://codeberg.org/atomdrift/homebrew-tap.git
+$ brew install atomdrift/tap/litmus
+
+# From source
+$ make install</pre>
 
     <h2>Usage</h2>
-    <pre class="install-block">$ litmus scan /path/to/file
-$ litmus scan /path/to/directory/
-$ litmus diff old-package.tar.gz new-package.tar.gz</pre>
+    <pre class="install-block">$ litmus scan /path/to/file</pre>
 
     <p style="margin-top: 16px; padding: 10px 14px; background: #fef9c3; border-radius: 4px; font-size: 0.8125rem; color: #854d0e;">
-      Beta software — expect false positives and false negatives. Not
-      recommended as a sole decision-maker for production security.</p>
+      Beta software — expect false positives and false negatives.</p>
 
   </div>
 
@@ -54,7 +50,7 @@ $ litmus diff old-package.tar.gz new-package.tar.gz</pre>
 
     <h3>Project Info</h3>
     <dl class="stats">
-      <dt>Version</dt><dd>0.2.0</dd>
+      <dt>Version</dt><dd>0.6.0</dd>
       <dt>License</dt><dd>Apache 2.0</dd>
       <dt>Language</dt><dd>Rust</dd>
     </dl>

@@ -17,7 +17,7 @@ title: Projects
       <li>
         <span class="proj-name"><a href="/cleave/">cleave</a></span>
         <span class="badge badge-stable">stable</span>
-        <div class="proj-desc">Deep static analysis engine. AST-aware decomposition of binaries and source code across 20+ languages, with automated reverse engineering via Radare2 and YARA-X signature matching.</div>
+        <div class="proj-desc">AST-aware software decomposition engine for supply-chain security. Detects capabilities and behaviors across 20+ languages and six binary formats in a single pass.</div>
         <div class="proj-links">
           <a href="/cleave/">Details</a>
           <a href="https://codeberg.org/atomdrift/cleave" target="_blank">Source</a>
@@ -27,7 +27,7 @@ title: Projects
       <li>
         <span class="proj-name"><a href="/stng/">stng</a></span>
         <span class="badge badge-stable">stable</span>
-        <div class="proj-desc">Advanced string extraction for binary analysis. Isolates encoded strings, decodes XOR obfuscation, and classifies IOCs with language-aware extraction for Go and Rust binaries.</div>
+        <div class="proj-desc">Modern string extraction for binary analysis — all of the good stuff, none of the garbage. Useful for triage, C2 enumeration, credential extraction, and YARA signature development.</div>
         <div class="proj-links">
           <a href="/stng/">Details</a>
           <a href="https://codeberg.org/atomdrift/stng" target="_blank">Source</a>
@@ -37,7 +37,7 @@ title: Projects
       <li>
         <span class="proj-name"><a href="/litmus/">litmus</a></span>
         <span class="badge badge-beta">beta</span>
-        <div class="proj-desc">ML-powered malware classifier. Trains custom XGBoost models on cleave output to assess threats tailored to your environment. Supports package diff for supply chain attack detection.</div>
+        <div class="proj-desc">ML-powered malware classifier for supply-chain security. Uses cleave static analysis to extract capabilities, then classifies threat level.</div>
         <div class="proj-links">
           <a href="/litmus/">Details</a>
           <a href="https://codeberg.org/atomdrift/litmus" target="_blank">Source</a>

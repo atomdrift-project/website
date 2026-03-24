@@ -13,7 +13,7 @@
 }
 
 html {
-  font-size: 16px;
+  font-size: 17.6px;
 }
 
 :root {
@@ -34,7 +34,7 @@ html {
 
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  background: var(--cream);
+  background: var(--white);
   color: var(--carbon);
   line-height: 1.6;
   font-size: 0.9375rem;
@@ -213,28 +213,48 @@ code, .mono { font-family: 'Courier New', monospace; }
 .news-list { list-style: none; }
 
 .news-list li {
-  padding: 10px 0;
-  border-bottom: 1px solid #e5e7eb;
+  padding: 8px 0 8px 14px;
+  border-left: 2px solid #e5e7eb;
+  margin-bottom: 2px;
+  transition: border-color 0.15s;
+}
+
+.news-list li:hover {
+  border-left-color: var(--toxic-muted);
 }
 
 .news-list .date {
-  display: block;
-  color: var(--iron);
+  display: inline;
+  color: var(--slate);
   font-size: 0.75rem;
   font-family: 'Courier New', monospace;
   font-weight: 400;
   letter-spacing: 0.3px;
-  margin-bottom: 2px;
 }
 
 .news-list .headline {
-  font-size: 0.9375rem;
+  font-size: 0.875rem;
   line-height: 1.5;
   color: var(--graphite);
+  display: block;
+  margin-top: 1px;
 }
 
 .news-list .headline a {
   font-weight: 500;
+  text-decoration: none;
+}
+
+.news-list .headline a:hover {
+  text-decoration: underline;
+}
+
+.news-summary {
+  display: block;
+  font-size: 0.8125rem;
+  color: var(--iron);
+  margin-top: 1px;
+  line-height: 1.4;
 }
 
 /* ========== PROJECT LIST ========== */
@@ -244,7 +264,7 @@ code, .mono { font-family: 'Courier New', monospace; }
   padding: 12px 14px;
   margin-bottom: 6px;
   border-radius: 6px;
-  background: var(--white);
+  background: var(--cream);
   border: 1px solid #e5e7eb;
   transition: box-shadow 0.15s;
 }
