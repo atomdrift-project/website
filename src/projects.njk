@@ -11,9 +11,19 @@ title: Projects
     and developed on <a href="https://codeberg.org/atomdrift" target="_blank">Codeberg</a>.
     They form a pipeline: stng extracts strings, cleave performs deep static
     analysis, and litmus makes threat assessments using ML models trained on
-    cleave output.</p>
+    cleave output. Released versions are current through 2026-03-26.</p>
 
     <ul class="proj-list">
+      <li>
+        <span class="proj-name"><a href="/litmus/">litmus</a></span>
+        <span class="badge badge-stable">stable</span>
+        <div class="proj-desc">ML-powered malware classifier for supply-chain security. Uses cleave static analysis to extract capabilities, then classifies threat level.</div>
+        <div class="proj-links">
+          <a href="/litmus/">Details</a>
+          <a href="https://codeberg.org/atomdrift/litmus" target="_blank">Source</a>
+          <a href="https://codeberg.org/atomdrift/litmus/issues" target="_blank">Issues</a>
+        </div>
+      </li>
       <li>
         <span class="proj-name"><a href="/cleave/">cleave</a></span>
         <span class="badge badge-stable">stable</span>
@@ -35,28 +45,18 @@ title: Projects
         </div>
       </li>
       <li>
-        <span class="proj-name"><a href="/litmus/">litmus</a></span>
-        <span class="badge badge-beta">beta</span>
-        <div class="proj-desc">ML-powered malware classifier for supply-chain security. Uses cleave static analysis to extract capabilities, then classifies threat level.</div>
-        <div class="proj-links">
-          <a href="/litmus/">Details</a>
-          <a href="https://codeberg.org/atomdrift/litmus" target="_blank">Source</a>
-          <a href="https://codeberg.org/atomdrift/litmus/issues" target="_blank">Issues</a>
-        </div>
-      </li>
-      <li>
         <span class="proj-name"><a href="/xgboost-native/">xgboost-native</a></span>
         <span class="badge badge-stable">stable</span>
         <div class="proj-desc">Pure Rust XGBoost inference with exact TreeSHAP. No ONNX, no C++ runtime — runs anywhere Rust does.</div>
         <div class="proj-links">
           <a href="/xgboost-native/">Details</a>
-          <a href="https://github.com/atomdrift/xgboost-native" target="_blank">Source</a>
+          <a href="https://codeberg.org/atomdrift/xgboost-native" target="_blank">Source</a>
         </div>
       </li>
       <li>
-        <span class="proj-name">atomdrift</span>
-        <span class="badge badge-planned">planned</span>
-        <div class="proj-desc">Molecular drift detection. Tracks how code atoms shift across versions and dependencies.</div>
+        <span class="proj-name">c.diff</span>
+        <span class="badge badge-planned">planning phase</span>
+        <div class="proj-desc">Context-driven molecular drift detection. Tracks how code atoms shift across versions and dependencies.</div>
       </li>
     </ul>
 
