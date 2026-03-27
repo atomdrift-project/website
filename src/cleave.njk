@@ -25,20 +25,27 @@ title: "cleave — Software Decomposition Engine"
     </ul>
 
     <h2>Install</h2>
-    <pre class="install-block"># macOS (Homebrew)
-$ brew tap atomdrift/tap https://codeberg.org/atomdrift/homebrew-tap.git
-$ brew install atomdrift/tap/cleave
+Homebrew (macOS or Linux):
 
-# From source
-$ make install</pre>
+<pre class="install-block">
+brew tap atomdrift/tap https://codeberg.org/atomdrift/homebrew-tap.git
+
+brew install atomdrift/tap/cleave
+</pre>
+
+From source
+
+<pre class="install-block">
+make install
+</pre>
 
     <h2>Usage</h2>
     <pre class="install-block">$ cleave suspect.bin
 $ cleave /tmp/box-o-malware   # recursive, unpacks archives</pre>
 
-    <p style="margin-top: 12px; font-size: 0.8125rem;">Optionally install
-    <a href="https://github.com/rizinorg/rizin" target="_blank">Rizin</a> for disassembly and
-    <a href="https://github.com/upx/upx" target="_blank">UPX</a> for runtime unpacking.</p>
+    <p style="margin-top: 12px; font-size: 0.8125rem;">For more thorough results, install
+    <a href="https://github.com/rizinorg/rizin" target="_blank">Rizin</a> (binary reverse-engineering) and
+    <a href="https://github.com/upx/upx" target="_blank">UPX</a> (unpacker).</p>
 
   </div>
 

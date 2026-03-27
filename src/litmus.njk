@@ -7,26 +7,43 @@ title: "litmus — ML-Powered Malware Classifier"
   <div class="content">
 
     <h2 style="margin-top: 0;">litmus <span class="badge badge-beta">beta</span></h2>
-    <p>ML-powered malware classifier for supply-chain security. Uses
+    <p>ML-powered malware classifier - designed especially for supply-chain security. Uses
     <a href="/cleave/">cleave</a> static analysis to extract capabilities,
-    then classifies threat level — built for security engineers and automated
+    then classifies a threat level for security engineers and automated
     pipelines alike.</p>
+<p>Unlike most malware scanners, litmus allows you to dial in your level of paranoia via flags like `--threshold-hostile`,
+or even to plug-in your own trained model that matches your threat model.</p>
 
     <h2>Capabilities</h2>
     <ul class="feature-list">
       <li><strong>File scanning</strong> — scan files, directories, and archives against a local <a href="https://codeberg.org/atomdrift/litmus-models/" target="_blank">ML model</a></li>
+      <li><strong>Process scanning</strong> — scan running processes (just the files underneath them, for now...)</li>
     </ul>
 
-    <h2>Install</h2>
-    <pre class="install-block"># macOS (Homebrew)
-$ brew tap atomdrift/tap https://codeberg.org/atomdrift/homebrew-tap.git
-$ brew install atomdrift/tap/litmus
+    Coming soon is advanced differential analysis - critical for the supply-chain analysis use case.
 
-# From source
-$ make install</pre>
+    <h2>Install</h2>
+
+Homebrew (macOS or Linux):
+
+<pre class="install-block">
+brew tap atomdrift/tap https://codeberg.org/atomdrift/homebrew-tap.git
+
+brew install atomdrift/tap/litmus
+</pre>
+
+From source
+
+<pre class="install-block">
+$ make install
+</pre>
 
     <h2>Usage</h2>
-    <pre class="install-block">$ litmus scan /path/to/file</pre>
+    <pre class="install-block">$ litmus scan &lt;path&gt;</pre>
+
+    <p style="margin-top: 12px; font-size: 0.8125rem;">For more thorough results, install
+    <a href="https://github.com/rizinorg/rizin" target="_blank">Rizin</a> (binary reverse-engineering) and
+    <a href="https://github.com/upx/upx" target="_blank">UPX</a> (unpacker).</p>
 
     <p style="margin-top: 16px; padding: 10px 14px; background: #fef9c3; border-radius: 4px; font-size: 0.8125rem; color: #854d0e;">
       Beta software — expect false positives and false negatives.</p>

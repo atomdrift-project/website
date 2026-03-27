@@ -10,9 +10,9 @@ title: Open-Source Malware Detection for the Modern Software Supply Chain
     <p>
 We built Atomdrift because excellent malware detection belongs to everyone — not just those who can pay for it. Open-source build pipelines get compromised too.
 
-Atomdrift treats software like a chemist treats an unknown compound: decompose it, identify what it’s made of, and reconstruct only what matters. ML makes the call. The math is visible. The results hold up.
+Atomdrift treats software like a chemist treats an unknown compound: decompose it, identify it, and reconstruct the bits that matter. ML makes the call. The math is visible. The results are reproducible.
 
-The goal is supply-chain detection built on differential analysis across versions and dependencies. We’re not there yet — what we’re shipping today are the first building blocks.
+The goal is best-of-class supply-chain detection built on contextual differential analysis. We’re not there yet — what we’re shipping today are the first building blocks.
 
 It's all Apache-2.0. If you can't inspect how something works, it's not security. It's theater.
  </p>
@@ -35,7 +35,7 @@ It's all Apache-2.0. If you can't inspect how something works, it's not security
     <ul class="proj-list">
       <li>
         <span class="proj-name"><a href="/litmus/">litmus</a></span>
-        <span class="badge badge-beta">beta</span>
+        <span class="badge badge-stable">stable</span>
         <div class="proj-desc">ML-powered malware classifier for supply-chain security. Uses cleave static analysis to extract capabilities, then classifies threat level.</div>
       </li>
       <li>
@@ -54,9 +54,9 @@ It's all Apache-2.0. If you can't inspect how something works, it's not security
         <div class="proj-desc">Pure Rust XGBoost inference with exact TreeSHAP. No ONNX, no C++ runtime — runs anywhere Rust does.</div>
       </li>
       <li>
-        <span class="proj-name">atomdrift</span>
+        <span class="proj-name">c.diff</span>
         <span class="badge badge-planned">planned</span>
-        <div class="proj-desc">Molecular drift detection. Tracks how code atoms shift across versions and dependencies.</div>
+        <div class="proj-desc">Context-driven molecular drift detection. Tracks how code atoms shift across versions and dependencies.</div>
       </li>
     </ul>
 
@@ -78,8 +78,7 @@ It's all Apache-2.0. If you can't inspect how something works, it's not security
     <h3>Project Info</h3>
     <dl class="stats">
       <dt>License</dt><dd>Apache 2.0</dd>
-      <dt>Language</dt><dd>Rust</dd>
-      <dt>Hosting</dt><dd>Codeberg</dd>
+      <dt>Languages</dt><dd>Rust, Go</dd>
     </dl>
 
   </div>
