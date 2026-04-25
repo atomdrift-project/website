@@ -1,7 +1,7 @@
 {
-  "name": "isotope13-website",
+  "name": "atomdrift-website",
   "version": "1.0.0",
-  "description": "Isotope 13 - Atomic-level malware detection",
+  "description": "Atomdrift - Open-source AI platform for malware detection",
   "scripts": {
     "dev": "eleventy --serve",
     "build": "eleventy"
