@@ -9,9 +9,11 @@ title: The First Open-Source AI Platform for Malware Detection
     <h2>About</h2>
     <p>
 Atomdrift is the first open-source platform for AI-based malware detection.
-At its core is <a href="/litmus/">litmus</a>, the first open-source AI model
-built for real-world malware — npm packages, shell scripts, PE binaries,
-Chrome and VS Code extensions — not the PE-only benchmarks of academic models.
+At its core is <a href="/litmus/">litmus</a>, the first general-purpose
+open-source AI model for malware detection. It classifies threats across
+the formats supply chains actually ship — from FreeBSD ELF binaries to
+Python libraries to VS Code extensions, and anything else
+<a href="/cleave/">cleave</a> can decompose.
     </p>
     <p>
 Everything is Apache 2.0. <strong>If you can't see behind the curtains, it's not security — it's theater.</strong>
@@ -34,17 +36,17 @@ Everything is Apache 2.0. <strong>If you can't see behind the curtains, it's not
     <h2>Projects</h2>
     <ul class="proj-list">
       <li>
-        <a href="/litmus/"><img src="/assets/images/litmus.svg" alt="litmus" class="proj-list-logo"></a>
+        <span class="proj-name"><a href="/litmus/">litmus</a></span>
         <span class="badge badge-stable">stable</span>
         <div class="proj-desc">The first open-source AI model for malware detection. Classifies binaries, scripts, and source using capabilities extracted by cleave.</div>
       </li>
       <li>
-        <a href="/cleave/"><img src="/assets/images/cleave.svg" alt="cleave" class="proj-list-logo"></a>
+        <span class="proj-name"><a href="/cleave/">cleave</a></span>
         <span class="badge badge-stable">stable</span>
         <div class="proj-desc">AST-aware software decomposition engine for supply-chain security. Detects capabilities and behaviors across 20+ languages and six binary formats in a single pass.</div>
       </li>
       <li>
-        <a href="/stng/"><img src="/assets/images/stng.svg" alt="stng" class="proj-list-logo"></a>
+        <span class="proj-name"><a href="/stng/">stng</a></span>
         <span class="badge badge-stable">stable</span>
         <div class="proj-desc">Modern string extraction for binary analysis — all of the good stuff, none of the garbage. Useful for initial triage, C2 enumeration, credential extraction, and signature development.</div>
       </li>

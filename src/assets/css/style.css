@@ -103,9 +103,9 @@ code, .mono { font-family: 'SF Mono', Consolas, monospace; }
 
 .logo-block a:hover { text-decoration: none; }
 
-.atomdrift-logo {
-  height: 48px;
-  width: auto;
+.atom-logo {
+  width: 38px;
+  height: 38px;
   flex-shrink: 0;
 }
 
@@ -114,10 +114,22 @@ code, .mono { font-family: 'SF Mono', Consolas, monospace; }
   flex-direction: column;
 }
 
+.logo-name {
+  font-family: 'Oxanium', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: var(--carbon);
+  line-height: 1;
+}
+
+.logo-accent { color: var(--toxic-muted); }
+
 .logo-tagline {
   font-size: 14px;
   color: var(--iron);
   font-weight: 400;
+  margin-top: 3px;
   letter-spacing: 0.2px;
 }
 
@@ -126,13 +138,6 @@ code, .mono { font-family: 'SF Mono', Consolas, monospace; }
   height: 64px;
   width: auto;
   margin: 0 0 16px;
-}
-
-.proj-list-logo {
-  height: 44px;
-  width: auto;
-  vertical-align: middle;
-  margin-right: 10px;
 }
 
 .header-links {
