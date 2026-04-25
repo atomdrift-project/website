@@ -8,10 +8,10 @@ title: "cleave — Software Decomposition Engine"
 
     <img src="/assets/images/cleave.svg" alt="cleave" class="proj-logo">
     <h2 style="margin-top: 0;">cleave <span class="badge badge-stable">stable</span></h2>
-    <p>AST-aware software decomposition engine for supply-chain security.
+    <p>AST-aware software decomposition engine for supply-chain triage.
     Detects capabilities and behaviors across 20+ languages and six binary
-    formats in a single pass — built for security engineers and ML
-    classification pipelines alike.</p>
+    formats in a single pass. Useful as a standalone triage tool, and the
+    feature layer beneath <a href="/litmus/">litmus</a>.</p>
 
     <h2>Capabilities</h2>
     <ul class="feature-list">
@@ -25,6 +25,16 @@ title: "cleave — Software Decomposition Engine"
       <li><strong>String extraction</strong> via <a href="/stng/">stng</a> for payload decoding</li>
     </ul>
 
+    <h2>AI-derived rulesets</h2>
+    <p>Cleave's rulesets blend hand-curated detectors with AI-derived ones.
+    The hand-curated rules give precision for well-known patterns; the
+    AI-derived rules — drawn from a training corpus of over a million
+    samples — give breadth across 20+ languages and six binary formats
+    that no team could maintain alone.</p>
+    <p>The AI lives in the build pipeline, not the runtime. Once shipped,
+    cleave is deterministic: same input, same output, every run. No model
+    weights at execution time, no GPU, no network calls, no telemetry.</p>
+
     <h2>Install</h2>
 Homebrew (macOS or Linux):
 
@@ -37,10 +47,8 @@ brew install atomdrift/tap/cleave
 From source
 
 <pre class="install-block">
-<pre class="install-block">
 git clone --depth 1 https://codeberg.org/atomdrift/cleave.git
 make install
-</pre>
 </pre>
 
     <h2>Usage</h2>
@@ -79,7 +87,7 @@ $ cleave /tmp/box-o-malware   # recursive, unpacks archives</pre>
     <h3>Related</h3>
     <ul>
       <li><a href="/stng/">stng</a> — string extraction</li>
-      <li><a href="/litmus/">litmus</a> — ML classification</li>
+      <li><a href="/litmus/">litmus</a> — AI malware detection</li>
     </ul>
 
   </div>

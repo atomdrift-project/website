@@ -1,6 +1,6 @@
 ---
 layout: base.njk
-title: "litmus — ML-Powered Malware Classifier"
+title: "litmus — The First Open-Source AI Model for Malware Detection"
 ---
 
 <div class="main">
@@ -8,12 +8,15 @@ title: "litmus — ML-Powered Malware Classifier"
 
     <img src="/assets/images/litmus.svg" alt="litmus" class="proj-logo">
     <h2 style="margin-top: 0;">litmus <span class="badge badge-stable">stable</span></h2>
-    <p>ML-powered malware classifier - designed especially for supply-chain security. Uses
-    <a href="/cleave/">cleave</a> static analysis to extract capabilities,
-    then classifies a threat level for security engineers and automated
-    pipelines alike.</p>
-<p>Unlike most malware scanners, litmus allows you to dial in your level of paranoia via flags like `--threshold-hostile`,
-or even to plug-in your own trained model that matches your threat model.</p>
+    <p>Litmus is the first open-source AI model for malware detection.
+    Existing public models are academic curiosities — Windows PE binaries
+    on benchmark datasets, not built for the real world.</p>
+    <p>Litmus is built for supply-chain security, where attackers ship through
+    npm packages, shell scripts, Chrome and VS Code extensions, and PE binaries
+    alike. It classifies anything <a href="/cleave/">cleave</a> can decompose:
+    20+ languages and six binary formats.</p>
+<p>Dial in your paranoia with flags like <code>--threshold-hostile</code>, or plug in
+your own trained model to match your threat model.</p>
 
     <h2>Capabilities</h2>
     <ul class="feature-list">
