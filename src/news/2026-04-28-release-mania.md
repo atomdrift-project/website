@@ -1,7 +1,7 @@
 ---
-title: "Releases: stng v1.2.1, cleave v1.2.0, litmus v1.1.0"
+title: "Release Mania: stng v1.2.1, cleave v1.2.0, litmus v1.1.0"
 date: 2026-04-28
-summary: "stng stops calling Kotlin 'Python', cleave grows worker mode and 75-format support, litmus can run as a fleet."
+summary: "cleave fixes a class of rayon deadlocks, parses Python pickle and MSI-embedded PE, and skips rizin on Go binaries for a real speedup; litmus gains worker-mode fleet scanning behind a hardened HTTP server; stng stops mis-flagging Kotlin as Python."
 ---
 
 Three releases.

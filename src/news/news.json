@@ -1,5 +1,5 @@
 {
   "layout": "post.njk",
   "tags": ["news"],
-  "permalink": "/news/{{ page.fileSlug }}/"
+  "permalink": "/news/{{ page.date | dateDisplay }}-{{ page.fileSlug }}/"
 }
