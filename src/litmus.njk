@@ -13,21 +13,25 @@ title: "litmus — Open-Source AI-Powered Malware Analysis"
     </div>
     <p>Litmus runs a malware classifier against files, archives, and
     processes. Hand it a path; it scans, classifies, and exits with a
-    status code you can act on in CI. Whatever
-    <a href="/cleave/">cleave</a> decomposes, litmus classifies — across
-    20+ languages and six binary formats.</p>
-    <p>The reference model is <a href="/azoth/">azoth</a> (releasing
-    soon). Litmus runs any model trained on cleave's capability schema.
-    Decision thresholds are tunable per call
-    (<code>--threshold-hostile</code>, <code>--threshold-suspicious</code>).
-    If the defaults don't match your threat model, override them; if the
-    model doesn't either, bring your own.</p>
+    status code your CI can act on. Whatever
+    <a href="/cleave/">cleave</a> decomposes, litmus classifies —
+    across 20+ languages and six binary formats.</p>
+    <p>Today it runs <code>scan-v16</code> from
+    <a href="https://codeberg.org/atomdrift/litmus-models" target="_blank">litmus-models</a>.
+    The default model is beta quality at best — false positives are
+    real, false negatives are real, and the thresholds will move. Use
+    it for triage and evaluation; don't wire it into a production gate
+    yet. The eventual reference model is <a href="/azoth/">azoth</a>,
+    still in training. Litmus runs any model trained on cleave's
+    capability schema, so if neither the defaults
+    (<code>--threshold-hostile</code>, <code>--threshold-suspicious</code>)
+    nor the model match your threat model, swap them.</p>
 
     <h2>Capabilities</h2>
     <ul class="feature-list">
       <li><strong>File scanning</strong> — files, directories, and archives, classified against a local <a href="https://codeberg.org/atomdrift/litmus-models/" target="_blank">ML model</a></li>
       <li><strong>Process scanning</strong> — running processes, by way of the on-disk image (memory-resident analysis is not yet implemented)</li>
-      <li><strong>Pluggable models</strong> — designed around azoth, but runs any model trained on cleave's capability schema</li>
+      <li><strong>Pluggable models</strong> — runs any model trained on cleave's capability schema</li>
     </ul>
 
     <p>Differential analysis — comparing two versions of a package to
@@ -78,8 +82,8 @@ make install
 
     <h3>Project Info</h3>
     <dl class="stats">
-      <dt>Version</dt><dd>1.0.0</dd>
-      <dt>Release Date</dt><dd>2026-03-26</dd>
+      <dt>Version</dt><dd>1.1.0</dd>
+      <dt>Release Date</dt><dd>2026-04-27</dd>
       <dt>License</dt><dd>Apache 2.0</dd>
       <dt>Language</dt><dd>Rust</dd>
     </dl>
