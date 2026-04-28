@@ -1,7 +1,7 @@
 ---
 title: "Atomdrift is here!"
 date: 2026-03-26
-summary: "Open-source malware detection for the modern software supply chain."
+summary: "Atomdrift launches: an open-source pipeline for catching supply-chain attacks the static-binary tools miss. First piece is litmus."
 ---
 
 Supply-chain attacks against the open-source ecosystem keep happening, and the defender's toolbox is mostly closed-source and slow. So we're shipping one in the open.
