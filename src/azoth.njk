@@ -1,0 +1,82 @@
+---
+layout: base.njk
+title: "azoth — The First Open-Source AI Model for Malware Detection"
+---
+
+<div class="main">
+  <div class="content">
+
+    <div class="project-header">
+      <img src="/assets/images/azoth.svg" alt="azoth" class="proj-logo">
+      <span class="badge badge-planned">COMING SOON</span>
+      <h1 class="visually-hidden">azoth</h1>
+    </div>
+
+    <p>Azoth is an open-source AI model for malware detection. It
+    classifies samples from <a href="/cleave/">cleave</a>'s capability
+    output, covering ELF, PE, Mach-O, Java .class, Python .pyc, and
+    compiled AppleScript, plus source-code ecosystems like Python, npm,
+    and VS Code extensions.</p>
+
+    <p>It runs locally on the host calling it. No network round-trips, no
+    telemetry. <a href="/litmus/">litmus</a> is the reference scanner,
+    but azoth isn't bound to it — the weights, the training pipeline, and
+    the capability schema are Apache 2.0, so any tool can drive the model
+    or retrain it on its own data.</p>
+
+    <h2>Why a small, dedicated model</h2>
+
+    <p><strong>Cost and throughput.</strong> Per-token pricing doesn't
+    pencil out for continuous scanning. Every dependency update, every
+    CI run, every artifact in a registry is another classification —
+    multiplied across a fleet, the metered models become the dominant
+    line item before they become the dominant signal. Azoth runs on CPU
+    at zero marginal cost per call, so the limit is wall clock, not the
+    invoice.</p>
+
+    <p><strong>Footprint.</strong> No GPU, no accelerator. The training
+    pipeline distills from analyst-labeled malware corpora, public
+    threat reports, and frontier LLMs into a model that fits on a
+    Raspberry Pi. The same weights run on a laptop, a CI runner, or an
+    endpoint agent.</p>
+
+    <p><strong>Format-agnostic input.</strong> Azoth classifies on
+    cleave's structured capabilities, not raw bytes or disassembly
+    tokens. That puts the abstraction above format and language: one
+    model handles every format cleave decomposes, and surface-level
+    changes — repacking, string mangling,
+    recompilation — don't move the features the model sees. Capability
+    extraction has its own evasion surface (cleave's coverage of
+    packers, dynamic loaders, and obfuscated control flow), and we
+    document it rather than hide it.</p>
+
+    <p><strong>License.</strong> Apache 2.0 on the weights, the training
+    pipeline, and the runtime. Embed it in a scanner, a CI gate, or an
+    EDR pipeline without a commercial conversation.</p>
+
+    <h2>Status</h2>
+    <p>In active development. Initial weights, evaluation results, and
+    the training pipeline will land on
+    <a href="https://codeberg.org/atomdrift" target="_blank">Codeberg</a>
+    with the first release. Until then, treat anything on this page as
+    the design intent — not a benchmark.</p>
+
+  </div>
+
+  <div class="sidebar">
+
+    <h3>Project Info</h3>
+    <dl class="stats">
+      <dt>Status</dt><dd>Coming soon</dd>
+      <dt>License</dt><dd>Apache 2.0</dd>
+      <dt>Driven by</dt><dd><a href="/litmus/">litmus</a> (and other tools)</dd>
+    </dl>
+
+    <h3>Related</h3>
+    <ul>
+      <li><a href="/litmus/">litmus</a> — the scanner</li>
+      <li><a href="/cleave/">cleave</a> — capability extraction</li>
+    </ul>
+
+  </div>
+</div>

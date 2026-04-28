@@ -1,12 +1,16 @@
 ---
 layout: base.njk
-title: "xgboost-native — Pure Rust XGBoost Inference"
+title: "xgboost-ars — Pure Rust XGBoost Inference"
 ---
 
 <div class="main">
   <div class="content">
 
-    <h2 style="margin-top: 0;">xgboost-native <span class="badge badge-stable">stable</span></h2>
+    <div class="project-header">
+      <img src="/assets/images/xgboost-ars.svg" alt="xgboost-ars" class="proj-logo">
+      <span class="badge badge-stable">stable</span>
+      <h1 class="visually-hidden">xgboost-ars</h1>
+    </div>
     <p>Native XGBoost inference in pure Rust — no ONNX, no C++ runtime,
     runs anywhere Rust does. Reads XGBoost's native JSON format directly
     and implements inference and exact TreeSHAP without external
@@ -14,7 +18,7 @@ title: "xgboost-native — Pure Rust XGBoost Inference"
 
     <h2>Why</h2>
     <p>ONNX Runtime's C++ dependency is painful to cross-compile, bloats
-    binaries, and has no support for platforms like FreeBSD. xgboost-native
+    binaries, and has no support for platforms like FreeBSD. xgboost-ars
     eliminates that entire dependency chain.</p>
 
     <h2>Capabilities</h2>
@@ -54,7 +58,7 @@ let shap  = model.shap(&features);
 
     <h3>Links</h3>
     <ul>
-      <li><a href="https://codeberg.org/atomdrift/xgboost-native" target="_blank">Source code</a></li>
+      <li><a href="https://codeberg.org/atomdrift/xgboost-ars" target="_blank">Source code</a></li>
     </ul>
 
     <h3>Project Info</h3>

@@ -1,6 +1,6 @@
 ---
 layout: base.njk
-title: "litmus — The First Open-Source AI Model for Malware Detection"
+title: "litmus — Open-Source AI-Powered Malware Analysis"
 ---
 
 <div class="main">
@@ -11,21 +11,28 @@ title: "litmus — The First Open-Source AI Model for Malware Detection"
       <span class="badge badge-stable">stable</span>
       <h1 class="visually-hidden">litmus</h1>
     </div>
-    <p>Litmus is the first general-purpose open-source AI model for
-    malware detection. Built for supply-chain security, it classifies
-    threats from FreeBSD ELF binaries to Python libraries to VS Code
-    extensions — anything <a href="/cleave/">cleave</a> can decompose,
-    across 20+ languages and six binary formats.</p>
-<p>Dial in your paranoia with flags like <code>--threshold-hostile</code>, or plug in
-your own trained model to match your threat model.</p>
+    <p>Litmus is a malware analysis tool that runs open-source ML models
+    against the artifacts supply chains actually ship — from FreeBSD ELF
+    binaries to Python libraries to VS Code extensions, and anything else
+    <a href="/cleave/">cleave</a> can decompose, across 20+ languages and
+    six binary formats.</p>
+    <p>It ships with <a href="/azoth/">azoth</a>, the first general-purpose
+    open-source AI model for malware detection, and runs any compatible
+    model you train yourself. Tune the decision threshold per call
+    (<code>--threshold-hostile</code>, <code>--threshold-suspicious</code>),
+    or swap the model to match your threat model.</p>
 
     <h2>Capabilities</h2>
     <ul class="feature-list">
-      <li><strong>File scanning</strong> — scan files, directories, and archives against a local <a href="https://codeberg.org/atomdrift/litmus-models/" target="_blank">ML model</a></li>
-      <li><strong>Process scanning</strong> — scan running processes (just the files underneath them, for now...)</li>
+      <li><strong>File scanning</strong> — files, directories, and archives, classified against a local <a href="https://codeberg.org/atomdrift/litmus-models/" target="_blank">ML model</a></li>
+      <li><strong>Process scanning</strong> — running processes, by way of the on-disk image (memory-resident analysis is not yet implemented)</li>
+      <li><strong>Pluggable models</strong> — runs azoth out of the box, or any model trained on cleave's capability schema</li>
     </ul>
 
-    Coming soon is advanced differential analysis - critical for the supply-chain analysis use case.
+    <p>Differential analysis — comparing two versions of a package to
+    surface newly-introduced malicious capabilities — is in development.
+    It's the primary use case for catching compromised dependency
+    updates.</p>
 
     <h2>Install</h2>
 
@@ -78,6 +85,7 @@ make install
 
     <h3>Related</h3>
     <ul>
+      <li><a href="/azoth/">azoth</a> — the ML model</li>
       <li><a href="/cleave/">cleave</a> — deep static analysis</li>
       <li><a href="/stng/">stng</a> — string extraction</li>
     </ul>
