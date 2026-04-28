@@ -12,51 +12,62 @@ title: "azoth — The First Open-Source AI Model for General Malware Detection"
       <h1 class="visually-hidden">azoth</h1>
     </div>
 
-    <p>Azoth is the first open-source AI model for general malware
-    detection. It classifies samples from <a href="/cleave/">cleave</a>'s
-    capability output, covering ELF, PE, Mach-O, Java .class, Python
-    .pyc, and compiled AppleScript, plus source-code ecosystems like
-    Python, npm, and VS Code extensions.</p>
+    <p>Azoth is a small AI model that decides whether a binary or
+    package is malicious. It reads <a href="/cleave/">cleave</a>'s output
+    — <a href="https://attack.mitre.org/" target="_blank">MITRE
+    ATT&amp;CK</a> techniques and
+    <a href="https://github.com/MBCProject/mbc-markdown" target="_blank">Malware
+    Behavior Catalog</a> behaviors — and returns a label, a confidence,
+    and the capabilities that drove the decision. Whatever cleave can
+    decompose, azoth can classify: ELF, PE, Mach-O, Java .class, Python
+    .pyc, compiled AppleScript, plus source ecosystems like Python, npm,
+    and VS Code extensions.</p>
 
-    <p>It runs locally on the host calling it. No network round-trips, no
-    telemetry. <a href="/litmus/">litmus</a> is the reference scanner,
-    but azoth isn't bound to it — the weights, the training pipeline, and
-    the capability schema are Apache 2.0, so any tool can drive the model
-    or retrain it on its own data.</p>
+    <p>Plenty of open-source classifiers exist for one format at a time
+    — PE, JavaScript, Android, take your pick. Azoth is the first that
+    covers general malware in one model.</p>
+
+    <p>Runs locally on the host that calls it. No network, no
+    telemetry. <a href="/litmus/">litmus</a> is the reference scanner;
+    the weights, the training pipeline, and the capability schema are
+    Apache 2.0, so any tool can drive the model or retrain it.</p>
 
     <h2>Why a small, dedicated model</h2>
 
-    <p><strong>Cost.</strong> Per-token pricing doesn't pencil out for
-    continuous scanning. Every dependency update, every CI run, every
-    artifact in a registry is another classification, and the metered
-    models get expensive fast at fleet scale. Azoth runs on CPU with no
-    per-call charge.</p>
+    <p><strong>Cost.</strong> Per-token pricing falls apart for
+    continuous scanning. A dependency update, a CI run, an artifact in
+    a registry — each one is another classification, and at fleet scale
+    the bill is real. Azoth runs on CPU. There is no per-call charge.</p>
 
-    <p><strong>Footprint.</strong> No GPU, no accelerator. The training
-    pipeline distills from analyst-labeled malware corpora, public
-    threat reports, and frontier LLMs into a model that fits on a
-    Raspberry Pi. The same weights run on a laptop, a CI runner, or an
-    endpoint agent.</p>
+    <p><strong>Footprint.</strong> No GPU. No accelerator. The training
+    pipeline distills analyst-labeled corpora, public threat reports,
+    and frontier LLMs into a model small enough for a Raspberry Pi.
+    Same weights on a laptop, a CI runner, an endpoint agent.</p>
 
-    <p><strong>Format-agnostic input.</strong> Azoth classifies on
-    cleave's structured capabilities, not raw bytes or disassembly
-    tokens. One model covers every format cleave decomposes, and as
-    long as cleave still resolves the capabilities, surface-level
-    changes — minor recompiles, string mangling — don't perturb the
-    feature vector. The trade-off is that azoth inherits cleave's
-    evasion surface: anything that defeats cleave's unpacking, dynamic
-    loader handling, or control-flow analysis is invisible to the
-    model.</p>
+    <p><strong>Inputs above bytes.</strong> Azoth sees ATT&amp;CK
+    techniques and MBC behaviors, not raw bytes or disassembly tokens.
+    Recompiling or shuffling strings does not change the feature vector.
+    What does change it: anything that defeats cleave — packers it
+    doesn't recognize, dynamic loaders it can't follow, control flow it
+    can't reconstruct. The model is exactly as good as cleave's
+    coverage, no better.</p>
 
-    <p><strong>License.</strong> Apache 2.0 on the weights, the training
-    pipeline, and the runtime — same as the rest of atomdrift.</p>
+    <p><strong>Hierarchy-aware.</strong> MBC is a tree. Leaf behaviors
+    roll up into objectives; objectives roll up into intent. Azoth
+    doesn't just count leaves — it learns combinations across the tree.
+    A sample whose individual capabilities each look unremarkable can
+    come back hostile when the combination is one real families
+    actually use.</p>
+
+    <p><strong>License.</strong> Apache 2.0. Weights, training pipeline,
+    runtime. Same as the rest of atomdrift.</p>
 
     <h2>Status</h2>
-    <p>In active development. Initial weights, evaluation results, and
-    the training pipeline will land on
+    <p>In active development. Weights, evaluation results, and the
+    training pipeline land on
     <a href="https://codeberg.org/atomdrift" target="_blank">Codeberg</a>
-    with the first release. Until then, treat anything on this page as
-    the design intent — not a benchmark.</p>
+    with the first release. Until then this page is design intent, not
+    a benchmark. If that distinction matters to you — good.</p>
 
   </div>
 

@@ -11,10 +11,14 @@ title: "cleave — Software Decomposition Engine"
       <span class="badge badge-stable">stable</span>
       <h1 class="visually-hidden">cleave</h1>
     </div>
-    <p>AST-aware software decomposition engine for supply-chain triage.
-    Detects capabilities and behaviors across 20+ languages and six binary
-    formats in a single pass. Useful as a standalone triage tool, and the
-    feature layer beneath <a href="/litmus/">litmus</a>.</p>
+    <p>Cleave decomposes software into capabilities. Source or binary,
+    20+ languages, six binary formats, one pass. Output is labeled with
+    <a href="https://attack.mitre.org/" target="_blank">MITRE
+    ATT&amp;CK</a> techniques and
+    <a href="https://github.com/MBCProject/mbc-markdown" target="_blank">Malware
+    Behavior Catalog</a> behaviors — the taxonomy analysts already use.
+    Run it standalone for triage, or feed its output to
+    <a href="/litmus/">litmus</a>.</p>
 
     <h2>Capabilities</h2>
     <ul class="feature-list">
@@ -29,14 +33,15 @@ title: "cleave — Software Decomposition Engine"
     </ul>
 
     <h2>AI-derived rulesets</h2>
-    <p>Cleave's rulesets blend hand-curated detectors with AI-derived ones.
-    The hand-curated rules give precision for well-known patterns; the
-    AI-derived rules — drawn from a training corpus of over a million
-    samples — give breadth across 20+ languages and six binary formats
-    that no team could maintain alone.</p>
-    <p>The AI lives in the build pipeline, not the runtime. Once shipped,
-    cleave is deterministic: same input, same output, every run. No model
-    weights at execution time, no GPU, no network calls, no telemetry.</p>
+    <p>Rulesets are a mix. The hand-written ones are precise for
+    patterns humans understand well. The AI-derived ones come from a
+    training corpus of about a million samples and cover the long tail
+    across 20+ languages — territory no team is going to keep up with
+    by hand.</p>
+    <p>The AI runs at build time, not at runtime. The cleave you ship is
+    deterministic: same input, same output, every run. No model weights
+    loaded, no GPU, no network, no telemetry. If you don't trust that,
+    the rules are in the source tree.</p>
 
     <h2>Install</h2>
 Homebrew (macOS or Linux):

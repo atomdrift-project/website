@@ -8,13 +8,13 @@ title: The First Open-Source AI Platform for Malware Detection
 
     <h2>About</h2>
     <p>
-Atomdrift is the first open-source platform for AI-based malware
-detection — end to end and Apache 2.0. <a href="/litmus/">litmus</a> is
-the scanner; it drives open-source ML models like
-<a href="/azoth/">azoth</a> against capabilities that
-<a href="/cleave/">cleave</a> extracts from binaries, scripts, and
-source — ELF, PE, Mach-O, Python, npm packages, VS Code extensions, and
-the rest of what supply chains actually ship.
+Atomdrift is an end-to-end open-source pipeline for AI-based malware
+detection. <a href="/cleave/">cleave</a> decomposes a binary or package
+into capabilities mapped to MITRE ATT&amp;CK and the Malware Behavior
+Catalog. <a href="/azoth/">azoth</a>, an open-source model trained on
+that schema, classifies the result. <a href="/litmus/">litmus</a> is
+the scanner that drives them. ELF, PE, Mach-O, Python, npm, VS Code
+extensions — whatever supply chains ship.
     </p>
     <p>
 Everything is Apache 2.0. <strong>If you can't see behind the curtains, it's not security — it's theater.</strong>

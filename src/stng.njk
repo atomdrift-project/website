@@ -11,9 +11,12 @@ title: "stng — Modern String Extraction"
       <span class="badge badge-stable">stable</span>
       <h1 class="visually-hidden">stng</h1>
     </div>
-    <p>Modern string extraction for binary analysis — all of the good stuff,
-    none of the garbage. Useful for initial triage, C2 enumeration, credential
-    extraction, and YARA signature development.</p>
+    <p>String extraction for binary analysis. Same idea as
+    <code>strings(1)</code>, except it knows about XOR, base64, Go and
+    Rust string layouts, DWARF stack strings, and Windows wide
+    strings — and it filters the obvious garbage by default. Useful for
+    triage, C2 enumeration, credential extraction, and writing YARA
+    signatures.</p>
 
     <h2>Capabilities</h2>
     <ul class="feature-list">

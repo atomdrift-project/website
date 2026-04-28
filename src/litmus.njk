@@ -11,17 +11,17 @@ title: "litmus — Open-Source AI-Powered Malware Analysis"
       <span class="badge badge-stable">stable</span>
       <h1 class="visually-hidden">litmus</h1>
     </div>
-    <p>Litmus is a malware analysis tool that runs open-source ML models
-    against the artifacts supply chains actually ship — from FreeBSD ELF
-    binaries to Python libraries to VS Code extensions, and anything else
-    <a href="/cleave/">cleave</a> can decompose, across 20+ languages and
-    six binary formats.</p>
-    <p>It's the reference scanner for <a href="/azoth/">azoth</a>, the
-    first open-source AI model for general malware detection (releasing
-    soon), and runs any compatible model you train yourself. Tune the
-    decision threshold per call (<code>--threshold-hostile</code>,
-    <code>--threshold-suspicious</code>), or swap the model to match
-    your threat model.</p>
+    <p>Litmus runs a malware classifier against files, archives, and
+    processes. Hand it a path; it scans, classifies, and exits with a
+    status code you can act on in CI. Whatever
+    <a href="/cleave/">cleave</a> decomposes, litmus classifies — across
+    20+ languages and six binary formats.</p>
+    <p>The reference model is <a href="/azoth/">azoth</a> (releasing
+    soon). Litmus runs any model trained on cleave's capability schema.
+    Decision thresholds are tunable per call
+    (<code>--threshold-hostile</code>, <code>--threshold-suspicious</code>).
+    If the defaults don't match your threat model, override them; if the
+    model doesn't either, bring your own.</p>
 
     <h2>Capabilities</h2>
     <ul class="feature-list">
