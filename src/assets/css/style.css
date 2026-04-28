@@ -57,19 +57,31 @@
   --toxic-dim: rgba(208, 255, 0, 0.14);
 }
 
+html { font-size: 100%; }
+
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   background: var(--white);
   color: var(--carbon);
-  line-height: 1.6;
-  font-size: 15px;
+  line-height: 1.65;
+  font-size: 16px;
+  font-weight: 400;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 a { color: var(--atomdrift-blue); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; }
 a:hover { text-decoration-thickness: 2px; }
 a:focus-visible { outline: 2px solid var(--atomdrift-blue); outline-offset: 2px; border-radius: 2px; }
-code, .mono { font-family: 'SF Mono', Consolas, monospace; }
+code, .mono { font-family: 'SF Mono', Consolas, monospace; font-size: 0.92em; }
+:not(pre) > code { background: var(--mist); padding: 1px 5px; border-radius: 3px; }
 
 /* ========== HEADER ========== */
 .site-header {
@@ -253,18 +265,23 @@ code, .mono { font-family: 'SF Mono', Consolas, monospace; }
 /* ========== CONTENT ========== */
 .content h2 {
   font-family: 'Oxanium', sans-serif;
-  font-size: 17px;
+  font-size: 19px;
   font-weight: 700;
   color: var(--carbon);
   border-bottom: 1px solid var(--border);
   padding-bottom: 6px;
   margin-bottom: 14px;
-  margin-top: 28px;
+  margin-top: 32px;
   letter-spacing: -0.3px;
 }
 
 .content h2:first-child { margin-top: 0; }
-.content p { margin-bottom: 10px; color: var(--graphite); }
+.content p {
+  margin-bottom: 12px;
+  color: #1a1a1a;
+  line-height: 1.65;
+  max-width: 65ch;
+}
 
 /* ========== RSS ICON ========== */
 .rss-link {
@@ -300,7 +317,7 @@ code, .mono { font-family: 'SF Mono', Consolas, monospace; }
 
 .news-list .date {
   display: inline;
-  color: var(--slate);
+  color: var(--iron);
   font-size: 13px;
   font-family: 'SF Mono', Consolas, monospace;
   font-weight: 400;
@@ -308,11 +325,11 @@ code, .mono { font-family: 'SF Mono', Consolas, monospace; }
 }
 
 .news-list .headline {
-  font-size: 15px;
-  line-height: 1.5;
-  color: var(--graphite);
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--carbon);
   display: block;
-  margin-top: 1px;
+  margin-top: 2px;
 }
 
 .news-list .headline a {
@@ -326,10 +343,10 @@ code, .mono { font-family: 'SF Mono', Consolas, monospace; }
 
 .news-summary {
   display: block;
-  font-size: 14px;
-  color: var(--iron);
-  margin-top: 1px;
-  line-height: 1.4;
+  font-size: 15px;
+  color: var(--graphite);
+  margin-top: 2px;
+  line-height: 1.55;
 }
 
 /* ========== PROJECT LIST ========== */
@@ -351,13 +368,14 @@ code, .mono { font-family: 'SF Mono', Consolas, monospace; }
 .proj-name {
   font-family: 'Oxanium', sans-serif;
   font-weight: 700;
-  font-size: 16px;
+  font-size: 17px;
 }
 
 .proj-desc {
-  color: var(--iron);
-  font-size: 14px;
-  margin-top: 3px;
+  color: var(--graphite);
+  font-size: 15px;
+  line-height: 1.55;
+  margin-top: 4px;
 }
 
 .badge {
@@ -389,26 +407,27 @@ code, .mono { font-family: 'SF Mono', Consolas, monospace; }
 
 /* ========== FEATURE LIST ========== */
 .feature-list {
-  margin-left: 20px;
-  margin-bottom: 12px;
-  color: var(--graphite);
-  font-size: 14px;
+  margin-left: 22px;
+  margin-bottom: 14px;
+  color: #1a1a1a;
+  font-size: 15px;
+  line-height: 1.6;
 }
 
 .feature-list li {
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 }
 
 /* ========== INSTALL BLOCK ========== */
 .install-block {
   background: var(--carbon);
-  color: #e5e7eb;
+  color: #f4f4f5;
   padding: 14px 18px;
   border-radius: 8px;
   overflow-x: auto;
   font-family: 'SF Mono', Consolas, monospace;
-  font-size: 13px;
-  line-height: 1.5;
+  font-size: 14px;
+  line-height: 1.55;
   margin: 8px 0 12px;
 }
 
@@ -482,17 +501,19 @@ code, .mono { font-family: 'SF Mono', Consolas, monospace; }
 
 .sidebar ul {
   list-style: none;
-  font-size: 14px;
+  font-size: 15px;
+  line-height: 1.55;
 }
 
-.sidebar li { padding: 4px 0; }
+.sidebar li { padding: 5px 0; }
 .sidebar li::before { content: "\203A\00a0"; color: var(--iron); }
 .sidebar a { text-decoration: none; }
 .sidebar a:hover { text-decoration: underline; }
 
 .stats {
-  font-size: 14px;
-  color: var(--iron);
+  font-size: 15px;
+  color: var(--graphite);
+  line-height: 1.55;
 }
 
 .stats dt {
@@ -556,9 +577,10 @@ code, .mono { font-family: 'SF Mono', Consolas, monospace; }
 }
 
 .post-body p {
-  margin-bottom: 12px;
-  color: var(--graphite);
+  margin-bottom: 14px;
+  color: #1a1a1a;
   line-height: 1.7;
+  max-width: 65ch;
 }
 
 .post-body h2 {
@@ -572,9 +594,10 @@ code, .mono { font-family: 'SF Mono', Consolas, monospace; }
 .post-body ul,
 .post-body ol {
   margin-left: 1.5rem;
-  margin-bottom: 12px;
-  color: var(--graphite);
+  margin-bottom: 14px;
+  color: #1a1a1a;
   line-height: 1.7;
+  max-width: 65ch;
 }
 
 .post-body li {
@@ -585,18 +608,18 @@ code, .mono { font-family: 'SF Mono', Consolas, monospace; }
   background: var(--mist);
   padding: 2px 6px;
   border-radius: 4px;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .post-body pre {
   background: var(--carbon);
-  color: #e5e7eb;
+  color: #f4f4f5;
   padding: 18px;
   border-radius: 8px;
   overflow-x: auto;
   margin: 12px 0;
-  font-size: 13px;
-  line-height: 1.5;
+  font-size: 14px;
+  line-height: 1.55;
 }
 
 .post-body pre code {

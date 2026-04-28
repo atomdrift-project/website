@@ -12,15 +12,17 @@ title: "azoth — The First Open-Source AI Model for General Malware Detection"
       <h1 class="visually-hidden">azoth</h1>
     </div>
 
-    <p>Azoth is a small AI model that decides whether a binary or
-    package is malicious. It reads <a href="/cleave/">cleave</a>'s output
-    — <a href="https://attack.mitre.org/" target="_blank">MITRE
+    <p>Azoth is a small AI model that decides whether a binary,
+    package, or source file is malicious. It reads
+    <a href="/cleave/">cleave</a>'s output —
+    <a href="https://attack.mitre.org/" target="_blank">MITRE
     ATT&amp;CK</a> techniques and
     <a href="https://github.com/MBCProject/mbc-markdown" target="_blank">Malware
     Behavior Catalog</a> behaviors — and returns a label, a confidence,
     and the capabilities that drove the decision. Whatever cleave can
     decompose, azoth can classify: ELF, PE, Mach-O, Java .class, Python
-    .pyc, compiled AppleScript, plus source ecosystems like Python, npm,
+    .pyc, and compiled AppleScript on the binary side; raw source in
+    20+ languages; and packaged forms like Python wheels, npm modules,
     and VS Code extensions.</p>
 
     <p>Plenty of open-source classifiers exist for one format at a time
