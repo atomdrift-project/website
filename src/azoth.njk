@@ -1,6 +1,6 @@
 ---
 layout: base.njk
-title: "azoth — The First Open-Source AI Model for Malware Detection"
+title: "azoth — The First Open-Source AI Model for General Malware Detection"
 ---
 
 <div class="main">
@@ -12,11 +12,11 @@ title: "azoth — The First Open-Source AI Model for Malware Detection"
       <h1 class="visually-hidden">azoth</h1>
     </div>
 
-    <p>Azoth is an open-source AI model for malware detection. It
-    classifies samples from <a href="/cleave/">cleave</a>'s capability
-    output, covering ELF, PE, Mach-O, Java .class, Python .pyc, and
-    compiled AppleScript, plus source-code ecosystems like Python, npm,
-    and VS Code extensions.</p>
+    <p>Azoth is the first open-source AI model for general malware
+    detection. It classifies samples from <a href="/cleave/">cleave</a>'s
+    capability output, covering ELF, PE, Mach-O, Java .class, Python
+    .pyc, and compiled AppleScript, plus source-code ecosystems like
+    Python, npm, and VS Code extensions.</p>
 
     <p>It runs locally on the host calling it. No network round-trips, no
     telemetry. <a href="/litmus/">litmus</a> is the reference scanner,
@@ -26,13 +26,11 @@ title: "azoth — The First Open-Source AI Model for Malware Detection"
 
     <h2>Why a small, dedicated model</h2>
 
-    <p><strong>Cost and throughput.</strong> Per-token pricing doesn't
-    pencil out for continuous scanning. Every dependency update, every
-    CI run, every artifact in a registry is another classification —
-    multiplied across a fleet, the metered models become the dominant
-    line item before they become the dominant signal. Azoth runs on CPU
-    at zero marginal cost per call, so the limit is wall clock, not the
-    invoice.</p>
+    <p><strong>Cost.</strong> Per-token pricing doesn't pencil out for
+    continuous scanning. Every dependency update, every CI run, every
+    artifact in a registry is another classification, and the metered
+    models get expensive fast at fleet scale. Azoth runs on CPU with no
+    per-call charge.</p>
 
     <p><strong>Footprint.</strong> No GPU, no accelerator. The training
     pipeline distills from analyst-labeled malware corpora, public
@@ -42,17 +40,16 @@ title: "azoth — The First Open-Source AI Model for Malware Detection"
 
     <p><strong>Format-agnostic input.</strong> Azoth classifies on
     cleave's structured capabilities, not raw bytes or disassembly
-    tokens. That puts the abstraction above format and language: one
-    model handles every format cleave decomposes, and surface-level
-    changes — repacking, string mangling,
-    recompilation — don't move the features the model sees. Capability
-    extraction has its own evasion surface (cleave's coverage of
-    packers, dynamic loaders, and obfuscated control flow), and we
-    document it rather than hide it.</p>
+    tokens. One model covers every format cleave decomposes, and as
+    long as cleave still resolves the capabilities, surface-level
+    changes — minor recompiles, string mangling — don't perturb the
+    feature vector. The trade-off is that azoth inherits cleave's
+    evasion surface: anything that defeats cleave's unpacking, dynamic
+    loader handling, or control-flow analysis is invisible to the
+    model.</p>
 
     <p><strong>License.</strong> Apache 2.0 on the weights, the training
-    pipeline, and the runtime. Embed it in a scanner, a CI gate, or an
-    EDR pipeline without a commercial conversation.</p>
+    pipeline, and the runtime — same as the rest of atomdrift.</p>
 
     <h2>Status</h2>
     <p>In active development. Initial weights, evaluation results, and

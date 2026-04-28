@@ -16,23 +16,24 @@ title: "litmus — Open-Source AI-Powered Malware Analysis"
     binaries to Python libraries to VS Code extensions, and anything else
     <a href="/cleave/">cleave</a> can decompose, across 20+ languages and
     six binary formats.</p>
-    <p>It ships with <a href="/azoth/">azoth</a>, the first general-purpose
-    open-source AI model for malware detection, and runs any compatible
-    model you train yourself. Tune the decision threshold per call
-    (<code>--threshold-hostile</code>, <code>--threshold-suspicious</code>),
-    or swap the model to match your threat model.</p>
+    <p>It's the reference scanner for <a href="/azoth/">azoth</a>, the
+    first open-source AI model for general malware detection (releasing
+    soon), and runs any compatible model you train yourself. Tune the
+    decision threshold per call (<code>--threshold-hostile</code>,
+    <code>--threshold-suspicious</code>), or swap the model to match
+    your threat model.</p>
 
     <h2>Capabilities</h2>
     <ul class="feature-list">
       <li><strong>File scanning</strong> — files, directories, and archives, classified against a local <a href="https://codeberg.org/atomdrift/litmus-models/" target="_blank">ML model</a></li>
       <li><strong>Process scanning</strong> — running processes, by way of the on-disk image (memory-resident analysis is not yet implemented)</li>
-      <li><strong>Pluggable models</strong> — runs azoth out of the box, or any model trained on cleave's capability schema</li>
+      <li><strong>Pluggable models</strong> — designed around azoth, but runs any model trained on cleave's capability schema</li>
     </ul>
 
     <p>Differential analysis — comparing two versions of a package to
     surface newly-introduced malicious capabilities — is in development.
-    It's the primary use case for catching compromised dependency
-    updates.</p>
+    It's aimed at catching compromised dependency updates, where the
+    signal is the diff, not the artifact.</p>
 
     <h2>Install</h2>
 
