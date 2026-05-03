@@ -1,6 +1,6 @@
 ---
 layout: base.njk
-title: The First Open-Source AI Platform for Malware Detection
+title: The First Open-Source Platform for AI-Based Malware Detection
 ---
 
 <div class="main">
@@ -8,16 +8,20 @@ title: The First Open-Source AI Platform for Malware Detection
 
     <h2>About</h2>
     <p>
-Atomdrift is an end-to-end open-source pipeline for AI-based malware
-detection. <a href="/cleave/">cleave</a> decomposes a binary or package
-into capabilities mapped to MITRE ATT&amp;CK and the Malware Behavior
-Catalog. <a href="/azoth/">azoth</a>, an open-source model trained on
-that schema, classifies the result. <a href="/litmus/">litmus</a> is
-the scanner that drives them. ELF, PE, Mach-O, Python, npm, VS Code
-extensions — whatever supply chains ship.
+Atomdrift is the first open-source platform for AI-based malware
+detection across binaries, scripts, packages, and extensions.
     </p>
     <p>
-Everything is Apache 2.0. <strong>If you can't see behind the curtains, it's not security — it's theater.</strong>
+Think of <a href="/litmus/">litmus</a> as ClamAV for AI-based malware
+detection: a local scanner backed by open models that improve as newly
+observed malware behavior is captured, labeled, and folded back through
+cyclotron, Atomdrift's live training loop.
+    </p>
+    <p>
+<a href="/cleave/">cleave</a> extracts behavioral capabilities from
+software; <a href="/azoth/">azoth</a> classifies them; litmus runs the
+scanner. Built for security engineers, Atomdrift is inspectable,
+reproducible, and Apache 2.0.
     </p>
 
     <h2>News <a href="/feed.xml" class="rss-link" title="RSS Feed"><svg class="rss-icon" viewBox="0 0 24 24" fill="currentColor"><circle cx="6.18" cy="17.82" r="2.18"/><path d="M4 4.44v2.83c7.03 0 12.73 5.7 12.73 12.73h2.83c0-8.59-6.97-15.56-15.56-15.56zm0 5.66v2.83c3.9 0 7.07 3.17 7.07 7.07h2.83c0-5.47-4.43-9.9-9.9-9.9z"/></svg></a></h2>
@@ -39,7 +43,7 @@ Everything is Apache 2.0. <strong>If you can't see behind the curtains, it's not
       <li>
         <span class="proj-name"><a href="/litmus/">litmus</a></span>
         <span class="badge badge-beta">beta</span>
-        <div class="proj-desc">Malware analysis CLI that classifies binaries, scripts, and source using open-source ML models like azoth, fed by capabilities extracted from cleave.</div>
+        <div class="proj-desc">ClamAV-style local scanner for AI-based malware detection. Classifies binaries, scripts, and source using open models like azoth, fed by capabilities extracted from cleave.</div>
       </li>
       <li>
         <span class="proj-name"><a href="/azoth/">azoth</a></span>

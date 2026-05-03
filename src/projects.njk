@@ -11,15 +11,15 @@ title: Projects
     composable tools for malware analysis. <strong>stng</strong>
     extracts strings from binaries; <strong>cleave</strong> decomposes
     binaries and source into capabilities mapped to ATT&amp;CK and
-    MBC; <strong>litmus</strong> runs ML models against that output,
-    with <strong>azoth</strong> slated to be the reference model once
-    it ships.</p>
+    MBC; <strong>litmus</strong> runs local AI-based detection against
+    that output, with models improved through cyclotron, Atomdrift's
+    live training loop.</p>
 
     <ul class="proj-list">
       <li>
         <span class="proj-name"><a href="/litmus/">litmus</a></span>
         <span class="badge badge-beta">beta</span>
-        <div class="proj-desc">Malware analysis CLI that runs open-source ML models like azoth against capabilities extracted by cleave. Scans files, archives, and processes.</div>
+        <div class="proj-desc">ClamAV-style local scanner for AI-based malware detection. Runs open models like azoth against capabilities extracted by cleave.</div>
         <div class="proj-links">
           <a href="/litmus/">Details</a>
           <a href="https://codeberg.org/atomdrift/litmus" target="_blank">Source</a>

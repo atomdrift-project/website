@@ -1,7 +1,7 @@
 {
   "name": "atomdrift-website",
   "version": "1.0.0",
-  "description": "Atomdrift - Open-source AI platform for malware detection",
+  "description": "Atomdrift - Open-source platform for AI-based malware detection",
   "scripts": {
     "dev": "eleventy --serve",
     "build": "eleventy"
