@@ -8,7 +8,7 @@ title: "azoth — The First Open-Source AI Model for General Malware Detection"
 
     <div class="project-header">
       <img src="/assets/images/azoth.svg" alt="azoth" class="proj-logo">
-      <span class="badge badge-planned">COMING SOON</span>
+      <span class="badge badge-beta">preview</span>
       <h1 class="visually-hidden">azoth</h1>
     </div>
 
@@ -65,11 +65,16 @@ title: "azoth — The First Open-Source AI Model for General Malware Detection"
     runtime. Same as the rest of atomdrift.</p>
 
     <h2>Status</h2>
-    <p>In active development. Weights, evaluation results, and the
-    training pipeline land on
-    <a href="https://codeberg.org/atomdrift" target="_blank">Codeberg</a>
-    with the first release. Until then this page is design intent, not
-    a benchmark. If that distinction matters to you — good.</p>
+    <p>Published in preview. Weights, the training pipeline, and the
+    evaluation harness are on
+    <a href="https://codeberg.org/atomdrift/azoth" target="_blank">Codeberg</a>.
+    The current model is a <strong>weighted ensemble</strong> — several
+    classifiers trained on different slices of the capability space,
+    blended by calibrated weights, so a strong signal in one slice does
+    not get drowned out by noise in another. Preview means the numbers
+    are real but the thresholds are still moving; treat the labels as
+    advisory and read the contributing capabilities, not just the
+    verdict.</p>
 
   </div>
 
@@ -77,7 +82,7 @@ title: "azoth — The First Open-Source AI Model for General Malware Detection"
 
     <h3>Project Info</h3>
     <dl class="stats">
-      <dt>Status</dt><dd>Coming soon</dd>
+      <dt>Status</dt><dd>Preview</dd>
       <dt>License</dt><dd>Apache 2.0</dd>
       <dt>Driven by</dt><dd><a href="/litmus/">litmus</a> (and other tools)</dd>
     </dl>
