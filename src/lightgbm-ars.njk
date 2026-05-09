@@ -1,0 +1,90 @@
+---
+layout: base.njk
+title: "lightgbm-ars — Pure Rust LightGBM Inference"
+---
+
+<div class="main">
+  <div class="content">
+
+    <div class="project-header">
+      <span class="badge badge-stable">stable</span>
+      <h1>lightgbm-ars</h1>
+    </div>
+    <p>Native LightGBM inference in pure Rust — no C++ runtime, no FFI,
+    runs anywhere Rust does. Parses LightGBM's <code>model.txt</code>
+    text format directly and implements inference and exact
+    path-dependent TreeSHAP without external dependencies.</p>
+
+    <h2>Why</h2>
+    <p>The official LightGBM bindings drag in a <code>cmake</code> build
+    and <code>unsafe</code> FFI to a C++ library. lightgbm-ars eliminates
+    that entire dependency chain — pure Rust, cross-compiles cleanly,
+    and works on platforms the C++ runtime doesn't support.</p>
+
+    <h2>Capabilities</h2>
+    <ul class="feature-list">
+      <li><strong>Pure Rust inference</strong> — no C/C++ runtime, no FFI, no <code>cmake</code></li>
+      <li><strong>Exact path-dependent TreeSHAP</strong> — <code>sum(values) + bias == raw_margin</code></li>
+      <li><strong>Numerical and categorical splits</strong> — full <code>decision_type</code> support including all three missing-value modes</li>
+      <li><strong>Linear leaves</strong> — coefficient attribution preserves SHAP additivity</li>
+      <li><strong>Batch inference</strong> — <code>predict_many</code> walks each tree once across rows, keeping the tree hot in cache</li>
+      <li><strong>Cross-platform</strong> — compiles anywhere Rust does, including FreeBSD</li>
+      <li><strong>Minimal dependencies</strong> — only <code>thiserror</code></li>
+    </ul>
+
+    <h2>Usage</h2>
+    <pre class="install-block">use lightgbm_ars::Model;
+let m = Model::load(Path::new("model.txt"))?;
+let prob  = m.predict(&features)?;
+let shap  = m.shap(&features)?;        // sum(values) + bias == raw
+let batch = m.predict_many(&rows)?;    // row-major</pre>
+
+    <h2>Verification</h2>
+    <p>Validated against Python <code>lightgbm.Booster</code> on
+    synthetic, categorical, and linear-tree fixtures:</p>
+    <table class="verify-table">
+      <thead><tr><th>Metric</th><th>Tolerance</th></tr></thead>
+      <tbody>
+        <tr><td>Probability</td><td>&lt; 1e-6</td></tr>
+        <tr><td>Raw margin</td><td>&lt; 1e-5</td></tr>
+        <tr><td>SHAP additivity</td><td>&lt; 1e-5</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Supported</h2>
+    <p>Binary classification, numerical and categorical splits,
+    constant and linear leaves. No training, no multi-class
+    (<code>num_class != 1</code> is rejected at load), no round-trip
+    save, no column-major input.</p>
+
+    <p>For training, multi-class, or column-major data, use
+    <a href="https://crates.io/crates/lightgbm3" target="_blank">lightgbm3</a> —
+    it binds the C++ library at the cost of a <code>cmake</code> build
+    and <code>unsafe</code> FFI.</p>
+
+  </div>
+
+  <div class="sidebar">
+
+    <h3>Links</h3>
+    <ul>
+      <li><a href="https://codeberg.org/atomdrift/lightgbm-ars" target="_blank">Source code</a></li>
+    </ul>
+
+    <h3>Project Info</h3>
+    <dl class="stats">
+      <dt>Version</dt><dd>0.1.0</dd>
+      <dt>Release Date</dt><dd>2026-05-01</dd>
+      <dt>License</dt><dd>Apache 2.0</dd>
+      <dt>Language</dt><dd>Rust</dd>
+    </dl>
+
+    <h3>Related</h3>
+    <ul>
+      <li><a href="/xgboost-ars/">xgboost-ars</a> — pure Rust XGBoost inference</li>
+      <li><a href="/litmus/">litmus</a> — ML-powered malware classifier</li>
+      <li><a href="/cleave/">cleave</a> — deep static analysis</li>
+    </ul>
+
+  </div>
+</div>
