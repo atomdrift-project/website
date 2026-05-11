@@ -12,19 +12,25 @@ title: "azoth — Open-Source AI Model for General Malware Detection"
       <h1 class="visually-hidden">azoth</h1>
     </div>
 
-    <p>Azoth is a classifier. Input: a capability vector from
-    <a href="/cleave/">cleave</a> —
+    <p>Azoth answers one question: is this file malicious? It reads
+    <a href="/cleave/">cleave</a>'s output —
     <a href="https://attack.mitre.org/" target="_blank">MITRE ATT&amp;CK</a>
     techniques and
     <a href="https://github.com/MBCProject/mbc-markdown" target="_blank">MBC</a>
-    behaviors. Output: a label (<code>benign</code>,
-    <code>suspicious</code>, <code>hostile</code>), a calibrated
-    probability, and the capabilities that drove the call. Whatever
-    cleave decomposes, azoth classifies: ELF, PE, Mach-O, Java
-    <code>.class</code>, Python <code>.pyc</code>, AppleScript;
-    source in 20+ languages; wheels, npm modules, VS Code extensions.
-    CPU only. No network. No telemetry. Weights, training pipeline,
-    and capability schema are Apache 2.0;
+    behaviors extracted from the sample — and returns a label
+    (<code>benign</code>, <code>suspicious</code>, <code>hostile</code>),
+    a calibrated probability, and the specific capabilities that drove
+    the call.</p>
+
+    <p>Anything cleave can decompose, azoth can classify: binaries
+    in six formats (ELF, PE, Mach-O, Java <code>.class</code>,
+    Python <code>.pyc</code>, compiled AppleScript), source in 20+
+    languages, and packaged forms (Python wheels, npm modules, VS
+    Code extensions).</p>
+
+    <p>Everything runs locally. CPU only, no network, no telemetry,
+    no per-call cost. Weights, the training pipeline, and the
+    capability schema are Apache 2.0;
     <a href="/litmus/">litmus</a> is the reference scanner.</p>
 
     <h2>What azoth does not do</h2>
@@ -33,9 +39,11 @@ title: "azoth — Open-Source AI Model for General Malware Detection"
     it cannot follow, control flow it cannot reconstruct — azoth
     returns clean. The classifier is bounded by the feature pipeline
     beneath it: the failure modes are inspectable, and what fools
-    azoth would fool a human reading cleave's output. Conversely:
-    recompiling, repacking, or shuffling strings does not change the
-    input. Azoth scores capabilities, not surface.</p>
+    azoth would fool a human reading cleave's output.</p>
+
+    <p>The reverse holds too. Recompiling, repacking, or shuffling
+    strings does not change the input — azoth scores capabilities,
+    not surface.</p>
 
     <h2>Design</h2>
     <p><strong>No prompt injection.</strong> There is no instruction
@@ -44,12 +52,13 @@ title: "azoth — Open-Source AI Model for General Malware Detection"
     feature pipeline, not the model.</p>
 
     <p><strong>Hierarchy-aware.</strong> MBC is a tree; azoth learns
-    combinations across leaves, objectives, and intent. Individually
-    unremarkable capabilities can return hostile in combination.</p>
+    combinations across leaves, objectives, and intent. A set of
+    individually unremarkable capabilities can still trip the model
+    when the combination matches what real families do.</p>
 
     <p><strong>Local and fast.</strong> Distilled for CPU inference;
-    fast enough to scan a full disk on commodity hardware. Same weights
-    on a laptop, a CI runner, an endpoint agent. No per-call cost.</p>
+    fast enough to scan a full disk on commodity hardware. Same
+    weights on a laptop, a CI runner, or an endpoint agent.</p>
 
     <h2>Status and numbers</h2>
     <p>Preview. The model is a weighted ensemble — classifiers trained
