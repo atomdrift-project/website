@@ -21,12 +21,13 @@ title: "litmus — Open-Source AI-Powered Malware Analysis"
     across 20+ languages and six binary formats. Everything runs
     locally: no network, no API keys, no telemetry.</p>
     <p>Today it runs <code>scan-v16</code> from
-    <a href="https://codeberg.org/atomdrift/litmus-models" target="_blank">litmus-models</a>.
-    The default model is beta quality at best — false positives are
-    real, false negatives are real, and the thresholds will move. Use
-    it for triage and evaluation; don't wire it into a production gate
-    yet. The eventual reference model is <a href="/azoth/">azoth</a>,
-    still in training. Litmus runs any model trained on cleave's
+    <a href="https://codeberg.org/atomdrift/litmus-models" target="_blank">litmus-models</a>
+    by default, with preview support for <a href="/azoth/">azoth</a>
+    ensemble bundles — a general model plus optional specialists,
+    routed per file. The default model is still beta quality — false
+    positives are real, false negatives are real, and the thresholds
+    will move. Use it for triage and evaluation; don't wire it into a
+    production gate yet. Litmus runs any model trained on cleave's
     capability schema, so if neither the defaults
     (<code>--threshold-hostile</code>, <code>--threshold-suspicious</code>)
     nor the model match your threat model, swap them.</p>
@@ -36,6 +37,7 @@ title: "litmus — Open-Source AI-Powered Malware Analysis"
       <li><strong>File scanning</strong> — files, directories, and archives, classified against a local <a href="https://codeberg.org/atomdrift/litmus-models/" target="_blank">AI model</a></li>
       <li><strong>Process scanning</strong> — running processes, by way of the on-disk image (memory-resident analysis is not yet implemented)</li>
       <li><strong>Pluggable models</strong> — runs any model trained on cleave's capability schema</li>
+      <li><strong>Ensemble bundles</strong> (preview) — azoth-style bundles with a general model plus optional per-filetype and per-filegroup specialists, routed at scan time</li>
     </ul>
 
     <p>Differential analysis — comparing two versions of a package to
@@ -86,8 +88,8 @@ make install
 
     <h3>Project Info</h3>
     <dl class="stats">
-      <dt>Version</dt><dd>1.1.0</dd>
-      <dt>Release Date</dt><dd>2026-04-27</dd>
+      <dt>Version</dt><dd>1.2.0</dd>
+      <dt>Release Date</dt><dd>2026-05-10</dd>
       <dt>License</dt><dd>Apache 2.0</dd>
       <dt>Language</dt><dd>Rust</dd>
     </dl>
