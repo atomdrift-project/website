@@ -11,14 +11,15 @@ title: "litmus — Open-Source AI-Powered Malware Analysis"
       <span class="badge badge-beta">beta</span>
       <h1 class="visually-hidden">litmus</h1>
     </div>
-    <p>Think of litmus as ClamAV for AI-based malware detection: a
+    <p>Think of litmus as ClamAV for AI-powered malware detection: a
     local scanner backed by open models that improve as newly observed
     malware behavior is captured, labeled, and folded back through
     cyclotron, Atomdrift's live training loop.</p>
     <p>Hand it a path; it scans, classifies, and exits with a
     status code your CI can act on. Whatever
     <a href="/cleave/">cleave</a> decomposes, litmus classifies —
-    across 20+ languages and six binary formats.</p>
+    across 20+ languages and six binary formats. Everything runs
+    locally: no network, no API keys, no telemetry.</p>
     <p>Today it runs <code>scan-v16</code> from
     <a href="https://codeberg.org/atomdrift/litmus-models" target="_blank">litmus-models</a>.
     The default model is beta quality at best — false positives are
@@ -32,7 +33,7 @@ title: "litmus — Open-Source AI-Powered Malware Analysis"
 
     <h2>Capabilities</h2>
     <ul class="feature-list">
-      <li><strong>File scanning</strong> — files, directories, and archives, classified against a local <a href="https://codeberg.org/atomdrift/litmus-models/" target="_blank">ML model</a></li>
+      <li><strong>File scanning</strong> — files, directories, and archives, classified against a local <a href="https://codeberg.org/atomdrift/litmus-models/" target="_blank">AI model</a></li>
       <li><strong>Process scanning</strong> — running processes, by way of the on-disk image (memory-resident analysis is not yet implemented)</li>
       <li><strong>Pluggable models</strong> — runs any model trained on cleave's capability schema</li>
     </ul>
@@ -93,7 +94,7 @@ make install
 
     <h3>Related</h3>
     <ul>
-      <li><a href="/azoth/">azoth</a> — the ML model</li>
+      <li><a href="/azoth/">azoth</a> — the AI model</li>
       <li><a href="/cleave/">cleave</a> — deep static analysis</li>
       <li><a href="/stng/">stng</a> — string extraction</li>
     </ul>

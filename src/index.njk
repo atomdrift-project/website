@@ -1,6 +1,6 @@
 ---
 layout: base.njk
-title: Open-Source AI Malware Detection for the Software Supply Chain
+title: Open-Source Malware Detection, Powered by Offline AI Models
 ---
 
 <div class="main">
@@ -8,11 +8,13 @@ title: Open-Source AI Malware Detection for the Software Supply Chain
 
     <h2>About</h2>
     <p>
-Atomdrift is open-source AI malware detection for the software
-supply chain — across binaries, scripts, packages, and extensions.
+Atomdrift is open-source malware detection for the software
+supply chain — powered by offline AI models, across binaries, scripts,
+packages, and extensions. Everything runs locally: no network calls,
+no API keys, no telemetry.
     </p>
     <p>
-Think of <a href="/litmus/">litmus</a> as ClamAV for AI-based malware
+Think of <a href="/litmus/">litmus</a> as ClamAV for AI-powered malware
 detection: a local scanner backed by open models that improve as newly
 observed malware behavior is captured, labeled, and folded back through
 cyclotron, Atomdrift's live training loop.
@@ -43,7 +45,7 @@ reproducible, and Apache 2.0.
       <li>
         <span class="proj-name"><a href="/litmus/">litmus</a></span>
         <span class="badge badge-beta">beta</span>
-        <div class="proj-desc">ClamAV-style local scanner for AI-based malware detection. Classifies binaries, scripts, and source using open models like azoth, fed by capabilities extracted from cleave.</div>
+        <div class="proj-desc">ClamAV-style local scanner for AI-powered malware detection. Runs azoth and other open models against capabilities extracted by cleave — across binaries, scripts, and source.</div>
       </li>
       <li>
         <span class="proj-name"><a href="/azoth/">azoth</a></span>

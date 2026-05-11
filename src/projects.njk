@@ -8,14 +8,33 @@ title: Projects
 
     <h2 style="margin-top: 0;">Projects</h2>
     <p style="max-width: none; margin-bottom: 1.5em;">A small set of
-    composable tools for malware analysis. <strong>stng</strong>
-    extracts strings from binaries; <strong>cleave</strong> decomposes
-    binaries and source into capabilities mapped to ATT&amp;CK and
-    MBC; <strong>litmus</strong> runs local AI-based detection against
-    that output, with models improved through cyclotron, Atomdrift's
-    live training loop.</p>
+    composable, open-source tools for malware analysis.
+    <strong>cleave</strong> decomposes binaries and source into
+    capabilities mapped to ATT&amp;CK and MBC;
+    <strong>azoth</strong> is an open AI model that classifies them;
+    <strong>litmus</strong> is the scanner that ties it together.
+    Everything runs locally, and the models improve through cyclotron,
+    Atomdrift's live training loop.</p>
 
     <ul class="proj-list">
+      <li>
+        <span class="proj-name"><a href="/litmus/">litmus</a></span>
+        <span class="badge badge-beta">beta</span>
+        <div class="proj-desc">ClamAV-style local scanner for AI-powered malware detection. Runs azoth and other open models against capabilities extracted by cleave.</div>
+        <div class="proj-links">
+          <a href="/litmus/">Details</a>
+          <a href="https://codeberg.org/atomdrift/litmus" target="_blank">Source</a>
+          <a href="https://codeberg.org/atomdrift/litmus/issues" target="_blank">Issues</a>
+        </div>
+      </li>
+      <li>
+        <span class="proj-name"><a href="/azoth/">azoth</a></span>
+        <span class="badge badge-beta">preview</span>
+        <div class="proj-desc">The first open-source AI model for general malware detection, now published in preview. A weighted ensemble trained on cleave-extracted capabilities across 20+ languages and six binary formats.</div>
+        <div class="proj-links">
+          <a href="/azoth/">Details</a>
+        </div>
+      </li>
       <li>
         <span class="proj-name"><a href="/cleave/">cleave</a></span>
         <span class="badge badge-stable">stable</span>
@@ -24,15 +43,6 @@ title: Projects
           <a href="/cleave/">Details</a>
           <a href="https://codeberg.org/atomdrift/cleave" target="_blank">Source</a>
           <a href="https://codeberg.org/atomdrift/cleave/issues" target="_blank">Issues</a>
-        </div>
-      </li>
-      <li>
-        <span class="proj-name"><a href="/lightgbm-ars/">lightgbm-ars</a></span>
-        <span class="badge badge-stable">stable</span>
-        <div class="proj-desc">Pure Rust LightGBM inference with exact path-dependent TreeSHAP. No C++ runtime — runs anywhere Rust does.</div>
-        <div class="proj-links">
-          <a href="/lightgbm-ars/">Details</a>
-          <a href="https://codeberg.org/atomdrift/lightgbm-ars" target="_blank">Source</a>
         </div>
       </li>
       <li>
@@ -55,21 +65,12 @@ title: Projects
         </div>
       </li>
       <li>
-        <span class="proj-name"><a href="/litmus/">litmus</a></span>
-        <span class="badge badge-beta">beta</span>
-        <div class="proj-desc">ClamAV-style local scanner for AI-based malware detection. Runs open models like azoth against capabilities extracted by cleave.</div>
+        <span class="proj-name"><a href="/lightgbm-ars/">lightgbm-ars</a></span>
+        <span class="badge badge-stable">stable</span>
+        <div class="proj-desc">Pure Rust LightGBM inference with exact path-dependent TreeSHAP. No C++ runtime — runs anywhere Rust does.</div>
         <div class="proj-links">
-          <a href="/litmus/">Details</a>
-          <a href="https://codeberg.org/atomdrift/litmus" target="_blank">Source</a>
-          <a href="https://codeberg.org/atomdrift/litmus/issues" target="_blank">Issues</a>
-        </div>
-      </li>
-      <li>
-        <span class="proj-name"><a href="/azoth/">azoth</a></span>
-        <span class="badge badge-beta">preview</span>
-        <div class="proj-desc">The first open-source AI model for general malware detection, now published in preview. A weighted ensemble trained on cleave-extracted capabilities across 20+ languages and six binary formats.</div>
-        <div class="proj-links">
-          <a href="/azoth/">Details</a>
+          <a href="/lightgbm-ars/">Details</a>
+          <a href="https://codeberg.org/atomdrift/lightgbm-ars" target="_blank">Source</a>
         </div>
       </li>
       <li>
