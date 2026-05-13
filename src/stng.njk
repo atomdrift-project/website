@@ -24,6 +24,7 @@ title: "stng — Modern String Extraction"
       <li><strong>XOR obfuscation detection</strong> — single/multi-byte keys with entropy analysis, double-layer (encoding+XOR)</li>
       <li><strong>Encoding detection</strong> — Base64, Base32, Base85, hex, URL-encoding, Unicode escapes</li>
       <li><strong>Language-aware extraction</strong> — Go/Rust <code>{ptr, len}</code> structures, DWARF stack strings</li>
+      <li><strong>Mixed inputs</strong> — decodes embedded campaign markers from polyglot and mostly-binary unknown files</li>
       <li><strong>Binary network structures</strong> — hardcoded IPs/ports in socket structures</li>
       <li><strong>IOC classification</strong> — IPs, URLs, shell commands, paths, credentials</li>
       <li><strong>Wide strings</strong> — UTF-16LE support for Windows PE binaries</li>
@@ -73,8 +74,8 @@ $ stng --json malware.bin       # machine-readable with encoding metadata</pre>
 
     <h3>Project Info</h3>
     <dl class="stats">
-      <dt>Version</dt><dd>1.3.0</dd>
-      <dt>Release Date</dt><dd>2026-05-07</dd>
+      <dt>Version</dt><dd>1.3.1</dd>
+      <dt>Release Date</dt><dd>2026-05-13</dd>
       <dt>License</dt><dd>Apache 2.0</dd>
       <dt>Language</dt><dd>Rust</dd>
     </dl>
