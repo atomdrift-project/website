@@ -686,6 +686,27 @@ code, .mono { font-family: 'SF Mono', Consolas, monospace; font-size: 0.92em; }
   color: #1a1a1a;
 }
 
+.sev-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  vertical-align: middle;
+  margin-right: 4px;
+}
+.sev-dot.hostile { background: #ef4444; }
+.sev-dot.suspicious { background: #eab308; }
+.sev-dot.notable { background: #3b82f6; }
+
+.post-body pre.lang-js .tok-com { color: #637777; font-style: italic; }
+.post-body pre.lang-js .tok-kw { color: #c792ea; }
+.post-body pre.lang-js .tok-str { color: #c3e88d; }
+.post-body pre.lang-js .tok-fn { color: #82aaff; }
+.post-body pre.lang-js .tok-builtin { color: #82aaff; }
+.post-body pre.lang-js .tok-tmpl { color: #c3e88d; }
+.post-body pre.lang-js .tok-tmpl-expr { color: #f78c6c; }
+.post-body pre.lang-js .tok-punc { color: #d4d4d4; }
+
 /* ========== FOOTER ========== */
 .site-footer {
   background: var(--carbon);
