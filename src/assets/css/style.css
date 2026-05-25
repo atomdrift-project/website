@@ -642,6 +642,50 @@ code, .mono { font-family: 'SF Mono', Consolas, monospace; font-size: 0.92em; }
   color: inherit;
 }
 
+.post-body table {
+  width: 100%;
+  max-width: 65ch;
+  border-collapse: collapse;
+  margin: 16px 0 20px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: #1a1a1a;
+}
+
+.post-body table th,
+.post-body table td {
+  text-align: left;
+  padding: 8px 14px 8px 0;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+.post-body table th {
+  font-family: 'Oxanium', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--iron);
+  border-bottom: 1px solid var(--graphite);
+  padding-bottom: 6px;
+}
+
+.post-body table td:first-child {
+  font-family: 'SF Mono', Consolas, monospace;
+  font-size: 13px;
+  color: var(--graphite);
+  white-space: nowrap;
+  padding-right: 20px;
+}
+
+.post-body table td code {
+  background: none;
+  padding: 0;
+  font-size: 13px;
+  color: #1a1a1a;
+}
+
 /* ========== FOOTER ========== */
 .site-footer {
   background: var(--carbon);
