@@ -1,0 +1,22 @@
+---
+permalink: /discoveries/feed.xml
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Atomdrift Discoveries</title>
+  <link href="https://atomdrift.org/discoveries/feed.xml" rel="self"/>
+  <link href="https://atomdrift.org/discoveries/"/>
+  <id>https://atomdrift.org/discoveries/</id>
+  {%- set latestPost = collections.discoveries | reverse | first %}
+  <updated>{% if latestPost %}{{ latestPost.date | dateDisplay }}{% else %}2026-05-25{% endif %}T00:00:00Z</updated>
+  {%- for post in collections.discoveries | reverse %}
+  <entry>
+    <title>{{ post.data.title }}</title>
+    <link href="https://atomdrift.org{{ post.url }}"/>
+    <id>https://atomdrift.org{{ post.url }}</id>
+    <updated>{{ post.date | dateDisplay }}T00:00:00Z</updated>
+    {% if post.data.summary %}<summary>{{ post.data.summary }}</summary>{% endif %}
+  </entry>
+  {%- endfor %}
+</feed>

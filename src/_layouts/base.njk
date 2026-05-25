@@ -13,6 +13,7 @@
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>%E2%9A%9B</text></svg>">
 
   <link rel="alternate" type="application/atom+xml" title="Atomdrift News" href="/feed.xml">
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift Discoveries" href="/discoveries/feed.xml">
   <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body>
@@ -49,6 +50,7 @@
     <div class="nav-inner">
       <a href="/"{% if page.url == "/" %} class="active"{% endif %}>Home</a>
       <a href="/news/"{% if page.url and page.url.startsWith("/news") %} class="active"{% endif %}>News</a>
+      <a href="/discoveries/"{% if page.url and page.url.startsWith("/discoveries") %} class="active"{% endif %}>Discoveries</a>
       <a href="/projects/"{% if page.url == "/projects/" or page.url == "/cleave/" or page.url == "/stng/" or page.url == "/litmus/" or page.url == "/xgboost-ars/" or page.url == "/azoth/" %} class="active"{% endif %}>Projects</a>
       <a href="/support/"{% if page.url == "/support/" %} class="active"{% endif %}>Support</a>
     </div>

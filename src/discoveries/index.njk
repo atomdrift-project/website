@@ -1,0 +1,20 @@
+---
+layout: base.njk
+title: Discoveries
+permalink: /discoveries/
+eleventyExcludeFromCollections: true
+---
+
+<div class="main-full">
+  <h2 class="content" style="margin-top: 0;">Discoveries <a href="/discoveries/feed.xml" class="rss-link" title="RSS Feed"><svg class="rss-icon" viewBox="0 0 24 24" fill="currentColor"><circle cx="6.18" cy="17.82" r="2.18"/><path d="M4 4.44v2.83c7.03 0 12.73 5.7 12.73 12.73h2.83c0-8.59-6.97-15.56-15.56-15.56zm0 5.66v2.83c3.9 0 7.07 3.17 7.07 7.07h2.83c0-5.47-4.43-9.9-9.9-9.9z"/></svg></a></h2>
+  <p class="post-summary" style="margin-bottom: 18px;">Short malware post-mortems from packages and binaries seen by Atomdrift tooling.</p>
+  <ul class="post-list">
+    {%- for post in collections.discoveries | reverse %}
+    <li class="post-item">
+      <span class="post-date">{{ post.date | dateDisplay }}</span>
+      <a href="{{ post.url }}" class="post-title">{{ post.data.title }}</a>
+      {% if post.data.summary %}<p class="post-summary">{{ post.data.summary }}</p>{% endif %}
+    </li>
+    {%- endfor %}
+  </ul>
+</div>

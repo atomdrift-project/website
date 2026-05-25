@@ -1,0 +1,14 @@
+---
+layout: base.njk
+---
+
+<div class="main-full">
+  <div class="post-header">
+    <h1>{{ title }}</h1>
+    <span class="post-meta">{{ date | dateDisplay }}{% if ecosystem %} &middot; {{ ecosystem }}{% endif %}{% if packageName %} &middot; {{ packageName }}{% endif %}</span>
+  </div>
+  <div class="post-body discovery-body">
+    {{ content | safe }}
+  </div>
+  <p style="margin-top: 24px; font-size: 0.8125rem;"><a href="/discoveries/">&larr; All discoveries</a></p>
+</div>
