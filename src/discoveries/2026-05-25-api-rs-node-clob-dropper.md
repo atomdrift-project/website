@@ -71,23 +71,32 @@ These files come from the author's own file-explorer scaffolding; `0.2.3` is tha
 
 The dropper was written carefully — section dividers, redirect handling, abortable promises, a 15-second install timeout. The packaging was not.
 
-## Stage 2: what the CID actually serves
+## Stage 2: what the CID serves
 
-Pulling `bafybeif3zkapj364ofnrvbty7oj5h5ufpxlp4s62usk3ulxrru35e3gssa` from `ipfs.io` returns a 4 MB console-subsystem PE32+ (SHA-256 `300a7dea05c2a588757010ad314fa55cb8ef3acebaa284f58a5cd0fd39bce478`). The PDB path was not stripped — it reads `explr_server.pdb`, GUID `cd195463-cbd6-4917-a75d-49b312738bda`, build timestamp `2026-05-25T08:28:35Z` (nine hours before the npm tarball). MSVC 14.44, no packer, full Rust crate paths still in place.
+The CID resolves to a 4 MB Windows PE32+ (`300a7dea05c2a588757010ad314fa55cb8ef3acebaa284f58a5cd0fd39bce478`). The PDB path was not stripped: `explr_server.pdb`, GUID `cd195463-cbd6-4917-a75d-49b312738bda`, build timestamp `2026-05-25T08:28:35Z` — nine hours before the tarball. MSVC 14.44, no packer, full Rust crate paths in place.
 
-The binary is a complete Tauri-style desktop application: an Axum + Hyper + Tokio HTTP server with a React/JS file-explorer UI baked into `.rdata`. Startup banner is *"Explr web server listening on http://…"*. Routes are `/api/invoke` and `/api/download`, gated by `Authorization: Bearer …`. Configuration is by environment variable: `HOST`, `PORT`, `EXPLR_UI`, `AUTH_TOKEN` — no defaults; the bind path errors with *"Invalid HOST/PORT"* if any are missing. The Tauri `invoke` surface enumerates to 53 commands — `load_dir`, the `*_sftp` family, hashing, search, settings, templates — including `execute_command`, `execute_command_improved`, `execute_command_with_timeout`, and `request_full_disk_access`. So: HTTP-fronted remote filesystem + remote shell, shaped like Webmin/MeshCentral.
+The binary is a complete Tauri-style desktop application — an Axum + Hyper + Tokio HTTP server with a React/JS file-explorer UI baked into `.rdata`. Startup banner: `Explr web server listening on http://…`. Routes are `/api/invoke` and `/api/download`, gated by `Authorization: Bearer …`. Configuration is by four environment variables (`HOST`, `PORT`, `EXPLR_UI`, `AUTH_TOKEN`) with no defaults; missing any of them errors out as `Invalid HOST/PORT` before the listener binds. The Tauri `invoke` surface enumerates to 53 commands — `load_dir`, the thirteen `*_sftp` calls, hashing, search, settings, templates — and includes `execute_command`, `execute_command_improved`, `execute_command_with_timeout`, and `request_full_disk_access`. Remote filesystem and remote shell are first-class endpoints. The bundled `config/` files in the tarball are this same application's own metadata and settings; the cover identity is internally consistent.
 
-What the binary is *not* doing is also clear. No browser-credential paths (`Login Data`, `Cookies.db`, `key3.db`, `Local State`, `logins.json`, `nss3.dll` all absent). No wallet or seed targeting (no MetaMask, Phantom, Exodus, Atomic, Electrum, `wallet.dat`, mnemonic strings). No Discord or Telegram token paths. No `CryptUnprotectData` import; `cleave`'s `credential-access/browser/dpapi`, `collection/file-targeting/filter`, and `exfiltration/stealer/file` hits are all substring false positives on the embedded React UI (`v11`, `.seed` from a MIME table, `FindFirstVolumeW` used legitimately for the sidebar's drive list). By itself, this is the back end of a file manager, not a stealer. The bundled `config/` files in the tarball are this same app's own settings and metadata — the cover identity is internally consistent.
+Nothing in the binary indicates a stealer. Absent: browser credential paths (`Login Data`, `Cookies.db`, `key3.db`, `Local State`, `logins.json`, `nss3.dll`); wallet or seed targeting (MetaMask, Phantom, Exodus, Atomic, Electrum, `wallet.dat`, mnemonic dictionaries); Discord and Telegram tokens; `CryptUnprotectData`. `cleave`'s `credential-access/browser/dpapi`, `collection/file-targeting/filter`, and `exfiltration/stealer/file` hits are substring false positives on the React UI: `v11`, `.seed` from a MIME table, `FindFirstVolumeW` used to populate the sidebar's drive list. The traits that survive review:
 
-## The campaign doesn't close the loop
+|  | Trait | What it caught |
+| --- | --- | --- |
+| <span class="sev-dot suspicious" title="suspicious"></span> | `command-and-control/backdoor/control/file-manager` | Tauri `*_sftp` + `execute_command*` exposed over HTTP |
+| <span class="sev-dot suspicious" title="suspicious"></span> | `discovery/system/fingerprint/info` | `GetSystemInfo`, drive and volume enumeration |
+| <span class="sev-dot notable" title="notable"></span> | `anti-static/obfuscation/string/anomaly` | Stack-built fragments, e.g. `uespemosarenegylmodnarodsetybdet` |
+| <span class="sev-dot notable" title="notable"></span> | `anti-static/obfuscation/string/encoding` | XOR-decoded literals scattered through `.text` |
 
-For an engineer triaging this: as shipped, the chain between dropper and binary doesn't actually connect.
+The two `anti-static` rows are Rust release-build noise — the compiler lays small string constants out as register-loaded fragments. The stack string above reads in 8-byte little-endian chunks as `some pseudo-randomly generated bytes`; not deliberate obfuscation, just the same artefact every modern Rust binary leaves.
 
-1. **Windows-only.** The mac and linux branches in `clob.js` carry `MAC_URL = null` and `LINUX_URL = null` and abort at install time. The persistence wiring is written but never reached.
-2. **The dropper doesn't pass any env vars.** `spawn(exePath, [], { detached: true, stdio: 'ignore' })` and the Run-key entry `wscript.exe //nologo "<vbsPath>"` both inherit the user's logon environment. `HOST`, `PORT`, `EXPLR_UI`, and `AUTH_TOKEN` aren't set anywhere. The server hits its "Invalid HOST/PORT" path and exits on every launch. Persistence survives; the listener does not.
-3. **The beacon assumes no NAT.** `clob.js` POSTs the host's public IP (from `api.ipify.org`) to `170.205.31.203:2026` with a literal `:80` suffix. For any host behind NAT — virtually every developer workstation and hosted CI runner — that IP belongs to the edge router, and the dropped server (if it ran) would be listening on a private interface that the C2 can't reach.
+## The campaign does not close the loop
 
-The realistic victim profile is therefore a Windows host directly on the public internet, with those four env vars already exported in the user's session, with nothing on `http.sys` holding port 80, running `npm install api-rs-node`. That population is approximately empty. Two failures are dropper bugs (no `MAC_URL`/`LINUX_URL`, no env propagation); one is a design assumption (no NAT) the author hasn't reckoned with. Taken together they confirm the same "iteration mid-flight" reading as the `TODO`s and the leaked dev-env: the package is a staging exercise, not a fired campaign. Worth detecting and blocking — but as currently shipped, no successfully installed victim ends up with a working backdoor.
+For an engineer triaging this: as shipped, the chain between dropper and binary does not actually connect.
+
+1. **Windows-only.** The macOS and Linux branches in `clob.js` carry `MAC_URL = null` and `LINUX_URL = null` and exit before downloading anything. The launchd plist and XDG autostart code is written and unreachable.
+2. **No environment handoff.** Neither `spawn(exePath, [], { detached: true, stdio: 'ignore' })` nor the Run-key value `wscript.exe //nologo "<vbsPath>"` propagates `HOST`, `PORT`, `EXPLR_UI`, or `AUTH_TOKEN`. The server hits its `Invalid HOST/PORT` path on every launch and exits. Persistence survives; the listener does not.
+3. **NAT assumption.** `clob.js` POSTs the host's public IP from `api.ipify.org` to `170.205.31.203:2026` with a literal `:80` suffix. For any host behind NAT — every developer workstation and every hosted CI runner — that address belongs to the edge router, not the box that ran `npm install`. There is nothing for C2 to connect back to.
+
+The realistic victim is a Windows host directly addressable on the public internet, with those four environment variables exported in the user's session, with nothing on `http.sys` already holding port 80, running `npm install api-rs-node`. That population is approximately empty. Two of the three gaps are coding bugs; the third is a design assumption the author has not reckoned with. The package is worth detecting and blocking, but no installed host as currently shipped ends up with a working backdoor.
 
 ## Why this works
 
@@ -97,25 +106,25 @@ The IPFS staging is what makes delivery hard to disrupt. The CID is a content ha
 
 The `TODO`s and the leaked dev-env both say the same thing: this is iteration, not a finished campaign. The author published `4.3.0` at 17:36 UTC and `4.3.1` ninety minutes later — long enough to test, short enough to be the same sitting.
 
-## Traits observed
+## Dropper traits
 
-The [Fallout report](https://lab.atomdrift.org/file/75a602995eeebbeee9c0af1e6e83f2384d5426cb64af78f4475f261add329410) returns malicious at probability 1.0. The high-severity [cleave-traits](https://codeberg.org/atomdrift/cleave-traits) group around four behaviours: dropper shape, hidden execution, persistence, and IPFS distribution.
+The [Fallout report](https://lab.atomdrift.org/file/75a602995eeebbeee9c0af1e6e83f2384d5426cb64af78f4475f261add329410) returns malicious at probability 1.0. The [cleave-traits](https://codeberg.org/atomdrift/cleave-traits) cluster around four behaviours: IPFS delivery, stealth spawn, multi-platform persistence, and the Windows Defender masquerade.
 
 |  | Trait | What it caught |
 | --- | --- | --- |
-| <span class="sev-dot hostile" title="hostile"></span> | `well-known/malware/supply-chain/netstruct::detached-hidden-node-dropper` | `detached:true` + `stdio:'ignore'` + `windowsHide:true` + `unref()` co-located |
-| <span class="sev-dot hostile" title="hostile"></span> | `objectives/supply-chain/trojanized/app/package::obfuscated-dropper-exfiltration` | The whole dropper shape — `child_process` + `https.get` + `writeFileSync` |
-| <span class="sev-dot hostile" title="hostile"></span> | `objectives/supply-chain/trojanized/library/hidden-dep::swallowed-loader-errors` | Every catch is `catch (_) {}` |
-| <span class="sev-dot hostile" title="hostile"></span> | `objectives/command-and-control/infrastructure/dns-pin::dns-pinning-bypass` | Hardcoded IP `170.205.31.203`, no DNS resolution |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `objectives/command-and-control/dropper/node-bootstrap::extract-execute` | `execSync(chmod +x …)` then `spawn(exePath, …)` post-download |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `objectives/command-and-control/infrastructure/blockchain/multi-chain::ipfs-gateway` | Pinata + Cloudflare + ipfs.io fallback chain |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `objectives/persistence/login/registry/autostart::reg-add-run` | `reg add "HKCU\…\Run"` with VBS launcher |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `objectives/persistence/system/launchd/core::launchd` | LaunchAgents + RunAtLoad plist write |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `objectives/execution/interpreter/vbscript/interpreter::wscript-shell-create` | `CreateObject("WScript.Shell")` with `Run …, 0, False` |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `objectives/evasion/self-delete/file/script::empty-unlink-callback` | `fs.unlink(dest, () => {})` cleanup of partial downloads |
-| <span class="sev-dot notable" title="notable"></span> | `objectives/supply-chain/metadata-anomaly/manifest/npm::no-repo-with-hooks` | Postinstall hook declared, no repository field |
+| <span class="sev-dot hostile" title="hostile"></span> | `command-and-control/dropper/delivery/blockchain` | Four IPFS gateways fronting one CID |
+| <span class="sev-dot hostile" title="hostile"></span> | `command-and-control/dropper/execution/persistence` | Download → Run key + LaunchAgents + XDG autostart |
+| <span class="sev-dot hostile" title="hostile"></span> | `command-and-control/dropper/execution/stealth-spawn` | `detached:true` + `stdio:'ignore'` + `windowsHide:true` + `unref()` co-located |
+| <span class="sev-dot hostile" title="hostile"></span> | `evasion/masquerade/identity/fabricated` | Drops as `windows defender host.exe` |
+| <span class="sev-dot suspicious" title="suspicious"></span> | `command-and-control/channel/http-beacon` | `POST /api/urls?url=<ip>` to `170.205.31.203:2026` |
+| <span class="sev-dot suspicious" title="suspicious"></span> | `command-and-control/infrastructure/ip-port` | Hardcoded IPv4 endpoint, no DNS |
+| <span class="sev-dot suspicious" title="suspicious"></span> | `evasion/self-delete/file/script` | `fs.unlink(dest, () => {})` on every failure path |
+| <span class="sev-dot suspicious" title="suspicious"></span> | `evasion/masquerade/identity/user-agent` | Chrome 124 UA in dropper requests |
+| <span class="sev-dot suspicious" title="suspicious"></span> | `persistence/system/launchd/core` | LaunchAgents plist with `RunAtLoad` |
+| <span class="sev-dot suspicious" title="suspicious"></span> | `persistence/system/init/boot` | `~/.config/autostart/clob.desktop` |
+| <span class="sev-dot notable" title="notable"></span> | `persistence/login/registry/autostart` | `HKCU\…\Run` with VBS launcher |
 
-The reverse-shell pattern from the prior post is absent here — this is a multi-stage build, not a beacon. What cleave flags is *bootstrap that should not be one*: a manifest with no metadata invoking a 292-line postinstall script that downloads a platform-specific binary from IPFS and registers it for autostart.
+The reverse-shell pattern from the prior post is absent. What cleave flags here is *bootstrap that should not be one*: a manifest with no metadata invoking a 292-line postinstall script that downloads a platform-specific binary from IPFS and registers it for autostart.
 
 ## Impact
 
