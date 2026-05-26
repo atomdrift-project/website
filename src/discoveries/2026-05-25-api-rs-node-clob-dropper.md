@@ -8,6 +8,8 @@ ecosystem: npm
 
 A few hours after [system-user-identifier-cli](/discoveries/2026/05/system-user-identifier-cli/) was published from a throwaway gmail, a different gmail published `api-rs-node@4.3.1`. Same calendar day, different shape. The first package was 799 bytes and one stanza of bash; this one is a polished marketing README, a 292-line dropper, and a tarball that quietly carries the attacker's filesystem layout.
 
+*An earlier draft of this same dropper, with the binary still bundled in the tarball, was published 5½ hours earlier as [`@devcarron/clob@2.73.0`](/discoveries/2026/05/devcarron-clob/) from a separate gmail. Same author, same payload — see that post for the comparison and the proof.*
+
 The cover is the README — a "Rust ↔ Node.js Bridge," a feature list with emojis, a benchmark table where pure JS loses to Rust by 7×, "Trading bots" and "Blockchain tooling" among the example use cases, and an MIT License copyright dated 2026. The install instructions still say `npm install your-package-name`. The `package.json` has no author, no license, no keywords, and one script:
 
 <pre class="lang-js"><code>{
@@ -67,7 +69,7 @@ The tarball is seven files, not two. Alongside `clob.js`, `package.json`, and th
 }
 </code></pre>
 
-These files come from the author's own file-explorer scaffolding; `0.2.3` is that tool's version. When they ran `npm publish` from `E:\getting IP and check list\clob-downloader\`, the tool's bookkeeping went with it. The whole bundle records the project's working name (`clob-downloader`, inside a directory literally named `getting IP and check list`), the author's Windows username (`mist`), the four-volume NTFS layout of their drive, and lifetime read/write byte totals per volume — a fingerprint that survives reformats less than a serial number but more than an IP. The two log files and both config files are backdated to `Oct 26  1985`, a fixed-epoch tell from the same tooling.
+These files come from the author's own file-explorer scaffolding; `0.2.3` is that tool's version. When they ran `npm publish` from `E:\getting IP and check list\clob-downloader\`, the tool's bookkeeping went with it. The whole bundle records the project's working name (`clob-downloader`, inside a directory literally named `getting IP and check list`), the author's Windows username (`mist`), the four-volume NTFS layout of their drive, and lifetime read/write byte totals per volume — a fingerprint that survives reformats less than a serial number but more than an IP.
 
 The dropper was written carefully — section dividers, redirect handling, abortable promises, a 15-second install timeout. The packaging was not.
 
@@ -132,7 +134,7 @@ The reverse-shell pattern from the prior post is absent. What cleave flags here 
 
 ## Likely actor
 
-Two versions in ninety minutes, from a fresh gmail, with no other published packages:
+Two versions in ninety minutes from one fresh gmail; an earlier draft ([`@devcarron/clob@2.73.0`](/discoveries/2026/05/devcarron-clob/)) was published 5½ hours before `4.3.0` from a *different* fresh gmail. The two accounts publish from the same Windows machine — the bundled `meta_data.json` is byte-identical across both packages, naming the same four-volume NTFS drive layout and the same username (`mist`).
 
 | Field | Value |
 | --- | --- |
@@ -140,11 +142,12 @@ Two versions in ninety minutes, from a fresh gmail, with no other published pack
 | `4.3.0` published | `2026-05-25T17:36:29Z` |
 | `4.3.1` published | `2026-05-25T19:05:48Z` |
 | Files in tarball | 7 (`clob.js`, `package.json`, `README.md`, `config/×2`, `logs/×2`) |
+| Sibling publisher | `devcarron <devcarron@gmail.com>` (`@devcarron/clob@2.73.0`, `2026-05-25T11:59:04Z`) |
 | Author host (from bundled `meta_data.json`) | Windows x86_64, username `mist`, project dir `E:\getting IP and check list\clob-downloader` |
 
 Higher craftsmanship than the prior post — section comments, redirect handling, multi-gateway fallback, three-platform persistence wiring — paired with novice OPSEC. The package ships the author's machine fingerprint, the tooling version they built it with, the working name of their project, and even their lifetime per-volume disk read/write totals. A serious operator would have published from a clean directory.
 
-The Pinata CID, the `2026` port, the unfinished `*_URL` constants, and the unpolished README all read as one person's first or second iteration on a stager they intend to refine. The dropper is more dangerous than `system-user-identifier-cli`'s reverse shell — quieter, persistent, and content-addressed — and the author is more careless than the one who shipped the shell.
+The Pinata CID, the `2026` port, the unfinished `*_URL` constants, and the unpolished README all read as one person's second iteration on a stager they intend to refine. The first iteration — `@devcarron/clob` — was louder, bundled the binary, and made the same NAT and env-var mistakes; the refinements between the two are visible. The dropper is more dangerous than `system-user-identifier-cli`'s reverse shell — quieter, persistent, content-addressed — and the author is more careless than the one who shipped the shell.
 
 ## Indicators
 
