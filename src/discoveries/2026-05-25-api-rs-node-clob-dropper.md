@@ -67,9 +67,27 @@ The tarball is seven files, not two. Alongside `clob.js`, `package.json`, and th
 }
 </code></pre>
 
-These files come from some Rust file-explorer scaffolding the author had open; `0.2.3` is that tool's version. When they ran `npm publish` from `E:\getting IP and check list\clob-downloader\`, the tool's bookkeeping went with it. The whole bundle records the project's working name (`clob-downloader`, inside a directory literally named `getting IP and check list`), the author's Windows username (`mist`), the four-volume NTFS layout of their drive, and lifetime read/write byte totals per volume — a fingerprint that survives reformats less than a serial number but more than an IP. The two log files and both config files are backdated to `Oct 26  1985`, a fixed-epoch tell from the same tooling.
+These files come from the author's own file-explorer scaffolding; `0.2.3` is that tool's version. When they ran `npm publish` from `E:\getting IP and check list\clob-downloader\`, the tool's bookkeeping went with it. The whole bundle records the project's working name (`clob-downloader`, inside a directory literally named `getting IP and check list`), the author's Windows username (`mist`), the four-volume NTFS layout of their drive, and lifetime read/write byte totals per volume — a fingerprint that survives reformats less than a serial number but more than an IP. The two log files and both config files are backdated to `Oct 26  1985`, a fixed-epoch tell from the same tooling.
 
 The dropper was written carefully — section dividers, redirect handling, abortable promises, a 15-second install timeout. The packaging was not.
+
+## Stage 2: what the CID actually serves
+
+Pulling `bafybeif3zkapj364ofnrvbty7oj5h5ufpxlp4s62usk3ulxrru35e3gssa` from `ipfs.io` returns a 4 MB console-subsystem PE32+ (SHA-256 `300a7dea05c2a588757010ad314fa55cb8ef3acebaa284f58a5cd0fd39bce478`). The PDB path was not stripped — it reads `explr_server.pdb`, GUID `cd195463-cbd6-4917-a75d-49b312738bda`, build timestamp `2026-05-25T08:28:35Z` (nine hours before the npm tarball). MSVC 14.44, no packer, full Rust crate paths still in place.
+
+The binary is a complete Tauri-style desktop application: an Axum + Hyper + Tokio HTTP server with a React/JS file-explorer UI baked into `.rdata`. Startup banner is *"Explr web server listening on http://…"*. Routes are `/api/invoke` and `/api/download`, gated by `Authorization: Bearer …`. Configuration is by environment variable: `HOST`, `PORT`, `EXPLR_UI`, `AUTH_TOKEN` — no defaults; the bind path errors with *"Invalid HOST/PORT"* if any are missing. The Tauri `invoke` surface enumerates to 53 commands — `load_dir`, the `*_sftp` family, hashing, search, settings, templates — including `execute_command`, `execute_command_improved`, `execute_command_with_timeout`, and `request_full_disk_access`. So: HTTP-fronted remote filesystem + remote shell, shaped like Webmin/MeshCentral.
+
+What the binary is *not* doing is also clear. No browser-credential paths (`Login Data`, `Cookies.db`, `key3.db`, `Local State`, `logins.json`, `nss3.dll` all absent). No wallet or seed targeting (no MetaMask, Phantom, Exodus, Atomic, Electrum, `wallet.dat`, mnemonic strings). No Discord or Telegram token paths. No `CryptUnprotectData` import; `cleave`'s `credential-access/browser/dpapi`, `collection/file-targeting/filter`, and `exfiltration/stealer/file` hits are all substring false positives on the embedded React UI (`v11`, `.seed` from a MIME table, `FindFirstVolumeW` used legitimately for the sidebar's drive list). By itself, this is the back end of a file manager, not a stealer. The bundled `config/` files in the tarball are this same app's own settings and metadata — the cover identity is internally consistent.
+
+## The campaign doesn't close the loop
+
+For an engineer triaging this: as shipped, the chain between dropper and binary doesn't actually connect.
+
+1. **Windows-only.** The mac and linux branches in `clob.js` carry `MAC_URL = null` and `LINUX_URL = null` and abort at install time. The persistence wiring is written but never reached.
+2. **The dropper doesn't pass any env vars.** `spawn(exePath, [], { detached: true, stdio: 'ignore' })` and the Run-key entry `wscript.exe //nologo "<vbsPath>"` both inherit the user's logon environment. `HOST`, `PORT`, `EXPLR_UI`, and `AUTH_TOKEN` aren't set anywhere. The server hits its "Invalid HOST/PORT" path and exits on every launch. Persistence survives; the listener does not.
+3. **The beacon assumes no NAT.** `clob.js` POSTs the host's public IP (from `api.ipify.org`) to `170.205.31.203:2026` with a literal `:80` suffix. For any host behind NAT — virtually every developer workstation and hosted CI runner — that IP belongs to the edge router, and the dropped server (if it ran) would be listening on a private interface that the C2 can't reach.
+
+The realistic victim profile is therefore a Windows host directly on the public internet, with those four env vars already exported in the user's session, with nothing on `http.sys` holding port 80, running `npm install api-rs-node`. That population is approximately empty. Two failures are dropper bugs (no `MAC_URL`/`LINUX_URL`, no env propagation); one is a design assumption (no NAT) the author hasn't reckoned with. Taken together they confirm the same "iteration mid-flight" reading as the `TODO`s and the leaked dev-env: the package is a staging exercise, not a fired campaign. Worth detecting and blocking — but as currently shipped, no successfully installed victim ends up with a working backdoor.
 
 ## Why this works
 
