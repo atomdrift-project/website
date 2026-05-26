@@ -1,5 +1,5 @@
 {
   "layout": "discovery.njk",
   "tags": ["discoveries"],
-  "permalink": "/discoveries/{{ page.date | dateDisplay }}-{{ page.fileSlug }}/"
+  "permalink": "/discoveries/{{ page.date | dateYM }}/{{ page.fileSlug | slugStripDate }}/"
 }

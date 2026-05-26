@@ -11,6 +11,19 @@ module.exports = function(eleventyConfig) {
     return `${year}-${month}-${day}`;
   });
 
+  eleventyConfig.addFilter("dateYM", function(date) {
+    if (!date) return "";
+    const d = new Date(date);
+    const year = d.getUTCFullYear();
+    const month = String(d.getUTCMonth() + 1).padStart(2, "0");
+    return `${year}/${month}`;
+  });
+
+  eleventyConfig.addFilter("slugStripDate", function(slug) {
+    if (!slug) return "";
+    return slug.replace(/^\d{4}-\d{2}-\d{2}-/, "");
+  });
+
   return {
     dir: {
       input: "src",
