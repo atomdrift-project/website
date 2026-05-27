@@ -22,24 +22,24 @@ title: "litmus — Open-Source AI-Powered Malware Analysis"
     locally and deterministically: the same input always yields the same
     verdict — no network, no API keys, no telemetry, no probabilistic
     LLM output.</p>
-    <p>Today it runs <code>scan-v16</code> from
-    <a href="https://codeberg.org/atomdrift/litmus-models" target="_blank">litmus-models</a>
-    by default, with preview support for <a href="/azoth/">azoth</a>
-    ensemble bundles — a general model plus optional specialists,
-    routed per file. The default model is still beta quality — false
-    positives are real, false negatives are real, and the thresholds
-    will move. Use it for triage and evaluation; don't wire it into a
-    production gate yet. Litmus runs any model trained on cleave's
-    capability schema, so if neither the defaults
+    <p>Today it scores capabilities with <a href="/azoth/">azoth</a>,
+    our weighted-ensemble model for context-free malware detection — now
+    the default. Every verdict ships with a TreeSHAP-ranked list of the
+    capabilities that drove the score, computed on the live model rather
+    than a post-hoc story. The default model is still beta quality —
+    false positives are real, false negatives are real, and the
+    thresholds will move. Use it for triage and evaluation; don't wire
+    it into a production gate yet. Litmus runs any model trained on
+    cleave's capability schema, so if neither the defaults
     (<code>--threshold-hostile</code>, <code>--threshold-suspicious</code>)
     nor the model match your threat model, swap them.</p>
 
     <h2>Capabilities</h2>
     <ul class="feature-list">
-      <li><strong>File scanning</strong> — files, directories, and archives, classified against a local <a href="https://codeberg.org/atomdrift/litmus-models/" target="_blank">AI model</a></li>
+      <li><strong>File scanning</strong> — files, directories, and archives, classified against <a href="/azoth/">azoth</a> by default</li>
       <li><strong>Process scanning</strong> — running processes, by way of the on-disk image (memory-resident analysis is not yet implemented)</li>
-      <li><strong>Pluggable models</strong> — runs any model trained on cleave's capability schema</li>
-      <li><strong>Ensemble bundles</strong> (preview) — azoth-style bundles with a general model plus optional per-filetype and per-filegroup specialists, routed at scan time</li>
+      <li><strong>Explainable verdicts</strong> — every score ships with a TreeSHAP-ranked list of the capabilities that drove it</li>
+      <li><strong>Pluggable models</strong> — runs any model trained on cleave's capability schema; <code>--model-dir</code> swaps in a custom bundle</li>
       <li><strong>Worker telemetry</strong> — Hopper workers report litmus and traits versions, RSS, load, and available tools</li>
     </ul>
 
