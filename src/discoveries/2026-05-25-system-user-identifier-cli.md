@@ -45,9 +45,7 @@ No staged download, no obfuscation — the payload is the binary itself. Whoever
 
 ## Why this works
 
-Three layers carry the deception. The output is friendly — a real username, a real platform string. The comments describe a benign two-method demo, priming a reviewer to expect `id` by the time they reach the `execSync` line. And the trigger is the declared `bin`, not a `preinstall` script, so scanners that flag lifecycle hooks see nothing. The malicious surface is the thing the package exists to be run as.
-
-The fourth layer is the name. `system-user-identifier-cli` is not how a human would search for this — a person types `whoami` or `node get user`. It reads like a verbose, descriptive noun-stack of the kind an LLM emits when asked to name a package for a stated need. Paired with the one-shot `npx` surface and the tutorial-shaped source, the intended caller may be an agent more than a person.
+Four layers carry the deception. The output is friendly — a real username, a real platform string. The comments describe a benign two-method demo, priming a reviewer to expect `id` by the time they reach the `execSync` line. The trigger is the declared `bin`, not a `preinstall` script, so scanners that flag lifecycle hooks see nothing. And the name itself, `system-user-identifier-cli`, is not how a human would search for this — a person types something short like `whoami`. It reads like the verbose, descriptive noun-stack an LLM emits when asked to name a package for a stated need. Paired with the one-shot `npx` surface and the tutorial-shaped source, the intended caller may be an agent more than a person.
 
 ## Traits observed
 
@@ -83,9 +81,9 @@ Eight major-version bumps in three hours, from a throwaway gmail under a default
 | Versions published | 1.0.0, 2.0.0, 3.0.0, 4.0.0, 5.0.0, 6.0.0, 7.0.0, 7.0.1 |
 | Downloads API | `package not found` |
 
-The pattern reads like iteration, not a release plan. Every other signal leans cheap: a Tencent Cloud VPS as C2, a hard-coded IP with no DNS, no staging payload, no persistence, `Your Name` left in the author field, and the textbook `bash -i >& /dev/tcp/…` one-liner. Chinese comments suggest a probable location. The most plausible reading is a single individual publishing cheaply and waiting to see if `npx` traffic finds the port — no specific victim required. A serious campaign would have brought DNS-based C2, a staging payload, and less attributable hosting.
+The pattern reads like iteration, not a release plan. Every other signal leans cheap: a Tencent Cloud VPS as C2, a hard-coded IP with no DNS, no staging payload, no persistence, `Your Name` in the author field, and the textbook `bash -i >& /dev/tcp/…` one-liner. Chinese comments suggest a probable location. The plausible reading is one person publishing cheaply and waiting to see if `npx` traffic finds the port — a serious campaign would have brought DNS-based C2, a staging payload, and less attributable hosting.
 
-The actor's sophistication is not what makes this dangerous. The descriptive name, the tutorial-shaped source, and the `bin`-as-trigger are real evasion choices, deliberate or stumbled into. The recipe works. The next person to use it may not be unsophisticated.
+The sophistication isn't what makes this dangerous. The descriptive name, the tutorial-shaped source, and the `bin`-as-trigger are real evasion choices, deliberate or stumbled into. The recipe works, and the next person to use it may not be unsophisticated.
 
 ## Indicators
 

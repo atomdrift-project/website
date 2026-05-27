@@ -6,9 +6,7 @@ packageName: "@devcarron/clob"
 ecosystem: npm
 ---
 
-Five and a half hours before [api-rs-node@4.3.0](/discoveries/2026/05/api-rs-node-clob-dropper/) appeared, the npm registry took `@devcarron/clob@2.73.0` from a different gmail. Same payload, same scaffolding, same author. Earlier and louder.
-
-The cover is a copy-paste of the `@img/sharp-win32-x64` README — the Apache notice and third-party-library table from the popular `sharp` image-processing module. The title was not patched; it still reads `# \`@img/sharp-win32-x64\``. The package name is `@devcarron/clob`. The manifest is more honest than the README:
+Five and a half hours before [api-rs-node@4.3.0](/discoveries/2026/05/api-rs-node-clob-dropper/) appeared, `@devcarron/clob@2.73.0` was published from a different gmail — same payload, same scaffolding, same author, earlier and louder. The cover is a copy-paste of the `@img/sharp-win32-x64` README, with the title left un-patched. The manifest is more honest than the README:
 
 <pre class="lang-js"><code>{
   <span class="tok-str">"name"</span>: <span class="tok-str">"@devcarron/clob"</span>,
@@ -19,11 +17,22 @@ The cover is a copy-paste of the `@img/sharp-win32-x64` README — the Apache no
 }
 </code></pre>
 
-The tarball is 1.8 MB, eight files: `clob.js`, `package.json`, the copy-pasted `README.md`, the same `config/` and `logs/` directories from the author's `clob-downloader` dev tree, and **`clob2.0.exe`** — 4 MB, console-subsystem PE32+, SHA-256 `300a7dea05c2a588757010ad314fa55cb8ef3acebaa284f58a5cd0fd39bce478`. Byte-identical to the binary `api-rs-node@4.3.1` pulls from IPFS at install time. Same PDB (`explr_server.pdb`), same 53-command Tauri invoke surface, same `Explr web server` startup banner.
+The tarball is 1.8 MB, eight files — seven scaffolding plus one PE:
 
-The bundling is redundant. `clob.js` does not load the bundled exe. It downloads to `%LOCALAPPDATA%\clob2.0.exe` from the same four IPFS gateways and the same `WIN_CID` as the later package. The exe is in the tarball because the author's pack directory contained it, not because the dropper uses it. The next iteration (`api-rs-node`) dropped the local copy and went IPFS-only, shrinking the published tarball from 1.8 MB to 6 KB.
+- `clob.js`, `package.json`, the copy-pasted README
+- the author's bundled `config/` and `logs/` directories (four files)
+- **`clob2.0.exe`** — 4 MB, console-subsystem PE32+
 
-The differences from the later draft tell you what the author iterated on:
+The exe is byte-identical to the binary `api-rs-node@4.3.1` pulls from IPFS at install time:
+
+| Field | Value |
+| --- | --- |
+| SHA-256 | `300a7dea05c2a588757010ad314fa55cb8ef3acebaa284f58a5cd0fd39bce478` |
+| PDB | `explr_server.pdb` |
+| Tauri invoke surface | 53 commands |
+| Startup banner | `Explr web server listening on http://…` |
+
+The bundling is redundant. `clob.js` doesn't load the bundled exe — it downloads to `%LOCALAPPDATA%\clob2.0.exe` from the same four IPFS gateways and the same `WIN_CID` as the later package. The exe rides along because the author's pack directory contained it; the next iteration (`api-rs-node`) dropped the local copy and went IPFS-only, shrinking the published tarball from 1.8 MB to 6 KB. The differences from the later draft tell you what the author iterated on:
 
 | | `@devcarron/clob@2.73.0` | `api-rs-node@4.3.1` |
 | --- | --- | --- |
@@ -37,9 +46,19 @@ The differences from the later draft tell you what the author iterated on:
 | Install timeout | None | 15 seconds |
 | Author host (bundled) | `mist`, `E:\getting IP and check list\clob-downloader` | identical |
 
-The Windows username (`mist`), the four-volume NTFS drive layout, the project name `clob-downloader`, the file-explorer scaffolding version (`0.2.3`) — all match. Two npm publisher accounts; one machine.
+Four pieces of host metadata match across both bundled `meta_data.json` files:
 
-Both versions share the gaps from the [api-rs-node analysis](/discoveries/2026/05/api-rs-node-clob-dropper/#the-campaign-does-not-close-the-loop): neither dropper sets `HOST`, `PORT`, `EXPLR_UI`, or `AUTH_TOKEN` for the spawned executable; the dropped server hits its `Invalid HOST/PORT` path on every launch and exits. Both beacon the host's public IP with a literal `:80` suffix, which behind NAT names the edge router rather than the host that ran `npm install`. The earlier draft is the noisier of the two — `console.log('[clob-downloader] Sending IP: …')` to stdout during `npm install` is exactly the line a developer paying attention sees scroll by.
+- Windows username: `mist`
+- Drive layout: same four-volume NTFS
+- Project name: `clob-downloader`
+- File-explorer scaffolding version: `0.2.3`
+
+Two npm publisher accounts, one machine. Both versions share the gaps from the [api-rs-node analysis](/discoveries/2026/05/api-rs-node-clob-dropper/#the-campaign-does-not-close-the-loop):
+
+- No env-var handoff to the spawned executable — `HOST`, `PORT`, `EXPLR_UI`, `AUTH_TOKEN` are all unset, so the server hits `Invalid HOST/PORT` and exits on every launch
+- The beacon POSTs the public IP with a literal `:80` suffix, which behind NAT names the edge router rather than the host that ran `npm install`
+
+The earlier draft is the noisier of the two — `console.log('[clob-downloader] Sending IP: …')` scrolls past during `npm install`, exactly what a developer paying attention catches.
 
 ## Dropper traits
 

