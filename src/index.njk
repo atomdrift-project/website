@@ -8,42 +8,19 @@ title: Open-Source Malware Detection, Powered by Offline AI Models
 
     <h2>About</h2>
     <p>
-Atomdrift is open-source malware detection for the software
-supply chain — powered by offline AI models, across binaries, scripts,
-packages, and extensions. Everything runs locally: no network calls,
-no API keys, no telemetry.
-    </p>
-    <p>
-Think of <a href="/litmus/">litmus</a> as ClamAV for AI-powered malware
-detection: a local scanner backed by open models that improve as newly
-observed malware behavior is captured, labeled, and folded back through
-cyclotron, Atomdrift's live training loop.
-    </p>
-    <p>
-<a href="/cleave/">cleave</a> extracts behavioral capabilities from
-software; <a href="/azoth/">azoth</a> classifies them; litmus runs the
-scanner. Built for security engineers, Atomdrift is inspectable,
-deterministic, reproducible, and Apache 2.0 — the same input always
-produces the same verdict, with no probabilistic LLM output in the loop.
+Atomdrift is open-source malware detection for the software supply
+chain — built specifically to catch supply-chain attacks across
+binaries, scripts, packages, and extensions. <a href="/cleave/">cleave</a>
+extracts behavioral capabilities, <a href="/azoth/">azoth</a> classifies
+them, and <a href="/litmus/">litmus</a> runs the scanner — all powered
+by offline AI models that run locally, with no network calls, API keys,
+or telemetry, producing deterministic, reproducible verdicts under
+Apache 2.0.
     </p>
 
     <h2>News <a href="/feed.xml" class="rss-link" title="RSS Feed"><svg class="rss-icon" viewBox="0 0 24 24" fill="currentColor"><circle cx="6.18" cy="17.82" r="2.18"/><path d="M4 4.44v2.83c7.03 0 12.73 5.7 12.73 12.73h2.83c0-8.59-6.97-15.56-15.56-15.56zm0 5.66v2.83c3.9 0 7.07 3.17 7.07 7.07h2.83c0-5.47-4.43-9.9-9.9-9.9z"/></svg></a></h2>
     <ul class="news-list">
       {%- for post in collections.news | reverse %}
-      {% if loop.index <= 3 %}
-      <li>
-        <span class="date">{{ post.date | dateDisplay }}</span>
-        <span class="headline"><a href="{{ post.url }}">{{ post.data.title }}</a></span>
-        {% if post.data.summary %}<span class="news-summary">{{ post.data.summary }}</span>{% endif %}
-      </li>
-      {% endif %}
-      {%- endfor %}
-    </ul>
-    <p style="margin-top: 10px; font-size: 0.8125rem;"><a href="/news/">All news &rarr;</a></p>
-
-    <h2>Discoveries <a href="/discoveries/feed.xml" class="rss-link" title="RSS Feed"><svg class="rss-icon" viewBox="0 0 24 24" fill="currentColor"><circle cx="6.18" cy="17.82" r="2.18"/><path d="M4 4.44v2.83c7.03 0 12.73 5.7 12.73 12.73h2.83c0-8.59-6.97-15.56-15.56-15.56zm0 5.66v2.83c3.9 0 7.07 3.17 7.07 7.07h2.83c0-5.47-4.43-9.9-9.9-9.9z"/></svg></a></h2>
-    <ul class="news-list">
-      {%- for post in collections.discoveries | reverse %}
       {% if loop.index <= 2 %}
       <li>
         <span class="date">{{ post.date | dateDisplay }}</span>
@@ -53,7 +30,7 @@ produces the same verdict, with no probabilistic LLM output in the loop.
       {% endif %}
       {%- endfor %}
     </ul>
-    <p style="margin-top: 10px; font-size: 0.8125rem;"><a href="/discoveries/">All discoveries &rarr;</a></p>
+    <p style="margin-top: 10px; font-size: 0.8125rem;"><a href="/news/">All news &rarr;</a></p>
 
     <h2>Projects</h2>
     <ul class="proj-list">
@@ -78,7 +55,7 @@ produces the same verdict, with no probabilistic LLM output in the loop.
         <div class="proj-desc">Modern string extraction for binary analysis — all of the good stuff, none of the garbage. Useful for initial triage, C2 enumeration, credential extraction, and signature development.</div>
       </li>
       <li>
-        <span class="proj-name">filefacts</span>
+        <span class="proj-name"><a href="https://codeberg.org/atomdrift/filefacts">filefacts</a></span>
         <span class="badge badge-beta">preview</span>
         <div class="proj-desc">Rust library that reads a file and tells you what is in it. Extracted from cleave for data scientists who want rich features out of the formats malware likes to hide in — one parse pass, lazy cached views.</div>
       </li>
