@@ -6,9 +6,9 @@ summary: "cleave fixes a class of rayon deadlocks, parses Python pickle and MSI-
 
 Three releases.
 
-**stng v1.2.1.** stng was occasionally classifying Java and Kotlin source as embedded Python. `import android.os.Build;` is not a Python file. The heuristic now rejects semicolon-terminated imports and ignores `os.` matches that come from `android.os`. [v1.2.1](https://codeberg.org/atomdrift/stng/releases/tag/v1.2.1).
+**[stng](/stng/) v1.2.1.** stng was occasionally classifying Java and Kotlin source as embedded Python. `import android.os.Build;` is not a Python file. The heuristic now rejects semicolon-terminated imports and ignores `os.` matches that come from `android.os`. [v1.2.1](https://codeberg.org/atomdrift/stng/releases/tag/v1.2.1).
 
-**cleave v1.2.0.**
+**[cleave](/cleave/) v1.2.0.**
 
 cleave now identifies about seventy-five file formats. New since v1.1.0: XML, Makefile, plain text, MSI-embedded PE, XDG `.desktop`, systemd units, OpenDocument, Python pickle, and several others. [FILE_FORMATS.md](https://codeberg.org/atomdrift/cleave/src/branch/main/FILE_FORMATS.md) has the full table.
 
@@ -16,7 +16,7 @@ The rayon threading was reworked. Several classes of deadlock are now structural
 
 A `kv` subcommand was added. Symbol offsets are tracked. MBC and ATT&CK mappings are emitted in the report. Goblin's unbounded ELF note reader is bounded. CRX3 extraction works. Oversized archive filenames no longer crash. Unroutable `.0`-octet IPs are dropped from findings. [v1.2.0](https://codeberg.org/atomdrift/cleave/releases/tag/v1.2.0).
 
-**litmus v1.1.0.**
+**[litmus](/litmus/) v1.1.0.**
 
 litmus can now run as a fleet. `litmus worker` pulls jobs from a [hopper](https://codeberg.org/atomdrift/hopper) queue and verifies local paths by SHA256. `litmus serve` adds CIDR allowlists, an RSS ceiling that returns 503 before the host swaps, configurable `--workers` slots, and a 10-minute cooperative timeout that signals cleave to abort slow YARA rules. `litmus validate` re-scans known-benign samples against the current rules and model.
 
