@@ -138,6 +138,8 @@ It is a watcher, not a swapper — the take is whatever the developer puts on th
 
 "Jean Dupont" is the French equivalent of "John Doe" — placeholder name, real gmail behind it. The technical signature differs from last week's `shinydv412` / `devcarron` cluster: those dropped a PE binary out of IPFS, this one is pure JavaScript, AI-tool–aware in its targeting list, and runtime-triggered rather than install-time. Different shop.
 
+**Update (2026-05-28).** Two days after this post, [clx-cookieparser](/discoveries/2026/05/clx-cookieparser-dependency-twin-beavertail/) turned up running the identical endgame. It drops the same two-file stealer pair the same way, and ships the loot to the very same upload endpoint — `http://216.126.224.220:5976/upload`, byte-for-byte, not merely the same range. It reaches its loader through jsonkeeper.com and an `/api/service/<hex>` path on an adjacent Tier.Net address — web-dotenv's exact delivery shape. That package is attributed to the DPRK's Contagious Interview campaign (FAMOUS CHOLLIMA) by [dprk-research.kmsec.uk](https://dprk-research.kmsec.uk/). The shared sink is the tell: this is almost certainly the same operation, and `jean_dupont24` reads as a Contagious Interview persona rather than an independent actor. The "different shop" call above still holds against the IPFS PE cluster — but against BeaverTail and InvisibleFerret, it is the same shop.
+
 The [Fallout report](https://lab.atomdrift.org/file/6401b9400fe94cc944d266fb39f1414e6e41a4c48317bd7a13d38df889f24ec6) returns malicious at probability 1.0.
 
 ## Indicators
@@ -156,7 +158,7 @@ The [Fallout report](https://lab.atomdrift.org/file/6401b9400fe94cc944d266fb39f1
 | Stage 3 SHA-256 (snapshot) | `bf97b9f78cbbed6e3b7af7240b4f1019d05496f138202262964f7d8a7271fe4f` |
 | Dropped stealer | `$TMPDIR/scdata` (SHA-256 `7c921e8acabce12825e12a7730912af63d0bed08700996b6e7389b9e96e1238b`) |
 | Dropped clipper | `$TMPDIR/ldata` (SHA-256 `f3c3175bf05ccb6b97e371a451bba5a9d422aa7cfd6dbecb6f58c0cabfa6c5c1`) |
-| File exfil C2 | `http://216.126.224.220:5976/upload` (multipart) |
+| File exfil C2 | `http://216.126.224.220:5976/upload` (multipart) — identical endpoint reused by [clx-cookieparser](/discoveries/2026/05/clx-cookieparser-dependency-twin-beavertail/) (DPRK) |
 | Clipboard exfil C2 | `http://216.126.224.247/npm-compiler.log` |
 | Campaign UID | `329f753d052f978a486cdce9896050bb` |
 | Publisher | `jean_dupont24 <jean.pierre.depont24@gmail.com>` |
