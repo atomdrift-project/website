@@ -91,7 +91,7 @@ The CID resolves to a 4 MB Windows PE32+. The PDB path was not stripped:
 
 | Field | Value |
 | --- | --- |
-| SHA-256 | `300a7dea05c2a588757010ad314fa55cb8ef3acebaa284f58a5cd0fd39bce478` |
+| SHA-256 | [`300a7dea05c2a588757010ad314fa55cb8ef3acebaa284f58a5cd0fd39bce478`](https://lab.atomdrift.org/file/300a7dea05c2a588757010ad314fa55cb8ef3acebaa284f58a5cd0fd39bce478) |
 | PDB | `explr_server.pdb` |
 | PDB GUID | `cd195463-cbd6-4917-a75d-49b312738bda` |
 | Build timestamp | `2026-05-25T08:28:35Z` (nine hours before the tarball) |
@@ -199,9 +199,9 @@ Higher craftsmanship than the prior post — section comments, redirect handling
 | --- | --- |
 | Package | `api-rs-node@4.3.1` (npm), also `4.3.0` |
 | npm page | [npmjs.com/package/api-rs-node](https://www.npmjs.com/package/api-rs-node) |
-| Tarball SHA-256 | `75a602995eeebbeee9c0af1e6e83f2384d5426cb64af78f4475f261add329410` |
-| `clob.js` SHA-256 | `5839ea1afa6dc1237da3a9c59668b1e4e21e5dde2d2827daecf43a83400a7023` |
-| `package.json` SHA-256 | `00ec02844d57931db3abb8011ecc9aba3fa7165c701c7a60065e1d63abe53c44` |
+| Tarball SHA-256 | [`75a602995eeebbeee9c0af1e6e83f2384d5426cb64af78f4475f261add329410`](https://lab.atomdrift.org/file/75a602995eeebbeee9c0af1e6e83f2384d5426cb64af78f4475f261add329410) |
+| `clob.js` SHA-256 | [`5839ea1afa6dc1237da3a9c59668b1e4e21e5dde2d2827daecf43a83400a7023`](https://lab.atomdrift.org/file/5839ea1afa6dc1237da3a9c59668b1e4e21e5dde2d2827daecf43a83400a7023) |
+| `package.json` SHA-256 | [`00ec02844d57931db3abb8011ecc9aba3fa7165c701c7a60065e1d63abe53c44`](https://lab.atomdrift.org/file/00ec02844d57931db3abb8011ecc9aba3fa7165c701c7a60065e1d63abe53c44) |
 | C2 endpoint | `170.205.31.203:2026` (HTTP `POST /api/urls?url=<public-ip>:80`) |
 | IPFS payload CID | `bafybeif3zkapj364ofnrvbty7oj5h5ufpxlp4s62usk3ulxrru35e3gssa` |
 | Private gateway | `violet-tricky-quelea-562.mypinata.cloud` |

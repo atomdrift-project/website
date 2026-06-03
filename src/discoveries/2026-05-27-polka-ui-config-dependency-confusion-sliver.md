@@ -97,19 +97,18 @@ The inversion is worth noting: this isn't a typosquat hoping someone fat-fingers
 | Type | Value |
 | --- | --- |
 | Package | `@polka-ui/config@9.9.11` (npm, scoped, public-registry) |
-| Tarball SHA-256 | `cefab95fdea9a19f1c7f76f589d663b428ea3f4f674210ad6dadc43277c67ed9` (5,255 B) |
+| Tarball SHA-256 | [`cefab95fdea9a19f1c7f76f589d663b428ea3f4f674210ad6dadc43277c67ed9`](https://lab.atomdrift.org/file/cefab95fdea9a19f1c7f76f589d663b428ea3f4f674210ad6dadc43277c67ed9) (5,255 B) |
 | Tarball SHA-1 (npm `shasum`) | `6c164d221d9204d3029bd10c0c9f41e30bba10ac` |
-| `scripts/postinstall.js` SHA-256 | `f7c6bc732dc276b8b11cda85378e416881f65561f550b903e2ad0ba234b3a9d7` (274 lines) |
-| Trigger | `npm install @polka-ui/config` → `node scripts/postinstall.js` |
+| `scripts/postinstall.js` SHA-256 | [`f7c6bc732dc276b8b11cda85378e416881f65561f550b903e2ad0ba234b3a9d7`](https://lab.atomdrift.org/file/f7c6bc732dc276b8b11cda85378e416881f65561f550b903e2ad0ba234b3a9d7) (274 lines) |
 | Stage-1 callback | `POST https://oob.moika.tech/report` (env, npmrc, git, parent `.env`, network) |
 | Stage-2 URLs | `https://oob.moika.tech/payload/{linux,mac,win}` → `72.56.97.200` (reg.ru, `moika.tech`) |
-| Stage-2 SHA-256 (linux) | `d0948dbf94409660ab97eb937a41eb23137dd2414530dcba2b717a4993d797b1` (16,739 B) |
-| Stage-2 SHA-256 (macOS) | `6e45f9b81797b39a7a91ba51e0a0ac70a347dc5e4ab13d696bb3b510062525ad` (11,270 B) |
-| Stage-2 SHA-256 (Windows) | `74e89da49fd481e01a88de51da7eb1d4d31755cec5e9067d2b0f1505b5e6e478` (6,629 B) |
+| Stage-2 SHA-256 (linux) | [`d0948dbf94409660ab97eb937a41eb23137dd2414530dcba2b717a4993d797b1`](https://lab.atomdrift.org/file/d0948dbf94409660ab97eb937a41eb23137dd2414530dcba2b717a4993d797b1) (16,739 B) |
+| Stage-2 SHA-256 (macOS) | [`6e45f9b81797b39a7a91ba51e0a0ac70a347dc5e4ab13d696bb3b510062525ad`](https://lab.atomdrift.org/file/6e45f9b81797b39a7a91ba51e0a0ac70a347dc5e4ab13d696bb3b510062525ad) (11,270 B) |
+| Stage-2 SHA-256 (Windows) | [`74e89da49fd481e01a88de51da7eb1d4d31755cec5e9067d2b0f1505b5e6e478`](https://lab.atomdrift.org/file/74e89da49fd481e01a88de51da7eb1d4d31755cec5e9067d2b0f1505b5e6e478) (6,629 B) |
 | Stage-3 URLs | `https://oob.moika.tech/bins/{linux/linux,mac/macos,win/win}` |
-| Stage-3 SHA-256 (ELF x86-64) | `80b98bd4b63d5a9cb8623c3e03a4596692a9304f9e82253241c457fccb697989` (26,194,068 B, statically linked, stripped, Go) |
-| Stage-3 SHA-256 (Mach-O arm64) | `1fd0c8a7ce279a40e2921177b1fb80d0f5a3d1afe47192cf4e62bb048f388498` (23,694,482 B, ad-hoc signed) |
-| Stage-3 SHA-256 (PE x86-64) | `c4ca166af92dd73595fdd908511916d0c53c65047886db3fe688c2b5d622588f` (35,801,088 B, 9 embedded winpty PEs) |
+| Stage-3 SHA-256 (ELF x86-64) | [`80b98bd4b63d5a9cb8623c3e03a4596692a9304f9e82253241c457fccb697989`](https://lab.atomdrift.org/file/80b98bd4b63d5a9cb8623c3e03a4596692a9304f9e82253241c457fccb697989) (26,194,068 B, statically linked, stripped, Go) |
+| Stage-3 SHA-256 (Mach-O arm64) | [`1fd0c8a7ce279a40e2921177b1fb80d0f5a3d1afe47192cf4e62bb048f388498`](https://lab.atomdrift.org/file/1fd0c8a7ce279a40e2921177b1fb80d0f5a3d1afe47192cf4e62bb048f388498) (23,694,482 B, ad-hoc signed) |
+| Stage-3 SHA-256 (PE x86-64) | [`c4ca166af92dd73595fdd908511916d0c53c65047886db3fe688c2b5d622588f`](https://lab.atomdrift.org/file/c4ca166af92dd73595fdd908511916d0c53c65047886db3fe688c2b5d622588f) (35,801,088 B, 9 embedded winpty PEs) |
 | Implant C2 | `https://141.98.189.248:32322` → UFO Hosting LLC, AS33993, RU (inetnum allocated 2025-12-03) |
 | Persistence (Linux) | `~/.config/systemd/user/dbus-broker.service` → `$HOME/.cache/._kworker`; crontab `@reboot`; `~/.bashrc` |
 | Persistence (macOS) | `$HOME/Library/Application Support/.coreservices/universald` (`xattr -cr` + ad-hoc codesign) |

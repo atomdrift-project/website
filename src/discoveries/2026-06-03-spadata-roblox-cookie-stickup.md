@@ -16,17 +16,15 @@ Traits below are from cleave `2.0.0-rc.4` (traits `126f8e4b2`); the wheel was un
 
 | Field | Value |
 | --- | --- |
-| Package | `spadata` (PyPI) |
+| Name | `spadata` |
 | Version | `0.1.1` |
 | Summary | `Библиотека для работы с DataStore в Roblox` |
 | Description | `Custom Python library for Roblox DataStore.` |
 | Requires-Python | `>=3.8` |
-| Dependencies | `requests`; `pywin32; sys_platform == "win32"` |
-| Console script | `spadata-run = spadata.main:retrieve_roblox_cookies` |
-| Build | `setuptools 82.0.1`, `py3-none-any` |
-| Top-level module | `spadata` |
-| Install vector | import-time auto-run in `__init__.py` |
-| Exfil | hardcoded Discord webhook |
+| Requires-Dist | `requests`; `pywin32; sys_platform == "win32"` |
+| Entry point | `spadata-run = spadata.main:retrieve_roblox_cookies` |
+| Generator | `setuptools 82.0.1` |
+| Tag | `py3-none-any` |
 
 ## One import, one cookie, one webhook
 
@@ -63,19 +61,10 @@ Strip the costume and there's almost nothing here: no persistence, no second sta
 
 | Type | Value |
 | --- | --- |
-| Package | `spadata@0.1.1` (PyPI) |
 | Wheel | `spadata-0.1.1-py3-none-any.whl` |
-| Wheel SHA-256 | `d6bd7475105b0c2b561870a1c1f1b16bdbe811867340a1ebbc995db8f7fc2bff` |
-| `main.py` SHA-256 | `cafc8dc7fb047e6a59826974a0921f5c45022bb77a85af8502e1a5105eb3a1c8` |
-| `__init__.py` SHA-256 | `44788ac7ba1cb54093f6edf2382da25047564417ef4223ff94c110116c83c90c` |
-| Declared summary | `Библиотека для работы с DataStore в Roblox` |
-| Console script | `spadata-run = spadata.main:retrieve_roblox_cookies` |
-| Dependencies | `requests`, `pywin32` (Windows only) |
-| Trigger | `import spadata` → `__init__.py` auto-runs `retrieve_roblox_cookies()` |
-| Cookie source | `%USERPROFILE%\AppData\Local\Roblox\LocalStorage\robloxcookies.dat` |
-| Temp copy | `%TEMP%\RobloxCookies.dat` |
-| Decryption | `win32crypt.CryptUnprotectData` (DPAPI) on base64 `CookiesData` |
-| Target secret | Roblox `.ROBLOSECURITY` session cookie |
-| Exfil | `https://discord.com/api/webhooks/1501511921185325186/0-lN4d-dYtJXAI0Wzf_ay225eK_DzM3Prp8-uTh4CVVt-1gDPJHG0SEZL7Pe9GCAQcOT` |
-| Classification | Roblox session-cookie stealer (Discord webhook exfil) |
+| Wheel SHA-256 | [`d6bd7475105b0c2b561870a1c1f1b16bdbe811867340a1ebbc995db8f7fc2bff`](https://lab.atomdrift.org/file/d6bd7475105b0c2b561870a1c1f1b16bdbe811867340a1ebbc995db8f7fc2bff) |
+| `main.py` SHA-256 | [`cafc8dc7fb047e6a59826974a0921f5c45022bb77a85af8502e1a5105eb3a1c8`](https://lab.atomdrift.org/file/cafc8dc7fb047e6a59826974a0921f5c45022bb77a85af8502e1a5105eb3a1c8) |
+| `__init__.py` SHA-256 | [`44788ac7ba1cb54093f6edf2382da25047564417ef4223ff94c110116c83c90c`](https://lab.atomdrift.org/file/44788ac7ba1cb54093f6edf2382da25047564417ef4223ff94c110116c83c90c) |
+| Discord webhook | `https://discord.com/api/webhooks/1501511921185325186/0-lN4d-dYtJXAI0Wzf_ay225eK_DzM3Prp8-uTh4CVVt-1gDPJHG0SEZL7Pe9GCAQcOT` |
+| Cookie file read | `%USERPROFILE%\AppData\Local\Roblox\LocalStorage\robloxcookies.dat` |
 </content>

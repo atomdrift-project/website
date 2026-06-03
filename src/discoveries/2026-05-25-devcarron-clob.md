@@ -1,7 +1,7 @@
 ---
 title: "@devcarron/clob: api-rs-node's rough draft, same binary, same self-dox"
 date: 2026-05-25
-summary: "Published 5½ hours before api-rs-node@4.3.0 from a different gmail, @devcarron/clob@2.73.0 ships the same Explr binary (SHA-256 300a7dea…) directly in the tarball, wears a copy-pasted @img/sharp-win32-x64 README, and beacons to 45.8.22.112:2026 — but the bundled config/ files name the same Windows machine and dev tree as the later package."
+summary: "Published 5½ hours before api-rs-node@4.3.0 from a different gmail, @devcarron/clob@2.73.0 ships the same Explr binary directly in the tarball, wears a copy-pasted @img/sharp-win32-x64 README, and beacons to 45.8.22.112:2026 — but the bundled config/ files name the same Windows machine and dev tree as the later package."
 packageName: "@devcarron/clob"
 ecosystem: npm
 ---
@@ -27,7 +27,7 @@ The exe is byte-identical to the binary `api-rs-node@4.3.1` pulls from IPFS at i
 
 | Field | Value |
 | --- | --- |
-| SHA-256 | `300a7dea05c2a588757010ad314fa55cb8ef3acebaa284f58a5cd0fd39bce478` |
+| SHA-256 | [`300a7dea05c2a588757010ad314fa55cb8ef3acebaa284f58a5cd0fd39bce478`](https://lab.atomdrift.org/file/300a7dea05c2a588757010ad314fa55cb8ef3acebaa284f58a5cd0fd39bce478) |
 | PDB | `explr_server.pdb` |
 | Tauri invoke surface | 53 commands |
 | Startup banner | `Explr web server listening on http://…` |
@@ -94,9 +94,9 @@ The second is detection asymmetry. `@devcarron/clob` carries the malicious binar
 | --- | --- |
 | Package | `@devcarron/clob@2.73.0` (npm) |
 | npm page | [npmjs.com/package/@devcarron/clob](https://www.npmjs.com/package/@devcarron/clob) |
-| Tarball SHA-256 | `a88d1ea8fb793afddc99ad7f7d4a372fd39468afea5d5ea2a33340e384eb5864` |
-| `clob.js` SHA-256 | `954728b16738a4b44696a599eecde211ece2ccfcc9eb47bfaf4ba5c3ab6715be` |
-| `clob2.0.exe` SHA-256 | `300a7dea05c2a588757010ad314fa55cb8ef3acebaa284f58a5cd0fd39bce478` (== `api-rs-node` IPFS payload) |
+| Tarball SHA-256 | [`a88d1ea8fb793afddc99ad7f7d4a372fd39468afea5d5ea2a33340e384eb5864`](https://lab.atomdrift.org/file/a88d1ea8fb793afddc99ad7f7d4a372fd39468afea5d5ea2a33340e384eb5864) |
+| `clob.js` SHA-256 | [`954728b16738a4b44696a599eecde211ece2ccfcc9eb47bfaf4ba5c3ab6715be`](https://lab.atomdrift.org/file/954728b16738a4b44696a599eecde211ece2ccfcc9eb47bfaf4ba5c3ab6715be) |
+| `clob2.0.exe` SHA-256 | [`300a7dea05c2a588757010ad314fa55cb8ef3acebaa284f58a5cd0fd39bce478`](https://lab.atomdrift.org/file/300a7dea05c2a588757010ad314fa55cb8ef3acebaa284f58a5cd0fd39bce478) (== `api-rs-node` IPFS payload) |
 | C2 endpoint | `45.8.22.112:2026` (HTTP `POST /api/urls?url=<public-ip>:80`) |
 | IPFS payload CID | `bafybeif3zkapj364ofnrvbty7oj5h5ufpxlp4s62usk3ulxrru35e3gssa` |
 | Private gateway | `violet-tricky-quelea-562.mypinata.cloud` |

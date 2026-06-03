@@ -133,18 +133,17 @@ Winpatch's prior detonations all rode the usual delivery surfaces — cracked-so
 | Package | `aes-decode-runner-pro@1.0.9` (npm) |
 | npm page | [npmjs.com/package/aes-decode-runner-pro](https://www.npmjs.com/package/aes-decode-runner-pro) |
 | Published | `2026-05-26T16:24:58Z` (`1.0.10` followed 19 min later) |
-| Tarball SHA-256 | `b7ebd4ee16d33e8210f48b3f2b1ef8e894d9726ee4d687c7e9a6c4d1b3043b40` |
+| Tarball SHA-256 | [`b7ebd4ee16d33e8210f48b3f2b1ef8e894d9726ee4d687c7e9a6c4d1b3043b40`](https://lab.atomdrift.org/file/b7ebd4ee16d33e8210f48b3f2b1ef8e894d9726ee4d687c7e9a6c4d1b3043b40) |
 | Tarball SHA-1 (npm `shasum`) | `44add86a440f1c2928604298f0f8e49685d5086a` |
-| `src/config/defaults.js` SHA-256 | `1a7ab170e96f20a25eba56b9fcecee5cf4e49ba51533f5504f40e48ec52161de` |
+| `src/config/defaults.js` SHA-256 | [`1a7ab170e96f20a25eba56b9fcecee5cf4e49ba51533f5504f40e48ec52161de`](https://lab.atomdrift.org/file/1a7ab170e96f20a25eba56b9fcecee5cf4e49ba51533f5504f40e48ec52161de) |
 | AES key material | passphrase `default-dev-passphrase`, salt `encode-npm-c-salt`, scrypt → aes-256-gcm |
 | XOR key (Stage-2 PS1) | `AB59097(*^^zxcvbn` (`k = key[j]+103; out = k≥n ? k-n : n`) |
-| Trigger | `require('aes-decode-runner-pro')` → `pkg.run()` (no `postinstall` needed) |
 | Stage-2 URL | `http://nvidiadriver.net/verv1432/winpatch-bd9e.win` → `95.216.92.207` (Hetzner) |
-| Stage-2 zip SHA-256 | `ddd5bd20fd92d4671073096c3e9230e9d3465588f6f7db0abb9618ed3339312a` (6,016,747 B) |
-| `chost.exe` SHA-256 | `94a83686261e9364cf3386b61a01a9f70936e8547da8962d16f1f850226b8954` (CPython 3.10 `python.exe`) |
-| `api.cp310-win_amd64.pyd` SHA-256 | `50ffce607867d8fa8eaf6ef5cd25a3c0e7e4415e881b9e55c04a67bcddb74fdf` |
-| `audiodriver.cp310-win_amd64.pyd` SHA-256 | `164e322d6fbc62e254d73583acd7f39444c884d3f5e6a5d27db143fc25bc88b3` |
-| `auto.cp310-win_amd64.pyd` SHA-256 | `17832aa629524ef6e8d8d6e9b6b902a8d324b559e3c36dbd0e221ab1690be871` |
+| Stage-2 zip SHA-256 | [`ddd5bd20fd92d4671073096c3e9230e9d3465588f6f7db0abb9618ed3339312a`](https://lab.atomdrift.org/file/ddd5bd20fd92d4671073096c3e9230e9d3465588f6f7db0abb9618ed3339312a) (6,016,747 B) |
+| `chost.exe` SHA-256 | [`94a83686261e9364cf3386b61a01a9f70936e8547da8962d16f1f850226b8954`](https://lab.atomdrift.org/file/94a83686261e9364cf3386b61a01a9f70936e8547da8962d16f1f850226b8954) (CPython 3.10 `python.exe`) |
+| `api.cp310-win_amd64.pyd` SHA-256 | [`50ffce607867d8fa8eaf6ef5cd25a3c0e7e4415e881b9e55c04a67bcddb74fdf`](https://lab.atomdrift.org/file/50ffce607867d8fa8eaf6ef5cd25a3c0e7e4415e881b9e55c04a67bcddb74fdf) |
+| `audiodriver.cp310-win_amd64.pyd` SHA-256 | [`164e322d6fbc62e254d73583acd7f39444c884d3f5e6a5d27db143fc25bc88b3`](https://lab.atomdrift.org/file/164e322d6fbc62e254d73583acd7f39444c884d3f5e6a5d27db143fc25bc88b3) |
+| `auto.cp310-win_amd64.pyd` SHA-256 | [`17832aa629524ef6e8d8d6e9b6b902a8d324b559e3c36dbd0e221ab1690be871`](https://lab.atomdrift.org/file/17832aa629524ef6e8d8d6e9b6b902a8d324b559e3c36dbd0e221ab1690be871) |
 | Persistence | `HKCU\…\Run` → `wscript.exe "$env:TEMP\winPatch\update.vbs"` |
 | Family | Winpatch (cleave `well-known/malware/rat/winpatch`, traits revision `52c161754`) |
 | Family fingerprints | Typo identifiers `lssass_token` and `imppersonation_token`; `0825` campaign tag on every command, transport, and helper constant; `htxp0825Exchange` ARC4+MD5 wire format |

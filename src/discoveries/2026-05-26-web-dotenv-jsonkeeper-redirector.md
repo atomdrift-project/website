@@ -148,16 +148,15 @@ The [Fallout report](https://lab.atomdrift.org/file/6401b9400fe94cc944d266fb39f1
 | --- | --- |
 | Package | `web-dotenv@1.0.2` (npm), also `1.0.0` |
 | npm page | [npmjs.com/package/web-dotenv](https://www.npmjs.com/package/web-dotenv) |
-| Tarball SHA-256 (1.0.2) | `6401b9400fe94cc944d266fb39f1414e6e41a4c48317bd7a13d38df889f24ec6` |
-| Tarball SHA-256 (1.0.0) | `c4f602914de9a106ab65300df233d0f15d29df19237ba3a70f2c86698e0b89c8` |
-| `lib/main.js` SHA-256 (1.0.2) | `5cc30e2db46bb70e043b5f7fdb2d526caa2a4fcf83806c1c08bd6f0a1559ef43` |
-| Stage 1 trigger | `require('web-dotenv').config()` → `configfix()` |
+| Tarball SHA-256 (1.0.2) | [`6401b9400fe94cc944d266fb39f1414e6e41a4c48317bd7a13d38df889f24ec6`](https://lab.atomdrift.org/file/6401b9400fe94cc944d266fb39f1414e6e41a4c48317bd7a13d38df889f24ec6) |
+| Tarball SHA-256 (1.0.0) | [`c4f602914de9a106ab65300df233d0f15d29df19237ba3a70f2c86698e0b89c8`](https://lab.atomdrift.org/file/c4f602914de9a106ab65300df233d0f15d29df19237ba3a70f2c86698e0b89c8) |
+| `lib/main.js` SHA-256 (1.0.2) | [`5cc30e2db46bb70e043b5f7fdb2d526caa2a4fcf83806c1c08bd6f0a1559ef43`](https://lab.atomdrift.org/file/5cc30e2db46bb70e043b5f7fdb2d526caa2a4fcf83806c1c08bd6f0a1559ef43) |
 | Stage 2 URL | `https://www.jsonkeeper.com/b/VKUNI` (base64: `CWh0dHBzOi8vd3d3Lmpzb25rZWVwZXIuY29tL2IvVktVTkk=`) |
-| Stage 2 SHA-256 (snapshot) | `7e672968591f290c62892d51682432363cf33264f9c6a602088b9b93efbe70bf` |
+| Stage 2 SHA-256 (snapshot) | [`7e672968591f290c62892d51682432363cf33264f9c6a602088b9b93efbe70bf`](https://lab.atomdrift.org/file/7e672968591f290c62892d51682432363cf33264f9c6a602088b9b93efbe70bf) |
 | Stage 3 URL | `http://216.126.224.247/api/service/329f753d052f978a486cdce9896050bb` |
-| Stage 3 SHA-256 (snapshot) | `bf97b9f78cbbed6e3b7af7240b4f1019d05496f138202262964f7d8a7271fe4f` |
-| Dropped stealer | `$TMPDIR/scdata` (SHA-256 `7c921e8acabce12825e12a7730912af63d0bed08700996b6e7389b9e96e1238b`) |
-| Dropped clipper | `$TMPDIR/ldata` (SHA-256 `f3c3175bf05ccb6b97e371a451bba5a9d422aa7cfd6dbecb6f58c0cabfa6c5c1`) |
+| Stage 3 SHA-256 (snapshot) | [`bf97b9f78cbbed6e3b7af7240b4f1019d05496f138202262964f7d8a7271fe4f`](https://lab.atomdrift.org/file/bf97b9f78cbbed6e3b7af7240b4f1019d05496f138202262964f7d8a7271fe4f) |
+| Dropped stealer | `$TMPDIR/scdata` (SHA-256 [`7c921e8acabce12825e12a7730912af63d0bed08700996b6e7389b9e96e1238b`](https://lab.atomdrift.org/file/7c921e8acabce12825e12a7730912af63d0bed08700996b6e7389b9e96e1238b)) |
+| Dropped clipper | `$TMPDIR/ldata` (SHA-256 [`f3c3175bf05ccb6b97e371a451bba5a9d422aa7cfd6dbecb6f58c0cabfa6c5c1`](https://lab.atomdrift.org/file/f3c3175bf05ccb6b97e371a451bba5a9d422aa7cfd6dbecb6f58c0cabfa6c5c1)) |
 | File exfil C2 | `http://216.126.224.220:5976/upload` (multipart) — identical endpoint reused by [clx-cookieparser](/discoveries/2026/05/clx-cookieparser-dependency-twin-beavertail/) (DPRK) |
 | Clipboard exfil C2 | `http://216.126.224.247/npm-compiler.log` |
 | Campaign UID | `329f753d052f978a486cdce9896050bb` |

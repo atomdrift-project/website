@@ -1,5 +1,5 @@
 ---
-title: "sourceflow-tracker: I Has a Bucket — npm fetches its own payload"
+title: "sourceflow-tracker: I Has a Bucket — npm fetches its payload from GCS"
 date: 2026-06-02
 summary: "`sourceflow-tracker@99.91.9` is a 379-byte npm shell: a one-line `console.log` for an index, stock metadata, and a single dependency whose version string is a URL into the `lscunpentest` Google Cloud Storage bucket. npm resolves that URL as an ordinary remote tarball, downloads it, and runs its `preinstall` hook — so npm itself fetches and detonates the second stage, and the registry never holds a copy. The fetched tarball is a verbatim copy of the public `network-speed` module with a beacon bolted on that ships the host's internal IPv4, hostname, and home-directory path to a Burp Collaborator subdomain on `oastify.com`. The `lscunpentest` bucket name, the `99.91.9` version, and the Collaborator callback read as dependency-confusion research — the same cluster as shop-minis — but the GCS-as-delivery trick is the novel part."
 packageName: sourceflow-tracker
@@ -16,16 +16,12 @@ Traits below are from cleave `2.0.0-rc.4` (traits `a50f8f636`); both stages were
 
 | Field | Value |
 | --- | --- |
-| Package | `sourceflow-tracker` (npm) |
+| Name | `sourceflow-tracker` |
 | Version | `99.91.9` |
-| Author (declared) | `lslsls` |
+| Author | `lslsls` |
 | Description | `lspodcc` |
 | License | `UNLICENSED` |
-| URL dependency | `ltidisafe` → `https://storage.googleapis.com/lscunpentest/pack_ux_foundry.tgz` |
-| Stage-2 package | `s.ls.ls.ls@1.0.5` |
-| Stage-2 cover | copy of npm `network-speed` |
-| Install vector | `preinstall` hook on the GCS-fetched dependency |
-| Callback | `wwwz15e554m201wwajfl7m1ey54z1nq.oastify.com` |
+| Dependency | `ltidisafe`: `https://storage.googleapis.com/lscunpentest/pack_ux_foundry.tgz` |
 
 ## Stage 1 — sourceflow-tracker: the bucket dependency
 
@@ -74,20 +70,12 @@ Strip the costume and this is the [shop-minis](/discoveries/2026/05/shop-minis-b
 
 | Type | Value |
 | --- | --- |
-| Stage-0 package | `sourceflow-tracker@99.91.9` (npm) |
-| Stage-0 tarball SHA-256 | `4e87b803b8e6a18cfef9bb81e186d927081290f7870ab3ce6cf9b4c2eaf81e3e` |
-| Stage-0 index.js SHA-256 | `e89c7bb78ab236d8872813fcf9dea56166bcf717f07b264d819223f06c3d9afd` (benign `console.log`) |
-| Stage-0 author / description | `lslsls` / `lspodcc` |
-| URL dependency | `ltidisafe` → `https://storage.googleapis.com/lscunpentest/pack_ux_foundry.tgz` |
-| GCS bucket | `lscunpentest` (`storage.googleapis.com`) |
-| Stage-2 tarball SHA-256 | `1cc73e93d4577fca7478854b4ada86bc78ed8b83369928fd97b4225809d76b52` |
-| Stage-2 package | `s.ls.ls.ls@1.0.5` (not on npm; GCS-hosted) |
-| Stage-2 index.js SHA-256 | `e9105cfb50a1d8d3d8cabbc1a8dfd0a04966d00bbdd8707d65001e930f842bf5` (verbatim `network-speed` copy) |
-| Stage-2 test.js SHA-256 | `6470d87928dbb2ee3950ec33cbc30d1809bf395fadb98cf0d91d6f6e8115d4b0` (the beacon) |
-| Trigger | `preinstall`: `node test.js > /dev/null 2>&1` |
-| Recon collected | internal IPv4 (clear), hostname (hex-encoded), home directory (hex-encoded) |
+| Stage-0 tarball SHA-256 | [`4e87b803b8e6a18cfef9bb81e186d927081290f7870ab3ce6cf9b4c2eaf81e3e`](https://lab.atomdrift.org/file/4e87b803b8e6a18cfef9bb81e186d927081290f7870ab3ce6cf9b4c2eaf81e3e) |
+| Stage-0 index.js SHA-256 | [`e89c7bb78ab236d8872813fcf9dea56166bcf717f07b264d819223f06c3d9afd`](https://lab.atomdrift.org/file/e89c7bb78ab236d8872813fcf9dea56166bcf717f07b264d819223f06c3d9afd) |
+| Stage-2 package | `s.ls.ls.ls@1.0.5` |
+| Stage-2 tarball SHA-256 | [`1cc73e93d4577fca7478854b4ada86bc78ed8b83369928fd97b4225809d76b52`](https://lab.atomdrift.org/file/1cc73e93d4577fca7478854b4ada86bc78ed8b83369928fd97b4225809d76b52) |
+| Stage-2 index.js SHA-256 | [`e9105cfb50a1d8d3d8cabbc1a8dfd0a04966d00bbdd8707d65001e930f842bf5`](https://lab.atomdrift.org/file/e9105cfb50a1d8d3d8cabbc1a8dfd0a04966d00bbdd8707d65001e930f842bf5) |
+| Stage-2 test.js SHA-256 | [`6470d87928dbb2ee3950ec33cbc30d1809bf395fadb98cf0d91d6f6e8115d4b0`](https://lab.atomdrift.org/file/6470d87928dbb2ee3950ec33cbc30d1809bf395fadb98cf0d91d6f6e8115d4b0) |
 | OOB callback | `http://<data>.ux-foundry.wwwz15e554m201wwajfl7m1ey54z1nq.oastify.com` |
-| Collaborator host | `wwwz15e554m201wwajfl7m1ey54z1nq.oastify.com` (Burp Collaborator) |
-| Classification | dependency-confusion recon probe (Burp Collaborator); same cluster as [shop-minis](/discoveries/2026/05/shop-minis-burp-canary/) |
 </content>
 </invoke>

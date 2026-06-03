@@ -91,9 +91,9 @@ The sophistication isn't what makes this dangerous. The descriptive name, the tu
 | --- | --- |
 | Package | `system-user-identifier-cli@2.0.0` (npm) |
 | npm page | [npmjs.com/package/system-user-identifier-cli](https://www.npmjs.com/package/system-user-identifier-cli) |
-| Archive SHA-256 | `8b02bd641c856c510d26da46d003ac076dd754f8bab42143b676f9478ed5501e` |
-| `index.js` SHA-256 | `bfb0cc6b95a52da2789e4436c8b45d7349dd79ecef358fa1c34b6294ad7eace3` |
-| `package.json` SHA-256 | `28e8fcb5e9762c76f393dfc17d434a5089f107558df62db8246db8cb8217c7ce` |
+| Archive SHA-256 | [`8b02bd641c856c510d26da46d003ac076dd754f8bab42143b676f9478ed5501e`](https://lab.atomdrift.org/file/8b02bd641c856c510d26da46d003ac076dd754f8bab42143b676f9478ed5501e) |
+| `index.js` SHA-256 | [`bfb0cc6b95a52da2789e4436c8b45d7349dd79ecef358fa1c34b6294ad7eace3`](https://lab.atomdrift.org/file/bfb0cc6b95a52da2789e4436c8b45d7349dd79ecef358fa1c34b6294ad7eace3) |
+| `package.json` SHA-256 | [`28e8fcb5e9762c76f393dfc17d434a5089f107558df62db8246db8cb8217c7ce`](https://lab.atomdrift.org/file/28e8fcb5e9762c76f393dfc17d434a5089f107558df62db8246db8cb8217c7ce) |
 | C2 endpoint | `101.43.232.7:7777` |
 
 ## Response
