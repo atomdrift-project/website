@@ -1,5 +1,5 @@
 ---
-title: "api-rs-node: a fake Rust↔Node bridge that ships its author's hard drive"
+title: "api-rs-node: a fake Rust bridge that doxxed its own author"
 date: 2026-05-25
 summary: "The npm package api-rs-node 4.3.1 advertises itself as a high-performance Rust bridge. Its postinstall pulls a Windows agent from IPFS, installs Run-key + VBS persistence, and beacons to 170.205.31.203:2026 — and the tarball quietly bundles the attacker's own config files."
 packageName: api-rs-node

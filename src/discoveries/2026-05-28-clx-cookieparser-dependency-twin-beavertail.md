@@ -1,5 +1,5 @@
 ---
-title: "clx-cookieparser: a DPRK cookie-parser clone whose evil twin loads the BeaverTail → InvisibleFerret stealer chain"
+title: "clx-cookieparser: a cookie-parser clone whose evil twin is North Korean"
 date: 2026-05-28
 summary: "A DPRK supply-chain stealer (FAMOUS CHOLLIMA, Contagious Interview) hiding inside an exact copy of express's cookie-parser. The weaponized 1.4.7 keeps the parser clean and swaps one dependency for the attacker's own `clx-`prefixed clone of cookie-signature, installed at runtime, which evals a jsonkeeper.com blob that unrolls into BeaverTail and a four-module InvisibleFerret kit: a Socket.IO RAT, a browser/wallet stealer, a file grabber, and a clipboard watcher. cleave tags the late stages as Lazarus, and the file grabber exfils to the same endpoint, through the same code, as web-dotenv did a week earlier — same operator, per dprk-research.kmsec.uk."
 packageName: clx-cookieparser

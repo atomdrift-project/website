@@ -1,5 +1,5 @@
 ---
-title: "shop-minis: a Shopify-shaped npm canary phoning home through Burp Collaborator"
+title: "shop-minis: a Shopify-shaped canary that rats you out to Burp"
 date: 2026-05-26
 summary: "shop-minis@2.0.5 is a 762-byte npm tarball self-labeled 'Security research canary — shopify.' Its postinstall ships `whoami`, hostname, cwd, and the runner's CI / GITHUB_REPOSITORY env vars over both an HTTPS GET and a DNS lookup to a Burp Collaborator subdomain — a dependency-confusion probe shaped exactly like Shopify's internal Shop Minis package."
 packageName: shop-minis

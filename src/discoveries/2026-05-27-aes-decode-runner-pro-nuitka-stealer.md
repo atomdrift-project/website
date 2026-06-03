@@ -1,5 +1,5 @@
 ---
-title: "aes-decode-runner-pro: an npm 'AES SDK' that drops Winpatch via a Nuitka Chrome ABE stealer"
+title: "aes-decode-runner-pro: an 'AES demo' that decrypts itself into a RAT"
 date: 2026-05-27
 summary: "aes-decode-runner-pro@1.0.9 sells itself as a `position-unit-codec → encode-decode-codec → AES-GCM` demo, and `require()` of the package decrypts a 6 KB hardcoded ciphertext with a hardcoded passphrase and `new Function()`s the result. That stage pulls a 6 MB Nuitka bundle from `nvidiadriver.net` and runs `wscript update.vbs` — cleave fingerprints the three `.pyd` modules as the Winpatch RAT family: `htxp0825` transport, seven `COMMAND0825…` verbs, and a Chrome app-bound-encryption stealer that impersonates `lsass.exe` to lift v20 keys."
 packageName: aes-decode-runner-pro

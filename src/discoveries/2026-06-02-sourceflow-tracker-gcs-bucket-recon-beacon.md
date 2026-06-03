@@ -1,5 +1,5 @@
 ---
-title: "sourceflow-tracker: I Has a Bucket — an npm squat that parks its payload in Google Cloud Storage and lets npm go fetch it"
+title: "sourceflow-tracker: I Has a Bucket — npm fetches its own payload"
 date: 2026-06-02
 summary: "`sourceflow-tracker@99.91.9` is a 379-byte npm shell: a one-line `console.log` for an index, stock metadata, and a single dependency whose version string is a URL into the `lscunpentest` Google Cloud Storage bucket. npm resolves that URL as an ordinary remote tarball, downloads it, and runs its `preinstall` hook — so npm itself fetches and detonates the second stage, and the registry never holds a copy. The fetched tarball is a verbatim copy of the public `network-speed` module with a beacon bolted on that ships the host's internal IPv4, hostname, and home-directory path to a Burp Collaborator subdomain on `oastify.com`. The `lscunpentest` bucket name, the `99.91.9` version, and the Collaborator callback read as dependency-confusion research — the same cluster as shop-minis — but the GCS-as-delivery trick is the novel part."
 packageName: sourceflow-tracker

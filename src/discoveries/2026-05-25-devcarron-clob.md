@@ -1,5 +1,5 @@
 ---
-title: "@devcarron/clob: the earlier draft of api-rs-node, with the binary still in the box"
+title: "@devcarron/clob: api-rs-node's rough draft, same binary, same self-dox"
 date: 2026-05-25
 summary: "Published 5½ hours before api-rs-node@4.3.0 from a different gmail, @devcarron/clob@2.73.0 ships the same Explr binary (SHA-256 300a7dea…) directly in the tarball, wears a copy-pasted @img/sharp-win32-x64 README, and beacons to 45.8.22.112:2026 — but the bundled config/ files name the same Windows machine and dev tree as the later package."
 packageName: "@devcarron/clob"
