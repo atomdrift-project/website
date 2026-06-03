@@ -1,6 +1,6 @@
 ---
 layout: base.njk
-title: "litmus — Open-Source AI-Powered Malware Analysis"
+title: "litmus — Open-Source, Local, Deterministic, AI-Powered Malware Scanner"
 ---
 
 <div class="main">
@@ -26,21 +26,19 @@ title: "litmus — Open-Source AI-Powered Malware Analysis"
     our weighted-ensemble model for context-free malware detection — now
     the default. Every verdict ships with a TreeSHAP-ranked list of the
     capabilities that drove the score, computed on the live model rather
-    than a post-hoc story. The default model is still beta quality —
-    false positives are real, false negatives are real, and the
-    thresholds will move. Use it for triage and evaluation; don't wire
-    it into a production gate yet. Litmus runs any model trained on
-    cleave's capability schema, so if neither the defaults
-    (<code>--threshold-hostile</code>, <code>--threshold-suspicious</code>)
-    nor the model match your threat model, swap them.</p>
+    than a post-hoc story. It's beta: false positives and false negatives
+    are both real. Use it for triage, not as a production gate. Litmus
+    runs any model trained on cleave's capability schema — swap the model
+    or the thresholds (<code>--threshold-hostile</code>,
+    <code>--threshold-suspicious</code>) if the defaults don't match your
+    threat model.</p>
 
     <h2>Capabilities</h2>
     <ul class="feature-list">
       <li><strong>File scanning</strong> — files, directories, and archives, classified against <a href="/azoth/">azoth</a> by default</li>
-      <li><strong>Process scanning</strong> — running processes, by way of the on-disk image (memory-resident analysis is not yet implemented)</li>
+      <li><strong>Process scanning</strong> — running processes, via the on-disk image (memory-resident analysis is not yet implemented)</li>
       <li><strong>Explainable verdicts</strong> — every score ships with a TreeSHAP-ranked list of the capabilities that drove it</li>
       <li><strong>Pluggable models</strong> — runs any model trained on cleave's capability schema; <code>--model-dir</code> swaps in a custom bundle</li>
-      <li><strong>Worker telemetry</strong> — Hopper workers report litmus and traits versions, RSS, load, and available tools</li>
     </ul>
 
     <p>Differential analysis — comparing two versions of a package to
@@ -50,17 +48,15 @@ title: "litmus — Open-Source AI-Powered Malware Analysis"
 
     <h2>Install</h2>
 
-Homebrew (macOS or Linux):
-
-<pre class="install-block">
+    <p>Homebrew (macOS or Linux):</p>
+    <pre class="install-block">
 brew tap atomdrift/tap https://codeberg.org/atomdrift/homebrew-tap.git
 
 brew install atomdrift/tap/litmus
 </pre>
 
-From source
-
-<pre class="install-block">
+    <p>From source:</p>
+    <pre class="install-block">
 git clone --depth 1 https://codeberg.org/atomdrift/litmus.git
 make install
 </pre>
