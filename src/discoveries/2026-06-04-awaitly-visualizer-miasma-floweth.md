@@ -10,8 +10,6 @@ ecosystem: npm
 
 `awaitly-visualizer` is a real package — Jag Reehal's Mermaid workflow renderer — wearing a clean bundle over two files that are the entire attack. Nothing in the manifest declares an install hook, yet it runs the moment you install it: the opening move of the Miasma worm's second wave.
 
-Traits below are from cleave `2.0.0-rc.4` (traits `2c901ee07`), run on both layers with nothing installed or executed. It flagged the shipped dropper on obfuscation alone, before the GYP-file parsing that lands in cleave/litmus `2.0.0-rc.4` later today.
-
 ## Package metadata
 
 | Field | Value |

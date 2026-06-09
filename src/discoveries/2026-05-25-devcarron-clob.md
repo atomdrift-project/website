@@ -6,7 +6,7 @@ packageName: "@devcarron/clob"
 ecosystem: npm
 ---
 
-Five and a half hours before [api-rs-node@4.3.0](/discoveries/2026/05/api-rs-node-clob-dropper/) appeared, `@devcarron/clob@2.73.0` was published from a different gmail — same payload, same scaffolding, same author, earlier and louder. The cover is a copy-paste of the `@img/sharp-win32-x64` README, with the title left un-patched. The manifest is more honest than the README:
+Five and a half hours before [api-rs-node@4.3.0](/discoveries/2026/05/api-rs-node-clob-dropper/) appeared, `@devcarron/clob@2.73.0` shipped the same implant from a different gmail under a copy-pasted `@img/sharp-win32-x64` README its author forgot to re-title — but the manifest is more honest than the cover:
 
 <pre class="lang-js"><code>{
   <span class="tok-str">"name"</span>: <span class="tok-str">"@devcarron/clob"</span>,
@@ -17,13 +17,11 @@ Five and a half hours before [api-rs-node@4.3.0](/discoveries/2026/05/api-rs-nod
 }
 </code></pre>
 
-The tarball is 1.8 MB, eight files — seven scaffolding plus one PE:
+The tarball is 1.8 MB, eight files — seven scaffolding plus one PE, byte-identical to the binary `api-rs-node@4.3.1` pulls from IPFS at install time:
 
 - `clob.js`, `package.json`, the copy-pasted README
 - the author's bundled `config/` and `logs/` directories (four files)
 - **`clob2.0.exe`** — 4 MB, console-subsystem PE32+
-
-The exe is byte-identical to the binary `api-rs-node@4.3.1` pulls from IPFS at install time:
 
 | Field | Value |
 | --- | --- |
@@ -32,7 +30,7 @@ The exe is byte-identical to the binary `api-rs-node@4.3.1` pulls from IPFS at i
 | Tauri invoke surface | 53 commands |
 | Startup banner | `Explr web server listening on http://…` |
 
-The bundling is redundant. `clob.js` doesn't load the bundled exe — it downloads to `%LOCALAPPDATA%\clob2.0.exe` from the same four IPFS gateways and the same `WIN_CID` as the later package. The exe rides along because the author's pack directory contained it; the next iteration (`api-rs-node`) dropped the local copy and went IPFS-only, shrinking the published tarball from 1.8 MB to 6 KB. The differences from the later draft tell you what the author iterated on:
+The bundling is dead weight — `clob.js` ignores the local exe and downloads to `%LOCALAPPDATA%\clob2.0.exe` from the same four IPFS gateways and `WIN_CID` as the later package, which dropped the bundled copy and shrank from 1.8 MB to 6 KB; the rest of what the author iterated on:
 
 | | `@devcarron/clob@2.73.0` | `api-rs-node@4.3.1` |
 | --- | --- | --- |
@@ -46,23 +44,19 @@ The bundling is redundant. `clob.js` doesn't load the bundled exe — it downloa
 | Install timeout | None | 15 seconds |
 | Author host (bundled) | `mist`, `E:\getting IP and check list\clob-downloader` | identical |
 
-Four pieces of host metadata match across both bundled `meta_data.json` files:
+Both bundled `meta_data.json` files match on four host facts — two npm accounts, one machine — and both share the gaps from the [api-rs-node analysis](/discoveries/2026/05/api-rs-node-clob-dropper/#the-campaign-does-not-close-the-loop):
 
 - Windows username: `mist`
 - Drive layout: same four-volume NTFS
 - Project name: `clob-downloader`
 - File-explorer scaffolding version: `0.2.3`
-
-Two npm publisher accounts, one machine. Both versions share the gaps from the [api-rs-node analysis](/discoveries/2026/05/api-rs-node-clob-dropper/#the-campaign-does-not-close-the-loop):
-
 - No env-var handoff to the spawned executable — `HOST`, `PORT`, `EXPLR_UI`, `AUTH_TOKEN` are all unset, so the server hits `Invalid HOST/PORT` and exits on every launch
 - The beacon POSTs the public IP with a literal `:80` suffix, which behind NAT names the edge router rather than the host that ran `npm install`
-
-The earlier draft is the noisier of the two — `console.log('[clob-downloader] Sending IP: …')` scrolls past during `npm install`, exactly what a developer paying attention catches.
+- Verbose `console.log('[clob-downloader] Sending IP: …')` scrolls past during `npm install`
 
 ## Dropper traits
 
-Same shape as the later draft, minus the Windows Defender masquerade (the file drops as `clob2.0.exe`, not `windows defender host.exe`):
+Same shape as the later draft, minus the Windows Defender masquerade — the file drops as `clob2.0.exe`, not `windows defender host.exe`:
 
 |  | Trait | What it caught |
 | --- | --- | --- |
@@ -78,15 +72,9 @@ Same shape as the later draft, minus the Windows Defender masquerade (the file d
 | <span class="sev-dot suspicious" title="suspicious"></span> | `persistence/system/init/boot` | `~/.config/autostart/clob.desktop` |
 | <span class="sev-dot notable" title="notable"></span> | `persistence/login/registry/autostart` | `HKCU\…\Run` with VBS launcher |
 
-The [Fallout report](https://lab.atomdrift.org/file/a88d1ea8fb793afddc99ad7f7d4a372fd39468afea5d5ea2a33340e384eb5864) returns malicious at probability 1.0. The bundled binary is the same file documented in the [api-rs-node Stage 2 analysis](/discoveries/2026/05/api-rs-node-clob-dropper/#stage-2-what-the-cid-serves) — same hash, same Tauri Explr server, same surviving traits.
-
 ## Why the earlier draft matters
 
-Two reasons.
-
-The first is attribution: byte-identical `clob2.0.exe`, identical bundled `meta_data.json`, identical `clob.js` skeleton, two npm accounts published from the same machine 5½ hours apart. That ties `devcarron@gmail.com` and `shinydv412@gmail.com` together, and ties both to the `Explr` file-manager codebase whose author's username on Windows is `mist`. The story of `api-rs-node` is not one fresh gmail iterating on a stager; it is one author with at least two npm accounts, one set of build tooling, and an existing in-house product they are repurposing.
-
-The second is detection asymmetry. `@devcarron/clob` carries the malicious binary inside its tarball — 4 MB of PE32+ that any registry-side scanner can hash and any host-side scanner can flag the moment it lands on disk. `api-rs-node` weighs 6 KB at rest, fetches the same binary from IPFS only at install time, and is therefore invisible to the same kinds of scans until the dropper has already executed. The progression from `@devcarron/clob` to `api-rs-node` is the author noticing that, and shrinking the at-rest surface area to zero. The class of detections that catches the earlier draft does not catch the later one.
+The [Fallout report](https://lab.atomdrift.org/file/a88d1ea8fb793afddc99ad7f7d4a372fd39468afea5d5ea2a33340e384eb5864) returns malicious at probability 1.0 on the same binary as the [api-rs-node Stage 2 analysis](/discoveries/2026/05/api-rs-node-clob-dropper/#stage-2-what-the-cid-serves), and the byte-identical exe, `meta_data.json`, and `clob.js` skeleton tie `devcarron@gmail.com` and `shinydv412@gmail.com` to one machine (Windows user `mist`) repurposing an in-house `Explr` codebase — the 5½-hour gap is the author shrinking a hashable 4 MB bundled PE down to a 6 KB IPFS-only stager that at-rest scanners no longer catch until the dropper has run.
 
 ## Indicators
 
@@ -110,4 +98,4 @@ The second is detection asymmetry. `@devcarron/clob` carries the malicious binar
 
 ## Response
 
-Same as for `api-rs-node`. Search npm caches and CI logs for `@devcarron/clob`. In egress telemetry: outbound to `45.8.22.112:2026`, to `api.ipify.org`, and to the four IPFS gateways carrying that CID. On any host that resolved `@devcarron/clob` *or* `api-rs-node` since 2026-05-25, search `%LOCALAPPDATA%` for `clob2.0.exe`, `windows defender host.exe`, and the corresponding `*-launcher.vbs`, plist, and autostart entries. The dropped binary is the same file in both campaigns — same hash, same `Explr web server` banner, same fingerprint.
+On any host that resolved `@devcarron/clob` *or* `api-rs-node` since 2026-05-25, hunt npm caches and CI logs for both names, egress to `45.8.22.112:2026` / `api.ipify.org` / the four CID gateways, and `%LOCALAPPDATA%` for `clob2.0.exe`, `windows defender host.exe`, and their `*-launcher.vbs`, plist, and autostart entries.

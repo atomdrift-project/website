@@ -6,11 +6,11 @@ packageName: "@polka-ui/config"
 ecosystem: npm
 ---
 
-The name is the giveaway. `@polka-ui/config` is published to the public npm registry while its README tells you to set `registry=https://npm.polka-ui.io`. A developer at the impersonated org with a misconfigured `.npmrc` resolves the public tag first and detonates the `postinstall`. The script's own header reads `[PoC] Dependency confusion payload — AUTHORIZED TESTING ONLY` — but the Russian inline comments and the real Sliver implant at the end suggest the label is plausible deniability, not a constraint.
+`@polka-ui/config` is published to the public npm registry while its README tells you to point npm at `https://npm.polka-ui.io`, so a developer at the impersonated org with a misconfigured `.npmrc` resolves the public tag first and detonates the `postinstall`. Its header reads `[PoC] Dependency confusion payload — AUTHORIZED TESTING ONLY`, but the Russian comments and the real Sliver implant at the end make the label an alibi, not a constraint.
 
 ## Package metadata
 
-The scope is brand-new and the publisher walked five versions through the registry in under fifty minutes. The maintainer handle is the loud part: `bcs-bank-complex-ui` doesn't belong to `@polka-ui` at all — it reads as a Russian-bank ops handle reused across campaigns.
+The brand-new scope shipped five versions in under fifty minutes under `bcs-bank-complex-ui`, a handle foreign to `@polka-ui` that reads as a reused Russian-bank ops alias.
 
 | Field | Value |
 | --- | --- |
@@ -64,13 +64,7 @@ Stage 2 is three platform scripts — 16 KB Linux, 11 KB macOS, 7 KB Windows. Ea
 
 ## Stage 3 — garble-obfuscated Sliver implant
 
-Stage 3 is a Go binary built once per platform: 26 MB ELF, 24 MB Mach-O arm64, 36 MB Windows PE. All three are garble-obfuscated, statically linked, stripped, and hardcoded to the same C2: `https://141.98.189.248:32322`.
-
-The Windows build is the one that names the family. Embedded in `.rdata` are ten PEs — winpty DLLs and agents — indexed by Sliver's exact resource layout: `executables/<arch>/{regular,xp}/winpty(.dll|-agent.exe)`. The PDBs (`C:\rprichard\proj\winpty\…`) are from rprichard's upstream winpty project, which Sliver bundles to give operators a real PTY for its interactive shell commands.
-
-Same operator runs both ends: UFO Hosting (AS33993, RU) for the implant C2, reg.ru's `moika.tech` for stage-1/2 delivery.
-
-The inversion is worth noting: this isn't a typosquat hoping someone fat-fingers a package name — it's a postinstall built on the assumption that someone inside the impersonated org has a misconfigured `.npmrc`, and the chain after it is optimized for what's already on a developer laptop or CI runner before the Sliver implant ever runs.
+Stage 3 is a Go binary built once per platform — 26 MB ELF, 24 MB Mach-O arm64, 36 MB Windows PE — all garble-obfuscated, statically linked, stripped, and hardcoded to the same C2. The Windows build names the family: ten PEs embedded in `.rdata`, indexed by Sliver's exact resource layout, carry PDBs from rprichard's upstream winpty project that Sliver bundles for a real interactive-shell PTY. One operator runs both ends — UFO Hosting (AS33993, RU) for the implant C2, reg.ru's `moika.tech` for stage-1/2 delivery — and the chain is optimized for what's already on a developer laptop or CI runner before the implant ever beacons.
 
 ## Traits observed
 

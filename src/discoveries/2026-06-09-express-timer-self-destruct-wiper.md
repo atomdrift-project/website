@@ -8,9 +8,7 @@ ecosystem: npm
 
 <img src="/assets/images/express-timer-self-destruct.jpg" alt="Meme: a trench-coated cartoon detective holding a note captioned 'This message will SELF DESTRUCT..' — the package's whole personality, except the message is your src/ folder.">
 
-express-timer describes itself as lightweight security helpers for Express. It contains no helpers. It is a dead-man's switch: a minute after installation it removes the project's source directory and kills the processes that run it. There is no command channel and nothing is exfiltrated — the package is the payload, and installing it pulls the trigger.
-
-The findings below come from cleave 2.0.0-rc.5, run against all three published versions without installing or executing anything.
+express-timer bills itself as lightweight security helpers for Express, but ships no helpers and exfiltrates nothing: it is a dead-man's switch that, a minute after install, deletes the project's `src/` and kills the Node and PM2 processes running it.
 
 ## Package metadata
 
@@ -29,7 +27,7 @@ The findings below come from cleave 2.0.0-rc.5, run against all three published 
 
 ## One wiper, two triggers
 
-The wipe has two triggers, and they live in two different files. Loading the main module starts a timer; when it fires a minute later, the module removes the project's source directory and terminates its Node and PM2 processes. The deletion grows more deliberate with each release: the first version kills before it deletes, the second deletes first so that a hurried Ctrl-C cannot save the files, and the third hands the work to a detached background shell that keeps running after the parent has exited cleanly. The second trigger is installed by a postinstall script that edits your own entry point, adding a route disguised as an ordinary robots.txt handler; request it with the expected query string and the route performs the same destruction on demand, over HTTP, from code that now appears to be yours. The rest of the module is an elaborate scheduler built on a library the package forgets to depend on, so that branch fails on load and only the crude timer survives.
+Two triggers live in two files: the timer below arms on require, and a `postinstall` script grafts a `/robots.txt` handler onto your entry point that re-runs the wipe on demand over HTTP (the elaborate scheduler branch dies on load because the package never declares the library it needs). The deletion hardens release to release — `1.0.2` kills then deletes, `1.0.3` deletes first so a hurried Ctrl-C cannot save you, and `1.0.5` detaches a background shell that outlives the clean-exiting parent.
 
 <pre class="lang-js"><code><span class="tok-com">// index.js — arms on require, no trigger, no condition</span>
 <span class="tok-fn">scheduleDestructionAfter</span>()   <span class="tok-com">// no arg → setTimeout(selfDestruct, 60_000)</span>
@@ -62,7 +60,7 @@ child.<span class="tok-fn">unref</span>(); process.<span class="tok-fn">exit</sp
 
 ## The orphan file — ibbl_statment.php
 
-Each archive also carries a file that has nothing to do with Express and that no code in the package loads. It is a 570-line scraper for the Islami Bank Bangladesh agent portal, and it signs in with the author's own credentials, written in plain text at the top of the file. The author published a whole working directory to npm, so a real banking password traveled out with the malware; it is masked below. cleave reports the stray file in the same pass as the wiper — the author who built a tool to destroy other people's code shipped his own bank password along with it.
+Every archive also carries a file no code loads: a 570-line scraper for the Islami Bank Bangladesh agent portal that signs in with the author's own credentials in plain text at the top, so a real banking password (masked below) traveled out with the malware when he published a whole working directory to npm. The author who built a tool to destroy other people's code shipped his own bank password along with it.
 
 <pre class="lang-js"><code><span class="tok-com">// ibbl_statment.php — orphan at the package root, imported by nothing</span>
 <span class="tok-fn">define</span>(<span class="tok-str">"BASE"</span>, <span class="tok-str">"https://agent.islamibankbd.com"</span>);

