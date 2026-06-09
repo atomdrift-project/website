@@ -1,12 +1,12 @@
 ---
 title: "spadata: Gimme all your Roblox — the PyPI DataStore lib that isn't"
 date: 2026-06-03
-summary: "`spadata@0.1.1` is a PyPI package that sells itself as a Python library for managing your Roblox DataStore data — and does none of that. It carries no storage code, no API calls, nothing it advertises; the only thing inside is a credential stealer in `__init__.py` that auto-runs on `import spadata`, before the victim calls anything. It copies Roblox's local cookie store `robloxcookies.dat`, base64-decodes the `CookiesData` field, and calls `win32crypt.CryptUnprotectData` to DPAPI-decrypt it itself — so the cleartext `.ROBLOSECURITY` session leaves the host, not ciphertext — then posts it to a hardcoded Discord webhook. No persistence, no second stage, no obfuscation beyond a try/except: a low-effort, Russian-commented Roblox account stealer that does nothing but take the cookie."
+summary: "It promises a Roblox DataStore library and ships none of it — just an __init__.py that, on import, DPAPI-decrypts your Roblox session cookie and posts the cleartext to a Discord webhook; the README can't even spell its own name."
 packageName: spadata
 ecosystem: PyPI
 ---
 
-<img src="/assets/images/spadata-roblox-stickup-meme.jpg" alt="Meme: a kitten with its paws up at gunpoint — 'GIMME ALL YOUR ROBLOX PLZ.' spadata mugs the victim for exactly one thing: their Roblox session cookie." style="width: 60%; height: auto;">
+<img src="/assets/images/spadata-roblox-stickup-meme.jpg" alt="Meme: a kitten with its paws up at gunpoint — 'GIMME ALL YOUR ROBLOX PLZ.' spadata mugs the victim for exactly one thing: their Roblox session cookie.">
 
 Most PyPI stealers ship a tool that at least half-works as a disguise. `spadata` doesn't bother: it sells itself as a Python library for managing your Roblox DataStore data and delivers none of it — no storage code, no API calls, nothing it advertises. What's actually inside runs the moment you `import spadata`, and all it does is steal the local Roblox session cookie and post it to a Discord webhook. The README can't even keep the name straight, calling the package «spaysdata» in its own description. The meme is the spec: walk up to a Roblox player and ask for everything. And it makes you pull the trigger — nobody runs anything, the import is the stickup.
 

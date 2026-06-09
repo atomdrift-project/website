@@ -1,7 +1,7 @@
 ---
 title: "@devcarron/clob: api-rs-node's rough draft, same binary, same self-dox"
 date: 2026-05-25
-summary: "Published 5½ hours before api-rs-node@4.3.0 from a different gmail, @devcarron/clob@2.73.0 ships the same Explr binary directly in the tarball, wears a copy-pasted @img/sharp-win32-x64 README, and beacons to 45.8.22.112:2026 — but the bundled config/ files name the same Windows machine and dev tree as the later package."
+summary: "The same Windows implant as api-rs-node, shipped 5½ hours earlier under a copy-pasted sharp README its author forgot to re-title — and the bundled config files finger the same dev machine twice over."
 packageName: "@devcarron/clob"
 ecosystem: npm
 ---

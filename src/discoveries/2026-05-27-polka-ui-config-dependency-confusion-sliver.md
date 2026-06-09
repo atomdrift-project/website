@@ -1,7 +1,7 @@
 ---
 title: "@polka-ui/config: a postinstall that announces itself, then drops Sliver"
 date: 2026-05-27
-summary: "`@polka-ui/config@9.9.11` is a 5 KB npm tarball whose `postinstall` self-identifies as a `dependency-confusion-npm` PoC, exfils every npmrc, env var, and parent-project secret to `oob.moika.tech`, and chains into a platform-aware shell stealer that drops a 24–36 MB garble-obfuscated Go implant. The implant carries Sliver's `executables/<arch>/{regular,xp}/winpty(.dll|-agent.exe)` resource layout and beacons to `https://141.98.189.248:32322` on UFO Hosting (RU)."
+summary: "It stamps its own payload 'authorized testing only,' then — past the Russian comments — exfils every npmrc and env secret and drops a real Go Sliver implant beaconing to a Russian host; the PoC label is the alibi."
 packageName: "@polka-ui/config"
 ecosystem: npm
 ---

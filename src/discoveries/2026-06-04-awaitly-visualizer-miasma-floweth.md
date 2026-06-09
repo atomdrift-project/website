@@ -1,12 +1,12 @@
 ---
 title: "awaitly-visualizer: The miasma continues to floweth — a binding.gyp Bun worm"
 date: 2026-06-04
-summary: "`awaitly-visualizer@11.0.1` is a trojanized build of a real npm package — Jag Reehal's Mermaid/ASCII workflow renderer — republished with two malicious files added that are the entire attack: a `binding.gyp` and a 4.2 MB root `index.js` the declared entry point never references. There is no `install` or `preinstall` script to flag, yet it runs on `npm install` because npm auto-builds any package carrying a `binding.gyp`, and this one's build command is `node index.js`. That file rotates → `eval`s → AES-128-GCM-decrypts two blobs: a 907-byte loader that downloads its own Bun 1.3.13 runtime, and a 668 KB obfuscated worm it runs under that Bun, outside node's process tree. The worm harvests AWS/GCP/Azure/Vault credentials and npm/GitHub tokens, scrapes `Runner.Worker` memory on CI, exfils to attacker-created GitHub repos, forges Sigstore provenance, and self-propagates by republishing the maintainer's other packages. Same `binding.gyp` (byte-identical) as the Miasma worm campaign StepSecurity reported the day before; no wiper — purely steal-and-spread."
+summary: "No install hook to flag — npm auto-builds the binding.gyp it ships, which fetches its own Bun runtime to run a credential-harvesting worm outside node's view, forge Sigstore provenance, and republish the maintainer's other packages."
 packageName: awaitly-visualizer
 ecosystem: npm
 ---
 
-<img src="/assets/images/awaitly-visualizer-miasma.jpg" alt="Meme: Emperor Palpatine captioned 'LET THE MIASMA FLOW THROUGH YOU' — a riff on 'let the hate flow through you.' The worm flows the same way: through your install, your cloud tokens, and your own editor, then on to the maintainer's next package." style="width: 60%; height: auto;">
+<img src="/assets/images/awaitly-visualizer-miasma.jpg" alt="Meme: Emperor Palpatine captioned 'LET THE MIASMA FLOW THROUGH YOU' — a riff on 'let the hate flow through you.' The worm flows the same way: through your install, your cloud tokens, and your own editor, then on to the maintainer's next package.">
 
 `awaitly-visualizer` is a real package — Jag Reehal's Mermaid workflow renderer — wearing a clean bundle over two files that are the entire attack. Nothing in the manifest declares an install hook, yet it runs the moment you install it: the opening move of the Miasma worm's second wave.
 

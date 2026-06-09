@@ -1,7 +1,7 @@
 ---
 title: "system-user-identifier-cli: an 'identity helper' that just opens a reverse shell"
 date: 2026-05-25
-summary: "The npm package system-user-identifier-cli 2.0.0 presents itself as a small user-identification utility, but its CLI entrypoint executes a bash /dev/tcp reverse shell to 101.43.232.7:7777."
+summary: "799 bytes, two files, and a name like a thousand throwaway npx tools — it really does check your user id, then drops a bash /dev/tcp reverse shell and calls home."
 packageName: system-user-identifier-cli
 ecosystem: npm
 ---

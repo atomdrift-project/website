@@ -1,12 +1,12 @@
 ---
 title: "sourceflow-tracker: I Has a Bucket — npm fetches its payload from GCS"
 date: 2026-06-02
-summary: "`sourceflow-tracker@99.91.9` is a 379-byte npm shell: a one-line `console.log` for an index, stock metadata, and a single dependency whose version string is a URL into the `lscunpentest` Google Cloud Storage bucket. npm resolves that URL as an ordinary remote tarball, downloads it, and runs its `preinstall` hook — so npm itself fetches and detonates the second stage, and the registry never holds a copy. The fetched tarball is a verbatim copy of the public `network-speed` module with a beacon bolted on that ships the host's internal IPv4, hostname, and home-directory path to a Burp Collaborator subdomain on `oastify.com`. The `lscunpentest` bucket name, the `99.91.9` version, and the Collaborator callback read as dependency-confusion research — the same cluster as shop-minis — but the GCS-as-delivery trick is the novel part."
+summary: "A 379-byte package whose only load-bearing content is a dependency version string pointing into a Google Cloud Storage bucket — so npm itself downloads and detonates the payload, and the registry never holds a copy to scan."
 packageName: sourceflow-tracker
 ecosystem: npm
 ---
 
-<img src="/assets/images/sourceflow-tracker-walrus-bucket.jpg" alt="Meme: a walrus guarding a bucket — 'I has a bucket.' Here npm fetches the payload from the attacker's bucket for them." style="width: 60%; height: auto;">
+<img src="/assets/images/sourceflow-tracker-walrus-bucket.jpg" alt="Meme: a walrus guarding a bucket — 'I has a bucket.' Here npm fetches the payload from the attacker's bucket for them.">
 
 Most malicious npm packages hide their payload in the tarball you install. `sourceflow-tracker` couldn't be bothered. Its `index.js` is a decoy one-liner, and the only load-bearing thing in the package is a dependency whose version string is a URL into a Google Cloud Storage bucket. npm sees a remote tarball, shrugs, downloads it, and runs the `preinstall` hook inside — so npm does the fetching, npm does the detonating, and the registry never gets a copy of the real payload to scan. What npm dutifully retrieves is a verbatim copy of the public `network-speed` module with a beacon stapled on, phoning the host's internal IP, hostname, and home directory to a Burp Collaborator subdomain. The bucket name `lscunpentest` and the Collaborator callback give it away as dependency-confusion research — same cluster as [shop-minis](/discoveries/2026/05/shop-minis-burp-canary/) — but the walrus has a point: the novel bit is that the payload lives in a bucket, and npm is the one sent to go fetch it.
 

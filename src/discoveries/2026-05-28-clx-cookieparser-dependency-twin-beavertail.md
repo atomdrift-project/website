@@ -1,12 +1,12 @@
 ---
 title: "clx-cookieparser: a cookie-parser clone whose evil twin is North Korean"
 date: 2026-05-28
-summary: "A DPRK supply-chain stealer (FAMOUS CHOLLIMA, Contagious Interview) hiding inside an exact copy of express's cookie-parser. The weaponized 1.4.7 keeps the parser clean and swaps one dependency for the attacker's own `clx-`prefixed clone of cookie-signature, installed at runtime, which evals a jsonkeeper.com blob that unrolls into BeaverTail and a four-module InvisibleFerret kit: a Socket.IO RAT, a browser/wallet stealer, a file grabber, and a clipboard watcher. cleave tags the late stages as Lazarus, and the file grabber exfils to the same endpoint, through the same code, as web-dotenv did a week earlier — same operator, per dprk-research.kmsec.uk."
+summary: "The package you install is the real express cookie-parser, tests and all — the theft lives one require() away in a twin dependency that pulls the DPRK's BeaverTail-to-InvisibleFerret kit, run by the same crew as web-dotenv."
 packageName: clx-cookieparser
 ecosystem: npm
 ---
 
-<img src="/assets/images/clx-cookieparser-dprk-meme.jpg" alt="Meme: 'DPRK hiding in your npm's? It's more likely than you think.'" style="width: 60%; height: auto;">
+<img src="/assets/images/clx-cookieparser-dprk-meme.jpg" alt="Meme: 'DPRK hiding in your npm's? It's more likely than you think.'">
 
 Most malicious npm clones hide their payload in the package you install. `clx-cookieparser` doesn't — the package you install is the genuine express cookie-parser, working middleware and passing tests included. The trick is one swapped dependency: instead of the real cookie-signing library it pulls the attacker's twin, `clx-cookie-signature`, installing it at runtime if it has to. That twin fetches a blob from jsonkeeper.com and evals it, and the chain unrolls into BeaverTail and InvisibleFerret — the loader-and-stealer kit of the DPRK's Contagious Interview campaign, per [dprk-research.kmsec.uk](https://dprk-research.kmsec.uk/). cleave flags the final stages as Lazarus outright. And the files it steals go to the same endpoint, through the same code, as [web-dotenv](/discoveries/2026/05/web-dotenv-jsonkeeper-redirector/) did a week earlier — the same operator, not a coincidence.
 

@@ -1,7 +1,7 @@
 ---
 title: "web-dotenv: a dotenv clone, plus one function that robs you"
 date: 2026-05-26
-summary: "The npm package web-dotenv@1.0.2 is a near-byte-identical clone of motdotla/dotenv with one inserted function. That function fetches an obfuscated loader from jsonkeeper.com, which npm-installs axios + socket.io-client into the temp directory and pulls a 110 KB third stage from 216.126.224.247 — a stealer that walks $HOME for wallet, key, and config files plus a clipboard watcher polling every 750 ms."
+summary: "A near-perfect copy of dotenv — 50M downloads a week — with one function bolted into config(), so booting your app fetches a stealer that combs $HOME for wallets and keys and watches your clipboard on a 750 ms loop."
 packageName: web-dotenv
 ecosystem: npm
 ---
