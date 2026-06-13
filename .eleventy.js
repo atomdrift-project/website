@@ -24,6 +24,13 @@ module.exports = function(eleventyConfig) {
     return slug.replace(/^\d{4}-\d{2}-\d{2}-/, "");
   });
 
+  // Pull the first <img> src out of rendered post content, for listing thumbnails.
+  eleventyConfig.addFilter("firstImage", function(content) {
+    if (!content) return "";
+    const m = content.match(/<img\b[^>]*\bsrc="([^"]+)"/i);
+    return m ? m[1] : "";
+  });
+
   return {
     dir: {
       input: "src",
