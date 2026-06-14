@@ -1,43 +1,44 @@
 ---
 layout: base.njk
-title: "litmus — Open-Source, Local, Deterministic, AI-Powered Malware Scanner"
+title: "Atomdrift Scan — Open-Source, Local, Deterministic, AI-Powered Malware Scanner"
 ---
 
 <div class="main">
   <div class="content">
 
     <div class="project-header">
-      <img src="/assets/images/litmus.svg" alt="litmus" class="proj-logo">
-      <span class="badge badge-beta">beta</span>
-      <h1 class="visually-hidden">litmus</h1>
+      <img src="/assets/images/scan.svg" alt="Atomdrift Scan" class="proj-logo">
+      <span class="badge badge-stable">stable</span>
+      <h1 class="visually-hidden">Atomdrift Scan</h1>
     </div>
-    <p>Think of litmus as ClamAV for AI-powered malware detection: a
+    <p>Think of Atomdrift Scan as ClamAV for AI-powered malware detection: a
     local scanner backed by open models that improve as newly observed
     malware behavior is captured, labeled, and folded back through
-    cyclotron, Atomdrift's live training loop.</p>
+    cyclotron, Atomdrift's live training loop.
+    <em>(Scan was previously released as litmus.)</em></p>
     <p>Hand it a path; it scans, classifies, and exits with a
     status code your CI can act on. Whatever
-    <a href="/cleave/">cleave</a> decomposes, litmus classifies —
+    <a href="/cleave/">cleave</a> decomposes, Scan classifies —
     across 20+ languages and six binary formats. Everything runs
     locally and deterministically: the same input always yields the same
     verdict — no network, no API keys, no telemetry, no probabilistic
     LLM output.</p>
     <p>Today it scores capabilities with <a href="/azoth/">azoth</a>,
     our weighted-ensemble model for context-free malware detection — now
-    the default. Every verdict ships with a TreeSHAP-ranked list of the
+    the default. Every verdict ships with a list of the
     capabilities that drove the score, computed on the live model rather
-    than a post-hoc story. It's beta: false positives and false negatives
-    are both real. Use it for triage, not as a production gate. Litmus
-    runs any model trained on cleave's capability schema — swap the model
-    or the thresholds (<code>--threshold-hostile</code>,
-    <code>--threshold-suspicious</code>) if the defaults don't match your
-    threat model.</p>
+    than a post-hoc story. Severity is a false-positive budget, not a
+    fixed scale: tell Scan how many false positives per 100M benign
+    files you'll tolerate (<code>-l</code>, default L50) and that's the
+    gate. Use <code>-l 0</code> when a single false positive is
+    unacceptable, higher when you'd rather not miss anything.</p>
 
     <h2>Capabilities</h2>
     <ul class="feature-list">
       <li><strong>File scanning</strong> — files, directories, and archives, classified against <a href="/azoth/">azoth</a> by default</li>
       <li><strong>Process scanning</strong> — running processes, via the on-disk image (memory-resident analysis is not yet implemented)</li>
-      <li><strong>Explainable verdicts</strong> — every score ships with a TreeSHAP-ranked list of the capabilities that drove it</li>
+      <li><strong>Explainable verdicts</strong> — every score ships with a ranked list of the capabilities that drove it</li>
+      <li><strong>Local-LLM second opinion</strong> — <code>--interpret</code> sends tricky samples to a local LLM for a verdict and one-line reason, blended with the ML score</li>
       <li><strong>Pluggable models</strong> — runs any model trained on cleave's capability schema; <code>--model-dir</code> swaps in a custom bundle</li>
     </ul>
 
@@ -52,17 +53,17 @@ title: "litmus — Open-Source, Local, Deterministic, AI-Powered Malware Scanner
     <pre class="install-block">
 brew tap atomdrift/tap https://codeberg.org/atomdrift/homebrew-tap.git
 
-brew install atomdrift/tap/litmus
+brew install atomdrift-scan
 </pre>
 
     <p>From source:</p>
     <pre class="install-block">
-git clone --depth 1 https://codeberg.org/atomdrift/litmus.git
+git clone --depth 1 https://codeberg.org/atomdrift/scan.git
 make install
 </pre>
 
     <h2>Usage</h2>
-    <pre class="install-block">$ litmus scan &lt;path&gt;</pre>
+    <pre class="install-block">$ ascan fs &lt;path&gt;</pre>
 
     <p style="margin-top: 12px; font-size: 0.8125rem;">For more thorough results, install
     <a href="https://github.com/rizinorg/rizin" target="_blank">Rizin</a> (binary reverse-engineering) and
@@ -74,21 +75,21 @@ make install
 
     <h3>Links</h3>
     <ul>
-      <li><a href="https://codeberg.org/atomdrift/litmus" target="_blank">Source code</a></li>
-      <li><a href="https://codeberg.org/atomdrift/litmus/releases" target="_blank">Releases</a></li>
-      <li><a href="https://codeberg.org/atomdrift/litmus/issues" target="_blank">Bug tracker</a></li>
+      <li><a href="https://codeberg.org/atomdrift/scan" target="_blank">Source code</a></li>
+      <li><a href="https://codeberg.org/atomdrift/scan/releases" target="_blank">Releases</a></li>
+      <li><a href="https://codeberg.org/atomdrift/scan/issues" target="_blank">Bug tracker</a></li>
     </ul>
 
     <h3>Contributing</h3>
     <ul>
-      <li><a href="https://codeberg.org/atomdrift/litmus" target="_blank">Fork on Codeberg</a></li>
-      <li><a href="https://codeberg.org/atomdrift/litmus/issues" target="_blank">Open an issue</a></li>
+      <li><a href="https://codeberg.org/atomdrift/scan" target="_blank">Fork on Codeberg</a></li>
+      <li><a href="https://codeberg.org/atomdrift/scan/issues" target="_blank">Open an issue</a></li>
     </ul>
 
     <h3>Project Info</h3>
     <dl class="stats">
-      <dt>Version</dt><dd>2.0.0-rc.5</dd>
-      <dt>Release Date</dt><dd>2026-06-09</dd>
+      <dt>Version</dt><dd>2.0.0</dd>
+      <dt>Release Date</dt><dd>2026-06-14</dd>
       <dt>License</dt><dd>Apache 2.0</dd>
       <dt>Language</dt><dd>Rust</dd>
     </dl>

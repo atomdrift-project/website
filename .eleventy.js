@@ -1,6 +1,7 @@
 module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/assets");
   eleventyConfig.addPassthroughCopy("src/.well-known");
+  eleventyConfig.addPassthroughCopy("src/_redirects");
 
   eleventyConfig.addFilter("dateDisplay", function(date) {
     if (!date) return "";
