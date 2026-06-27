@@ -28,7 +28,7 @@
     "url": "https://socket.dev/"
   },
   "aikido": {
-    "name": "Aikido",
+    "name": "Aikido Malware",
     "license": "Subscription",
     "appcode": false, "vendored": false, "deps": true, "binaries": false, "airgap": false,
     "registries": ["npm", "PyPI", "NuGet", "Go", "Packagist", "VS Code", "Open VSX", "Chrome", "crates.io", "RubyGems", "JetBrains", "WordPress", "GitHub Actions", "Maven", "Firefox", "Edge", "Homebrew", "GitHub"],
@@ -42,7 +42,7 @@
     "url": "https://www.virustotal.com/"
   },
   "guarddog": {
-    "name": "GuardDog",
+    "name": "GuardDog by Datadog",
     "license": "Apache-2.0",
     "appcode": false, "vendored": true, "deps": true, "binaries": false, "airgap": false,
     "registries": ["npm", "PyPI", "Go", "RubyGems", "GitHub Actions"],

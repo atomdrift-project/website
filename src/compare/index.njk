@@ -186,9 +186,9 @@ description: How malware scanners compare on real supply-chain attacks — detec
     <h1>Malware Scanner <span class="accent">Battle Royale</span></h1>
     <div class="stripe"></div>
     <p class="lede">
-      Every run, the newest <b>known-bad</b> and <b>known-good</b> packages are pulled fresh from live
-      threat feeds and scanned by every engine — real supply-chain attacks, ground-truth labels, no
-      cherry-picking. Last updated {{ battle.generated_at | dateDisplay }}
+      Every run pulls the newest <b>known-bad</b> and <b>known-good</b> packages from live threat feeds
+      and scans them with every engine — same samples, ground-truth labels. Last updated
+      {{ battle.generated_at | dateDisplay }}
       ({{ battle.detection.sample_count }} malware · {{ battle.false_positive.sample_count }} benign).
     </p>
   </div>
@@ -221,7 +221,7 @@ description: How malware scanners compare on real supply-chain attacks — detec
       {%- endfor %}
     </tbody>
   </table>
-  <p class="sub">What each engine is built to do — catch-rates and false alarms are in the panels below.</p>
+  <p class="sub">What each engine is built to scan — detection scores are below.</p>
 
   <h2>Detected malware</h2>
   <p class="sub">Across {{ battle.detection.sample_count }} recent samples flagged by <a href="https://osv.dev/list?ecosystem=&q=MAL" target="_blank" rel="noopener">OSV</a>, <a href="https://opensourcemalware.com/" target="_blank" rel="noopener">OSM</a>, and other threat feeds.</p>
@@ -232,7 +232,7 @@ description: How malware scanners compare on real supply-chain attacks — detec
   {{ benchRows(battle.detection.leaderboard) }}
 
   <h2>Coverage — what each engine can scan</h2>
-  <p class="sub">Share of this run's files each engine can actually analyze, by file type and registry support — independent of whether it flags them. Longer is broader.</p>
+  <p class="sub">Share of this run's files each engine can analyze (by file type and registry) — coverage, not detection. Longer is broader.</p>
   <div class="bench">
   {%- for c in battle.samples | coverageBoard(providers, battle.ascan_types) %}
     <div class="rname{% if c.scanner == 'ascan' %} us{% endif %}">{{ c.name }}</div>
@@ -244,7 +244,7 @@ description: How malware scanners compare on real supply-chain attacks — detec
   </div>
 
   <h2>False positives — flagged good packages</h2>
-  <p class="sub">Across {{ battle.false_positive.sample_count }} known-good packages — every bar is a false alarm (the engine flagged a clean package). Shorter is better; empty is perfect.</p>
+  <p class="sub">Across {{ battle.false_positive.sample_count }} known-good packages — any flag is a false alarm. Shorter is better; empty is perfect.</p>
   <div class="legend">
     <span><i class="sw-hostile"></i> Flagged hostile</span>
     <span><i class="sw-suspicious"></i> Flagged suspicious</span>
@@ -252,7 +252,7 @@ description: How malware scanners compare on real supply-chain attacks — detec
   {{ benchRows(battle.false_positive.leaderboard) }}
 
   <h2>Detection by ecosystem</h2>
-  <p class="sub">Detection per ecosystem, over the samples each engine can actually scan there.</p>
+  <p class="sub">Catch rate within each ecosystem, over the samples each engine can scan there.</p>
   <div class="eco-grid">
     {%- for e in battle.detection.by_ecosystem | byEcoSize %}
       <div class="eco-card">
@@ -262,8 +262,8 @@ description: How malware scanners compare on real supply-chain attacks — detec
     {%- endfor %}
   </div>
 
-  <h2>Hostile detection over time</h2>
-  <p class="sub">Trend builds as runs accumulate — one data point per run, per engine. Catch rate = hostile + suspicious, over each run's cohort.</p>
+  <h2>Detection over time</h2>
+  <p class="sub">Each engine's catch rate on known malware, run over run — higher and steadier is better. <span class="audit-note">Click a name to isolate it.</span></p>
   {%- if history and history | length >= 2 %}
   <div class="trend-wrap"><canvas id="trendChart"></canvas></div>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
@@ -275,20 +275,77 @@ description: How malware scanners compare on real supply-chain attacks — detec
       ascan: '#16a34a', socket: '#7c3aed', aikido: '#0891b2', guarddog: '#d97706',
       virustotal: '#dc2626', malcontent: '#db2777', clamav: '#475569'
     };
-    const labels = H.map(p => new Date(p.at).toLocaleString(undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }));
-    const datasets = Object.keys(COLOR).map(e => ({
-      label: (PROV[e] && PROV[e].name) || e,
-      data: H.map(p => (p.detection && p.detection[e] != null) ? Math.round(p.detection[e] * 100) : null),
-      borderColor: COLOR[e], backgroundColor: COLOR[e],
-      tension: 0.25, spanGaps: true, pointRadius: 3, pointHoverRadius: 5, borderWidth: 2
-    })).filter(d => d.data.some(v => v != null));
+    const US = 'ascan';
+    const hexA = (h, a) => h + Math.round(a * 255).toString(16).padStart(2, '0');
+    const labels = H.map(p => new Date(p.at).toLocaleString(undefined, { month: 'short', day: 'numeric', hour: 'numeric' }));
+    // Atomdrift is the subject: drawn last (on top), bold and full-color; the field
+    // is thinned and faded so the comparison reads at a glance.
+    const order = Object.keys(COLOR).filter(e => e !== US).concat(US);
+    const datasets = order.map(e => {
+      const us = e === US;
+      return {
+        label: (PROV[e] && PROV[e].name) || e,
+        data: H.map(p => (p.detection && p.detection[e] != null) ? Math.round(p.detection[e] * 100) : null),
+        solidColor: COLOR[e],
+        borderColor: us ? COLOR[e] : hexA(COLOR[e], 0.45),
+        backgroundColor: us ? COLOR[e] : hexA(COLOR[e], 0.45),
+        borderWidth: us ? 3.5 : 1.5,
+        pointRadius: us ? 4 : 2.5,
+        pointHoverRadius: us ? 6 : 4,
+        tension: 0.25, spanGaps: true
+      };
+    }).filter(d => d.data.some(v => v != null));
+
+    // Each line's latest value, labelled at its right end so current standings read
+    // without hovering; labels are nudged apart vertically when they'd collide.
+    const endLabels = {
+      id: 'endLabels',
+      afterDatasetsDraw(chart) {
+        const ctx = chart.ctx;
+        const items = [];
+        chart.data.datasets.forEach((ds, i) => {
+          const meta = chart.getDatasetMeta(i);
+          if (meta.hidden || !meta.data.length) return;
+          for (let j = ds.data.length - 1; j >= 0; j--) {
+            if (ds.data[j] != null) {
+              items.push({ x: meta.data[j].x, y: meta.data[j].y, val: ds.data[j], color: ds.solidColor, bold: ds.borderWidth >= 3 });
+              break;
+            }
+          }
+        });
+        items.sort((a, b) => a.y - b.y);
+        for (let i = 1; i < items.length; i++) {
+          if (items[i].y - items[i - 1].y < 13) items[i].y = items[i - 1].y + 13;
+        }
+        ctx.save();
+        ctx.textBaseline = 'middle';
+        items.forEach(it => {
+          ctx.font = (it.bold ? '700 ' : '600 ') + '11px system-ui, sans-serif';
+          ctx.fillStyle = it.color;
+          ctx.fillText(it.val + '%', it.x + 7, it.y);
+        });
+        ctx.restore();
+      }
+    };
+
     new Chart(document.getElementById('trendChart'), {
       type: 'line',
       data: { labels, datasets },
+      plugins: [endLabels],
       options: {
-        responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false },
-        scales: { y: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%' }, title: { display: true, text: 'Catch rate' } } },
-        plugins: { legend: { position: 'bottom' }, tooltip: { callbacks: { label: c => `${c.dataset.label}: ${c.parsed.y}%` } } }
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: 'index', intersect: false },
+        layout: { padding: { right: 46, left: 6 } },
+        scales: {
+          y: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%' }, title: { display: true, text: 'Catch rate' } }
+        },
+        plugins: {
+          legend: { position: 'bottom' },
+          tooltip: {
+            itemSort: (a, b) => b.parsed.y - a.parsed.y,
+            callbacks: { label: c => `${c.dataset.label}: ${c.parsed.y}%` }
+          }
+        }
       }
     });
   })();
@@ -301,14 +358,14 @@ description: How malware scanners compare on real supply-chain attacks — detec
     <summary>Methodology</summary>
     <div class="method-body">
       <ul>
-        <li><strong>Known-bad</strong> packages are pulled from live threat feeds. Independent feeds are trusted as-is — a bogus listing just makes every engine miss it equally. But a listing from a feed that is <em>also a contestant</em> (Socket, Aikido, DataDog) is kept only when an <em>independent</em> engine corroborates it, so no one is credited for its own possibly-spurious self-report.</li>
+        <li><strong>Known-bad</strong> packages are pulled from live threat feeds. Independent feeds are trusted as-is — a bogus listing just makes every engine miss it equally. But a listing from a feed that is <em>also a contestant</em> (Socket, Aikido Malware, GuardDog by Datadog) is kept only when an <em>independent</em> engine corroborates it, so no one is credited for its own possibly-spurious self-report.</li>
         <li><strong>Known-good</strong> packages are recent releases presumed benign — curated good feeds plus newly-published packages; any flag against them, <em>hostile or suspicious</em>, is a false positive.</li>
         <li>Each engine's native severity is normalised to four tiers — <em>hostile</em>, <em>suspicious</em>, <em>benign</em>, <em>unsupported</em>. A sample is <strong>caught</strong> (on known-bad) or a <strong>false alarm</strong> (on known-good) when it's flagged <em>hostile or suspicious</em>; the bars stack the two shades, darker for hostile.</li>
         <li>Rates are taken over what each engine can actually scan: a sample it <em>skips</em> — unsupported ecosystem or file type — drops from the denominator, but a sample it <em>errors</em> on still counts as a miss.</li>
         <li>This is <strong>preliminary</strong>: the corpus is small and refreshed continuously, and the known-bad set is still being widened. Numbers will move.</li>
       </ul>
       {%- if battle.versions %}
-      <p class="method-versions"><strong>Engine versions:</strong> {% for k, v in battle.versions %}{% if not loop.first %} · {% endif %}{{ providers[k].name or k }} {{ v }}{% endfor %} <span class="audit-note">(local engines; Socket/Aikido/VirusTotal are hosted, OSV/OSM are live feeds)</span></p>
+      <p class="method-versions"><strong>Engine versions:</strong> {% for k, v in battle.versions %}{% if not loop.first %} · {% endif %}{{ providers[k].name or k }} {{ v }}{% endfor %} <span class="audit-note">(local engines; Socket, Aikido Malware, and VirusTotal are hosted; OSV/OSM are live feeds)</span></p>
       {%- endif %}
     </div>
   </details>
@@ -327,7 +384,7 @@ description: How malware scanners compare on real supply-chain attacks — detec
     {{ auditTable(goodSamples, battle.detection.leaderboard) }}
 
     {%- if skippedBad | length %}
-    <h4 class="audit-h">⊘ Skipped — provider-reported, uncorroborated <span class="audit-note">— self-published by Socket, Aikido or DataDog but not independently corroborated (no other engine flagged them hostile, and fewer than two flagged them at all), so they're dropped from the detection cohort rather than crediting the reporter for a possibly spurious listing. Independent threat-feed listings are trusted as-is and never dropped — a bogus one just makes every engine miss equally</span></h4>
+    <h4 class="audit-h">⊘ Skipped — provider-reported, uncorroborated <span class="audit-note">— self-published by Socket, Aikido Malware or GuardDog by Datadog but not independently corroborated (no other engine flagged them hostile, and fewer than two flagged them at all), so they're dropped from the detection cohort rather than crediting the reporter for a possibly spurious listing. Independent threat-feed listings are trusted as-is and never dropped — a bogus one just makes every engine miss equally</span></h4>
     {{ auditTable(skippedBad, battle.detection.leaderboard, true) }}
     {%- endif %}
 
