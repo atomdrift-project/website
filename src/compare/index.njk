@@ -1,0 +1,352 @@
+---
+layout: base.njk
+title: Compare
+permalink: /compare/
+description: How malware scanners compare on real supply-chain attacks — detection rate and false positives, measured against fresh, ground-truth-labelled packages.
+---
+
+<style>
+  .compare { max-width: 1000px; margin: 0 auto; padding: 4px 24px 64px; }
+
+  /* hero */
+  .cmp-hero { padding: 14px 0 6px; }
+  .cmp-hero h1 { font-family: 'Oxanium', sans-serif; font-size: 2.15rem; font-weight: 800;
+                 color: var(--carbon); letter-spacing: -0.6px; line-height: 1.05; margin: 0; }
+  .cmp-hero h1 .accent { color: var(--atomdrift-blue); }
+  .cmp-hero .stripe { height: 4px; width: 72px; border-radius: 2px; margin: 12px 0 16px;
+                      background: linear-gradient(90deg, var(--toxic) 0%, var(--toxic-muted) 60%, transparent 100%); }
+  .cmp-hero .lede { color: var(--graphite); max-width: 72ch; line-height: 1.6; font-size: 1.02rem; }
+  .cmp-hero .lede b { color: var(--carbon); }
+
+  /* section headings (mirror .content h2) */
+  .compare h2 { font-family: 'Oxanium', sans-serif; font-size: 1.2rem; font-weight: 700; color: var(--carbon);
+                border-bottom: 1px solid var(--border); padding-bottom: 6px; margin: 44px 0 4px; letter-spacing: -0.3px; }
+  .compare .sub { color: var(--slate); font-size: .85rem; margin: 0 0 16px; }
+
+  /* outcome colors: green = scanner did the right thing, red = wrong, grey = can't scan.
+     --t-* keep the raw severity colors used by the audit table. */
+  :root {
+    --t-hostile: #dc2626; --t-suspicious: #e0a526; --t-benign: #2f9e63; --t-unsupported: #b6bcc6;
+    --g-good: #b5d400; --g-good-weak: #e3efab; --g-bad: #e5484d; --g-bad-weak: #f4b4b6; --g-na: #cdd2da;
+  }
+  .legend { display: flex; gap: 8px 20px; flex-wrap: wrap; align-items: center; font-size: .8rem; color: var(--iron); margin: 14px 0 4px; }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .legend i { width: 11px; height: 11px; border-radius: 2px; display: inline-block; }
+  .legend-note { color: var(--slate); font-size: .76rem; font-style: italic; }
+  .sw-hostile { background: var(--g-good); } .sw-suspicious { background: var(--g-good-weak); }
+
+  /* comparison table */
+  .cmp-table { width: 100%; border-collapse: collapse; margin: 16px 0 6px; font-size: .92rem; }
+  .cmp-table th { font-size: .7rem; text-transform: uppercase; letter-spacing: .05em; color: var(--slate);
+                  font-weight: 600; text-align: left; padding: 8px 12px; border-bottom: 2px solid var(--border); }
+  .cmp-table td { padding: 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  .cmp-table tr:hover td { background: var(--cream); }
+  .cmp-table tr.us-row td { background: var(--toxic-dim); }
+  .cmp-table tr.us-row:hover td { background: var(--toxic-dim); }
+  .cmp-table td.num { text-align: right; font-variant-numeric: tabular-nums; font-weight: 700; }
+  .cmp-table .na { color: var(--slate); font-weight: 400; }
+  .cmp-table .prov { font-family: 'Oxanium', sans-serif; font-weight: 700; font-size: .98rem; }
+  .cmp-table .prov.us { color: var(--atomdrift-blue); }
+  .cmp-table .good { color: var(--t-benign); } .cmp-table .bad { color: var(--t-hostile); }
+
+  /* stacked bars */
+  .bench { display: grid; grid-template-columns: 140px 1fr 66px; gap: 9px 14px; align-items: center; margin: 9px 0; }
+  .bench .rname { font-family: 'Oxanium', sans-serif; font-weight: 600; font-size: .9rem; color: var(--carbon); }
+  .bench .rname.us { color: var(--atomdrift-blue); }
+  .bench .rpct { text-align: right; font-variant-numeric: tabular-nums; font-weight: 700; font-size: .9rem; color: var(--carbon); line-height: 1.1; }
+  .bench .rpct.neg { color: var(--g-bad); }
+  .bar { display: flex; height: 24px; border-radius: 5px; overflow: hidden; background: var(--mist);
+         box-shadow: inset 0 0 0 1px rgba(0,0,0,.05); }
+  .bar .seg { height: 100%; }
+  .bar .seg-hostile { background: var(--g-good); }        /* flagged hostile */
+  .bar .seg-suspicious { background: var(--g-good-weak); } /* flagged suspicious */
+  .bar .seg-cov { background: var(--g-good); }             /* capability coverage */
+
+  /* per-ecosystem cards */
+  .eco-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px 26px; margin-top: 16px; }
+  .eco-card { background: var(--cream); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; transition: box-shadow .2s; }
+  .eco-card:hover { box-shadow: -3px 0 0 0 var(--toxic), 0 1px 3px rgba(0,0,0,.06); }
+  .eco-card h4 { font-family: 'Oxanium', sans-serif; margin: 0 0 8px; font-size: .82rem; text-transform: uppercase;
+                 letter-spacing: .04em; color: var(--iron); }
+
+  .note { background: var(--cream); border: 1px solid var(--border); border-left: 3px solid var(--toxic-muted);
+          border-radius: 6px; padding: 12px 16px; font-size: .85rem; color: var(--graphite); margin: 18px 0; }
+  details.method { margin-top: 40px; font-size: .88rem; color: var(--graphite); }
+  details.method > summary { cursor: pointer; list-style: none; display: inline-flex; align-items: center; gap: 9px;
+    font-family: 'Oxanium', sans-serif; font-weight: 700; font-size: 1rem; color: var(--carbon); padding: 6px 0; }
+  details.method > summary::-webkit-details-marker { display: none; }
+  details.method > summary::before { content: "▸"; color: var(--toxic-dark); font-size: .8rem; transition: transform .15s ease; }
+  details.method[open] > summary::before { transform: rotate(90deg); }
+  details.method > summary:hover { color: var(--atomdrift-blue); }
+  details.method .method-body { margin: 4px 0 0 12px; padding: 14px 20px 16px;
+    background: var(--cream); border-left: 3px solid var(--toxic); border-radius: 0 8px 8px 0; }
+  details.method .method-body ul { margin: 0; padding-left: 20px; }
+  .method-versions { margin: 12px 0 0; font-size: .82rem; }
+  details.method li { margin: 9px 0; line-height: 1.6; }
+  details.method li::marker { color: var(--toxic-dark); }
+  details.method strong { color: var(--carbon); }
+  details.method em { font-style: normal; font-weight: 600; color: var(--graphite); }
+
+  /* feature matrix: ✓/✗ capability cells + registry count (list on hover) */
+  .feature-table th.ctr, .feature-table td.feat, .feature-table td.regs { text-align: center; }
+  .feature-table td.feat { font-size: 1.05rem; line-height: 1; }
+  .feature-table .yes { color: var(--toxic-dark); font-weight: 800; }
+  .feature-table .no { color: var(--g-na); font-weight: 700; }
+  .reg-count { font-family: 'Oxanium', sans-serif; font-weight: 800; font-variant-numeric: tabular-nums;
+               color: var(--carbon); font-size: 1rem; cursor: help; border-bottom: 1px dotted var(--slate); }
+  .feature-table tr.us-row .reg-count { color: var(--atomdrift-blue); }
+
+  /* reference-data audit */
+  details.audit { margin-top: 32px; }
+  details.audit > summary { cursor: pointer; font-family: 'Oxanium', sans-serif; font-weight: 700; color: var(--carbon); padding: 6px 0; }
+  .audit-h { font-family: 'Oxanium', sans-serif; margin: 22px 0 2px; font-size: .92rem; color: var(--carbon); }
+  .audit-note { font-weight: 400; color: var(--slate); font-size: .78rem; }
+  .audit-reporter { font-weight: 600; white-space: nowrap; color: var(--slate); }
+  .trend-wrap { position: relative; height: 340px; margin-top: 8px; }
+  .audit-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 8px; margin-top: 10px; }
+  .audit-table { width: 100%; border-collapse: collapse; font-size: .78rem; }
+  .audit-table th, .audit-table td { padding: 6px 9px; border-bottom: 1px solid var(--border); text-align: left; white-space: nowrap; }
+  .audit-table thead th { background: var(--cream); font-size: .66rem; text-transform: uppercase; letter-spacing: .03em; color: var(--slate); }
+  .audit-table tr:last-child td { border-bottom: none; }
+  .audit-table .mono { font-family: 'SF Mono', Consolas, monospace; }
+  .audit-table a { color: var(--atomdrift-blue); text-decoration: none; }
+  .audit-table a:hover { text-decoration: underline; }
+  .lab-bad { color: var(--t-hostile); font-weight: 600; } .lab-good { color: var(--t-benign); } .lab-unknown { color: var(--slate); }
+  .tier-hostile { background: rgba(220,38,38,.12); color: #991b1b; font-weight: 700; text-align: center; }
+  .tier-suspicious { background: rgba(224,165,38,.18); color: #854d0e; font-weight: 700; text-align: center; }
+  .tier-benign { background: rgba(47,158,99,.13); color: #166534; text-align: center; }
+  .tier-unsupported { background: var(--mist); color: var(--slate); text-align: center; }
+  .tier-na { color: var(--g-na); text-align: center; font-weight: 600; }
+</style>
+
+{# Bars show what each engine flagged, as a share of what it could scan: green =
+   hostile, light green = suspicious. The fill only reaches the flagged rate, so a
+   short bar means it flagged little. Same meaning in both panels — on known-bad
+   the fill is the catch rate (more is better); on known-good it's the false-alarm
+   rate (less is better). #}
+{%- macro bar(s) -%}
+  <div class="bar" title="{{ s.hostile }} hostile · {{ s.suspicious }} suspicious · {{ s.benign }} not flagged{% if s.errored %} · {{ s.errored }} errored (counts as a miss){% endif %}{% if s.unsupported %} · {{ s.unsupported }} can't scan{% endif %}">
+    {%- if s.supported > 0 -%}
+      {%- if s.hostile > 0 %}<span class="seg seg-hostile" style="width:{{ s.hostile / s.supported * 100 }}%"></span>{% endif -%}
+      {%- if s.suspicious > 0 %}<span class="seg seg-suspicious" style="width:{{ s.suspicious / s.supported * 100 }}%"></span>{% endif -%}
+    {%- endif -%}
+  </div>
+{%- endmacro -%}
+
+{# The number is the flagged rate (hostile + suspicious) over what the engine
+   could scan — so it always matches the bar's fill. #}
+{%- macro benchRows(board) -%}
+  <div class="bench">
+  {%- for s in board | byFlagged %}
+    {%- set p = providers[s.scanner] %}
+    <div class="rname{% if s.scanner == 'ascan' %} us{% endif %}">{{ p.name or s.scanner }}</div>
+    {{ bar(s) }}
+    {%- if s.supported %}
+    <div class="rpct">{{ (100 * (s.hostile + s.suspicious) / s.supported) | round(0) }}%</div>
+    {%- else %}
+    <div class="rpct" style="color:var(--slate)">—</div>
+    {%- endif %}
+  {%- endfor %}
+  </div>
+{%- endmacro -%}
+
+{%- macro auditTable(samples, board, reporter=false) -%}
+  <div class="audit-wrap">
+    <table class="audit-table">
+      <thead>
+        <tr>
+          <th>Package</th>
+          {%- if reporter %}<th>Reported by</th>{%- endif %}
+          {%- for s in board %}<th>{{ providers[s.scanner].name or s.scanner }}</th>{%- endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {%- for sm in samples %}
+        <tr>
+          <td><a href="https://lab.atomdrift.org/file/{{ sm.sha256 }}" title="{{ sm.filename }}{% if sm.ecosystem %} · {{ sm.ecosystem }}{% endif %} — view in Atomdrift Lab">{{ sm.purl or sm.filename }}</a></td>
+          {%- if reporter %}<td class="audit-reporter">{{ providers[sm.excluded].name or sm.excluded }}</td>{%- endif %}
+          {%- for s in board %}
+            {%- set v = sm.verdicts | find("scanner", s.scanner) %}
+            {%- if v and v.tier != 'unsupported' %}
+            <td class="tier-{{ v.tier }}" title="{{ v.tier }}{% if v.detail %} — {{ v.detail }}{% endif %}">{{ v.tier | first | upper }}</td>
+            {%- else %}
+            <td class="tier-na" title="not supported{% if v and v.detail %} — {{ v.detail }}{% endif %}">-</td>
+            {%- endif %}
+          {%- endfor %}
+        </tr>
+        {%- endfor %}
+      </tbody>
+    </table>
+  </div>
+{%- endmacro -%}
+
+<div class="main-full compare">
+
+  <div class="cmp-hero">
+    <h1>Malware Scanner <span class="accent">Battle Royale</span></h1>
+    <div class="stripe"></div>
+    <p class="lede">
+      Every run, the newest <b>known-bad</b> and <b>known-good</b> packages are pulled fresh from live
+      threat feeds and scanned by every engine — real supply-chain attacks, ground-truth labels, no
+      cherry-picking. Last updated {{ battle.generated_at | dateDisplay }}
+      ({{ battle.detection.sample_count }} malware · {{ battle.false_positive.sample_count }} benign).
+    </p>
+  </div>
+
+  <table class="cmp-table feature-table">
+    <thead>
+      <tr>
+        <th>Provider</th><th>License</th>
+        <th class="ctr" title="Scans your own first-party application source">App&nbsp;code</th>
+        <th class="ctr" title="Catches malware in code vendored/bundled into a package — not just declared dependencies">Vendored&nbsp;code</th>
+        <th class="ctr" title="Resolves and checks a package's declared dependencies">Dependencies</th>
+        <th class="ctr" title="Scans compiled binaries">Binaries</th>
+        <th class="ctr" title="Runs fully offline — no cloud service required">Air-gap</th>
+        <th class="ctr" title="Package registries with coverage — hover for the list">Registries</th>
+      </tr>
+    </thead>
+    <tbody>
+      {%- for p in providers | byRegistries %}
+        {%- set key = p.key %}
+        <tr{% if key == 'ascan' %} class="us-row"{% endif %}>
+          <td class="prov{% if key == 'ascan' %} us{% endif %}">{{ p.name or key }}</td>
+          <td>{{ p.license or "—" }}</td>
+          <td class="feat">{% if p.appcode %}<span class="yes" title="yes">✓</span>{% else %}<span class="no" title="no">✗</span>{% endif %}</td>
+          <td class="feat">{% if p.vendored %}<span class="yes" title="yes">✓</span>{% else %}<span class="no" title="no">✗</span>{% endif %}</td>
+          <td class="feat">{% if p.deps %}<span class="yes" title="yes">✓</span>{% else %}<span class="no" title="no">✗</span>{% endif %}</td>
+          <td class="feat">{% if p.binaries %}<span class="yes" title="yes">✓</span>{% else %}<span class="no" title="no">✗</span>{% endif %}</td>
+          <td class="feat">{% if p.airgap %}<span class="yes" title="yes">✓</span>{% else %}<span class="no" title="no">✗</span>{% endif %}</td>
+          <td class="regs">{% if p.registries | length %}<span class="reg-count" title="{{ p.registries | join(' · ') }}">{{ p.registries | length }}</span>{% else %}<span class="no">—</span>{% endif %}</td>
+        </tr>
+      {%- endfor %}
+    </tbody>
+  </table>
+  <p class="sub">What each engine is built to do — catch-rates and false alarms are in the panels below.</p>
+
+  <h2>Detected malware</h2>
+  <p class="sub">Across {{ battle.detection.sample_count }} recent samples flagged by <a href="https://osv.dev/list?ecosystem=&q=MAL" target="_blank" rel="noopener">OSV</a>, <a href="https://opensourcemalware.com/" target="_blank" rel="noopener">OSM</a>, and other threat feeds.</p>
+  <div class="legend">
+    <span><i class="sw-hostile"></i> Flagged hostile</span>
+    <span><i class="sw-suspicious"></i> Flagged suspicious</span>
+  </div>
+  {{ benchRows(battle.detection.leaderboard) }}
+
+  <h2>Coverage — what each engine can scan</h2>
+  <p class="sub">Share of this run's files each engine can actually analyze, by file type and registry support — independent of whether it flags them. Longer is broader.</p>
+  <div class="bench">
+  {%- for c in battle.samples | coverageBoard(providers, battle.ascan_types) %}
+    <div class="rname{% if c.scanner == 'ascan' %} us{% endif %}">{{ c.name }}</div>
+    <div class="bar" title="{{ c.supported }} of {{ c.total }} files{% if c.uncovered | length %} · can't scan: {{ c.uncovered | join(', ') }}{% endif %}">
+      {%- if c.rate > 0 %}<span class="seg seg-cov" style="width:{{ c.rate * 100 }}%"></span>{% endif -%}
+    </div>
+    <div class="rpct">{{ (c.rate * 100) | round(0) }}%</div>
+  {%- endfor %}
+  </div>
+
+  <h2>False positives — flagged good packages</h2>
+  <p class="sub">Across {{ battle.false_positive.sample_count }} known-good packages — every bar is a false alarm (the engine flagged a clean package). Shorter is better; empty is perfect.</p>
+  <div class="legend">
+    <span><i class="sw-hostile"></i> Flagged hostile</span>
+    <span><i class="sw-suspicious"></i> Flagged suspicious</span>
+  </div>
+  {{ benchRows(battle.false_positive.leaderboard) }}
+
+  <h2>Detection by ecosystem</h2>
+  <p class="sub">Detection per ecosystem, over the samples each engine can actually scan there.</p>
+  <div class="eco-grid">
+    {%- for e in battle.detection.by_ecosystem | byEcoSize %}
+      <div class="eco-card">
+        <h4>{{ e.eco }} <span class="audit-note">{{ e.n }} sample{{ "s" if e.n != 1 }}</span></h4>
+        {{ benchRows(e.board) }}
+      </div>
+    {%- endfor %}
+  </div>
+
+  <h2>Hostile detection over time</h2>
+  <p class="sub">Trend builds as runs accumulate — one data point per run, per engine. Catch rate = hostile + suspicious, over each run's cohort.</p>
+  {%- if history and history | length >= 2 %}
+  <div class="trend-wrap"><canvas id="trendChart"></canvas></div>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script>
+  (function () {
+    const H = {{ history | dump | safe }};
+    const PROV = {{ providers | dump | safe }};
+    const COLOR = {
+      ascan: '#16a34a', socket: '#7c3aed', aikido: '#0891b2', guarddog: '#d97706',
+      virustotal: '#dc2626', malcontent: '#db2777', clamav: '#475569'
+    };
+    const labels = H.map(p => new Date(p.at).toLocaleString(undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }));
+    const datasets = Object.keys(COLOR).map(e => ({
+      label: (PROV[e] && PROV[e].name) || e,
+      data: H.map(p => (p.detection && p.detection[e] != null) ? Math.round(p.detection[e] * 100) : null),
+      borderColor: COLOR[e], backgroundColor: COLOR[e],
+      tension: 0.25, spanGaps: true, pointRadius: 3, pointHoverRadius: 5, borderWidth: 2
+    })).filter(d => d.data.some(v => v != null));
+    new Chart(document.getElementById('trendChart'), {
+      type: 'line',
+      data: { labels, datasets },
+      options: {
+        responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false },
+        scales: { y: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%' }, title: { display: true, text: 'Catch rate' } } },
+        plugins: { legend: { position: 'bottom' }, tooltip: { callbacks: { label: c => `${c.dataset.label}: ${c.parsed.y}%` } } }
+      }
+    });
+  })();
+  </script>
+  {%- else %}
+  <div class="note">Historical trend is collecting. Each recorded run appends a snapshot; the line chart appears once there are at least two.</div>
+  {%- endif %}
+
+  <details class="method">
+    <summary>Methodology</summary>
+    <div class="method-body">
+      <ul>
+        <li><strong>Known-bad</strong> packages are pulled from live threat feeds. Independent feeds are trusted as-is — a bogus listing just makes every engine miss it equally. But a listing from a feed that is <em>also a contestant</em> (Socket, Aikido, DataDog) is kept only when an <em>independent</em> engine corroborates it, so no one is credited for its own possibly-spurious self-report.</li>
+        <li><strong>Known-good</strong> packages are recent releases presumed benign — curated good feeds plus newly-published packages; any flag against them, <em>hostile or suspicious</em>, is a false positive.</li>
+        <li>Each engine's native severity is normalised to four tiers — <em>hostile</em>, <em>suspicious</em>, <em>benign</em>, <em>unsupported</em>. A sample is <strong>caught</strong> (on known-bad) or a <strong>false alarm</strong> (on known-good) when it's flagged <em>hostile or suspicious</em>; the bars stack the two shades, darker for hostile.</li>
+        <li>Rates are taken over what each engine can actually scan: a sample it <em>skips</em> — unsupported ecosystem or file type — drops from the denominator, but a sample it <em>errors</em> on still counts as a miss.</li>
+        <li>This is <strong>preliminary</strong>: the corpus is small and refreshed continuously, and the known-bad set is still being widened. Numbers will move.</li>
+      </ul>
+      {%- if battle.versions %}
+      <p class="method-versions"><strong>Engine versions:</strong> {% for k, v in battle.versions %}{% if not loop.first %} · {% endif %}{{ providers[k].name or k }} {{ v }}{% endfor %} <span class="audit-note">(local engines; Socket/Aikido/VirusTotal are hosted, OSV/OSM are live feeds)</span></p>
+      {%- endif %}
+    </div>
+  </details>
+
+  {%- set badSamples = battle.samples | where("label", "bad") -%}
+  {%- set goodSamples = battle.samples | where("label", "good") -%}
+  {%- set cohortBad = badSamples | whereUnset("excluded") -%}
+  {%- set skippedBad = badSamples | whereSet("excluded") -%}
+  <details class="audit">
+    <summary>Reference data — {{ cohortBad | length }} known-malware + {{ goodSamples | length }} known-good files{% if skippedBad | length %} (+{{ skippedBad | length }} skipped){% endif %}, scanned {{ battle.generated_at | dateDisplay }}</summary>
+
+    <h4 class="audit-h"><span class="lab-bad">●</span> Known malware <span class="audit-note">— pulled from threat feeds and corroborated; every detection benchmark number comes from these</span></h4>
+    {{ auditTable(cohortBad, battle.detection.leaderboard) }}
+
+    <h4 class="audit-h"><span class="lab-good">●</span> Known good <span class="audit-note">— vetted packages; any hostile flag here is a false positive</span></h4>
+    {{ auditTable(goodSamples, battle.detection.leaderboard) }}
+
+    {%- if skippedBad | length %}
+    <h4 class="audit-h">⊘ Skipped — provider-reported, uncorroborated <span class="audit-note">— self-published by Socket, Aikido or DataDog but not independently corroborated (no other engine flagged them hostile, and fewer than two flagged them at all), so they're dropped from the detection cohort rather than crediting the reporter for a possibly spurious listing. Independent threat-feed listings are trusted as-is and never dropped — a bogus one just makes every engine miss equally</span></h4>
+    {{ auditTable(skippedBad, battle.detection.leaderboard, true) }}
+    {%- endif %}
+
+    <h4 class="audit-h">Coverage gaps <span class="audit-note">— what each engine couldn't analyze: whole packages skipped for an unsupported ecosystem, or file types it can't read within a supported one</span></h4>
+    <div class="audit-wrap">
+      <table class="audit-table">
+        <thead><tr><th>Provider</th><th>Skipped ecosystems</th><th>Unscannable file types</th></tr></thead>
+        <tbody>
+        {%- for c in battle.samples | coverageBoard(providers, battle.ascan_types) %}
+          {%- set g = battle.samples | coverageGaps(c.scanner, battle.ascan_types) %}
+          <tr>
+            <td class="prov{% if c.scanner == 'ascan' %} us{% endif %}">{{ c.name }}</td>
+            <td>{% if g.ecoMissed | length %}{% for pair in g.ecoMissed %}{{ pair[0] }} ({{ pair[1] }} files){% if not loop.last %}, {% endif %}{% endfor %}{% else %}<span class="tier-na">-</span>{% endif %}</td>
+            <td>{% if g.typeMissed | length %}{% for pair in g.typeMissed %}{{ pair[0] }} ({{ pair[1] }} files){% if not loop.last %}, {% endif %}{% endfor %}{% else %}<span class="tier-na">-</span>{% endif %}</td>
+          </tr>
+        {%- endfor %}
+        </tbody>
+      </table>
+    </div>
+  </details>
+
+</div>

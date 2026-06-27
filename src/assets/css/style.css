@@ -912,3 +912,87 @@ code, .mono { font-family: 'SF Mono', Consolas, monospace; font-size: 0.92em; }
     width: 80%;
   }
 }
+
+/* ========== DOCS ========== */
+.docs-nav {
+  display: flex;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--border);
+  margin: 0 0 24px;
+}
+.docs-nav a {
+  padding: 8px 14px;
+  font-size: 14px;
+  color: var(--graphite);
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+}
+.docs-nav a:hover { color: var(--carbon); text-decoration: none; }
+.docs-nav a.active {
+  color: var(--carbon);
+  border-bottom-color: var(--atomdrift-blue);
+  font-weight: 500;
+}
+
+/* Deep-linkable headings (markdown-it-anchor wraps the heading in a link).
+   Global: every Markdown page — docs, news, discoveries — gets anchor links. */
+.header-anchor { color: inherit; text-decoration: none; }
+.header-anchor:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--toxic-muted);
+  text-underline-offset: 3px;
+}
+
+/* Admonitions / callouts */
+.admonition {
+  border-left: 4px solid var(--slate);
+  background: var(--mist);
+  padding: 12px 16px;
+  margin: 1.3em 0;
+  border-radius: 0 4px 4px 0;
+}
+.admonition > :last-child { margin-bottom: 0; }
+.admonition-title {
+  font-weight: 600;
+  margin: 0 0 0.35em;
+  font-size: 0.8em;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+.admonition.note    { border-color: var(--atomdrift-blue); background: var(--atomdrift-blue-dim); }
+.admonition.tip     { border-color: var(--toxic-muted);    background: var(--toxic-dim); }
+.admonition.warning { border-color: #d97706;               background: #fff7ed; }
+.admonition.tbd     { border-color: var(--toxic-muted);    background: var(--toxic-dim); }
+.admonition.tbd .admonition-title::before { content: "🚧 "; }
+
+/* Syntax highlighting (Prism) — carbon terminal, toxic + blue tokens.
+   Global: applies wherever a Markdown code fence is highlighted. */
+pre[class*="language-"] {
+  background: var(--carbon);
+  color: #e6e6e6;
+  border-radius: 6px;
+  padding: 14px 16px;
+  overflow: auto;
+  font-size: 0.85em;
+  line-height: 1.55;
+}
+pre[class*="language-"] code { background: none; padding: 0; }
+.token.comment, .token.prolog, .token.doctype, .token.cdata { color: #6b7280; }
+.token.punctuation { color: #9ca3af; }
+.token.property, .token.tag, .token.boolean, .token.number, .token.constant, .token.symbol { color: var(--toxic); }
+.token.selector, .token.attr-name, .token.string, .token.char, .token.builtin, .token.inserted { color: #a3e635; }
+.token.operator, .token.entity, .token.url, .token.keyword { color: #60a5fa; }
+.token.function, .token.class-name { color: #93c5fd; }
+.token.regex, .token.important, .token.variable, .token.deleted { color: #fca5a5; }
+
+/* Mermaid diagrams */
+.mermaid { display: flex; justify-content: center; margin: 1.5em 0; }
+
+/* Docs search (Pagefind UI) */
+.docs-search #docs-search {
+  --pagefind-ui-primary: var(--atomdrift-blue);
+  --pagefind-ui-scale: 0.85;
+  --pagefind-ui-font: inherit;
+}
+.docs-search-hint { font-size: 0.75rem; color: var(--iron); margin-top: 8px; }

@@ -1,16 +1,18 @@
 ---
 layout: base.njk
 title: "cleave — Software Decomposition Engine"
+tool: cleave
 ---
 
 <div class="main">
-  <div class="content">
+  <div class="content" data-pagefind-body>
 
     <div class="project-header">
       <img src="/assets/images/cleave.svg" alt="cleave" class="proj-logo">
       <span class="badge badge-stable">stable</span>
       <h1 class="visually-hidden">cleave</h1>
     </div>
+    {% include "docs-nav.njk" %}
     <p>cleave answers one question — <em>what can this program do?</em>
     It extracts capabilities from binaries, source, and archives, scoring
     each against <strong>60,000+ behavior rules</strong> aligned to

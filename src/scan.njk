@@ -1,16 +1,18 @@
 ---
 layout: base.njk
 title: "Atomdrift Scan — Open-Source, Local, Deterministic, AI-Powered Malware Scanner"
+tool: scan
 ---
 
 <div class="main">
-  <div class="content">
+  <div class="content" data-pagefind-body>
 
     <div class="project-header">
       <img src="/assets/images/scan.svg" alt="Atomdrift Scan" class="proj-logo">
       <span class="badge badge-stable">stable</span>
       <h1 class="visually-hidden">Atomdrift Scan</h1>
     </div>
+    {% include "docs-nav.njk" %}
     <p>Think of Atomdrift Scan as ClamAV for AI-powered malware detection: a
     local scanner backed by open models that improve as newly observed
     malware behavior is captured, labeled, and folded back through

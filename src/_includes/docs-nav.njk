@@ -1,0 +1,15 @@
+{#- Per-tool documentation strip. Expects `tool` in context (set in front
+    matter on overview pages, computed for Markdown docs pages). -#}
+{%- set _pages = [
+  { slug: "", label: "Overview" },
+  { slug: "getting-started/", label: "Getting started" },
+  { slug: "how-it-works/", label: "How it works" },
+  { slug: "integrations/", label: "Integrations" },
+  { slug: "faq/", label: "FAQ" }
+] -%}
+<nav class="docs-nav" aria-label="{{ tool }} documentation">
+  {%- for p in _pages %}
+  {%- set _url = "/" + tool + "/" + p.slug %}
+  <a href="{{ _url }}"{% if page.url == _url %} class="active" aria-current="page"{% endif %}>{{ p.label }}</a>
+  {%- endfor %}
+</nav>

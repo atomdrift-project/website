@@ -11,6 +11,7 @@ run: node_modules
 build: node_modules
 	rm -rf _site
 	npx eleventy
+	npx pagefind --site _site
 
 clean:
 	rm -rf _site node_modules package-lock.json

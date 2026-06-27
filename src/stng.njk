@@ -1,16 +1,18 @@
 ---
 layout: base.njk
 title: "stng — Modern String Extraction"
+tool: stng
 ---
 
 <div class="main">
-  <div class="content">
+  <div class="content" data-pagefind-body>
 
     <div class="project-header">
       <img src="/assets/images/stng.svg" alt="stng" class="proj-logo">
       <span class="badge badge-stable">stable</span>
       <h1 class="visually-hidden">stng</h1>
     </div>
+    {% include "docs-nav.njk" %}
     <p>String extraction for binary analysis. Same idea as
     <code>strings(1)</code>, except it knows about XOR, base64, Go and
     Rust string layouts, DWARF stack strings, and Windows wide
