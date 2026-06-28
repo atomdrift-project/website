@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>surf: BYO-Interpreter — a faked Go library hides a LuaJIT payload - The Atomdrift Project</title>
+  <meta name="description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="surf: BYO-Interpreter — a faked Go library hides a LuaJIT payload - The Atomdrift Project">
+  <meta property="og:description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>%E2%9A%9B</text></svg>">
+
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift News" href="/feed.xml">
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift Discoveries" href="/discoveries/feed.xml">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+
+  <div class="site-header">
+    <div class="header-inner">
+      <div class="logo-block">
+        <a href="/">
+          <svg class="atom-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="6" fill="#3b82f6"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(-30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(90 50 50)"/>
+            <circle cx="18" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="82" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="50" cy="88" r="3.5" fill="#d0ff00"/>
+          </svg>
+          <div class="logo-text">
+            <span class="logo-name">atom<span class="logo-accent">drift</span></span>
+            <span class="logo-tagline">Open-source, offline supply-chain attack detection for the AI age</span>
+          </div>
+        </a>
+      </div>
+      <div class="header-links">
+        <a href="https://codeberg.org/atomdrift" target="_blank">Codeberg</a>
+        <a href="https://lab.atomdrift.org/" class="hl" target="_blank">Lab</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="toxic-stripe"></div>
+
+  <div class="nav">
+    <div class="nav-inner">
+      <a href="/">Home</a>
+      <a href="/news/">News</a>
+      <a href="/discoveries/" class="active">Discoveries</a>
+      <a href="/compare/">Compare</a>
+      <a href="/projects/">Projects</a>
+      <a href="/support/">Support</a>
+    </div>
+  </div>
+
+  <main>
+    
+<div class="main-full">
+  <div class="post-header">
+    <h1>surf: BYO-Interpreter — a faked Go library hides a LuaJIT payload</h1>
+    <span class="post-meta">2026-06-13 &middot; Go &middot; github.com/mehdimin11/surf</span>
+  </div>
+  <div class="post-body discovery-body">
+    <img src="/assets/images/surf-byo-interpreter.jpg" alt="The 'Surf's Up' movie poster — a polished release sleeve over an animated-penguin comedy; the package dresses a Windows LuaJIT dropper in the same way, and the penguin winks at the Linux support the README promises while the zip is Windows-only." style="width: 60%; height: auto;">
+<p>The real <code>surf</code> is a genuinely slick Go library for HTTP requests that impersonate real browser TLS and HTTP/2 fingerprints — this package is that library, cloned file-for-file, with exactly two things changed: the README, and what's hiding in the examples folder.</p>
+<h2 id="a-download-button-on-a-library-you-import" tabindex="-1"><a class="header-anchor" href="#a-download-button-on-a-library-you-import"><span>A download button on a library you import</span></a></h2>
+<p>A Go module is something you <code>go get</code>; you do not double-click it. This clone's <code>go.mod</code> still declares the upstream <code>github.com/enetx/surf</code> it forked from — a rename the author never made — while its README has been rewritten from a developer reference into a glossy &quot;Download Surf&quot; product page. A download badge and seven separate links all point at one file served off GitHub's raw URL, and the steps walk a Windows user through extracting and running it; the genuine library ships no executable at all.</p>
+<p>What gives it away as crude rather than clever is that the page doesn't match its own payload — it promises Linux and macOS builds named like <code>surf-linux-amd64</code> and a version-printing command, yet the zip is Windows-only and bolted to a library with no CLI to print anything: a generic &quot;download our app&quot; template stamped onto a Go package by something that never looked inside the box.</p>
+<pre class="lang-js"><code><span class="tok-com">// go.mod — the fork forgot to rename itself</span>
+<span class="tok-kw">module</span> github.com/enetx/surf        <span class="tok-com">// ← upstream path, not mehdimin11/surf</span>
+
+<span class="tok-com">// README.md — the same raw-GitHub zip, badge + 6 more links</span>
+[![Download Surf](<span class="tok-str">https://github.com/mehdimin11/surf/raw/refs/heads/main/examples/Software-v1.1-alpha.1.zip</span>)]
+<span class="tok-str">"visit the Releases page"</span> → …/raw/refs/heads/main/examples/Software-v1.1-alpha.1.zip
+</code></pre>
+<h2 id="what's-in-the-box" tabindex="-1"><a class="header-anchor" href="#what's-in-the-box"><span>What's in the box</span></a></h2>
+<p>The zip holds three files and no ambiguity: <code>Launcher.cmd</code> is the entire detonator in 28 bytes, starting a stock 878 KB LuaJIT interpreter against the payload — a 309 KB text file that is one single line of fully-packed Lua. Shipping the interpreter alongside the script is the whole move: the <code>.exe</code> is an unmodified, recognizable LuaJIT that scanners wave through, while the malicious logic rides in a text file they read as inert. Underneath, the logic is a return-function loader wrapped in an indexed string-permutation decoder; cleave fingerprints the obfuscation as <code>T1027</code>, and static analysis stops there.</p>
+<pre class="lang-js"><code><span class="tok-com">:: Launcher.cmd — the whole detonator, 28 bytes</span>
+<span class="tok-kw">start</span> luajit.exe uix.txt
+</code></pre>
+<pre class="lang-js"><code><span class="tok-com">// uix.txt — one 309 KB line, wrapped + annotated; every fragment below is verbatim</span>
+<span class="tok-kw">return</span>(<span class="tok-kw">function</span>(...)<span class="tok-kw">return</span>(<span class="tok-kw">function</span>(z,E,A,j,r,l,Q,F,V,L,N,G,q,s,g,d,k,O,K,c,u,y,U,t)
+
+  <span class="tok-com">// a table of closure factories that build the VM's dispatch thunks</span>
+  F,d,O,K,t,q,V,c,G,y,U,u,N,L,s,g,k = {},
+    <span class="tok-kw">function</span>(z,E)<span class="tok-kw">local</span> A=<span class="tok-fn">L</span>(E) <span class="tok-kw">local</span> j=<span class="tok-kw">function</span>(j)<span class="tok-kw">return</span> <span class="tok-fn">y</span>(z,{j},E,A)<span class="tok-kw">end</span> <span class="tok-kw">return</span> j <span class="tok-kw">end</span>,
+    <span class="tok-num">-193518</span>+(<span class="tok-num">768751</span>-<span class="tok-num">575233</span>),                       <span class="tok-com">// constants are always arithmetic</span>
+    <span class="tok-kw">function</span>()K=K+(<span class="tok-num">-843160</span>-(<span class="tok-num">-843161</span>))c[K]=<span class="tok-num">445494</span>+<span class="tok-num">-445493</span> <span class="tok-kw">return</span> K <span class="tok-kw">end</span>,  <span class="tok-com">// a +1 counter, obfuscated</span>
+    …
+
+  <span class="tok-com">// two identical decoders: rebuild a string by index-permuting its own halves</span>
+  <span class="tok-kw">local</span> mn=<span class="tok-kw">function</span>(z)<span class="tok-kw">local</span> y=<span class="tok-str">""</span> <span class="tok-kw">for</span> E=<span class="tok-num">1</span>,#z/<span class="tok-num">2</span>,<span class="tok-num">1</span> <span class="tok-kw">do</span> y=y..z[#z/<span class="tok-num">2</span>+z[E]] <span class="tok-kw">end</span> <span class="tok-kw">return</span> y <span class="tok-kw">end</span>
+  <span class="tok-kw">local</span> xn=<span class="tok-kw">function</span>(z)<span class="tok-kw">local</span> y=<span class="tok-str">""</span> <span class="tok-kw">for</span> E=<span class="tok-num">1</span>,#z/<span class="tok-num">2</span>,<span class="tok-num">1</span> <span class="tok-kw">do</span> y=y..z[#z/<span class="tok-num">2</span>+z[E]] <span class="tok-kw">end</span> <span class="tok-kw">return</span> y <span class="tok-kw">end</span>
+
+  <span class="tok-com">// ~80 more single-letter registers, then the dispatcher itself</span>
+  <span class="tok-kw">local</span> Nn,Vn,sn,c,An,o,dn,fn,tn,Zn,rn,nn,B,n,f,X,Cn,Yn,U,e,yn, … ,v,P
+  <span class="tok-kw">while</span> y <span class="tok-kw">do</span> <span class="tok-kw">if</span> y&lt;<span class="tok-num">8480031</span>-<span class="tok-num">138744</span> <span class="tok-kw">then</span> <span class="tok-kw">if</span> y&lt;<span class="tok-num">180234</span>+<span class="tok-num">4481382</span> <span class="tok-kw">then</span> <span class="tok-kw">if</span> y&lt;<span class="tok-num">339991</span>+(<span class="tok-num">1560860</span>-(<span class="tok-num">-275750</span>)) <span class="tok-kw">then</span>
+    Q=F[j[<span class="tok-num">1017378</span>+((<span class="tok-num">-550661</span>-(<span class="tok-num">345227</span>-(<span class="tok-num">-367997</span>)))-(<span class="tok-num">-246508</span>))]]
+    K=F[j[<span class="tok-num">-687784</span>+((<span class="tok-num">1750891</span>-<span class="tok-num">668090</span>)-<span class="tok-num">395015</span>)]]
+    L=F[j[(<span class="tok-num">839244</span>-(<span class="tok-num">1926192</span>-<span class="tok-num">1009153</span>))-(<span class="tok-num">-77798</span>)]]
+    U=<span class="tok-str">"\209\160\001"</span>                                <span class="tok-com">// an encrypted string literal</span>
+</code></pre>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>File</th>
+<th>Trait</th>
+<th>Evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>Software-v1.1-alpha.1.zip</code></td>
+<td><code>objectives/supply-chain/hidden-payload/exec</code></td>
+<td><code>Launcher.cmd</code> runs <code>luajit.exe uix.txt</code> — archive ships its own interpreter to execute the payload (T1195.002)</td>
+</tr>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>…zip!!uix.txt</code></td>
+<td><code>objectives/anti-static/obfuscation/code-metrics/structure</code></td>
+<td>309 KB single-line packed return-function loader, indexed string-permutation decoder (T1027)</td>
+</tr>
+<tr>
+<td><span class="sev-dot notable" title="notable"></span></td>
+<td><code>luajit.exe</code></td>
+<td><code>micro-behaviors/process/interpreter/lua</code></td>
+<td>Stock LuaJIT VM — the bring-your-own runtime, benign in itself</td>
+</tr>
+<tr>
+<td><span class="sev-dot notable" title="notable"></span></td>
+<td><code>luajit.exe</code></td>
+<td><code>objectives/evasion/process/injection/shellcode</code></td>
+<td>W^X flips via <code>VirtualProtect</code> + <code>CreateThread</code> — inherent to a JIT, flagged on the byte pattern</td>
+</tr>
+</tbody>
+</table>
+<p>Run under an instrumented LuaJIT harness, the 309 KB line unfolds into an FFI shellcode loader that walks the <code>PEB_LDR_DATA</code> chain by hand to resolve its APIs, then photographs the desktop and mails it home. The bitmap leaves as a multipart POST to a hardcoded IP, wrapped in the usual misdirection: a geolocation lookup, a decoy Polygon RPC call, and a Tor/I2P-shaped fallback address. The behavior we trapped is a screenshot stealer, but one instrumented run only exercises the branches it reaches — and that live <code>eth_call</code> against a smart contract is the kind of hook that could fetch a second stage, drain a wallet, or open remote control we never tripped, so read the screenshot as the floor of this payload's ambition, not the ceiling.</p>
+<p>The screen-grab-to-exfil chain, recovered under instrumentation:</p>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Mechanism</th>
+<th>API</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Resolve APIs</td>
+<td>PEB/LDR walk + export-table parse, no static imports</td>
+<td><code>LoadLibraryA</code>, <code>GetProcAddress</code></td>
+</tr>
+<tr>
+<td>Capture screen</td>
+<td>size desktop, blit into a DIB, build a BMP in memory</td>
+<td><code>GetSystemMetrics</code>, <code>BitBlt</code>, <code>CreateDIBSection</code></td>
+</tr>
+<tr>
+<td>Exfiltrate</td>
+<td>multipart POST of the BMP over HTTP</td>
+<td><code>HttpSendRequestW</code>, <code>InternetWriteFile</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="package-metadata" tabindex="-1"><a class="header-anchor" href="#package-metadata"><span>Package metadata</span></a></h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>published path</td>
+<td><code>github.com/mehdimin11/surf</code></td>
+</tr>
+<tr>
+<td>module (go.mod)</td>
+<td><code>github.com/enetx/surf</code></td>
+</tr>
+<tr>
+<td>version</td>
+<td><code>v0.0.0-20260613092640-ad5ed84dc67c</code></td>
+</tr>
+<tr>
+<td>go</td>
+<td><code>1.25.0</code></td>
+</tr>
+<tr>
+<td>license</td>
+<td><code>MIT</code></td>
+</tr>
+</tbody>
+</table>
+<p>It's impersonation all the way down — a library built to fake browser fingerprints, itself faked into a download button, bring-your-own-interpreter so the only thing your scanner recognizes is the half that's innocent.</p>
+<h2 id="indicators" tabindex="-1"><a class="header-anchor" href="#indicators"><span>Indicators</span></a></h2>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Module zip</td>
+<td><code>github.com-mehdimin11-surf-v0.0.0-20260613092640-ad5ed84dc67c.zip</code></td>
+</tr>
+<tr>
+<td>Module zip SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/6a48ef430e554a2826d0afcdf0c24a9ef7d3e0b76c39975c39181ffe2b18020b"><code>6a48ef430e554a2826d0afcdf0c24a9ef7d3e0b76c39975c39181ffe2b18020b</code></a></td>
+</tr>
+<tr>
+<td>Payload archive</td>
+<td><code>Software-v1.1-alpha.1.zip</code></td>
+</tr>
+<tr>
+<td>Payload archive SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/5eefdc7551235432c91e85b80d1a9ef3976055d09ffbbe54c12338da3c559852"><code>5eefdc7551235432c91e85b80d1a9ef3976055d09ffbbe54c12338da3c559852</code></a></td>
+</tr>
+<tr>
+<td>Obfuscated loader</td>
+<td><code>uix.txt</code></td>
+</tr>
+<tr>
+<td><code>uix.txt</code> SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/8cede35b80b1deaf732c2b178d908f91b3e7a0c114d06dfae9075b8a9bf78b8f"><code>8cede35b80b1deaf732c2b178d908f91b3e7a0c114d06dfae9075b8a9bf78b8f</code></a></td>
+</tr>
+<tr>
+<td>Bundled interpreter</td>
+<td><code>luajit.exe</code></td>
+</tr>
+<tr>
+<td><code>luajit.exe</code> SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/f3e34c9e36f3be065d80d456281d31dd1cc85eb4980db7fa8c1b0eb6f29c25d8"><code>f3e34c9e36f3be065d80d456281d31dd1cc85eb4980db7fa8c1b0eb6f29c25d8</code></a></td>
+</tr>
+<tr>
+<td>Download URL</td>
+<td><code>https://github.com/mehdimin11/surf/raw/refs/heads/main/examples/Software-v1.1-alpha.1.zip</code></td>
+</tr>
+<tr>
+<td>C2 (screenshot exfil)</td>
+<td><code>213.176.73.151</code></td>
+</tr>
+<tr>
+<td>C2 endpoint</td>
+<td><code>POST /api/NTE3YjdjNWU1NjYzNjU2YTA1N2Y=</code> (multipart/form-data)</td>
+</tr>
+<tr>
+<td>Geolocation recon</td>
+<td><code>ip-api.com/json/</code></td>
+</tr>
+<tr>
+<td>Blockchain RPC (decoy / C2 fetch)</td>
+<td><code>polygon.drpc.org</code></td>
+</tr>
+<tr>
+<td>Fallback address (Tor/I2P-shaped)</td>
+<td><code>26bbudy13hydiihesb72eoyx8t8rqg0sifvolvn71nyq7</code></td>
+</tr>
+</tbody>
+</table>
+
+  </div>
+  <p style="margin-top: 24px; font-size: 0.8125rem;"><a href="/discoveries/">&larr; All discoveries</a></p>
+</div>
+
+  </main>
+
+  <div class="site-footer">
+    <div class="footer-inner">
+      <span>&copy; 2026 The Atomdrift Project</span>
+    </div>
+  </div>
+
+</body>
+</html>

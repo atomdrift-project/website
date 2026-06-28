@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Atomdrift Scan — Open-Source, Local, Deterministic, AI-Powered Malware Scanner - The Atomdrift Project</title>
+  <meta name="description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Atomdrift Scan — Open-Source, Local, Deterministic, AI-Powered Malware Scanner - The Atomdrift Project">
+  <meta property="og:description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>%E2%9A%9B</text></svg>">
+
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift News" href="/feed.xml">
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift Discoveries" href="/discoveries/feed.xml">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+
+  <div class="site-header">
+    <div class="header-inner">
+      <div class="logo-block">
+        <a href="/">
+          <svg class="atom-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="6" fill="#3b82f6"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(-30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(90 50 50)"/>
+            <circle cx="18" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="82" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="50" cy="88" r="3.5" fill="#d0ff00"/>
+          </svg>
+          <div class="logo-text">
+            <span class="logo-name">atom<span class="logo-accent">drift</span></span>
+            <span class="logo-tagline">Open-source, offline supply-chain attack detection for the AI age</span>
+          </div>
+        </a>
+      </div>
+      <div class="header-links">
+        <a href="https://codeberg.org/atomdrift" target="_blank">Codeberg</a>
+        <a href="https://lab.atomdrift.org/" class="hl" target="_blank">Lab</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="toxic-stripe"></div>
+
+  <div class="nav">
+    <div class="nav-inner">
+      <a href="/">Home</a>
+      <a href="/news/">News</a>
+      <a href="/discoveries/">Discoveries</a>
+      <a href="/compare/">Compare</a>
+      <a href="/projects/" class="active">Projects</a>
+      <a href="/support/">Support</a>
+    </div>
+  </div>
+
+  <main>
+    
+<div class="main">
+  <div class="content" data-pagefind-body>
+
+    <div class="project-header">
+      <img src="/assets/images/scan.svg" alt="Atomdrift Scan" class="proj-logo">
+      <span class="badge badge-stable">stable</span>
+      <h1 class="visually-hidden">Atomdrift Scan</h1>
+    </div>
+    <nav class="docs-nav" aria-label="scan documentation">
+  <a href="/scan/" class="active" aria-current="page">Overview</a>
+  <a href="/scan/getting-started/">Getting started</a>
+  <a href="/scan/how-it-works/">How it works</a>
+  <a href="/scan/integrations/">Integrations</a>
+  <a href="/scan/faq/">FAQ</a>
+</nav>
+
+    <p>Think of Atomdrift Scan as ClamAV for AI-powered malware detection: a
+    local scanner backed by open models that improve as newly observed
+    malware behavior is captured, labeled, and folded back through
+    cyclotron, Atomdrift's live training loop.
+    <em>(Scan was previously released as litmus.)</em></p>
+    <p>Hand it a path; it scans, classifies, and exits with a
+    status code your CI can act on. Whatever
+    <a href="/cleave/">cleave</a> decomposes, Scan classifies —
+    across 20+ languages and six binary formats. Everything runs
+    locally and deterministically: the same input always yields the same
+    verdict — no network, no API keys, no telemetry, no probabilistic
+    LLM output.</p>
+    <p>Today it scores capabilities with <a href="/azoth/">azoth</a>,
+    our weighted-ensemble model for context-free malware detection — now
+    the default. Every verdict ships with a list of the
+    capabilities that drove the score, computed on the live model rather
+    than a post-hoc story. Severity is a false-positive budget, not a
+    fixed scale: tell Scan how many false positives per 100M benign
+    files you'll tolerate (<code>-l</code>, default L50) and that's the
+    gate. Use <code>-l 0</code> when a single false positive is
+    unacceptable, higher when you'd rather not miss anything.</p>
+
+    <h2>Capabilities</h2>
+    <ul class="feature-list">
+      <li><strong>File scanning</strong> — files, directories, and archives, classified against <a href="/azoth/">azoth</a> by default</li>
+      <li><strong>Process scanning</strong> — running processes, via the on-disk image (memory-resident analysis is not yet implemented)</li>
+      <li><strong>Explainable verdicts</strong> — every score ships with a ranked list of the capabilities that drove it</li>
+      <li><strong>Local-LLM second opinion</strong> — <code>--interpret</code> sends tricky samples to a local LLM for a verdict and one-line reason, blended with the ML score</li>
+      <li><strong>Pluggable models</strong> — runs any model trained on cleave's capability schema; <code>--model-dir</code> swaps in a custom bundle</li>
+    </ul>
+
+    <p>Differential analysis — comparing two versions of a package to
+    surface newly-introduced malicious capabilities — is in development.
+    It's aimed at catching compromised dependency updates, where the
+    signal is the diff, not the artifact.</p>
+
+    <h2>Install</h2>
+
+    <p>Homebrew (macOS or Linux):</p>
+    <pre class="install-block">
+brew tap atomdrift/tap https://codeberg.org/atomdrift/homebrew-tap.git
+
+brew install atomdrift-scan
+</pre>
+
+    <p>From source:</p>
+    <pre class="install-block">
+git clone --depth 1 https://codeberg.org/atomdrift/scan.git
+make install
+</pre>
+
+    <h2>Usage</h2>
+    <pre class="install-block">$ ascan fs &lt;path&gt;</pre>
+
+    <p style="margin-top: 12px; font-size: 0.8125rem;">For more thorough results, install
+    <a href="https://github.com/rizinorg/rizin" target="_blank">Rizin</a> (binary reverse-engineering) and
+    <a href="https://github.com/upx/upx" target="_blank">UPX</a> (unpacker).</p>
+
+  </div>
+
+  <div class="sidebar">
+
+    <h3>Links</h3>
+    <ul>
+      <li><a href="https://codeberg.org/atomdrift/scan" target="_blank">Source code</a></li>
+      <li><a href="https://codeberg.org/atomdrift/scan/releases" target="_blank">Releases</a></li>
+      <li><a href="https://codeberg.org/atomdrift/scan/issues" target="_blank">Bug tracker</a></li>
+    </ul>
+
+    <h3>Contributing</h3>
+    <ul>
+      <li><a href="https://codeberg.org/atomdrift/scan" target="_blank">Fork on Codeberg</a></li>
+      <li><a href="https://codeberg.org/atomdrift/scan/issues" target="_blank">Open an issue</a></li>
+    </ul>
+
+    <h3>Project Info</h3>
+    <dl class="stats">
+      <dt>Version</dt><dd>2.1.0</dd>
+      <dt>Release Date</dt><dd>2026-06-22</dd>
+      <dt>License</dt><dd>Apache 2.0</dd>
+      <dt>Language</dt><dd>Rust</dd>
+    </dl>
+
+    <h3>Related</h3>
+    <ul>
+      <li><a href="/azoth/">azoth</a> — the AI model</li>
+      <li><a href="/cleave/">cleave</a> — deep static analysis</li>
+      <li><a href="/stng/">stng</a> — string extraction</li>
+    </ul>
+
+  </div>
+</div>
+
+  </main>
+
+  <div class="site-footer">
+    <div class="footer-inner">
+      <span>&copy; 2026 The Atomdrift Project</span>
+    </div>
+  </div>
+
+</body>
+</html>

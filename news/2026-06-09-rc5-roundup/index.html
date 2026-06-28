@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>cleave v2.0.0-rc.5, litmus v2.0.0-rc.5, stng v1.6.0, filefacts v0.9.5 - The Atomdrift Project</title>
+  <meta name="description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="cleave v2.0.0-rc.5, litmus v2.0.0-rc.5, stng v1.6.0, filefacts v0.9.5 - The Atomdrift Project">
+  <meta property="og:description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>%E2%9A%9B</text></svg>">
+
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift News" href="/feed.xml">
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift Discoveries" href="/discoveries/feed.xml">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+
+  <div class="site-header">
+    <div class="header-inner">
+      <div class="logo-block">
+        <a href="/">
+          <svg class="atom-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="6" fill="#3b82f6"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(-30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(90 50 50)"/>
+            <circle cx="18" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="82" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="50" cy="88" r="3.5" fill="#d0ff00"/>
+          </svg>
+          <div class="logo-text">
+            <span class="logo-name">atom<span class="logo-accent">drift</span></span>
+            <span class="logo-tagline">Open-source, offline supply-chain attack detection for the AI age</span>
+          </div>
+        </a>
+      </div>
+      <div class="header-links">
+        <a href="https://codeberg.org/atomdrift" target="_blank">Codeberg</a>
+        <a href="https://lab.atomdrift.org/" class="hl" target="_blank">Lab</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="toxic-stripe"></div>
+
+  <div class="nav">
+    <div class="nav-inner">
+      <a href="/">Home</a>
+      <a href="/news/" class="active">News</a>
+      <a href="/discoveries/">Discoveries</a>
+      <a href="/compare/">Compare</a>
+      <a href="/projects/">Projects</a>
+      <a href="/support/">Support</a>
+    </div>
+  </div>
+
+  <main>
+    
+<div class="main-full">
+  <div class="post-header">
+    <h1>cleave v2.0.0-rc.5, litmus v2.0.0-rc.5, stng v1.6.0, filefacts v0.9.5</h1>
+    <span class="post-meta">2026-06-09</span>
+  </div>
+  <div class="post-body">
+    <p>Four releases, one headline: <strong>updates no longer depend on git.</strong> Until now <a href="/cleave/">cleave</a> refreshed its trait rules and <a href="/litmus/">litmus</a> refreshed its models by cloning and pulling git repos — slow, heavy, and one more thing to install on the host. As of rc.5 both pull signed, sha256-verified <code>.tar.zst</code> bundles straight from R2, install them atomically, and support <code>pin</code>/<code>check</code>/<code>update</code>. Smaller downloads, no git dependency, and a verified artifact instead of &quot;whatever HEAD happened to be.&quot;</p>
+<p><strong><a href="/cleave/">cleave</a> v2.0.0-rc.5</strong> carries the new updater: signed, sha256-verified <code>.tar.zst</code> trait bundles from R2 with atomic install and pin/check/update, replacing git clones. It adds archive routing for package ecosystems — gem, npm, crate, conda, NuGet, IPA, VSIX, Android/Alpine APK, Arch/FreeBSD pkg — and lets composites pool findings across archive members, catching split payloads and browser-extension tricks. Two detection holes closed: archive members were missing encoded-payload findings and skipping XOR extraction, weakening detection inside npm packages, zips, and jars. <a href="https://codeberg.org/atomdrift/cleave/releases/tag/v2.0.0-rc.5">Release notes</a>.</p>
+<p><strong><a href="/litmus/">litmus</a> v2.0.0-rc.5</strong> gets the same updater for models — sha256-verified <code>.tar.zst</code> bundles from R2, validated before they go live, with the old git updater and rollback paths gone. New trait-floor escalation lets a confident high-severity cleave finding raise a model-benign verdict to suspicious. Suspicious verdicts are now capped at level 20000 so loose grid hits can't drift into &quot;suspicious.&quot; <a href="https://codeberg.org/atomdrift/litmus/releases/tag/v2.0.0-rc.5">Release notes</a>.</p>
+<p><strong><a href="/stng/">stng</a> v1.6.0</strong> drops a dependency: native PE import recovery surfaces API names like <code>CreateProcessW</code>, and Mach-O symbol extraction types imports, exports, and ObjC classes — both without radare2. <a href="https://codeberg.org/atomdrift/stng/releases/tag/v1.6.0">Release notes</a>.</p>
+<p><strong><a href="https://codeberg.org/atomdrift/filefacts">filefacts</a> v0.9.5</strong> adds Debian and RubyGems package metadata and new PE/.NET signals — managed-resource entropy, suspicious VERSIONINFO identity text, <code>.reloc</code> overhang, and certificate-table size. <a href="https://codeberg.org/atomdrift/filefacts/releases/tag/v0.9.5">Release notes</a>.</p>
+<p>The release candidates are still candidates. Pin if you need stability; otherwise:</p>
+<pre><code>brew upgrade atomdrift/tap/cleave atomdrift/tap/litmus atomdrift/tap/stng
+</code></pre>
+
+  </div>
+  <p style="margin-top: 24px; font-size: 0.8125rem;"><a href="/news/">&larr; All news</a></p>
+</div>
+
+  </main>
+
+  <div class="site-footer">
+    <div class="footer-inner">
+      <span>&copy; 2026 The Atomdrift Project</span>
+    </div>
+  </div>
+
+</body>
+</html>

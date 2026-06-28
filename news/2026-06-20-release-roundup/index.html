@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>cleave v2.1.0, stng v1.7.0, filefacts v1.1.0 &amp; v1.1.1 - The Atomdrift Project</title>
+  <meta name="description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="cleave v2.1.0, stng v1.7.0, filefacts v1.1.0 &amp; v1.1.1 - The Atomdrift Project">
+  <meta property="og:description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>%E2%9A%9B</text></svg>">
+
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift News" href="/feed.xml">
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift Discoveries" href="/discoveries/feed.xml">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+
+  <div class="site-header">
+    <div class="header-inner">
+      <div class="logo-block">
+        <a href="/">
+          <svg class="atom-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="6" fill="#3b82f6"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(-30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(90 50 50)"/>
+            <circle cx="18" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="82" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="50" cy="88" r="3.5" fill="#d0ff00"/>
+          </svg>
+          <div class="logo-text">
+            <span class="logo-name">atom<span class="logo-accent">drift</span></span>
+            <span class="logo-tagline">Open-source, offline supply-chain attack detection for the AI age</span>
+          </div>
+        </a>
+      </div>
+      <div class="header-links">
+        <a href="https://codeberg.org/atomdrift" target="_blank">Codeberg</a>
+        <a href="https://lab.atomdrift.org/" class="hl" target="_blank">Lab</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="toxic-stripe"></div>
+
+  <div class="nav">
+    <div class="nav-inner">
+      <a href="/">Home</a>
+      <a href="/news/" class="active">News</a>
+      <a href="/discoveries/">Discoveries</a>
+      <a href="/compare/">Compare</a>
+      <a href="/projects/">Projects</a>
+      <a href="/support/">Support</a>
+    </div>
+  </div>
+
+  <main>
+    
+<div class="main-full">
+  <div class="post-header">
+    <h1>cleave v2.1.0, stng v1.7.0, filefacts v1.1.0 &amp; v1.1.1</h1>
+    <span class="post-meta">2026-06-20</span>
+  </div>
+  <div class="post-body">
+    <p>Three tools, one theme: the stack got a lot better at reading what packages actually ship.</p>
+<p><strong><a href="/cleave/">cleave</a> v2.1.0</strong> adds DMG and <code>go.mod</code> support and pushes even more parsing down onto <a href="https://codeberg.org/atomdrift/filefacts">filefacts</a>. New <code>iter-files --newer-than</code> makes incremental sweeps cheap, and experimental <code>--fetch</code> pulls remote inputs in. Detection got tighter on both ends: stricter trait and testdata validation, a fixed Alpine APK multi-member parse, better Java class and source-symbol handling, and improved archive decompression. Compact JSON shrank again. <a href="https://codeberg.org/atomdrift/cleave/releases/tag/v2.1.0">Release notes</a>.</p>
+<p><strong><a href="/stng/">stng</a> v1.7.0</strong> adds generic decoded-string extraction for text inputs and base64-over-UTF-16LE decoding — two more ways to surface what an obfuscated payload is hiding. Go PE inline string recovery improved, Python/JS code classification got sharper, and the decoder and filtering hot paths are now parallelized. It also trims noise: fewer false-positive IPs from PE/network data and tighter URL-decoding. <a href="https://codeberg.org/atomdrift/stng/releases/tag/v1.7.0">Release notes</a>.</p>
+<p><strong><a href="https://codeberg.org/atomdrift/filefacts">filefacts</a> v1.1.0 &amp; v1.1.1</strong> turn it into a proper supply-chain reader: external reference extraction (PURLs, URLs, evidence, offsets, hashes) and real package/lockfile parsing for npm, PyPI, Cargo, Go, Ruby, Composer, and Arch. New file types land too — lockfiles, <code>go.mod</code>, <code>go.sum</code>, <code>.SRCINFO</code>, and DMG — alongside source call-target metrics that flag obfuscated command targets. v1.1.1 follows with a hermetic open for cache-less testing and a missing DMG support file. <a href="https://codeberg.org/atomdrift/filefacts/releases/tag/v1.1.0">Release notes</a>.</p>
+<pre><code>brew upgrade atomdrift/tap/cleave atomdrift/tap/stng atomdrift/tap/filefacts
+</code></pre>
+
+  </div>
+  <p style="margin-top: 24px; font-size: 0.8125rem;"><a href="/news/">&larr; All news</a></p>
+</div>
+
+  </main>
+
+  <div class="site-footer">
+    <div class="footer-inner">
+      <span>&copy; 2026 The Atomdrift Project</span>
+    </div>
+  </div>
+
+</body>
+</html>

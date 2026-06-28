@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>News - The Atomdrift Project</title>
+  <meta name="description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="News - The Atomdrift Project">
+  <meta property="og:description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>%E2%9A%9B</text></svg>">
+
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift News" href="/feed.xml">
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift Discoveries" href="/discoveries/feed.xml">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+
+  <div class="site-header">
+    <div class="header-inner">
+      <div class="logo-block">
+        <a href="/">
+          <svg class="atom-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="6" fill="#3b82f6"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(-30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(90 50 50)"/>
+            <circle cx="18" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="82" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="50" cy="88" r="3.5" fill="#d0ff00"/>
+          </svg>
+          <div class="logo-text">
+            <span class="logo-name">atom<span class="logo-accent">drift</span></span>
+            <span class="logo-tagline">Open-source, offline supply-chain attack detection for the AI age</span>
+          </div>
+        </a>
+      </div>
+      <div class="header-links">
+        <a href="https://codeberg.org/atomdrift" target="_blank">Codeberg</a>
+        <a href="https://lab.atomdrift.org/" class="hl" target="_blank">Lab</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="toxic-stripe"></div>
+
+  <div class="nav">
+    <div class="nav-inner">
+      <a href="/">Home</a>
+      <a href="/news/" class="active">News</a>
+      <a href="/discoveries/">Discoveries</a>
+      <a href="/compare/">Compare</a>
+      <a href="/projects/">Projects</a>
+      <a href="/support/">Support</a>
+    </div>
+  </div>
+
+  <main>
+    
+<div class="main-full">
+  <h2 class="content" style="margin-top: 0;">News <a href="/feed.xml" class="rss-link" title="RSS Feed"><svg class="rss-icon" viewBox="0 0 24 24" fill="currentColor"><circle cx="6.18" cy="17.82" r="2.18"/><path d="M4 4.44v2.83c7.03 0 12.73 5.7 12.73 12.73h2.83c0-8.59-6.97-15.56-15.56-15.56zm0 5.66v2.83c3.9 0 7.07 3.17 7.07 7.07h2.83c0-5.47-4.43-9.9-9.9-9.9z"/></svg></a></h2>
+  <ul class="post-list">
+    <li class="post-item">
+      <span class="post-date">2026-06-22</span>
+      <a href="/news/2026-06-22-storage-upgrade/" class="post-title">Lab down today: growing the database to 4TB before the admins disappear for summer vacation</a>
+      <p class="post-summary">The Atomdrift lab is offline for hardware maintenance today while engineers grow storage on the PostgreSQL master and its replicas to hold a 4TB dataset — the corpus of analyses we now track for more than 41 million files.</p>
+    </li>
+    <li class="post-item">
+      <span class="post-date">2026-06-22</span>
+      <a href="/news/2026-06-22-release-roundup/" class="post-title">Atomdrift Scan v2.1.0, cleave v2.1.1</a>
+      <p class="post-summary">Scan learns to reach out — fetch and scan remote dependencies, packages, and URLs directly — while cleave makes YARA fast with precompiled rules and on-demand tier loading.</p>
+    </li>
+    <li class="post-item">
+      <span class="post-date">2026-06-20</span>
+      <a href="/news/2026-06-20-release-roundup/" class="post-title">cleave v2.1.0, stng v1.7.0, filefacts v1.1.0 &amp; v1.1.1</a>
+      <p class="post-summary">A package-aware wave: cleave learns DMG and go.mod, filefacts grows real lockfile parsing and PURL extraction, and stng adds generic decoded-string recovery for text.</p>
+    </li>
+    <li class="post-item">
+      <span class="post-date">2026-06-14</span>
+      <a href="/news/2026-06-14-scan-v2.0.0/" class="post-title">🎉 Atomdrift Scan v2.0.0 (formerly litmus)</a>
+      <p class="post-summary">litmus grows up: renamed Atomdrift Scan, now generally available on pure-Rust ONNX inference, with false-positive-budget severity, an optional local-LLM second opinion, and signed model bundles.</p>
+    </li>
+    <li class="post-item">
+      <span class="post-date">2026-06-14</span>
+      <a href="/news/2026-06-14-cleave-v2.0.0/" class="post-title">cleave v2.0.0, stng v1.6.2, filefacts v1.0.1</a>
+      <p class="post-summary">The rest of the 2.0 stack lands alongside Atomdrift Scan: cleave&#39;s engine swap reaches stable, stng kills a class of XOR false positives, and filefacts goes panic-safe.</p>
+    </li>
+    <li class="post-item">
+      <span class="post-date">2026-06-12</span>
+      <a href="/news/2026-06-12-filefacts-v1.0.0/" class="post-title">filefacts v1.0.0</a>
+      <p class="post-summary">filefacts reaches 1.0.0 with richer package identity, new PE/.NET malware features, better evidence offsets, and explicit AST failure metrics for large-scale security ML pipelines.</p>
+    </li>
+    <li class="post-item">
+      <span class="post-date">2026-06-09</span>
+      <a href="/news/2026-06-09-rc5-roundup/" class="post-title">cleave v2.0.0-rc.5, litmus v2.0.0-rc.5, stng v1.6.0, filefacts v0.9.5</a>
+      <p class="post-summary">Everything got a bump, and updates no longer need git: cleave and litmus now pull signed, sha256-verified .tar.zst bundles from R2 — atomic install, pin/check/update — plus richer package, PE/CLR, and Mach-O signals across the stack.</p>
+    </li>
+    <li class="post-item">
+      <span class="post-date">2026-06-07</span>
+      <a href="/news/2026-06-07-rc4-roundup/" class="post-title">cleave v2.0.0-rc.4, litmus v2.0.0-rc.4, stng v1.5.2, filefacts v0.9.0</a>
+      <p class="post-summary">Four releases, one storyline: the filefacts engine swap deepens, and the pipeline gets dramatically cheaper to run — bounded archive analysis, a fixed ~7.7 GB regex leak, −60% peak RSS, streaming JSON everywhere.</p>
+    </li>
+    <li class="post-item">
+      <span class="post-date">2026-05-28</span>
+      <a href="/news/2026-05-28-rc3-roundup/" class="post-title">cleave v2.0.0-rc.3, litmus v2.0.0-rc.3, stng v1.5.1</a>
+      <p class="post-summary">Two release candidates and a point release: cleave and litmus both move to 2.0.0-rc.3, closing the gap between capability extraction and the azoth model, while stng v1.5.1 stops mistaking compiler tables for hardcoded IPs.</p>
+    </li>
+    <li class="post-item">
+      <span class="post-date">2026-05-26</span>
+      <a href="/news/2026-05-26-bandwidth-upgrade/" class="post-title">Atomdrift lab going dark for bandwidth upgrade</a>
+      <p class="post-summary">The Atomdrift research lab will be offline for several hours today while engineers upgrade the uplink feeding forager, the in-house crawler that has been pinned at line rate around the clock pulling releases from more than 100 software marketplaces.</p>
+    </li>
+    <li class="post-item">
+      <span class="post-date">2026-05-25</span>
+      <a href="/news/2026-05-25-engine-swap/" class="post-title">cleave v2.0.0-rc.1, litmus v2.0.0-rc.1, stng v1.4.0</a>
+      <p class="post-summary">The 2.0.0-rc.1 series swaps cleave&#39;s file-parsing engine out for filefacts, a standalone library you can use without the rest of cleave. litmus picks up a new JSON schema and ONNX. stng tightens the garbage filter and fixes a stack-string panic.</p>
+    </li>
+    <li class="post-item">
+      <span class="post-date">2026-05-13</span>
+      <a href="/news/2026-05-13-release-roundup/" class="post-title">stng v1.3.1, litmus v1.2.1, cleave v1.4.0</a>
+      <p class="post-summary">Three pre-CackalackyCon releases: stng tightens mixed binary/script decoding, litmus improves worker reporting and model bundle handling, and cleave deepens PDF and LNK analysis.</p>
+    </li>
+    <li class="post-item">
+      <span class="post-date">2026-05-10</span>
+      <a href="/news/2026-05-10-litmus-v1.2.0/" class="post-title">litmus v1.2.0</a>
+      <p class="post-summary">Preview support for the azoth ensemble. Multi-seed averaging, per-route isotonic calibration, LightGBM alongside XGBoost. Models route per file from a top-level config.</p>
+    </li>
+    <li class="post-item">
+      <span class="post-date">2026-05-08</span>
+      <a href="/news/2026-05-08-cleave-v1.3/" class="post-title">cleave v1.3</a>
+      <p class="post-summary">cleave diff is the signal we have been building toward: a structured, scoped delta between two versions of the same software, with an estimated rate of change that nobody else is measuring. kv now covers PE/ELF/Mach-O along with Office, PDF, PyInstaller, CHM, and a long tail of source and archive formats, with much deeper binary provenance.</p>
+    </li>
+    <li class="post-item">
+      <span class="post-date">2026-05-07</span>
+      <a href="/news/2026-05-07-lab-outage/" class="post-title">Lab outage: btrfs cannot delete its way out of a full disk</a>
+      <p class="post-summary">The lab&#39;s PostgreSQL master is offline: btrfs filled up and now refuses to delete files — or even snapshots — because it is out of space. No data was lost, thanks to our distributed replica architecture. We are moving the master to ZFS on OmniOS and teaching the lab to fail over to a replica. ETA back online: today.</p>
+    </li>
+    <li class="post-item">
+      <span class="post-date">2026-05-07</span>
+      <a href="/news/2026-05-07-stng-v1.3.0/" class="post-title">stng v1.3.0</a>
+      <p class="post-summary">Go and Rust PE recovery, multi-key XOR via lea-near-xor analysis, and a pile of fixes for things that were quietly wrong.</p>
+    </li>
+    <li class="post-item">
+      <span class="post-date">2026-04-28</span>
+      <a href="/news/2026-04-28-release-mania/" class="post-title">Release Mania: stng v1.2.1, cleave v1.2.0, litmus v1.1.0</a>
+      <p class="post-summary">cleave fixes a class of rayon deadlocks, parses Python pickle and MSI-embedded PE, and skips rizin on Go binaries for a real speedup; litmus gains worker-mode fleet scanning behind a hardened HTTP server; stng stops mis-flagging Kotlin as Python.</p>
+    </li>
+    <li class="post-item">
+      <span class="post-date">2026-04-21</span>
+      <a href="/news/2026-04-21-stng-v1.2.0/" class="post-title">stng v1.2.0</a>
+      <p class="post-summary">Preserve Telegram bot tokens, JWTs, and Swift mangled symbols that the chaos filter was dropping; cut XOR IP false positives inside binary data tables.</p>
+    </li>
+    <li class="post-item">
+      <span class="post-date">2026-04-10</span>
+      <a href="/news/2026-04-10-stng-v1.1.8/" class="post-title">stng v1.1.8</a>
+      <p class="post-summary">Aho-Corasick rewrite of XOR/string classification and parallel disassembly via iced-x86; fixes a PE/XOR bug that was missing office_update-style samples.</p>
+    </li>
+    <li class="post-item">
+      <span class="post-date">2026-04-10</span>
+      <a href="/news/2026-04-10-cleave-v1.1.0/" class="post-title">cleave v1.1.0</a>
+      <p class="post-summary">PE Authenticode chain extraction and ~100 new ELF/Mach-O fields; archive scanning raised from 1K to 100K members; breaking V4 output schema.</p>
+    </li>
+    <li class="post-item">
+      <span class="post-date">2026-03-26</span>
+      <a href="/news/2026-03-26-litmus-v1.0.0/" class="post-title">litmus v1.0.0</a>
+      <p class="post-summary">First tagged release. Open-source malware classifier with TreeSHAP-explained verdicts; CPU-only, offline, no telemetry. Default model is beta — not production-ready yet.</p>
+    </li>
+    <li class="post-item">
+      <span class="post-date">2026-03-26</span>
+      <a href="/news/2026-03-26-hello-world/" class="post-title">Atomdrift is here!</a>
+      <p class="post-summary">Atomdrift launches: an open-source pipeline for catching supply-chain attacks the static-binary tools miss. First piece is litmus.</p>
+    </li>
+  </ul>
+</div>
+
+  </main>
+
+  <div class="site-footer">
+    <div class="footer-inner">
+      <span>&copy; 2026 The Atomdrift Project</span>
+    </div>
+  </div>
+
+</body>
+</html>

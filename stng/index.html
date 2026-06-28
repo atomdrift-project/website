@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>stng — Modern String Extraction - The Atomdrift Project</title>
+  <meta name="description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="stng — Modern String Extraction - The Atomdrift Project">
+  <meta property="og:description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>%E2%9A%9B</text></svg>">
+
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift News" href="/feed.xml">
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift Discoveries" href="/discoveries/feed.xml">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+
+  <div class="site-header">
+    <div class="header-inner">
+      <div class="logo-block">
+        <a href="/">
+          <svg class="atom-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="6" fill="#3b82f6"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(-30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(90 50 50)"/>
+            <circle cx="18" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="82" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="50" cy="88" r="3.5" fill="#d0ff00"/>
+          </svg>
+          <div class="logo-text">
+            <span class="logo-name">atom<span class="logo-accent">drift</span></span>
+            <span class="logo-tagline">Open-source, offline supply-chain attack detection for the AI age</span>
+          </div>
+        </a>
+      </div>
+      <div class="header-links">
+        <a href="https://codeberg.org/atomdrift" target="_blank">Codeberg</a>
+        <a href="https://lab.atomdrift.org/" class="hl" target="_blank">Lab</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="toxic-stripe"></div>
+
+  <div class="nav">
+    <div class="nav-inner">
+      <a href="/">Home</a>
+      <a href="/news/">News</a>
+      <a href="/discoveries/">Discoveries</a>
+      <a href="/compare/">Compare</a>
+      <a href="/projects/" class="active">Projects</a>
+      <a href="/support/">Support</a>
+    </div>
+  </div>
+
+  <main>
+    
+<div class="main">
+  <div class="content" data-pagefind-body>
+
+    <div class="project-header">
+      <img src="/assets/images/stng.svg" alt="stng" class="proj-logo">
+      <span class="badge badge-stable">stable</span>
+      <h1 class="visually-hidden">stng</h1>
+    </div>
+    <nav class="docs-nav" aria-label="stng documentation">
+  <a href="/stng/" class="active" aria-current="page">Overview</a>
+  <a href="/stng/getting-started/">Getting started</a>
+  <a href="/stng/how-it-works/">How it works</a>
+  <a href="/stng/integrations/">Integrations</a>
+  <a href="/stng/faq/">FAQ</a>
+</nav>
+
+    <p>String extraction for binary analysis. Same idea as
+    <code>strings(1)</code>, except it knows about XOR, base64, Go and
+    Rust string layouts, DWARF stack strings, and Windows wide
+    strings — and it filters the obvious garbage by default. Useful for
+    triage, C2 enumeration, credential extraction, and writing YARA
+    signatures.</p>
+
+    <h2>Capabilities</h2>
+    <ul class="feature-list">
+      <li><strong>Garbage filtering</strong> — automatically removes unusable noise (override with <code>--unfiltered</code>)</li>
+      <li><strong>XOR obfuscation detection</strong> — single/multi-byte keys with entropy analysis, double-layer (encoding+XOR)</li>
+      <li><strong>Encoding detection</strong> — Base64, Base32, Base85, hex, URL-encoding, Unicode escapes</li>
+      <li><strong>Language-aware extraction</strong> — Go/Rust <code>{ptr, len}</code> structures, DWARF stack strings</li>
+      <li><strong>Mixed inputs</strong> — decodes embedded campaign markers from polyglot and mostly-binary unknown files</li>
+      <li><strong>Binary network structures</strong> — hardcoded IPs/ports in socket structures</li>
+      <li><strong>IOC classification</strong> — IPs, URLs, shell commands, paths, credentials</li>
+      <li><strong>Wide strings</strong> — UTF-16LE support for Windows PE binaries</li>
+      <li><strong>Multi-format</strong> — ELF, PE, Mach-O, raw binaries, overlays</li>
+    </ul>
+
+    <h2>Install</h2>
+
+Homebrew (macOS and Linux)
+    <pre class="install-block">
+brew tap atomdrift/tap https://codeberg.org/atomdrift/homebrew-tap.git
+
+brew install atomdrift/tap/stng
+</pre>
+
+From source:
+
+<pre class="install-block">
+cargo install --git https://codeberg.org/atomdrift/stng</pre>
+</pre>
+
+
+    <h2>Usage</h2>
+    <pre class="install-block">$ stng malware.bin              # full analysis with XOR auto-detection
+$ stng -i malware.bin           # interesting strings only
+$ stng --json malware.bin       # machine-readable with encoding metadata</pre>
+
+    <h2>Library</h2>
+    <pre class="install-block">let strings = stng::extract_strings(&amp;std::fs::read("sample")?, 4);</pre>
+
+  </div>
+
+  <div class="sidebar">
+
+    <h3>Links</h3>
+    <ul>
+      <li><a href="https://codeberg.org/atomdrift/stng" target="_blank">Source code</a></li>
+      <li><a href="https://codeberg.org/atomdrift/stng/releases" target="_blank">Releases</a></li>
+      <li><a href="https://codeberg.org/atomdrift/stng/issues" target="_blank">Bug tracker</a></li>
+    </ul>
+
+    <h3>Contributing</h3>
+    <ul>
+      <li><a href="https://codeberg.org/atomdrift/stng" target="_blank">Fork on Codeberg</a></li>
+      <li><a href="https://codeberg.org/atomdrift/stng/issues" target="_blank">Open an issue</a></li>
+    </ul>
+
+    <h3>Project Info</h3>
+    <dl class="stats">
+      <dt>Version</dt><dd>1.7.0</dd>
+      <dt>Release Date</dt><dd>2026-06-20</dd>
+      <dt>License</dt><dd>Apache 2.0</dd>
+      <dt>Language</dt><dd>Rust</dd>
+    </dl>
+
+    <h3>Related</h3>
+    <ul>
+      <li><a href="/cleave/">cleave</a> — deep static analysis</li>
+      <li><a href="/scan/">scan</a> — AI classification</li>
+    </ul>
+
+  </div>
+</div>
+
+  </main>
+
+  <div class="site-footer">
+    <div class="footer-inner">
+      <span>&copy; 2026 The Atomdrift Project</span>
+    </div>
+  </div>
+
+</body>
+</html>

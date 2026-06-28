@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎉 Atomdrift Scan v2.0.0 (formerly litmus) - The Atomdrift Project</title>
+  <meta name="description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="🎉 Atomdrift Scan v2.0.0 (formerly litmus) - The Atomdrift Project">
+  <meta property="og:description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>%E2%9A%9B</text></svg>">
+
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift News" href="/feed.xml">
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift Discoveries" href="/discoveries/feed.xml">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+
+  <div class="site-header">
+    <div class="header-inner">
+      <div class="logo-block">
+        <a href="/">
+          <svg class="atom-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="6" fill="#3b82f6"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(-30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(90 50 50)"/>
+            <circle cx="18" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="82" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="50" cy="88" r="3.5" fill="#d0ff00"/>
+          </svg>
+          <div class="logo-text">
+            <span class="logo-name">atom<span class="logo-accent">drift</span></span>
+            <span class="logo-tagline">Open-source, offline supply-chain attack detection for the AI age</span>
+          </div>
+        </a>
+      </div>
+      <div class="header-links">
+        <a href="https://codeberg.org/atomdrift" target="_blank">Codeberg</a>
+        <a href="https://lab.atomdrift.org/" class="hl" target="_blank">Lab</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="toxic-stripe"></div>
+
+  <div class="nav">
+    <div class="nav-inner">
+      <a href="/">Home</a>
+      <a href="/news/" class="active">News</a>
+      <a href="/discoveries/">Discoveries</a>
+      <a href="/compare/">Compare</a>
+      <a href="/projects/">Projects</a>
+      <a href="/support/">Support</a>
+    </div>
+  </div>
+
+  <main>
+    
+<div class="main-full">
+  <div class="post-header">
+    <h1>🎉 Atomdrift Scan v2.0.0 (formerly litmus)</h1>
+    <span class="post-meta">2026-06-14</span>
+  </div>
+  <div class="post-body">
+    <p><a href="/scan/">litmus</a> is now <strong>Atomdrift Scan</strong>, and it ships v2.0.0 — the first release we'd call generally available rather than beta. Same idea as always: point <code>ascan</code> at a file, directory, or running process, and get a <code>hostile</code> / <code>suspicious</code> / <code>benign</code> verdict with the capabilities that drove it. What changed is everything underneath.</p>
+<p><strong>Pure-Rust inference.</strong> The XGBoost and LightGBM loaders are gone. Scan now runs ONNX-only against the new <a href="/azoth/">azoth</a> model — one inference path, no native ML runtime to fight with. It sits on the rebuilt analysis engine: <a href="/cleave/">cleave</a> 2.0 and <a href="https://codeberg.org/atomdrift/filefacts">filefacts</a> feed it richer package, PE/CLR, archive, and string signals than 1.x ever saw.</p>
+<p><strong>Severity is now a false-positive budget.</strong> The old 1–9 scale is gone. You set how many false positives per 100M benign files you'll tolerate, and that's the gate. <code>ascan -l 0</code> for a zero-FP scan of <code>/sbin</code>, <code>-l 5000</code> to be paranoid about CI; the default is L50. &quot;Suspicious&quot; is no longer a hand-waved tier — it's the bounded middle ground between the hostile budget and the calibrated grid.</p>
+<p><strong>A local-LLM second opinion.</strong> New <code>--interpret</code> mode ships tricky samples to a local LLM for a verdict plus a one-line reason, then blends that with the ML score. It points at an OpenAI-compatible endpoint (vLLM with Qwen 3.6-27B is our recommendation) and fails silently if the model is unreachable — no endpoint, no problem. There's also <code>--format=tiny</code> output built to fit in an LLM context window, and cleaner v7 JSON.</p>
+<p><strong>Signed model bundles, no more git.</strong> Model and trait updates now arrive as signed, compressed <code>.tar.zst</code> bundles with SHA-256 verification, staged validation, and atomic install. The old git-based updater and its rollback paths are gone. A daily, zero-telemetry update check keeps you current.</p>
+<p><strong>Steadier under load.</strong> Memory-aware admission runs large archives one at a time instead of letting them co-reside and exhaust RAM. Smallest-job-first ordering stops quick scans from waiting behind slow archives. Larger shared thread stacks fix the stack-overflow crashes that deep concurrent archives used to trigger. And when something does go wrong, there's far more to look at: crash-time in-flight dumps, a worker census, thread dumps, and tracing breadcrumbs.</p>
+<p>The model is out of beta — but reading the contributing capabilities still beats trusting the verdict alone.</p>
+<p><a href="https://codeberg.org/atomdrift/scan/releases/tag/v2.0.0">v2.0.0 release notes</a>.</p>
+<pre><code>brew tap atomdrift/tap https://codeberg.org/atomdrift/homebrew-tap.git
+brew install atomdrift-scan
+</code></pre>
+
+  </div>
+  <p style="margin-top: 24px; font-size: 0.8125rem;"><a href="/news/">&larr; All news</a></p>
+</div>
+
+  </main>
+
+  <div class="site-footer">
+    <div class="footer-inner">
+      <span>&copy; 2026 The Atomdrift Project</span>
+    </div>
+  </div>
+
+</body>
+</html>

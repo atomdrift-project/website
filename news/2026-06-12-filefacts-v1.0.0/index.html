@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>filefacts v1.0.0 - The Atomdrift Project</title>
+  <meta name="description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="filefacts v1.0.0 - The Atomdrift Project">
+  <meta property="og:description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>%E2%9A%9B</text></svg>">
+
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift News" href="/feed.xml">
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift Discoveries" href="/discoveries/feed.xml">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+
+  <div class="site-header">
+    <div class="header-inner">
+      <div class="logo-block">
+        <a href="/">
+          <svg class="atom-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="6" fill="#3b82f6"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(-30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(90 50 50)"/>
+            <circle cx="18" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="82" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="50" cy="88" r="3.5" fill="#d0ff00"/>
+          </svg>
+          <div class="logo-text">
+            <span class="logo-name">atom<span class="logo-accent">drift</span></span>
+            <span class="logo-tagline">Open-source, offline supply-chain attack detection for the AI age</span>
+          </div>
+        </a>
+      </div>
+      <div class="header-links">
+        <a href="https://codeberg.org/atomdrift" target="_blank">Codeberg</a>
+        <a href="https://lab.atomdrift.org/" class="hl" target="_blank">Lab</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="toxic-stripe"></div>
+
+  <div class="nav">
+    <div class="nav-inner">
+      <a href="/">Home</a>
+      <a href="/news/" class="active">News</a>
+      <a href="/discoveries/">Discoveries</a>
+      <a href="/compare/">Compare</a>
+      <a href="/projects/">Projects</a>
+      <a href="/support/">Support</a>
+    </div>
+  </div>
+
+  <main>
+    
+<div class="main-full">
+  <div class="post-header">
+    <h1>filefacts v1.0.0</h1>
+    <span class="post-meta">2026-06-12</span>
+  </div>
+  <div class="post-body">
+    <p><a href="https://codeberg.org/atomdrift/filefacts">filefacts</a> v1.0.0 is the stable line for the parser behind cleave's feature extraction. The headline for ML work is simple: more samples now land in the right format bucket, more package identity becomes structured data, and skipped or truncated source analysis is visible instead of silent.</p>
+<p>For supply-chain models, the point is not prettier names. It is fewer collapsed classes, more provenance features, better evidence offsets, and explicit failure signals when static analysis is bounded for corpus-scale safety.</p>
+<ul>
+<li><strong>Package identity.</strong> Android and Alpine <code>.apk</code>, npm <code>.tgz</code>, Cargo <code>.crate</code>, RubyGems, Debian packages, NuGet, VSIX, IPA, conda, egg, and Arch/FreeBSD/macOS packages now get distinct types.</li>
+<li><strong>Debian and RubyGems metadata.</strong> Names, versions, maintainers or authors, dependencies, licenses, platforms, installed size, and dependency-shape metrics become structured features.</li>
+<li><strong>PE/.NET features.</strong> CLR managed resources now report count, maximum entropy, and maximum size. <code>.reloc</code> overhang measures payload bytes hidden past real relocation data.</li>
+<li><strong>Version and signature signals.</strong> VERSIONINFO identity text gets entropy and symbol-ratio metrics, and certificate table size is now a metric for direct thresholding.</li>
+<li><strong>Evidence offsets.</strong> ELF dynamic imports carry <code>.dynstr</code> offsets when available. Mach-O dylibs and code signatures carry file offsets. Source member symbols now carry byte offsets.</li>
+<li><strong>Corpus-scale AST safety.</strong> Deep ASTs, large query outputs, tree-sitter guard skips, and source extractor panics now produce <code>ast.depth_capped</code>, <code>source.query_limited.*</code>, and <code>source.ast_unavailable</code>.</li>
+<li><strong>Quieter file typing.</strong> Unsupported OCaml, Vim, Lisp, SQL, Smali, patches, CSS-like files, and TypeScript baselines are treated as text instead of weakly guessed as JavaScript, Kotlin, or Batch.</li>
+<li><strong>Better content detection.</strong> AppleScript and pacman/AUR install scriptlets are detected more reliably without depending on extensions.</li>
+<li><strong>Schema notes.</strong> <code>FileType::Pkg</code> split into specific package variants, <code>Symbol::Member</code> gained an optional <code>offset</code>, source error stages were added, and <code>pe.cert_table_size</code> moved from values to metrics.</li>
+</ul>
+<p><a href="https://codeberg.org/atomdrift/filefacts/releases/tag/v1.0.0">Release notes</a>.</p>
+<pre><code>brew install atomdrift/tap/filefacts
+cargo add filefacts
+</code></pre>
+
+  </div>
+  <p style="margin-top: 24px; font-size: 0.8125rem;"><a href="/news/">&larr; All news</a></p>
+</div>
+
+  </main>
+
+  <div class="site-footer">
+    <div class="footer-inner">
+      <span>&copy; 2026 The Atomdrift Project</span>
+    </div>
+  </div>
+
+</body>
+</html>

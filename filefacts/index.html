@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>filefacts - The Atomdrift Project</title>
+  <meta name="description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="filefacts - The Atomdrift Project">
+  <meta property="og:description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>%E2%9A%9B</text></svg>">
+
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift News" href="/feed.xml">
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift Discoveries" href="/discoveries/feed.xml">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+
+  <div class="site-header">
+    <div class="header-inner">
+      <div class="logo-block">
+        <a href="/">
+          <svg class="atom-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="6" fill="#3b82f6"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(-30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(90 50 50)"/>
+            <circle cx="18" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="82" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="50" cy="88" r="3.5" fill="#d0ff00"/>
+          </svg>
+          <div class="logo-text">
+            <span class="logo-name">atom<span class="logo-accent">drift</span></span>
+            <span class="logo-tagline">Open-source, offline supply-chain attack detection for the AI age</span>
+          </div>
+        </a>
+      </div>
+      <div class="header-links">
+        <a href="https://codeberg.org/atomdrift" target="_blank">Codeberg</a>
+        <a href="https://lab.atomdrift.org/" class="hl" target="_blank">Lab</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="toxic-stripe"></div>
+
+  <div class="nav">
+    <div class="nav-inner">
+      <a href="/">Home</a>
+      <a href="/news/">News</a>
+      <a href="/discoveries/">Discoveries</a>
+      <a href="/compare/">Compare</a>
+      <a href="/projects/">Projects</a>
+      <a href="/support/">Support</a>
+    </div>
+  </div>
+
+  <main>
+    
+<div class="main">
+  <div class="content docs-content" data-pagefind-body>
+    <nav class="docs-nav" aria-label="filefacts documentation">
+  <a href="/filefacts/" class="active" aria-current="page">Overview</a>
+  <a href="/filefacts/getting-started/">Getting started</a>
+  <a href="/filefacts/how-it-works/">How it works</a>
+  <a href="/filefacts/integrations/">Integrations</a>
+  <a href="/filefacts/faq/">FAQ</a>
+</nav>
+
+    <h1>filefacts</h1>
+    <p>filefacts is a Rust library (and CLI) that reads a file and tells you what is in
+it — a dense, honest description of a file's contents, built for feeding feature
+extraction pipelines. Give it bytes; it identifies the format, parses it once,
+and returns structured facts you can fold straight into a feature vector. It was
+extracted from <a href="/cleave/">cleave</a> so the same extraction layer can sit underneath
+your own tooling.</p>
+<h2 id="why-ml-security-researchers-use-it" tabindex="-1"><a class="header-anchor" href="#why-ml-security-researchers-use-it"><span>Why ML-security researchers use it</span></a></h2>
+<p>A classifier is only as good as the signals it sees, and most file-feature code
+either shells out to <code>file</code> / <code>objdump</code> / <code>openssl</code> / <code>tar</code> — slow, brittle,
+non-deterministic — or reimplements a parser per format and rots. filefacts is
+<strong>in-process and single-pass</strong>: one walk per file, pure-Rust crypto for
+Authenticode, no subprocesses on the hot path. Same bytes in, same facts out,
+every time — which is what you need when a feature vector has to be reproducible
+across a training run and an incident six months later.</p>
+<p>The features it surfaces are the ones that discriminate: byte and per-section
+entropy, string statistics, section layout, import and symbol tables, signature
+validity, and extension/content mismatches — the signals that separate benign
+files from the things they imitate.</p>
+<h2 id="the-shape-of-the-output" tabindex="-1"><a class="header-anchor" href="#the-shape-of-the-output"><span>The shape of the output</span></a></h2>
+<p><code>filefacts::open(&amp;bytes)</code> returns a <code>ParsedFile</code> whose views are computed lazily
+and cached, so reading one view never pays for the others:</p>
+<table>
+<thead>
+<tr>
+<th>View</th>
+<th>What it carries</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fileid</code></td>
+<td>Format identification — type, container, compression. Free; no view computed.</td>
+</tr>
+<tr>
+<td><code>values</code></td>
+<td>Residual structural fields, navigable as a JSON tree.</td>
+</tr>
+<tr>
+<td><code>text</code></td>
+<td>Byte-scan strings (ASCII + UTF-16LE) with offsets.</td>
+</tr>
+<tr>
+<td><code>literals</code></td>
+<td>Parser-extracted language string literals.</td>
+</tr>
+<tr>
+<td><code>comments</code></td>
+<td>Comments recovered from source and documents.</td>
+</tr>
+<tr>
+<td><code>metrics</code></td>
+<td>Derived numeric features — entropy, sizes, counts.</td>
+</tr>
+<tr>
+<td><code>sections</code></td>
+<td>Binary section / segment listings.</td>
+</tr>
+<tr>
+<td><code>symbols</code></td>
+<td>Unified named entities — imports, exports, functions, calls, members, identifiers — tagged by kind.</td>
+</tr>
+<tr>
+<td><code>archive_members</code></td>
+<td>Entries inside archives, recursively.</td>
+</tr>
+<tr>
+<td><code>source_ast</code></td>
+<td>tree-sitter AST facts for source files.</td>
+</tr>
+<tr>
+<td><code>errors</code></td>
+<td>Recoverable extractor diagnostics, never a panic.</td>
+</tr>
+</tbody>
+</table>
+<p>The CLI writes the same structure as JSON, one object per file:</p>
+<pre class="language-bash"><code class="language-bash">filefacts suspect.bin       <span class="token comment"># JSON facts for one file</span>
+filefacts /tmp/samples      <span class="token comment"># recurse a directory</span></code></pre>
+<p>The output schema is versioned (<code>SCHEMA_VERSION</code>): field additions are
+non-breaking, renames or semantic changes bump it — so a feature pipeline can
+pin a schema and trust it.</p>
+<h2 id="what-it-parses" tabindex="-1"><a class="header-anchor" href="#what-it-parses"><span>What it parses</span></a></h2>
+<ul>
+<li><strong>Executables</strong> — PE, ELF (with DWARF), Mach-O, Java class, Python bytecode.</li>
+<li><strong>Archives</strong> — zip, tar (+ gz/bz2/xz/zst), 7z, rar, deb, rpm, pkg, cab, CHM,
+CRX, XPI, WHL, JAR, VSIX.</li>
+<li><strong>Documents</strong> — PDF, RTF, OOXML, OLE2 (legacy Office, MSI, MSG), LNK, plist,
+AppleScript. Authenticode is verified in-process.</li>
+<li><strong>Images</strong> — JPEG, PNG, with per-channel entropy, edge density, and histogram
+flatness for stego detection.</li>
+<li><strong>Structured</strong> — JSON, YAML, TOML, XML, pickle, Dockerfile, Makefile, systemd
+units, .desktop, GitHub Actions, package manifests.</li>
+<li><strong>Source</strong> — tree-sitter ASTs for ~17 languages including JavaScript,
+TypeScript, Python, Go, Rust, Java, C, C#, Bash, PowerShell, and PHP.</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Caching</p>
+<p>Views are cached on disk as zstd-compressed bincode keyed by SHA-256, so a
+second pass over the same corpus is nearly free — handy when you re-extract
+features after tweaking a downstream model.</p>
+</div>
+<p>Add <code>filefacts = &quot;1.1&quot;</code> to <code>Cargo.toml</code> to use it as a library, or see
+<a href="/filefacts/getting-started/">Getting started</a> for the CLI. Source and issues
+live on <a href="https://codeberg.org/atomdrift/filefacts">Codeberg</a>.</p>
+
+  </div>
+
+  <aside class="sidebar docs-search">
+    <h3>Search the docs</h3>
+    <div id="docs-search"></div>
+    <p class="docs-search-hint">Searches every tool's documentation.</p>
+  </aside>
+</div><link rel="stylesheet" href="/pagefind/pagefind-ui.css">
+<script src="/pagefind/pagefind-ui.js"></script>
+<script>
+  window.addEventListener("DOMContentLoaded", function () {
+    if (window.PagefindUI) {
+      new PagefindUI({ element: "#docs-search", showImages: false, showSubResults: true });
+    }
+  });
+</script><script type="module">
+  if (document.querySelector(".mermaid")) {
+    const { default: mermaid } = await import("https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs");
+    mermaid.initialize({ startOnLoad: true, theme: "neutral" });
+  }
+</script>
+
+  </main>
+
+  <div class="site-footer">
+    <div class="footer-inner">
+      <span>&copy; 2026 The Atomdrift Project</span>
+    </div>
+  </div>
+
+</body>
+</html>

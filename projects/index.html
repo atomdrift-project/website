@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects - The Atomdrift Project</title>
+  <meta name="description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Projects - The Atomdrift Project">
+  <meta property="og:description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>%E2%9A%9B</text></svg>">
+
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift News" href="/feed.xml">
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift Discoveries" href="/discoveries/feed.xml">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+
+  <div class="site-header">
+    <div class="header-inner">
+      <div class="logo-block">
+        <a href="/">
+          <svg class="atom-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="6" fill="#3b82f6"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(-30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(90 50 50)"/>
+            <circle cx="18" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="82" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="50" cy="88" r="3.5" fill="#d0ff00"/>
+          </svg>
+          <div class="logo-text">
+            <span class="logo-name">atom<span class="logo-accent">drift</span></span>
+            <span class="logo-tagline">Open-source, offline supply-chain attack detection for the AI age</span>
+          </div>
+        </a>
+      </div>
+      <div class="header-links">
+        <a href="https://codeberg.org/atomdrift" target="_blank">Codeberg</a>
+        <a href="https://lab.atomdrift.org/" class="hl" target="_blank">Lab</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="toxic-stripe"></div>
+
+  <div class="nav">
+    <div class="nav-inner">
+      <a href="/">Home</a>
+      <a href="/news/">News</a>
+      <a href="/discoveries/">Discoveries</a>
+      <a href="/compare/">Compare</a>
+      <a href="/projects/" class="active">Projects</a>
+      <a href="/support/">Support</a>
+    </div>
+  </div>
+
+  <main>
+    
+<div class="main-full">
+  <div class="content">
+
+    <h2 style="margin-top: 0;">Projects</h2>
+    <p style="max-width: none; margin-bottom: 1.5em;">A small set of
+    composable, open-source tools for malware analysis.
+    <strong>cleave</strong> decomposes binaries and source into
+    capabilities mapped to ATT&amp;CK and MBC;
+    <strong>azoth</strong> is an open AI model that classifies them;
+    <strong>scan</strong> is the scanner that ties it together.
+    Everything runs locally, and the models improve through cyclotron,
+    Atomdrift's live training loop.</p>
+
+    <ul class="proj-list">
+      <li>
+        <span class="proj-name"><a href="/scan/">scan</a></span>
+        <span class="badge badge-stable">stable</span>
+        <div class="proj-desc">ClamAV-style local scanner for AI-powered malware detection. Runs azoth and other open models against capabilities extracted by cleave.</div>
+        <div class="proj-links">
+          <a href="/scan/">Details</a>
+          <a href="https://codeberg.org/atomdrift/scan" target="_blank">Source</a>
+          <a href="https://codeberg.org/atomdrift/scan/issues" target="_blank">Issues</a>
+        </div>
+      </li>
+      <li>
+        <span class="proj-name"><a href="/azoth/">azoth</a></span>
+        <span class="badge badge-stable">stable</span>
+        <div class="proj-desc">The first open-source AI model for general malware detection. A weighted ensemble trained on cleave-extracted capabilities across 20+ languages and six binary formats.</div>
+        <div class="proj-links">
+          <a href="/azoth/">Details</a>
+        </div>
+      </li>
+      <li>
+        <span class="proj-name"><a href="/cleave/">cleave</a></span>
+        <span class="badge badge-stable">stable</span>
+        <div class="proj-desc">AST-aware software decomposition engine for supply-chain security. Detects capabilities and behaviors across 20+ languages and six binary formats in a single pass.</div>
+        <div class="proj-links">
+          <a href="/cleave/">Details</a>
+          <a href="https://codeberg.org/atomdrift/cleave" target="_blank">Source</a>
+          <a href="https://codeberg.org/atomdrift/cleave/issues" target="_blank">Issues</a>
+        </div>
+      </li>
+      <li>
+        <span class="proj-name"><a href="/stng/">stng</a></span>
+        <span class="badge badge-stable">stable</span>
+        <div class="proj-desc">Modern string extraction for binary analysis — all of the good stuff, none of the garbage. Useful for triage, C2 enumeration, credential extraction, and YARA signature development.</div>
+        <div class="proj-links">
+          <a href="/stng/">Details</a>
+          <a href="https://codeberg.org/atomdrift/stng" target="_blank">Source</a>
+          <a href="https://codeberg.org/atomdrift/stng/issues" target="_blank">Issues</a>
+        </div>
+      </li>
+      <li>
+        <span class="proj-name"><a href="/filefacts/">filefacts</a></span>
+        <span class="badge badge-stable">stable</span>
+        <div class="proj-desc">Rust library that reads a file and returns ML-ready facts for security pipelines. Extracted from cleave, with one parse pass and lazy cached views: fileid, values, text, literals, comments, metrics, sections, symbols, archive_members, source_ast, and errors.</div>
+        <div class="proj-links">
+          <a href="/filefacts/">Details</a>
+          <a href="https://codeberg.org/atomdrift/filefacts" target="_blank">Source</a>
+          <a href="https://codeberg.org/atomdrift/filefacts/issues" target="_blank">Issues</a>
+        </div>
+      </li>
+      <li>
+        <span class="proj-name">c.diff</span>
+        <span class="badge badge-planned">planning phase</span>
+        <div class="proj-desc">Context-driven molecular drift detection. Tracks how code atoms shift across versions and dependencies.</div>
+      </li>
+    </ul>
+
+  </div>
+</div>
+
+  </main>
+
+  <div class="site-footer">
+    <div class="footer-inner">
+      <span>&copy; 2026 The Atomdrift Project</span>
+    </div>
+  </div>
+
+</body>
+</html>

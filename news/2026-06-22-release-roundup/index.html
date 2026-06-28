@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Atomdrift Scan v2.1.0, cleave v2.1.1 - The Atomdrift Project</title>
+  <meta name="description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Atomdrift Scan v2.1.0, cleave v2.1.1 - The Atomdrift Project">
+  <meta property="og:description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>%E2%9A%9B</text></svg>">
+
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift News" href="/feed.xml">
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift Discoveries" href="/discoveries/feed.xml">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+
+  <div class="site-header">
+    <div class="header-inner">
+      <div class="logo-block">
+        <a href="/">
+          <svg class="atom-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="6" fill="#3b82f6"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(-30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(90 50 50)"/>
+            <circle cx="18" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="82" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="50" cy="88" r="3.5" fill="#d0ff00"/>
+          </svg>
+          <div class="logo-text">
+            <span class="logo-name">atom<span class="logo-accent">drift</span></span>
+            <span class="logo-tagline">Open-source, offline supply-chain attack detection for the AI age</span>
+          </div>
+        </a>
+      </div>
+      <div class="header-links">
+        <a href="https://codeberg.org/atomdrift" target="_blank">Codeberg</a>
+        <a href="https://lab.atomdrift.org/" class="hl" target="_blank">Lab</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="toxic-stripe"></div>
+
+  <div class="nav">
+    <div class="nav-inner">
+      <a href="/">Home</a>
+      <a href="/news/" class="active">News</a>
+      <a href="/discoveries/">Discoveries</a>
+      <a href="/compare/">Compare</a>
+      <a href="/projects/">Projects</a>
+      <a href="/support/">Support</a>
+    </div>
+  </div>
+
+  <main>
+    
+<div class="main-full">
+  <div class="post-header">
+    <h1>Atomdrift Scan v2.1.0, cleave v2.1.1</h1>
+    <span class="post-meta">2026-06-22</span>
+  </div>
+  <div class="post-body">
+    <p>The first point releases on the 2.x line are about reach and speed.</p>
+<p><strong><a href="/scan/">Atomdrift Scan</a> v2.1.0</strong> can now go get the sample for you. Experimental <code>--fetch</code> pulls and scans remote dependencies, and new <code>pkg</code> and <code>url</code> subcommands scan remote samples directly — no manual download step. <code>--hopper</code>/<code>--upload</code> pushes refreshed scan data upstream. It's faster, too: we dropped tract (a CPU hotspot) for a leaner model engine, parallelized <code>ps</code> and specialist startup, and added dynamic admission sizing. The v8 model migration makes releases more reliable with per-file typing, worker JSON payloads got slimmer, and worker support now covers SUSE, Void, and Fedora on top of illumos, FreeBSD, and Arch. <a href="https://codeberg.org/atomdrift/scan/releases/tag/v2.1.0">Release notes</a>.</p>
+<p><strong><a href="/cleave/">cleave</a> v2.1.1</strong> makes YARA fast. A new <code>yara-precompile</code> tool loads prebuilt rules, tiers load dynamically on demand instead of all upfront, and tier preheating warms the right tiers based on incoming file type — lower latency where it counts. <code>validate --soft</code> skips directory caps and other taxonomy-cleanliness rules for quick local checks, plus a round of dependency updates. <a href="https://codeberg.org/atomdrift/cleave/releases/tag/v2.1.1">Release notes</a>.</p>
+<pre><code>brew upgrade atomdrift/tap/atomdrift-scan atomdrift/tap/cleave
+</code></pre>
+
+  </div>
+  <p style="margin-top: 24px; font-size: 0.8125rem;"><a href="/news/">&larr; All news</a></p>
+</div>
+
+  </main>
+
+  <div class="site-footer">
+    <div class="footer-inner">
+      <span>&copy; 2026 The Atomdrift Project</span>
+    </div>
+  </div>
+
+</body>
+</html>

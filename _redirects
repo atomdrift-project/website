@@ -1,0 +1,4 @@
+# Permanent redirects for renamed pages.
+# litmus was renamed to Atomdrift Scan (scan) in v2.0.0.
+/litmus     /scan/   301
+/litmus/    /scan/   301

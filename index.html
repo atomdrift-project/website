@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Open-Source Supply-Chain Attack Detection, Powered by Local Deterministic AI - The Atomdrift Project</title>
+  <meta name="description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Open-Source Supply-Chain Attack Detection, Powered by Local Deterministic AI - The Atomdrift Project">
+  <meta property="og:description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>%E2%9A%9B</text></svg>">
+
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift News" href="/feed.xml">
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift Discoveries" href="/discoveries/feed.xml">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+
+  <div class="site-header">
+    <div class="header-inner">
+      <div class="logo-block">
+        <a href="/">
+          <svg class="atom-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="6" fill="#3b82f6"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(-30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(90 50 50)"/>
+            <circle cx="18" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="82" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="50" cy="88" r="3.5" fill="#d0ff00"/>
+          </svg>
+          <div class="logo-text">
+            <span class="logo-name">atom<span class="logo-accent">drift</span></span>
+            <span class="logo-tagline">Open-source, offline supply-chain attack detection for the AI age</span>
+          </div>
+        </a>
+      </div>
+      <div class="header-links">
+        <a href="https://codeberg.org/atomdrift" target="_blank">Codeberg</a>
+        <a href="https://lab.atomdrift.org/" class="hl" target="_blank">Lab</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="toxic-stripe"></div>
+
+  <div class="nav">
+    <div class="nav-inner">
+      <a href="/" class="active">Home</a>
+      <a href="/news/">News</a>
+      <a href="/discoveries/">Discoveries</a>
+      <a href="/compare/">Compare</a>
+      <a href="/projects/">Projects</a>
+      <a href="/support/">Support</a>
+    </div>
+  </div>
+
+  <main>
+    
+<div class="main">
+  <div class="content">
+
+    <h2>About</h2>
+    <p>
+We're quietly building detection for the next generation of subtle
+attacks; think xzutils, but spiked with AI nightmare-fuel.
+    </p>
+    <p>
+We've built a factory that continuously mints locally-runnable AI models
+based on the latest attacks and research articles:
+<a href="/cleave/">cleave</a> extracts capabilities,
+<a href="/azoth/">azoth</a> classifies them, and
+<a href="/scan/">scan</a> is our local scanning tool. All offline,
+no API keys, no hardware requirements; just deterministic verdicts under
+Apache 2.0.
+    </p>
+
+    <h2>News <a href="/feed.xml" class="rss-link" title="RSS Feed"><svg class="rss-icon" viewBox="0 0 24 24" fill="currentColor"><circle cx="6.18" cy="17.82" r="2.18"/><path d="M4 4.44v2.83c7.03 0 12.73 5.7 12.73 12.73h2.83c0-8.59-6.97-15.56-15.56-15.56zm0 5.66v2.83c3.9 0 7.07 3.17 7.07 7.07h2.83c0-5.47-4.43-9.9-9.9-9.9z"/></svg></a></h2>
+    <ul class="news-list">
+      
+      <li>
+        <span class="date">2026-06-22</span>
+        <span class="headline"><a href="/news/2026-06-22-storage-upgrade/">Lab down today: growing the database to 4TB before the admins disappear for summer vacation</a></span>
+        <span class="news-summary">The Atomdrift lab is offline for hardware maintenance today while engineers grow storage on the PostgreSQL master and its replicas to hold a 4TB dataset — the corpus of analyses we now track for more than 41 million files.</span>
+      </li>
+      
+      
+      <li>
+        <span class="date">2026-06-22</span>
+        <span class="headline"><a href="/news/2026-06-22-release-roundup/">Atomdrift Scan v2.1.0, cleave v2.1.1</a></span>
+        <span class="news-summary">Scan learns to reach out — fetch and scan remote dependencies, packages, and URLs directly — while cleave makes YARA fast with precompiled rules and on-demand tier loading.</span>
+      </li>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    </ul>
+    <p style="margin-top: 10px; font-size: 0.8125rem;"><a href="/news/">All news &rarr;</a></p>
+
+    <h2>Projects</h2>
+    <ul class="proj-list">
+      <li>
+        <span class="proj-name"><a href="/scan/">scan</a></span>
+        <span class="badge badge-stable">stable</span>
+        <div class="proj-desc">ClamAV-style local scanner for AI-powered malware detection. Runs azoth and other open models against capabilities extracted by cleave — across binaries, scripts, and source.</div>
+      </li>
+      <li>
+        <span class="proj-name"><a href="/azoth/">azoth</a></span>
+        <span class="badge badge-stable">stable</span>
+        <div class="proj-desc">The first open-source AI model for general malware detection. A weighted ensemble over cleave-extracted capabilities across 20+ languages and six binary formats; runs on CPU.</div>
+      </li>
+      <li>
+        <span class="proj-name"><a href="/cleave/">cleave</a></span>
+        <span class="badge badge-stable">stable</span>
+        <div class="proj-desc">AST-aware software decomposition engine for supply-chain security. Detects capabilities and behaviors across 20+ languages and six binary formats in a single pass.</div>
+      </li>
+      <li>
+        <span class="proj-name"><a href="/stng/">stng</a></span>
+        <span class="badge badge-stable">stable</span>
+        <div class="proj-desc">Modern string extraction for binary analysis — all of the good stuff, none of the garbage. Useful for initial triage, C2 enumeration, credential extraction, and signature development.</div>
+      </li>
+      <li>
+        <span class="proj-name"><a href="https://codeberg.org/atomdrift/filefacts">filefacts</a></span>
+        <span class="badge badge-stable">stable</span>
+        <div class="proj-desc">Rust library that reads a file and returns ML-ready facts for security pipelines — package identity, binary provenance, source AST features, strings, symbols, metrics, and structured errors in one cached parse.</div>
+      </li>
+      <li>
+        <span class="proj-name">c.diff</span>
+        <span class="badge badge-planned">DESIGN PHASE</span>
+        <div class="proj-desc">Context-driven molecular drift detection. Tracks how code atoms shift across versions and dependencies.</div>
+      </li>
+    </ul>
+
+  </div>
+
+  <div class="sidebar">
+
+    <div class="lab-callout">
+      <strong>&#9883; Atomdrift Lab</strong>
+      <p>Submit files for free malware analysis. Open to researchers, defenders, and the curious.</p>
+      <a href="https://lab.atomdrift.org/" target="_blank">Open the Lab &rarr;</a>
+    </div>
+
+    <h3>Get the Code</h3>
+    <ul>
+      <li><a href="https://codeberg.org/atomdrift" target="_blank">Codeberg</a></li>
+    </ul>
+
+    <h3>Project Info</h3>
+    <dl class="stats">
+      <dt>License</dt><dd>Apache 2.0</dd>
+      <dt>Languages</dt><dd>Rust, Go</dd>
+    </dl>
+
+  </div>
+</div>
+
+  </main>
+
+  <div class="site-footer">
+    <div class="footer-inner">
+      <span>&copy; 2026 The Atomdrift Project</span>
+    </div>
+  </div>
+
+</body>
+</html>

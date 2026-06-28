@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>litmus v1.2.0 - The Atomdrift Project</title>
+  <meta name="description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="litmus v1.2.0 - The Atomdrift Project">
+  <meta property="og:description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>%E2%9A%9B</text></svg>">
+
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift News" href="/feed.xml">
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift Discoveries" href="/discoveries/feed.xml">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+
+  <div class="site-header">
+    <div class="header-inner">
+      <div class="logo-block">
+        <a href="/">
+          <svg class="atom-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="6" fill="#3b82f6"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(-30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(90 50 50)"/>
+            <circle cx="18" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="82" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="50" cy="88" r="3.5" fill="#d0ff00"/>
+          </svg>
+          <div class="logo-text">
+            <span class="logo-name">atom<span class="logo-accent">drift</span></span>
+            <span class="logo-tagline">Open-source, offline supply-chain attack detection for the AI age</span>
+          </div>
+        </a>
+      </div>
+      <div class="header-links">
+        <a href="https://codeberg.org/atomdrift" target="_blank">Codeberg</a>
+        <a href="https://lab.atomdrift.org/" class="hl" target="_blank">Lab</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="toxic-stripe"></div>
+
+  <div class="nav">
+    <div class="nav-inner">
+      <a href="/">Home</a>
+      <a href="/news/" class="active">News</a>
+      <a href="/discoveries/">Discoveries</a>
+      <a href="/compare/">Compare</a>
+      <a href="/projects/">Projects</a>
+      <a href="/support/">Support</a>
+    </div>
+  </div>
+
+  <main>
+    
+<div class="main-full">
+  <div class="post-header">
+    <h1>litmus v1.2.0</h1>
+    <span class="post-meta">2026-05-10</span>
+  </div>
+  <div class="post-body">
+    <p><a href="/litmus/">litmus</a> v1.2.0 runs <a href="/azoth/">azoth</a> ensembles in preview. A bundle is one general model plus optional specialists — <code>filegroups/&lt;name&gt;/</code> and <code>filetypes/&lt;name&gt;/</code> — routed per file from a top-level <code>config.json</code>. The model that knows your input runs first; general is the fallback.</p>
+<p><strong>Ensembles.</strong> <code>models/seed_NN.{txt,json}</code> collapse to a mean prediction. K=1 stays byte-identical to the old single-model path, so existing models keep working without a flag day.</p>
+<p><strong>Calibration.</strong> Per-route isotonic calibrators map raw probabilities to calibrated ones at load. NaN/Inf rejected; x strictly ascending; y monotone in <code>[0, 1]</code>; thresholds re-validated. Bad calibrators fail loudly at load, not at verdict time.</p>
+<p><strong>LightGBM</strong> runs alongside XGBoost, picked by file extension. <strong>Vocabularies</strong> are tiered and severity-prefixed: <code>tierbi:</code>, <code>tiertri:</code>.</p>
+<p><strong>Operations.</strong> <code>--max-rss-gb=-1</code> disables RSS throttling for systemd-supervised workers. OmniOS/illumos workers run via SMF, install to <code>/opt</code>, build with gmake in jails, and load rizin through <code>LD_LIBRARY_PATH</code>. Needs cleave 1.2; <code>validate</code> runs with YARA, radare2, and UPX off.</p>
+<p><strong>Fixes.</strong> Feature vector ordering now matches training; score mismatches are gone. Workers hint <code>http://</code> on InvalidContentType instead of dumping a TLS error. Poll failures log URL, error chain, elapsed, backoff, consecutive errors, and a body excerpt. Git failures fall through stderr → stdout → exit code instead of going silent. <code>validate</code> miscategorizations are warnings, not fatal; output names the active traits dir. Specialist load failures log the full error chain.</p>
+<p>The default model is still beta. Read the contributing capabilities; don't trust the verdict alone.</p>
+<p><a href="https://codeberg.org/atomdrift/litmus/releases/tag/v1.2.0">v1.2.0 release notes</a>.</p>
+<pre><code>brew upgrade atomdrift/tap/litmus
+</code></pre>
+
+  </div>
+  <p style="margin-top: 24px; font-size: 0.8125rem;"><a href="/news/">&larr; All news</a></p>
+</div>
+
+  </main>
+
+  <div class="site-footer">
+    <div class="footer-inner">
+      <span>&copy; 2026 The Atomdrift Project</span>
+    </div>
+  </div>
+
+</body>
+</html>

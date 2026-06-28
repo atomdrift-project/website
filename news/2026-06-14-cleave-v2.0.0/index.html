@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>cleave v2.0.0, stng v1.6.2, filefacts v1.0.1 - The Atomdrift Project</title>
+  <meta name="description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="cleave v2.0.0, stng v1.6.2, filefacts v1.0.1 - The Atomdrift Project">
+  <meta property="og:description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>%E2%9A%9B</text></svg>">
+
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift News" href="/feed.xml">
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift Discoveries" href="/discoveries/feed.xml">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+
+  <div class="site-header">
+    <div class="header-inner">
+      <div class="logo-block">
+        <a href="/">
+          <svg class="atom-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="6" fill="#3b82f6"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(-30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(90 50 50)"/>
+            <circle cx="18" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="82" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="50" cy="88" r="3.5" fill="#d0ff00"/>
+          </svg>
+          <div class="logo-text">
+            <span class="logo-name">atom<span class="logo-accent">drift</span></span>
+            <span class="logo-tagline">Open-source, offline supply-chain attack detection for the AI age</span>
+          </div>
+        </a>
+      </div>
+      <div class="header-links">
+        <a href="https://codeberg.org/atomdrift" target="_blank">Codeberg</a>
+        <a href="https://lab.atomdrift.org/" class="hl" target="_blank">Lab</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="toxic-stripe"></div>
+
+  <div class="nav">
+    <div class="nav-inner">
+      <a href="/">Home</a>
+      <a href="/news/" class="active">News</a>
+      <a href="/discoveries/">Discoveries</a>
+      <a href="/compare/">Compare</a>
+      <a href="/projects/">Projects</a>
+      <a href="/support/">Support</a>
+    </div>
+  </div>
+
+  <main>
+    
+<div class="main-full">
+  <div class="post-header">
+    <h1>cleave v2.0.0, stng v1.6.2, filefacts v1.0.1</h1>
+    <span class="post-meta">2026-06-14</span>
+  </div>
+  <div class="post-body">
+    <p><a href="/news/2026-06-14-scan-v2.0.0/">Atomdrift Scan v2.0.0</a> got the headline, but it doesn't run alone — here's the rest of the stack that shipped the same day.</p>
+<p><strong><a href="/cleave/">cleave</a> v2.0.0</strong> is the big one: the engine swap is done. All parsing now lives in the <a href="https://codeberg.org/atomdrift/filefacts">filefacts</a> crate, which means a breaking JSON schema v3 and a round of CLI renames. Output is now context-centric — context is the sole evidence surface, with grep-style hex windows, bold evidence, and Z85 compact encoding. Coverage grew in two directions: package archives (npm, crate, NuGet, APK, ASAR, CRX) and a wave of appliance and mainframe rules (FortiOS, PanOS, JunOS, Netscaler, Ivanti, RouterOS, JCL), plus surfaced Program Identity. Under the hood: an admission gate, a bounded regex cache that fixes a ~7.7 GB leak, SIMD matching, corrected Mach-O offsets, and archive XOR/payload recursion that catches split payloads. <a href="https://codeberg.org/atomdrift/cleave/releases/tag/v2.0.0">Release notes</a>.</p>
+<p><strong><a href="/stng/">stng</a> v1.6.2</strong> kills a class of XOR false positives: the decoder now drops strings ≥16 chars where one byte is more than half the content, so repeated-byte runs stop XOR-ing into base64-looking junk. The dotted-pattern XOR scan went from up to 255 full-buffer passes to one — same output, much faster on large inputs. <code>FormatHint::Binary</code> is gone (use <code>Auto</code>), <code>thiserror</code> is dropped for <code>anyhow</code>, and ~764 lines of dead amd64 code went with it. <a href="https://codeberg.org/atomdrift/stng/releases/tag/v1.6.2">Release notes</a>.</p>
+<p><strong><a href="https://codeberg.org/atomdrift/filefacts">filefacts</a> v1.0.1</strong> adds Program Identity extraction — publisher and package metadata pulled from CRX, npm, nupkg, Rust crate, wheel, and xpi archives. Binary parsing is now panic-safe: goblin is wrapped to fail soft on malformed PE/Mach-O/ELF instead of aborting the run. Add JCL detection, PKGBUILD classified as shell, corrected Mach-O FAT and PE offsets, and richer PE version/debug info. <a href="https://codeberg.org/atomdrift/filefacts/releases/tag/v1.0.1">Release notes</a>.</p>
+<pre><code>brew upgrade atomdrift/tap/cleave atomdrift/tap/stng atomdrift/tap/filefacts
+</code></pre>
+
+  </div>
+  <p style="margin-top: 24px; font-size: 0.8125rem;"><a href="/news/">&larr; All news</a></p>
+</div>
+
+  </main>
+
+  <div class="site-footer">
+    <div class="footer-inner">
+      <span>&copy; 2026 The Atomdrift Project</span>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Release Mania: stng v1.2.1, cleave v1.2.0, litmus v1.1.0 - The Atomdrift Project</title>
+  <meta name="description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Release Mania: stng v1.2.1, cleave v1.2.0, litmus v1.1.0 - The Atomdrift Project">
+  <meta property="og:description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>%E2%9A%9B</text></svg>">
+
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift News" href="/feed.xml">
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift Discoveries" href="/discoveries/feed.xml">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+
+  <div class="site-header">
+    <div class="header-inner">
+      <div class="logo-block">
+        <a href="/">
+          <svg class="atom-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="6" fill="#3b82f6"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(-30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(90 50 50)"/>
+            <circle cx="18" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="82" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="50" cy="88" r="3.5" fill="#d0ff00"/>
+          </svg>
+          <div class="logo-text">
+            <span class="logo-name">atom<span class="logo-accent">drift</span></span>
+            <span class="logo-tagline">Open-source, offline supply-chain attack detection for the AI age</span>
+          </div>
+        </a>
+      </div>
+      <div class="header-links">
+        <a href="https://codeberg.org/atomdrift" target="_blank">Codeberg</a>
+        <a href="https://lab.atomdrift.org/" class="hl" target="_blank">Lab</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="toxic-stripe"></div>
+
+  <div class="nav">
+    <div class="nav-inner">
+      <a href="/">Home</a>
+      <a href="/news/" class="active">News</a>
+      <a href="/discoveries/">Discoveries</a>
+      <a href="/compare/">Compare</a>
+      <a href="/projects/">Projects</a>
+      <a href="/support/">Support</a>
+    </div>
+  </div>
+
+  <main>
+    
+<div class="main-full">
+  <div class="post-header">
+    <h1>Release Mania: stng v1.2.1, cleave v1.2.0, litmus v1.1.0</h1>
+    <span class="post-meta">2026-04-28</span>
+  </div>
+  <div class="post-body">
+    <p>Three releases.</p>
+<p><strong><a href="/stng/">stng</a> v1.2.1.</strong> stng was occasionally classifying Java and Kotlin source as embedded Python. <code>import android.os.Build;</code> is not a Python file. The heuristic now rejects semicolon-terminated imports and ignores <code>os.</code> matches that come from <code>android.os</code>. <a href="https://codeberg.org/atomdrift/stng/releases/tag/v1.2.1">v1.2.1</a>.</p>
+<p><strong><a href="/cleave/">cleave</a> v1.2.0.</strong></p>
+<p>cleave now identifies about seventy-five file formats. New since v1.1.0: XML, Makefile, plain text, MSI-embedded PE, XDG <code>.desktop</code>, systemd units, OpenDocument, Python pickle, and several others. <a href="https://codeberg.org/atomdrift/cleave/src/branch/main/FILE_FORMATS.md">FILE_FORMATS.md</a> has the full table.</p>
+<p>The rayon threading was reworked. Several classes of deadlock are now structurally impossible rather than rare. YARA initialization no longer races with cleave's shared resources. Rizin subprocesses are killed on exit rather than orphaned. Performance changes followed: rizin and goblin run in parallel, rizin is skipped for Go binaries, trait evaluation is precompiled, archives stay in memory, SHA256 hashes are reused.</p>
+<p>A <code>kv</code> subcommand was added. Symbol offsets are tracked. MBC and ATT&amp;CK mappings are emitted in the report. Goblin's unbounded ELF note reader is bounded. CRX3 extraction works. Oversized archive filenames no longer crash. Unroutable <code>.0</code>-octet IPs are dropped from findings. <a href="https://codeberg.org/atomdrift/cleave/releases/tag/v1.2.0">v1.2.0</a>.</p>
+<p><strong><a href="/litmus/">litmus</a> v1.1.0.</strong></p>
+<p>litmus can now run as a fleet. <code>litmus worker</code> pulls jobs from a <a href="https://codeberg.org/atomdrift/hopper">hopper</a> queue and verifies local paths by SHA256. <code>litmus serve</code> adds CIDR allowlists, an RSS ceiling that returns 503 before the host swaps, configurable <code>--workers</code> slots, and a 10-minute cooperative timeout that signals cleave to abort slow YARA rules. <code>litmus validate</code> re-scans known-benign samples against the current rules and model.</p>
+<p>Sensitivity is gzip-style: <code>-1</code> through <code>-9</code>, default <code>-5</code>. Feature parity with the v16 model was reconciled — three missing aggregates, the <code>score:density</code> computation, and boolean metric handling.</p>
+<p>The default model (<code>scan-v16</code>) is beta. See the README for the caveat. <a href="https://codeberg.org/atomdrift/litmus/releases/tag/v1.1.0">v1.1.0</a>.</p>
+<hr>
+<pre><code>brew upgrade atomdrift/tap/stng atomdrift/tap/cleave atomdrift/tap/litmus
+</code></pre>
+
+  </div>
+  <p style="margin-top: 24px; font-size: 0.8125rem;"><a href="/news/">&larr; All news</a></p>
+</div>
+
+  </main>
+
+  <div class="site-footer">
+    <div class="footer-inner">
+      <span>&copy; 2026 The Atomdrift Project</span>
+    </div>
+  </div>
+
+</body>
+</html>

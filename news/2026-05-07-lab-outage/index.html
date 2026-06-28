@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lab outage: btrfs cannot delete its way out of a full disk - The Atomdrift Project</title>
+  <meta name="description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Lab outage: btrfs cannot delete its way out of a full disk - The Atomdrift Project">
+  <meta property="og:description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>%E2%9A%9B</text></svg>">
+
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift News" href="/feed.xml">
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift Discoveries" href="/discoveries/feed.xml">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+
+  <div class="site-header">
+    <div class="header-inner">
+      <div class="logo-block">
+        <a href="/">
+          <svg class="atom-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="6" fill="#3b82f6"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(-30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(90 50 50)"/>
+            <circle cx="18" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="82" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="50" cy="88" r="3.5" fill="#d0ff00"/>
+          </svg>
+          <div class="logo-text">
+            <span class="logo-name">atom<span class="logo-accent">drift</span></span>
+            <span class="logo-tagline">Open-source, offline supply-chain attack detection for the AI age</span>
+          </div>
+        </a>
+      </div>
+      <div class="header-links">
+        <a href="https://codeberg.org/atomdrift" target="_blank">Codeberg</a>
+        <a href="https://lab.atomdrift.org/" class="hl" target="_blank">Lab</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="toxic-stripe"></div>
+
+  <div class="nav">
+    <div class="nav-inner">
+      <a href="/">Home</a>
+      <a href="/news/" class="active">News</a>
+      <a href="/discoveries/">Discoveries</a>
+      <a href="/compare/">Compare</a>
+      <a href="/projects/">Projects</a>
+      <a href="/support/">Support</a>
+    </div>
+  </div>
+
+  <main>
+    
+<div class="main-full">
+  <div class="post-header">
+    <h1>Lab outage: btrfs cannot delete its way out of a full disk</h1>
+    <span class="post-meta">2026-05-07</span>
+  </div>
+  <div class="post-body">
+    <p>The lab is down.</p>
+<p>The disk filled. That should be a bad afternoon. On <a href="https://btrfs.readthedocs.io/">btrfs</a>, in the year 2026, on Linux <a href="https://www.kernel.org/">7.0.1</a>, it is an outage. The filesystem will not delete files, because deleting a file requires writing metadata, and writing metadata requires space. It will not delete snapshots either, for the same reason. The one operation a full filesystem must support — making itself less full — is the operation it cannot perform.</p>
+<p>This is nuts. It would have been nuts in 2010.</p>
+<p>We lost no data. The distributed replicas did their job. What we did lose is availability, because the lab frontend is configured to talk to the master. That is on us, and we are fixing it in the same window.</p>
+<p>Here is the plan, executing now:</p>
+<ul>
+<li>The PostgreSQL master is moving to <a href="https://openzfs.org/">ZFS</a> on <a href="https://omnios.org/">OmniOS</a>. ZFS does not lock itself out of its own free-space accounting when a pool fills. It tells you the pool is full and lets you delete things. That is the bar.</li>
+<li>The lab is being reconfigured to fail over to a replica when the master is unreachable, instead of sitting there staring at a dead socket.</li>
+<li>WAL archiving is being pointed at object storage so the next standby we bring up does not have to be in the same rack as the master to be useful.</li>
+</ul>
+<p>Services that do not depend on the lab database — the site, the <a href="https://codeberg.org/atomdrift/homebrew-tap">tap</a>, release artifacts on <a href="https://codeberg.org/atomdrift">Codeberg</a> — stay up.</p>
+<p>ETA for full recovery is today.</p>
+<p>Two things written down so we read them next time:</p>
+<ol>
+<li>A filesystem that cannot delete files when it is full is not finished.</li>
+<li>A client that only knows how to talk to the primary does not have a replica. It has a spare it has never met.</li>
+</ol>
+<p>Back shortly.</p>
+
+  </div>
+  <p style="margin-top: 24px; font-size: 0.8125rem;"><a href="/news/">&larr; All news</a></p>
+</div>
+
+  </main>
+
+  <div class="site-footer">
+    <div class="footer-inner">
+      <span>&copy; 2026 The Atomdrift Project</span>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>cleave — Software Decomposition Engine - The Atomdrift Project</title>
+  <meta name="description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="cleave — Software Decomposition Engine - The Atomdrift Project">
+  <meta property="og:description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>%E2%9A%9B</text></svg>">
+
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift News" href="/feed.xml">
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift Discoveries" href="/discoveries/feed.xml">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+
+  <div class="site-header">
+    <div class="header-inner">
+      <div class="logo-block">
+        <a href="/">
+          <svg class="atom-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="6" fill="#3b82f6"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(-30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(90 50 50)"/>
+            <circle cx="18" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="82" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="50" cy="88" r="3.5" fill="#d0ff00"/>
+          </svg>
+          <div class="logo-text">
+            <span class="logo-name">atom<span class="logo-accent">drift</span></span>
+            <span class="logo-tagline">Open-source, offline supply-chain attack detection for the AI age</span>
+          </div>
+        </a>
+      </div>
+      <div class="header-links">
+        <a href="https://codeberg.org/atomdrift" target="_blank">Codeberg</a>
+        <a href="https://lab.atomdrift.org/" class="hl" target="_blank">Lab</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="toxic-stripe"></div>
+
+  <div class="nav">
+    <div class="nav-inner">
+      <a href="/">Home</a>
+      <a href="/news/">News</a>
+      <a href="/discoveries/">Discoveries</a>
+      <a href="/compare/">Compare</a>
+      <a href="/projects/" class="active">Projects</a>
+      <a href="/support/">Support</a>
+    </div>
+  </div>
+
+  <main>
+    
+<div class="main">
+  <div class="content" data-pagefind-body>
+
+    <div class="project-header">
+      <img src="/assets/images/cleave.svg" alt="cleave" class="proj-logo">
+      <span class="badge badge-stable">stable</span>
+      <h1 class="visually-hidden">cleave</h1>
+    </div>
+    <nav class="docs-nav" aria-label="cleave documentation">
+  <a href="/cleave/" class="active" aria-current="page">Overview</a>
+  <a href="/cleave/getting-started/">Getting started</a>
+  <a href="/cleave/how-it-works/">How it works</a>
+  <a href="/cleave/integrations/">Integrations</a>
+  <a href="/cleave/faq/">FAQ</a>
+</nav>
+
+    <p>cleave answers one question — <em>what can this program do?</em>
+    It extracts capabilities from binaries, source, and archives, scoring
+    each against <strong>60,000+ behavior rules</strong> aligned to
+    <a href="https://github.com/MBCProject/mbc-markdown" target="_blank">MBC</a> and
+    <a href="https://attack.mitre.org/" target="_blank">MITRE ATT&amp;CK</a>.
+    Apache-2.0, no telemetry.</p>
+
+    <ul class="feature-list">
+      <li><strong>Supply-chain &amp; malware triage.</strong> Run on a release, a suspicious sample, or a directory of dropped files. <code>cleave diff old/ new/</code> highlights new capabilities, tampered headers, and provenance anomalies between versions.</li>
+      <li><strong>Feature extraction for ML/AI pipelines.</strong> Stable JSON schema, deterministic output, SHA256-keyed cache. <a href="/scan/">Atomdrift Scan</a> is the reference downstream classifier.</li>
+    </ul>
+
+    <p><img src="/assets/images/cleave-analyze.png" alt="cleave analyze — capabilities of a single sample" style="width: 87.5%; height: auto;"></p>
+    <p><img src="/assets/images/cleave-diff.png" alt="cleave diff — what changed between two releases" style="width: 87.5%; height: auto;"></p>
+
+    <h2>What cleave analyzes</h2>
+    <ul class="feature-list">
+      <li><strong>Binaries</strong> — Mach-O, ELF, PE, MSI, CHM, PyInstaller, Java <code>.class</code>, Python <code>.pyc</code>, Python pickle, compiled AppleScript</li>
+      <li><strong>Source</strong> (~22 langs, tree-sitter) — Python, JS/TS, Go, Rust, C/C++, Java, Kotlin, C#, Swift, ObjC, Ruby, PHP, Perl, Lua, Shell, PowerShell, Groovy, Scala, Zig, Elixir, Batch, VBScript, Makefile</li>
+      <li><strong>Archives</strong> (recursive) — zip, tar (gz/bz2/xz/zst), 7z, rar, cab, jar/war, deb, rpm, pkg, apk, gem, crate, whl, nupkg, phar, vsix, xpi, crx, ipa, epub</li>
+      <li><strong>Documents &amp; data</strong> — PDF structure, RTF, LNK shortcut metadata, Office (OLE2 + OOXML), OpenDocument, plist, HTML, XML, Markdown, PNG/JPEG, package manifests, GitHub Actions, systemd units, XDG <code>.desktop</code></li>
+    </ul>
+
+    <h2>AI-derived rulesets</h2>
+    <p>The 60,000+ rules are a mix. The hand-written ones are precise for
+    patterns humans understand well. The AI-derived ones come from a
+    training corpus of about a million samples and cover the long tail
+    across 20+ languages — territory no team is going to keep up with by
+    hand.</p>
+    <p>The AI runs at build time, not at runtime. The cleave you ship is
+    deterministic: same input, same output, every run. No model weights
+    loaded, no GPU, no network, no telemetry. If you don't trust that,
+    the rules are in the source tree.</p>
+
+    <h2>Install</h2>
+<pre class="install-block">
+brew install atomdrift/tap/cleave             # macOS / Linux
+make install                                  # via cargo
+</pre>
+
+    <h2>Usage</h2>
+<pre class="install-block">cleave suspect.bin                            # single sample
+cleave /tmp/box-o-malware                     # recursive, unpacks archives
+cleave diff v1.2.0/ v1.3.0/                   # release-to-release diff
+cleave --format jsonl --min-crit suspicious   # streaming JSON for pipelines</pre>
+
+    <p style="margin-top: 12px; font-size: 0.8125rem;">Optional:
+    <a href="https://github.com/rizinorg/rizin" target="_blank">rizin</a> for disassembly,
+    <a href="https://github.com/upx/upx" target="_blank">upx</a> for runtime unpacking.</p>
+
+  </div>
+
+  <div class="sidebar">
+
+    <h3>Links</h3>
+    <ul>
+      <li><a href="https://codeberg.org/atomdrift/cleave" target="_blank">Source code</a></li>
+      <li><a href="https://codeberg.org/atomdrift/cleave/releases" target="_blank">Releases</a></li>
+      <li><a href="https://codeberg.org/atomdrift/cleave/issues" target="_blank">Bug tracker</a></li>
+    </ul>
+
+    <h3>Contributing</h3>
+    <ul>
+      <li><a href="https://codeberg.org/atomdrift/cleave" target="_blank">Fork on Codeberg</a></li>
+      <li><a href="https://codeberg.org/atomdrift/cleave/issues" target="_blank">Open an issue</a></li>
+    </ul>
+
+    <h3>Project Info</h3>
+    <dl class="stats">
+      <dt>Version</dt><dd>2.1.1</dd>
+      <dt>Release Date</dt><dd>2026-06-22</dd>
+      <dt>License</dt><dd>Apache 2.0</dd>
+      <dt>Language</dt><dd>Rust</dd>
+    </dl>
+
+    <h3>Related</h3>
+    <ul>
+      <li><a href="/stng/">stng</a> — string extraction</li>
+      <li><a href="/scan/">scan</a> — AI malware detection</li>
+    </ul>
+
+  </div>
+</div>
+
+  </main>
+
+  <div class="site-footer">
+    <div class="footer-inner">
+      <span>&copy; 2026 The Atomdrift Project</span>
+    </div>
+  </div>
+
+</body>
+</html>

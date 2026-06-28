@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lab down today: growing the database to 4TB before the admins disappear for summer vacation - The Atomdrift Project</title>
+  <meta name="description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Lab down today: growing the database to 4TB before the admins disappear for summer vacation - The Atomdrift Project">
+  <meta property="og:description" content="Open-source, offline supply-chain attack detection for the AI age. Across binaries, scripts, and source — Apache 2.0.">
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>%E2%9A%9B</text></svg>">
+
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift News" href="/feed.xml">
+  <link rel="alternate" type="application/atom+xml" title="Atomdrift Discoveries" href="/discoveries/feed.xml">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+
+  <div class="site-header">
+    <div class="header-inner">
+      <div class="logo-block">
+        <a href="/">
+          <svg class="atom-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="6" fill="#3b82f6"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(-30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(30 50 50)"/>
+            <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(90 50 50)"/>
+            <circle cx="18" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="82" cy="28" r="3.5" fill="#d0ff00"/>
+            <circle cx="50" cy="88" r="3.5" fill="#d0ff00"/>
+          </svg>
+          <div class="logo-text">
+            <span class="logo-name">atom<span class="logo-accent">drift</span></span>
+            <span class="logo-tagline">Open-source, offline supply-chain attack detection for the AI age</span>
+          </div>
+        </a>
+      </div>
+      <div class="header-links">
+        <a href="https://codeberg.org/atomdrift" target="_blank">Codeberg</a>
+        <a href="https://lab.atomdrift.org/" class="hl" target="_blank">Lab</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="toxic-stripe"></div>
+
+  <div class="nav">
+    <div class="nav-inner">
+      <a href="/">Home</a>
+      <a href="/news/" class="active">News</a>
+      <a href="/discoveries/">Discoveries</a>
+      <a href="/compare/">Compare</a>
+      <a href="/projects/">Projects</a>
+      <a href="/support/">Support</a>
+    </div>
+  </div>
+
+  <main>
+    
+<div class="main-full">
+  <div class="post-header">
+    <h1>Lab down today: growing the database to 4TB before the admins disappear for summer vacation</h1>
+    <span class="post-meta">2026-06-22</span>
+  </div>
+  <div class="post-body">
+    <p>The Atomdrift lab is offline today for planned hardware maintenance. The job is storage.</p>
+<p>We are growing the disks under the PostgreSQL master and every replica to hold a dataset that has crossed <strong>4TB</strong> — the record of every analysis the lab has ever run, now spanning <strong>more than 41 million files</strong>. That number crept up on us: each release <a href="https://codeberg.org/atomdrift/forager">forager</a> pulls from the registries gets parsed, scored, and filed, and the corpus only grows. The old volumes were sized for last quarter's ingest rate, not today's.</p>
+<p>The timing is deliberate. Our admins leave for summer vacation next week, and nobody wants a pager going off over a full volume while the people who know the racks are on a beach. We have <a href="/news/2026-05-07-lab-outage/">filled a disk at a bad hour before</a>; this time we are doing the boring version, everyone present and the runbook open. The goal of today's window is a quiet July.</p>
+<p>The plan:</p>
+<ul>
+<li>The master comes down, its <a href="https://openzfs.org/">ZFS</a> pool expands onto the new disks, and it returns verified.</li>
+<li>Each replica is grown and re-synced in turn, so we never drop below quorum and the corpus stays fully redundant throughout.</li>
+<li>Headroom is sized for where 41 million is heading, not where it sits today.</li>
+</ul>
+<p>Services that do not lean on the lab database stay up: the site, the <a href="https://codeberg.org/atomdrift/homebrew-tap">tap</a>, and release artifacts on <a href="https://codeberg.org/atomdrift">Codeberg</a>.</p>
+<p>And if you run Atomdrift tooling, today's outage is somebody else's problem — by design. That is the point of our offline-first approach: <a href="/litmus/">litmus</a> and <a href="/cleave/">cleave</a> ship deterministic local AI/ML models, and every verdict is computed on your own hardware, with no callback to a cloud scorer. The lab being down does not slow a single scan on your machine. No SaaS, no SaaS downtime.</p>
+<p>Back online today. Have a good summer, admins.</p>
+
+  </div>
+  <p style="margin-top: 24px; font-size: 0.8125rem;"><a href="/news/">&larr; All news</a></p>
+</div>
+
+  </main>
+
+  <div class="site-footer">
+    <div class="footer-inner">
+      <span>&copy; 2026 The Atomdrift Project</span>
+    </div>
+  </div>
+
+</body>
+</html>
