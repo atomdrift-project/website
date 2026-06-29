@@ -46,26 +46,24 @@
     }
   },
   {
-    "at": "2026-06-28T23:38:49.208348625Z",
+    "at": "2026-06-29T00:15:29.720036702Z",
     "bad": 50,
     "good": 50,
     "detection": {
-      "aikido": 0.22,
-      "ascan": 0.9,
+      "aikido": 0.3,
+      "ascan": 0.84,
       "clamav": 0,
-      "guarddog": 0.58,
-      "malcontent": 0.02,
-      "socket": 0.74,
-      "virustotal": 0.2
+      "guarddog": 0.46,
+      "malcontent": 0.12,
+      "socket": 0.62
     },
     "false_positive": {
       "aikido": 0,
-      "ascan": 0.22,
+      "ascan": 0.2,
       "clamav": 0,
-      "guarddog": 0.1,
-      "malcontent": 0,
-      "socket": 0,
-      "virustotal": 0
+      "guarddog": 0.06,
+      "malcontent": 0.02,
+      "socket": 0.02
     }
   }
 ]
