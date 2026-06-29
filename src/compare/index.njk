@@ -50,8 +50,8 @@ description: How malware scanners compare on real supply-chain attacks — detec
   .cmp-table .good { color: var(--t-benign); } .cmp-table .bad { color: var(--t-hostile); }
 
   /* stacked bars */
-  .bench { display: grid; grid-template-columns: 140px 1fr 66px; gap: 9px 14px; align-items: center; margin: 9px 0; }
-  .bench .rname { font-family: 'Oxanium', sans-serif; font-weight: 600; font-size: .9rem; color: var(--carbon); }
+  .bench { display: grid; grid-template-columns: max-content 1fr 66px; gap: 9px 14px; align-items: center; margin: 9px 0; }
+  .bench .rname { font-family: 'Oxanium', sans-serif; font-weight: 600; font-size: .9rem; color: var(--carbon); white-space: nowrap; }
   .bench .rname.us { color: var(--atomdrift-blue); }
   .bench .rpct { text-align: right; font-variant-numeric: tabular-nums; font-weight: 700; font-size: .9rem; color: var(--carbon); line-height: 1.1; }
   .bench .rpct.neg { color: var(--g-bad); }
