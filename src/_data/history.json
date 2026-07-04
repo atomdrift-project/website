@@ -151,5 +151,26 @@
       "socket": 0.06,
       "virustotal": 0
     }
+  },
+  {
+    "at": "2026-07-04T06:07:23.002063179Z",
+    "bad": 50,
+    "good": 50,
+    "detection": {
+      "aikido": 0.36,
+      "ascan": 0.94,
+      "clamav": 0.06,
+      "guarddog": 0.6,
+      "malcontent": 0,
+      "socket": 0.76
+    },
+    "false_positive": {
+      "aikido": 0,
+      "ascan": 0.3,
+      "clamav": 0.02,
+      "guarddog": 0.08,
+      "malcontent": 0,
+      "socket": 0
+    }
   }
 ]
