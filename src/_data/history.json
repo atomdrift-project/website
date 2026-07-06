@@ -214,5 +214,19 @@
       "malcontent": 0,
       "socket": 0.02
     }
+  },
+  {
+    "at": "2026-07-06T07:10:28.220196222Z",
+    "bad": 14,
+    "good": 0,
+    "detection": {
+      "aikido": 0.42857142857142855,
+      "ascan": 0.6428571428571429,
+      "clamav": 0,
+      "guarddog": 0.5714285714285714,
+      "malcontent": 0,
+      "socket": 0.7142857142857143
+    },
+    "false_positive": {}
   }
 ]
