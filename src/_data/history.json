@@ -9,8 +9,7 @@
       "clamav": 0,
       "guarddog": 0.5333333333333333,
       "malcontent": 0.43333333333333335,
-      "socket": 0.5666666666666667,
-      "virustotal": 0.23333333333333334
+      "socket": 0.5666666666666667
     },
     "false_positive": {
       "aikido": 0,
@@ -18,8 +17,7 @@
       "clamav": 0,
       "guarddog": 0,
       "malcontent": 0.1,
-      "socket": 0,
-      "virustotal": 0
+      "socket": 0
     }
   },
   {
@@ -32,8 +30,7 @@
       "clamav": 0,
       "guarddog": 0.6,
       "malcontent": 0.6,
-      "socket": 0.9,
-      "virustotal": 0.3333333333333333
+      "socket": 0.9
     },
     "false_positive": {
       "aikido": 0,
@@ -41,8 +38,7 @@
       "clamav": 0,
       "guarddog": 0.03333333333333333,
       "malcontent": 0.2,
-      "socket": 0,
-      "virustotal": 0
+      "socket": 0
     }
   },
   {
@@ -139,8 +135,7 @@
       "clamav": 0.02,
       "guarddog": 0.6,
       "malcontent": 0,
-      "socket": 0.68,
-      "virustotal": 0.18
+      "socket": 0.68
     },
     "false_positive": {
       "aikido": 0,
@@ -148,8 +143,7 @@
       "clamav": 0,
       "guarddog": 0.12,
       "malcontent": 0.02,
-      "socket": 0.06,
-      "virustotal": 0
+      "socket": 0.06
     }
   },
   {

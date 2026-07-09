@@ -174,10 +174,6 @@ module.exports = function(eleventyConfig) {
     // ClamAV: binaries, archives it unpacks, images, and HTML/docs — signatures,
     // not source or manifests.
     clamav: { types: union(T_BINARY, T_ARCHIVE, T_IMAGE, new Set(["html", "text"])) },
-    // VirusTotal: AV engines cover binaries, archives, images, scripts, documents,
-    // and the two source languages they handle (JS/Python) — not the source long
-    // tail or manifests.
-    virustotal: { types: union(T_BINARY, T_ARCHIVE, T_IMAGE, T_SCRIPT, T_DOC, new Set(["javascript", "python"])) },
     // Deps services assess a package within the ecosystems they index — its
     // manifest (how they identify it) plus its source/scripts; they don't parse
     // binaries, images, or loose data files.
@@ -228,11 +224,18 @@ module.exports = function(eleventyConfig) {
   }
   eleventyConfig.addFilter("coverage", computeCoverage);
 
+  // Engines retained in the data (battle.json, history.json) but hidden from the
+  // rendered graphs — sporadic entrants whose intermittent points would misread as
+  // real contestants. Data is kept; only the charts filter it. Mirror this set in
+  // the trend-chart script in compare/index.njk.
+  const HIDDEN_ENGINES = new Set([]);
+
   // Coverage as a sortable board for the bar chart: one row per engine that has a
-  // coverage model, highest coverage first.
+  // coverage model, highest coverage first. Hidden engines are omitted.
   eleventyConfig.addFilter("coverageBoard", function(samples, providers, ascanTypes) {
     const out = [];
     for (const key in (providers || {})) {
+      if (HIDDEN_ENGINES.has(key)) continue;
       const cov = computeCoverage(samples, key, ascanTypes);
       if (cov) out.push(Object.assign({ scanner: key, name: (providers[key] || {}).name || key }, cov));
     }

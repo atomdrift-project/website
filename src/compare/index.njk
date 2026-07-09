@@ -244,12 +244,17 @@ description: How malware scanners compare on real supply-chain attacks — detec
   </div>
 
   <h2>False positives — flagged good packages</h2>
+  {%- if battle.false_positive.sample_count > 0 %}
   <p class="sub">Across {{ battle.false_positive.sample_count }} known-good packages — any flag is a false alarm. Shorter is better; empty is perfect.</p>
   <div class="legend">
     <span><i class="sw-hostile"></i> Flagged hostile</span>
     <span><i class="sw-suspicious"></i> Flagged suspicious</span>
   </div>
   {{ benchRows(battle.false_positive.leaderboard) }}
+  {%- else %}
+  <p class="sub">No known-good packages were pulled this run, so there's nothing to measure false positives against.</p>
+  <div class="note">No known-good samples in this run — false-positive rates are <em>undefined</em>, not zero. An engine shows 0% here only when it was actually tested on good packages and flagged none; this panel returns with the next run that includes a good cohort.</div>
+  {%- endif %}
 
   <h2>Detection by ecosystem</h2>
   <p class="sub">Catch rate within each ecosystem, over the samples each engine can scan there.</p>
@@ -273,7 +278,7 @@ description: How malware scanners compare on real supply-chain attacks — detec
     const PROV = {{ providers | dump | safe }};
     const COLOR = {
       ascan: '#16a34a', socket: '#7c3aed', aikido: '#0891b2', guarddog: '#d97706',
-      virustotal: '#dc2626', malcontent: '#db2777', clamav: '#475569'
+      malcontent: '#db2777', clamav: '#475569'
     };
     const US = 'ascan';
     const hexA = (h, a) => h + Math.round(a * 255).toString(16).padStart(2, '0');
@@ -365,7 +370,7 @@ description: How malware scanners compare on real supply-chain attacks — detec
         <li>This is <strong>preliminary</strong>: the corpus is small and refreshed continuously, and the known-bad set is still being widened. Numbers will move.</li>
       </ul>
       {%- if battle.versions %}
-      <p class="method-versions"><strong>Engine versions:</strong> {% for k, v in battle.versions %}{% if not loop.first %} · {% endif %}{{ providers[k].name or k }} {{ v }}{% endfor %} <span class="audit-note">(local engines; Socket, Aikido Malware, and VirusTotal are hosted; OSV/OSM are live feeds)</span></p>
+      <p class="method-versions"><strong>Engine versions:</strong> {% for k, v in battle.versions %}{% if not loop.first %} · {% endif %}{{ providers[k].name or k }} {{ v }}{% endfor %} <span class="audit-note">(local engines; Socket and Aikido Malware are hosted; OSV/OSM are live feeds)</span></p>
       {%- endif %}
     </div>
   </details>

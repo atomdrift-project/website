@@ -34,13 +34,6 @@
     "registries": ["npm", "PyPI", "NuGet", "Go", "Packagist", "VS Code", "Open VSX", "Chrome", "crates.io", "RubyGems", "JetBrains", "WordPress", "GitHub Actions", "Maven", "Firefox", "Edge", "Homebrew", "GitHub"],
     "url": "https://www.aikido.dev/"
   },
-  "virustotal": {
-    "name": "VirusTotal",
-    "license": "Subscription",
-    "appcode": false, "vendored": true, "deps": false, "binaries": true, "airgap": false,
-    "registries": [],
-    "url": "https://www.virustotal.com/"
-  },
   "guarddog": {
     "name": "GuardDog by Datadog",
     "license": "Apache-2.0",
