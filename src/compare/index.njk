@@ -239,8 +239,6 @@ description: How malware scanners compare on real supply-chain attacks — detec
   <div class="legend">
     <span><i class="sw-hostile"></i> Flagged hostile</span>
     <span><i class="sw-suspicious"></i> Flagged suspicious</span>
-    <span><i class="sw-nodata"></i> No data — couldn't confirm</span>
-    <span><i class="sw-unsupported"></i> Can't scan</span>
   </div>
   {{ benchRows(battle.detection.leaderboard) }}
 
@@ -262,8 +260,8 @@ description: How malware scanners compare on real supply-chain attacks — detec
   <div class="legend">
     <span><i class="sw-hostile"></i> Flagged hostile</span>
     <span><i class="sw-suspicious"></i> Flagged suspicious</span>
-    <span><i class="sw-nodata"></i> No data — couldn't confirm</span>
-    <span><i class="sw-unsupported"></i> Can't scan</span>
+    <span><i class="sw-nodata"></i> Provider has not analyzed this package</span>
+    <span><i class="sw-unsupported"></i> Provider does not support this registry or file type</span>
   </div>
   {{ benchRows(battle.false_positive.leaderboard) }}
   {%- else %}
