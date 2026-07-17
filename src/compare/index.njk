@@ -23,8 +23,8 @@ description: How malware scanners compare on real supply-chain attacks — detec
                 border-bottom: 1px solid var(--border); padding-bottom: 6px; margin: 44px 0 4px; letter-spacing: -0.3px; }
   .compare .sub { color: var(--slate); font-size: .85rem; margin: 0 0 16px; }
 
-  /* outcome colors: green = scanner did the right thing, red = wrong,
-     dark grey = couldn't confirm (no data), light grey = can't scan.
+  /* outcome colors: green = scanner did the right thing, red = wrong
+     (errored on detection counts as a miss), light grey = can't scan.
      --t-* keep the raw severity colors used by the audit table. */
   :root {
     --t-hostile: #dc2626; --t-suspicious: #e0a526; --t-benign: #2f9e63; --t-nodata: #7b8494; --t-unsupported: #b6bcc6;
@@ -35,7 +35,7 @@ description: How malware scanners compare on real supply-chain attacks — detec
   .legend i { width: 11px; height: 11px; border-radius: 2px; display: inline-block; }
   .legend-note { color: var(--slate); font-size: .76rem; font-style: italic; }
   .sw-hostile { background: var(--g-good); } .sw-suspicious { background: var(--g-good-weak); }
-  .sw-nodata { background: var(--t-nodata); } .sw-unsupported { background: var(--t-unsupported); }
+  .sw-errored { background: var(--g-bad); } .sw-unsupported { background: var(--t-unsupported); }
 
   /* comparison table */
   .cmp-table { width: 100%; border-collapse: collapse; margin: 16px 0 6px; font-size: .92rem; }
@@ -62,7 +62,7 @@ description: How malware scanners compare on real supply-chain attacks — detec
   .bar .seg { height: 100%; }
   .bar .seg-hostile { background: var(--g-good); }        /* flagged hostile */
   .bar .seg-suspicious { background: var(--g-good-weak); } /* flagged suspicious */
-  .bar .seg-nodata { background: var(--t-nodata); }        /* couldn't confirm: no data for the sample */
+  .bar .seg-errored { background: var(--g-bad); }          /* scanner failed — counts as a miss (detection) */
   .bar .seg-unsupported { background: var(--t-unsupported); } /* can't scan: unsupported ecosystem/file type */
   .bar .seg-cov { background: var(--g-good); }             /* capability coverage */
 
@@ -105,7 +105,6 @@ description: How malware scanners compare on real supply-chain attacks — detec
   details.audit > summary { cursor: pointer; font-family: 'Oxanium', sans-serif; font-weight: 700; color: var(--carbon); padding: 6px 0; }
   .audit-h { font-family: 'Oxanium', sans-serif; margin: 22px 0 2px; font-size: .92rem; color: var(--carbon); }
   .audit-note { font-weight: 400; color: var(--slate); font-size: .78rem; }
-  .audit-reporter { font-weight: 600; white-space: nowrap; color: var(--slate); }
   .trend-wrap { position: relative; height: 340px; margin-top: 8px; }
   .audit-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 8px; margin-top: 10px; }
   .audit-table { width: 100%; border-collapse: collapse; font-size: .78rem; }
@@ -125,33 +124,37 @@ description: How malware scanners compare on real supply-chain attacks — detec
 </style>
 
 {# Bars show what each engine flagged, as a share of the cohort: green = hostile,
-   light green = suspicious, anchored left. The right end shows what the engine
-   could NOT vouch for: dark grey = no data for the sample (a feed with no record
-   of it — "benign" only by absence), light grey = can't scan the type at all.
-   The clear middle is the affirmatively-analyzed all-clear. Same meaning in both
-   panels — on known-bad the fill is the catch rate (more is better); on
-   known-good it's the false-alarm rate (less is better). #}
-{%- macro bar(s) -%}
+   light green = suspicious, anchored left. On detection bars (kind 'bad' and the
+   per-ecosystem cards) a red share anchored right is samples the engine errored
+   on — still a miss, and the mouseover names each failure. On the known-good
+   bars (kind 'good') the light-grey right end is what the engine can't scan
+   (unsupported registry or file type). The clear middle is the
+   affirmatively-analyzed all-clear. On known-bad the fill is the catch rate
+   (more is better); on known-good it's the false-alarm rate (less is better). #}
+{%- macro bar(s, kind) -%}
   {%- set nodata = s.nodata or 0 -%}
-  {%- set unsup = (s.unsupported or 0) + (s.errored or 0) -%}
-  <div class="bar" title="{{ s.hostile }} hostile · {{ s.suspicious }} suspicious · {{ s.benign }} analyzed clean{% if nodata %} · {{ nodata }} no data (couldn't confirm){% endif %}{% if s.errored %} · {{ s.errored }} errored (counts as a miss){% endif %}{% if s.unsupported %} · {{ s.unsupported }} can't scan{% endif %}">
+  {%- set errored = s.errored or 0 -%}
+  <div class="bar" title="{{ s.hostile }} hostile · {{ s.suspicious }} suspicious · {{ s.benign }} analyzed clean{% if nodata %} · {{ nodata }} no data (couldn't confirm){% endif %}{% if errored %} · {{ errored }} errored{% if kind != 'good' %} (counts as a miss){% endif %}{% endif %}{% if s.unsupported %} · {{ s.unsupported }} can't scan{% endif %}">
     {%- if s.supported > 0 -%}
       {%- if s.hostile > 0 %}<span class="seg seg-hostile" style="width:{{ s.hostile / s.supported * 100 }}%"></span>{% endif -%}
       {%- if s.suspicious > 0 %}<span class="seg seg-suspicious" style="width:{{ s.suspicious / s.supported * 100 }}%"></span>{% endif -%}
-      {%- if nodata > 0 %}<span class="seg seg-nodata" style="width:{{ nodata / s.supported * 100 }}%; margin-left:auto"></span>{% endif -%}
-      {%- if unsup > 0 %}<span class="seg seg-unsupported" style="width:{{ unsup / s.supported * 100 }}%{% if nodata == 0 %}; margin-left:auto{% endif %}"></span>{% endif -%}
+      {%- if kind != 'good' and errored > 0 -%}
+        {%- set errs = battle.samples | errorLines(s.scanner, 'bad') if kind == 'bad' else [] -%}
+        <span class="seg seg-errored" style="width:{{ errored / s.supported * 100 }}%; margin-left:auto" title="{{ errored }} errored (counts as a miss){% if errs | length %}:{{ '\n' }}{{ errs | join('\n') }}{% endif %}"></span>
+      {%- endif -%}
+      {%- if kind == 'good' and s.unsupported > 0 %}<span class="seg seg-unsupported" style="width:{{ s.unsupported / s.supported * 100 }}%; margin-left:auto" title="{{ s.unsupported }} — provider does not support this registry or file type"></span>{% endif -%}
     {%- endif -%}
   </div>
 {%- endmacro -%}
 
 {# The number is the flagged rate (hostile + suspicious) over what the engine
    could scan — so it always matches the bar's fill. #}
-{%- macro benchRows(board) -%}
+{%- macro benchRows(board, kind) -%}
   <div class="bench">
   {%- for s in board | byFlagged %}
     {%- set p = providers[s.scanner] %}
     <div class="rname{% if s.scanner == 'ascan' %} us{% endif %}">{{ p.name or s.scanner }}</div>
-    {{ bar(s) }}
+    {{ bar(s, kind) }}
     {%- if s.supported %}
     <div class="rpct">{{ (100 * (s.hostile + s.suspicious) / s.supported) | round(0) }}%</div>
     {%- else %}
@@ -161,13 +164,12 @@ description: How malware scanners compare on real supply-chain attacks — detec
   </div>
 {%- endmacro -%}
 
-{%- macro auditTable(samples, board, reporter=false) -%}
+{%- macro auditTable(samples, board) -%}
   <div class="audit-wrap">
     <table class="audit-table">
       <thead>
         <tr>
           <th>Package</th>
-          {%- if reporter %}<th>Reported by</th>{%- endif %}
           {%- for s in board %}<th>{{ providers[s.scanner].name or s.scanner }}</th>{%- endfor %}
         </tr>
       </thead>
@@ -175,7 +177,6 @@ description: How malware scanners compare on real supply-chain attacks — detec
         {%- for sm in samples %}
         <tr>
           <td><a href="https://lab.atomdrift.org/file/{{ sm.sha256 }}" title="{{ sm.filename }}{% if sm.ecosystem %} · {{ sm.ecosystem }}{% endif %} — view in Atomdrift Lab">{{ sm.purl or sm.filename }}</a></td>
-          {%- if reporter %}<td class="audit-reporter">{{ providers[sm.excluded].name or sm.excluded }}</td>{%- endif %}
           {%- for s in board %}
             {%- set v = sm.verdicts | find("scanner", s.scanner) %}
             {%- if v and v.tier != 'unsupported' %}
@@ -239,8 +240,11 @@ description: How malware scanners compare on real supply-chain attacks — detec
   <div class="legend">
     <span><i class="sw-hostile"></i> Flagged hostile</span>
     <span><i class="sw-suspicious"></i> Flagged suspicious</span>
+    {%- if battle.detection.leaderboard | selectattr("errored") | length %}
+    <span><i class="sw-errored"></i> Errored (counts as a miss)</span>
+    {%- endif %}
   </div>
-  {{ benchRows(battle.detection.leaderboard) }}
+  {{ benchRows(battle.detection.leaderboard, 'bad') }}
 
   <h2>Coverage — what each engine can scan</h2>
   <p class="sub">Share of this run's files each engine can analyze (by file type and registry) — coverage, not detection. Longer is broader.</p>
@@ -256,14 +260,13 @@ description: How malware scanners compare on real supply-chain attacks — detec
 
   <h2>False positives — flagged good packages</h2>
   {%- if battle.false_positive.sample_count > 0 %}
-  <p class="sub">Across {{ battle.false_positive.sample_count }} presumed-good packages — any flag is a false alarm. A short green fill is better; the dark grey right end is what the engine had <em>no data</em> for, so its clean record there is untested, not earned.</p>
+  <p class="sub">Across {{ battle.false_positive.sample_count }} presumed-good packages — any flag is a false alarm. A short green fill is better; the light grey right end is what the engine can't scan at all, so its clean record there is untested, not earned.</p>
   <div class="legend">
     <span><i class="sw-hostile"></i> Flagged hostile</span>
     <span><i class="sw-suspicious"></i> Flagged suspicious</span>
-    <span><i class="sw-nodata"></i> Provider has not analyzed this package</span>
     <span><i class="sw-unsupported"></i> Provider does not support this registry or file type</span>
   </div>
-  {{ benchRows(battle.false_positive.leaderboard) }}
+  {{ benchRows(battle.false_positive.leaderboard, 'good') }}
   {%- else %}
   <p class="sub">No known-good packages were pulled this run, so there's nothing to measure false positives against.</p>
   <div class="note">No known-good samples in this run — false-positive rates are <em>undefined</em>, not zero. An engine shows 0% here only when it was actually tested on good packages and flagged none; this panel returns with the next run that includes a good cohort.</div>
@@ -275,7 +278,7 @@ description: How malware scanners compare on real supply-chain attacks — detec
     {%- for e in battle.detection.by_ecosystem | byEcoSize %}
       <div class="eco-card">
         <h4>{{ e.eco }} <span class="audit-note">{{ e.n }} sample{{ "s" if e.n != 1 }}</span></h4>
-        {{ benchRows(e.board) }}
+        {{ benchRows(e.board, 'eco') }}
       </div>
     {%- endfor %}
   </div>
@@ -379,7 +382,7 @@ description: How malware scanners compare on real supply-chain attacks — detec
         <li><strong>Known-bad</strong> packages are pulled from live threat feeds. Independent feeds are trusted as-is — a bogus listing just makes every engine miss it equally. But a listing from a feed that is <em>also a contestant</em> (Socket, Aikido Malware, GuardDog by Datadog) is kept only when an <em>independent</em> engine corroborates it, so no one is credited for its own possibly-spurious self-report.</li>
         <li><strong>Presumed-good</strong> packages are drawn from the freshest 48 hours of the open-source firehose: curated good feeds, newly-published packages nobody has reported, and packages a contestant's own feed has flagged <em>solo</em> (kept in so that vendor's false positives stay measurable — a corroborated report relabels the sample bad and removes it). Samples from independent malware registries never enter this pool. Any flag against a presumed-good package, <em>hostile or suspicious</em>, is a false positive.</li>
         <li><strong>Adjudication:</strong> presumed-good is provisional — threat feeds corroborate malware days after publication. Every pick is re-checked against the label database on later runs: one that turns out to be malware is retroactively removed from that run's false-positive rates, and any engine that flagged it at scan time is credited with an <em>early detection</em> — it beat the feed consensus, and isn't scored as a false alarm for it.</li>
-        <li>Each engine's native severity is normalised to five tiers — <em>hostile</em>, <em>suspicious</em>, <em>benign</em> (analyzed, nothing found), <em>no data</em> (the engine has no record of the sample — clean only by absence), <em>unsupported</em>. A sample is <strong>caught</strong> (on known-bad) or a <strong>false alarm</strong> (on presumed-good) when it's flagged <em>hostile or suspicious</em>; the bars stack the two shades, darker for hostile, with the grey no-data/unsupported share anchored right.</li>
+        <li>Each engine's native severity is normalised to five tiers — <em>hostile</em>, <em>suspicious</em>, <em>benign</em> (analyzed, nothing found), <em>no data</em> (the engine has no record of the sample — clean only by absence), <em>unsupported</em>. A sample is <strong>caught</strong> (on known-bad) or a <strong>false alarm</strong> (on presumed-good) when it's flagged <em>hostile or suspicious</em>; the bars stack the two shades, darker for hostile. On the detection bars a red share anchored right is samples the engine <em>errored</em> on (a miss — hover it for the failures); on the known-good bars the light-grey right end is what the engine can't scan.</li>
         <li>Rates are taken over what each engine can actually scan: a sample it <em>skips</em> — unsupported ecosystem or file type — drops from the denominator, but a sample it <em>errors</em> on still counts as a miss.</li>
         <li>This is <strong>preliminary</strong>: the corpus is small and refreshed continuously, and the known-bad set is still being widened. Numbers will move.</li>
       </ul>
@@ -392,20 +395,14 @@ description: How malware scanners compare on real supply-chain attacks — detec
   {%- set badSamples = battle.samples | where("label", "bad") -%}
   {%- set goodSamples = battle.samples | where("label", "good") -%}
   {%- set cohortBad = badSamples | whereUnset("excluded") -%}
-  {%- set skippedBad = badSamples | whereSet("excluded") -%}
   <details class="audit">
-    <summary>Reference data — {{ cohortBad | length }} known-malware + {{ goodSamples | length }} known-good files{% if skippedBad | length %} (+{{ skippedBad | length }} skipped){% endif %}, scanned {{ battle.generated_at | dateDisplay }}</summary>
+    <summary>Reference data — {{ cohortBad | length }} known-malware + {{ goodSamples | length }} known-good files, scanned {{ battle.generated_at | dateDisplay }}</summary>
 
     <h4 class="audit-h"><span class="lab-bad">●</span> Known malware <span class="audit-note">— pulled from threat feeds and corroborated; every detection benchmark number comes from these</span></h4>
     {{ auditTable(cohortBad, battle.detection.leaderboard) }}
 
     <h4 class="audit-h"><span class="lab-good">●</span> Presumed good <span class="audit-note">— fresh releases with no corroborated malware report; any flag here is a provisional false positive, re-adjudicated as labels catch up</span></h4>
     {{ auditTable(goodSamples, battle.detection.leaderboard) }}
-
-    {%- if skippedBad | length %}
-    <h4 class="audit-h">⊘ Skipped — provider-reported, uncorroborated <span class="audit-note">— self-published by Socket, Aikido Malware or GuardDog by Datadog but not independently corroborated (no other engine flagged them hostile, and fewer than two flagged them at all), so they're dropped from the detection cohort rather than crediting the reporter for a possibly spurious listing. Independent threat-feed listings are trusted as-is and never dropped — a bogus one just makes every engine miss equally</span></h4>
-    {{ auditTable(skippedBad, battle.detection.leaderboard, true) }}
-    {%- endif %}
 
     <h4 class="audit-h">Coverage gaps <span class="audit-note">— what each engine couldn't analyze: whole packages skipped for an unsupported ecosystem, or file types it can't read within a supported one</span></h4>
     <div class="audit-wrap">

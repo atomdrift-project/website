@@ -266,6 +266,22 @@ module.exports = function(eleventyConfig) {
     return { ecoMissed: sorted(ecoMissed), typeMissed: sorted(typeMissed) };
   });
 
+  // errorLines: one "package — detail" line per scanner error within a cohort
+  // (label bad/good, excluded samples omitted) — the errored bar segment's
+  // mouseover on the /compare/ benchmark charts.
+  eleventyConfig.addFilter("errorLines", function(samples, scanner, label) {
+    const out = [];
+    for (const s of samples || []) {
+      if (s.excluded || s.label !== label) continue;
+      for (const v of s.verdicts || []) {
+        if (v && v.scanner === scanner && v.status === "error") {
+          out.push((s.purl || s.filename) + " — " + (v.detail || "error"));
+        }
+      }
+    }
+    return out;
+  });
+
   // Pull the first <img> src out of rendered post content, for listing thumbnails.
   eleventyConfig.addFilter("firstImage", function(content) {
     if (!content) return "";
