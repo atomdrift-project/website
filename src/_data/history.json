@@ -495,5 +495,26 @@
       "malcontent": 0.08,
       "socket": 0.02
     }
+  },
+  {
+    "at": "2026-07-21T03:42:34.429593481Z",
+    "bad": 50,
+    "good": 50,
+    "detection": {
+      "aikido": 0.02,
+      "ascan": 0.82,
+      "clamav": 0,
+      "guarddog": 0.14,
+      "malcontent": 0.28,
+      "socket": 0.24
+    },
+    "false_positive": {
+      "aikido": 0,
+      "ascan": 0.12,
+      "clamav": 0,
+      "guarddog": 0.06,
+      "malcontent": 0.2,
+      "socket": 0.02
+    }
   }
 ]
