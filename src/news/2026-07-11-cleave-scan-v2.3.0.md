@@ -44,8 +44,8 @@ prints the LLM prompt Scan would send, locally, without calling anything. And
 FreeBSD/arm64 builds are back.
 
 Release notes: [cleave
-v2.3.0](https://codeberg.org/atomdrift/cleave/releases/tag/v2.3.0) ·
-[scan v2.3.0](https://codeberg.org/atomdrift/scan/releases/tag/v2.3.0).
+v2.3.0](https://github.com/atomdrift-project/cleave/releases/tag/v2.3.0) ·
+[scan v2.3.0](https://github.com/atomdrift-project/scan/releases/tag/v2.3.0).
 
 ```
 brew upgrade atomdrift/tap/cleave atomdrift/tap/atomdrift-scan

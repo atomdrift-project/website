@@ -4,7 +4,7 @@ date: 2026-06-12
 summary: "filefacts reaches 1.0.0 with richer package identity, new PE/.NET malware features, better evidence offsets, and explicit AST failure metrics for large-scale security ML pipelines."
 ---
 
-[filefacts](https://codeberg.org/atomdrift/filefacts) v1.0.0 is the stable line for the parser behind cleave's feature extraction. The headline for ML work is simple: more samples now land in the right format bucket, more package identity becomes structured data, and skipped or truncated source analysis is visible instead of silent.
+[filefacts](https://github.com/atomdrift-project/filefacts) v1.0.0 is the stable line for the parser behind cleave's feature extraction. The headline for ML work is simple: more samples now land in the right format bucket, more package identity becomes structured data, and skipped or truncated source analysis is visible instead of silent.
 
 For supply-chain models, the point is not prettier names. It is fewer collapsed classes, more provenance features, better evidence offsets, and explicit failure signals when static analysis is bounded for corpus-scale safety.
 
@@ -18,7 +18,7 @@ For supply-chain models, the point is not prettier names. It is fewer collapsed 
 - **Better content detection.** AppleScript and pacman/AUR install scriptlets are detected more reliably without depending on extensions.
 - **Schema notes.** `FileType::Pkg` split into specific package variants, `Symbol::Member` gained an optional `offset`, source error stages were added, and `pe.cert_table_size` moved from values to metrics.
 
-[Release notes](https://codeberg.org/atomdrift/filefacts/releases/tag/v1.0.0).
+[Release notes](https://github.com/atomdrift-project/filefacts/releases/tag/v1.0.0).
 
 ```
 brew install atomdrift/tap/filefacts

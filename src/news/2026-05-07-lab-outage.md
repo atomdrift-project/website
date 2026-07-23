@@ -18,7 +18,7 @@ Here is the plan, executing now:
 - The lab is being reconfigured to fail over to a replica when the master is unreachable, instead of sitting there staring at a dead socket.
 - WAL archiving is being pointed at object storage so the next standby we bring up does not have to be in the same rack as the master to be useful.
 
-Services that do not depend on the lab database — the site, the [tap](https://codeberg.org/atomdrift/homebrew-tap), release artifacts on [Codeberg](https://codeberg.org/atomdrift) — stay up.
+Services that do not depend on the lab database — the site, the [tap](https://github.com/atomdrift-project/homebrew-tap), release artifacts on [GitHub](https://github.com/atomdrift-project) — stay up.
 
 ETA for full recovery is today.
 
