@@ -15,7 +15,7 @@ description: How malware scanners compare on real supply-chain attacks — detec
   .cmp-hero h1 .accent { color: var(--atomdrift-blue); }
   .cmp-hero .stripe { height: 4px; width: 72px; border-radius: 2px; margin: 12px 0 16px;
                       background: linear-gradient(90deg, var(--toxic) 0%, var(--toxic-muted) 60%, transparent 100%); }
-  .cmp-hero .lede { color: var(--graphite); max-width: 72ch; line-height: 1.6; font-size: 1.02rem; }
+  .cmp-hero .lede { color: var(--graphite); max-width: none; line-height: 1.6; font-size: 1.02rem; }
   .cmp-hero .lede b { color: var(--carbon); }
 
   /* section headings (mirror .content h2) */
@@ -237,19 +237,11 @@ description: How malware scanners compare on real supply-chain attacks — detec
       Supply-chain attacks reach production faster than the feeds that
       track them — so grading a scanner on last month's malware proves
       nothing, and catching tomorrow's is the whole game
-      <a href="/scan/">atomscan</a> plays. Every run pulls the newest
-      malicious and benign packages straight off the live feeds, still
-      warm, and turns every engine loose on the same pile with the answers
-      already known.{% if battle.malware_age %} This run's malware averaged
-      {{ battle.malware_age.mean_hours | round(0) }} hours old, none older
-      than {{ battle.malware_age.max_hours | round(0) }} — the narrow gap
-      where a catch still stops an attack instead of just documenting
-      one.{% endif %} Freshly pulled {{ battle.generated_at | dateDisplay }}:
-      {{ battle.detection.sample_count }} malicious,
-      {{ battle.false_positive.sample_count }} benign.
+      <a href="/scan/">atomscan</a> plays.
     </p>
   </div>
 
+  {# Scoreboard + CTAs hidden pending rework — remove this comment marker and the closing one below to re-enable.
   {%- set h = battle | headline %}
   {%- if h %}
   <div class="scoreboard">
@@ -267,6 +259,7 @@ description: How malware scanners compare on real supply-chain attacks — detec
     <a class="cta" href="/scan/how-it-works/">How it works</a>
   </div>
   {%- endif %}
+  #}
 
   <table class="cmp-table feature-table">
     <thead>
