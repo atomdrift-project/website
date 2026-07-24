@@ -124,6 +124,57 @@ module.exports = function(eleventyConfig) {
       .sort(function(a, b) { return (b.registries || []).length - (a.registries || []).length; });
   });
 
+  // Flagged rate ((hostile+suspicious)/supported) as a 0..100 percentage, or null
+  // when the engine scanned nothing — the single rate both the bars and these
+  // synthesis views are built from, so nothing downstream can disagree with the chart.
+  const flaggedRate = (s) => (s && s.supported) ? (s.hostile + s.suspicious) / s.supported * 100 : null;
+
+  // headline distills a run to the one line a skim-reader needs: how the subject
+  // (ascan) did on detection, how far it leads the best *other* engine, and its
+  // false-positive rate. Computed from the same leaderboards the bars use, so the
+  // banner can never drift from the chart below it. Null if ascan didn't scan.
+  eleventyConfig.addFilter("headline", function(battle) {
+    const det = (battle && battle.detection && battle.detection.leaderboard) || [];
+    const fp = (battle && battle.false_positive && battle.false_positive.leaderboard) || [];
+    const us = det.find((s) => s.scanner === "ascan");
+    const usDet = flaggedRate(us);
+    if (usDet === null) return null;
+    let best = null; // best competing detection rate — the bar we're beating
+    for (const s of det) {
+      if (s.scanner === "ascan") continue;
+      const r = flaggedRate(s);
+      if (r === null) continue;
+      if (!best || r > best.det) best = { name: s.scanner, det: r };
+    }
+    const usFp = flaggedRate(fp.find((s) => s.scanner === "ascan"));
+    return {
+      detRate: Math.round(usDet),
+      fpRate: usFp === null ? null : Math.round(usFp),
+      bestName: best ? best.name : null,
+      bestDet: best ? Math.round(best.det) : null,
+      lead: best && best.det > 0 ? usDet / best.det : null, // multiple, e.g. 2.2
+      leadPts: best ? Math.round(usDet - best.det) : null,   // percentage-point gap
+      sampleCount: (battle.detection && battle.detection.sample_count) || 0,
+    };
+  });
+
+  // frontier joins each engine's detection and false-positive rates into one point
+  // for the trade-off scatter — the view that shows catch rate and false alarms are
+  // only impressive together. Engines missing either measure this run are dropped.
+  eleventyConfig.addFilter("frontier", function(battle) {
+    const det = (battle && battle.detection && battle.detection.leaderboard) || [];
+    const fp = (battle && battle.false_positive && battle.false_positive.leaderboard) || [];
+    const fpBy = {};
+    for (const s of fp) fpBy[s.scanner] = s;
+    const pts = [];
+    for (const d of det) {
+      const dr = flaggedRate(d), fr = flaggedRate(fpBy[d.scanner]);
+      if (dr === null || fr === null) continue;
+      pts.push({ scanner: d.scanner, det: Math.round(dr), fp: Math.round(fr), us: d.scanner === "ascan" });
+    }
+    return pts;
+  });
+
   // Capability coverage: the share of a sample set's constituent files a scanner
   // can actually analyze, per a declared filetype map (outer + inner types) and an
   // optional registry gate. This is computed from the file composition, not from

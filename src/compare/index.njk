@@ -121,6 +121,42 @@ description: How malware scanners compare on real supply-chain attacks — detec
   .tier-nodata { background: rgba(123,132,148,.18); color: var(--slate); font-weight: 600; text-align: center; }
   .tier-unsupported { background: var(--mist); color: var(--slate); text-align: center; }
   .tier-na { color: var(--g-na); text-align: center; font-weight: 600; }
+
+  /* headline scoreboard — the one result a skimmer should leave with */
+  .scoreboard { display: flex; gap: 24px; align-items: center; flex-wrap: wrap;
+    background: var(--carbon); color: #fff; border-radius: 12px; padding: 22px 26px; margin: 20px 0 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,.14); }
+  .scoreboard .score-num { font-family: 'Oxanium', sans-serif; font-weight: 800; font-size: 4.4rem;
+    line-height: .85; color: var(--toxic); letter-spacing: -2px; }
+  .scoreboard .score-num .pct { font-size: 2.2rem; letter-spacing: -1px; }
+  .scoreboard .score-body { flex: 1 1 360px; }
+  .scoreboard .score-lead { font-size: 1.04rem; line-height: 1.5; margin: 0 0 9px; color: #eef0f3; }
+  .scoreboard .score-lead b { color: var(--toxic); }
+  .scoreboard .score-diff { font-size: .85rem; line-height: 1.55; margin: 0; color: #b9bfc9; }
+  .scoreboard .score-diff b { color: #eef0f3; font-weight: 700; }
+  .scoreboard .score-diff a { color: #fff; text-decoration: underline; text-underline-offset: 2px; }
+
+  /* calls to action */
+  .cta-row { display: flex; gap: 12px; flex-wrap: wrap; margin: 2px 0 6px; }
+  .cta { display: inline-flex; align-items: center; font-family: 'Oxanium', sans-serif; font-weight: 700;
+    font-size: .92rem; padding: 10px 18px; border-radius: 7px; text-decoration: none;
+    border: 1.5px solid var(--border); color: var(--carbon); transition: border-color .15s, color .15s, background .15s; }
+  .cta:hover { border-color: var(--atomdrift-blue); color: var(--atomdrift-blue); }
+  .cta-primary { background: var(--toxic); border-color: var(--toxic); color: var(--carbon); }
+  .cta-primary:hover { background: var(--toxic-dark); border-color: var(--toxic-dark); color: #fff; }
+
+  /* detection-vs-false-positive trade-off scatter */
+  .frontier-wrap { margin: 14px 0 6px; }
+  .frontier-wrap svg { width: 100%; height: auto; max-width: 720px; display: block; }
+  .frontier-grid { stroke: var(--border); stroke-width: 1; }
+  .frontier-axis { stroke: var(--slate); stroke-width: 1.5; }
+  .frontier-tick { fill: var(--slate); font-size: 11px; font-family: system-ui, sans-serif; }
+  .frontier-alab { fill: var(--iron); font-size: 12.5px; font-weight: 600; font-family: 'Oxanium', sans-serif; }
+  .frontier-sweet { fill: var(--g-good); opacity: .11; }
+  .frontier-sweet-lab { fill: var(--t-benign); font-size: 11px; font-weight: 700; font-family: 'Oxanium', sans-serif; }
+  .frontier-plab { font-size: 12px; font-weight: 700; font-family: 'Oxanium', sans-serif; fill: var(--carbon); }
+  .frontier-plab.us { fill: var(--atomdrift-blue); font-size: 13px; }
+  .frontier-pt { stroke: #fff; stroke-width: 2; }
 </style>
 
 {# Bars show what each engine flagged, as a share of the cohort: green = hostile,
@@ -198,16 +234,39 @@ description: How malware scanners compare on real supply-chain attacks — detec
     <h1>Malware Scanner <span class="accent">Battle Royale</span></h1>
     <div class="stripe"></div>
     <p class="lede">
-      A <b>zero-day</b> test of supply-chain malware detection: every run pulls the freshest
-      <b>known-bad</b> and <b>known-good</b> packages straight from live threat feeds and scans them
-      with every engine — same samples, ground-truth labels.{% if battle.malware_age %} The malware is
-      genuinely new — this run's averaged <b>{{ battle.malware_age.mean_hours | round(0) }} hours</b> old,
-      none more than {{ battle.malware_age.max_hours | round(0) }} — so catching it means stopping an
-      attack before the ecosystem has flagged it, the window <a href="/scan/">atomscan</a> is built for.{% endif %}
-      Last updated {{ battle.generated_at | dateDisplay }}
-      ({{ battle.detection.sample_count }} malware · {{ battle.false_positive.sample_count }} benign).
+      Supply-chain attacks reach production faster than the feeds that
+      track them — so grading a scanner on last month's malware proves
+      nothing, and catching tomorrow's is the whole game
+      <a href="/scan/">atomscan</a> plays. Every run pulls the newest
+      malicious and benign packages straight off the live feeds, still
+      warm, and turns every engine loose on the same pile with the answers
+      already known.{% if battle.malware_age %} This run's malware averaged
+      {{ battle.malware_age.mean_hours | round(0) }} hours old, none older
+      than {{ battle.malware_age.max_hours | round(0) }} — the narrow gap
+      where a catch still stops an attack instead of just documenting
+      one.{% endif %} Freshly pulled {{ battle.generated_at | dateDisplay }}:
+      {{ battle.detection.sample_count }} malicious,
+      {{ battle.false_positive.sample_count }} benign.
     </p>
   </div>
+
+  {%- set h = battle | headline %}
+  {%- if h %}
+  <div class="scoreboard">
+    <div class="score-num">{{ h.detRate }}<span class="pct">%</span></div>
+    <div class="score-body">
+      <p class="score-lead">of this run's {{ h.sampleCount }} zero-day samples caught —
+        {% if h.lead and h.lead >= 1.5 %}<b>{{ h.lead | round(1) }}×</b> the next-best engine{% else %}<b>{{ h.leadPts }} points</b> clear of the next-best engine{% endif %}
+        ({{ providers[h.bestName].name or h.bestName }}, {{ h.bestDet }}%){% if h.fpRate != null %}, while crying wolf on just {{ h.fpRate }}% of clean packages{% endif %}.</p>
+      <p class="score-diff"><b>Zero detection lag.</b> No feed to poll, no vendor verdict to wait on, no cloud round-trip —
+        <a href="/scan/">atomscan</a> decides locally and autonomously, the moment a package lands.</p>
+    </div>
+  </div>
+  <div class="cta-row">
+    <a class="cta cta-primary" href="/scan/">Point it at your dependencies →</a>
+    <a class="cta" href="/scan/how-it-works/">How it works</a>
+  </div>
+  {%- endif %}
 
   <table class="cmp-table feature-table">
     <thead>
@@ -237,10 +296,10 @@ description: How malware scanners compare on real supply-chain attacks — detec
       {%- endfor %}
     </tbody>
   </table>
-  <p class="sub">What each engine is built to scan — detection scores are below.</p>
+  <p class="sub">What each engine is built to scan.</p>
 
-  <h2>Detected malware</h2>
-  <p class="sub">Across {{ battle.detection.sample_count }} recent samples flagged by <a href="https://osv.dev/list?ecosystem=&q=MAL" target="_blank" rel="noopener">OSV</a>, <a href="https://opensourcemalware.com/" target="_blank" rel="noopener">OSM</a>, and other threat feeds.</p>
+  <h2>Zero-day detection</h2>
+  <p class="sub">Catch rate on {{ battle.detection.sample_count }} freshly-published malware packages{% if battle.malware_age %} — {{ battle.malware_age.mean_hours | round(0) }} hours old on average, none over {{ battle.malware_age.max_hours | round(0) }}{% endif %} — pulled live from <a href="https://osv.dev/list?ecosystem=&q=MAL" target="_blank" rel="noopener">OSV</a>, <a href="https://opensourcemalware.com/" target="_blank" rel="noopener">OSM</a>, and other threat feeds.</p>
   <div class="legend">
     <span><i class="sw-hostile"></i> Flagged hostile</span>
     <span><i class="sw-suspicious"></i> Flagged suspicious</span>
@@ -251,7 +310,7 @@ description: How malware scanners compare on real supply-chain attacks — detec
   {{ benchRows(battle.detection.leaderboard, 'bad') }}
 
   <h2>Coverage — what each engine can scan</h2>
-  <p class="sub">Share of this run's files each engine can analyze (by file type and registry) — coverage, not detection. Longer is broader.</p>
+  <p class="sub">Share of this run's files each engine can even analyze — coverage, not detection.</p>
   <div class="bench">
   {%- for c in battle.samples | coverageBoard(providers, battle.ascan_types) %}
     <div class="rname{% if c.scanner == 'ascan' %} us{% endif %}">{{ c.name }}</div>
@@ -264,7 +323,7 @@ description: How malware scanners compare on real supply-chain attacks — detec
 
   <h2>False positives — flagged good packages</h2>
   {%- if battle.false_positive.sample_count > 0 %}
-  <p class="sub">Across {{ battle.false_positive.sample_count }} presumed-good packages — any flag is a false alarm. A short green fill is better; the light grey right end is what the engine can't scan at all, so its clean record there is untested, not earned.</p>
+  <p class="sub">Across {{ battle.false_positive.sample_count }} presumed-good packages — any flag is a false alarm. The grey tail is what an engine can't scan, so that stretch is untested, not earned.</p>
   <div class="legend">
     <span><i class="sw-hostile"></i> Flagged hostile</span>
     <span><i class="sw-suspicious"></i> Flagged suspicious</span>
@@ -274,6 +333,46 @@ description: How malware scanners compare on real supply-chain attacks — detec
   {%- else %}
   <p class="sub">No known-good packages were pulled this run, so there's nothing to measure false positives against.</p>
   <div class="note">No known-good samples in this run — false-positive rates are <em>undefined</em>, not zero. An engine shows 0% here only when it was actually tested on good packages and flagged none; this panel returns with the next run that includes a good cohort.</div>
+  {%- endif %}
+
+  {%- set fr = battle | frontier %}
+  {%- if fr | length >= 2 %}
+  {%- set PL = 54 %}{%- set PR = 660 %}{%- set PT = 18 %}{%- set PB = 354 %}
+  {%- set plotW = PR - PL %}{%- set plotH = PB - PT %}{%- set yMax = 50 %}
+  {%- set fcol = { "ascan": "#16a34a", "socket": "#7c3aed", "aikido": "#0891b2", "guarddog": "#d97706", "malcontent": "#db2777", "clamav": "#475569" } %}
+  {%- set fname = { "ascan": "Atomdrift", "socket": "Socket", "aikido": "Aikido", "guarddog": "GuardDog", "malcontent": "malcontent", "clamav": "ClamAV" } %}
+  {%- set lpos = { "ascan": {"dx": -13, "dy": -12, "a": "end"}, "socket": {"dx": 12, "dy": -11, "a": "start"}, "aikido": {"dx": 0, "dy": -14, "a": "middle"}, "clamav": {"dx": 12, "dy": -11, "a": "start"}, "guarddog": {"dx": 12, "dy": 4, "a": "start"}, "malcontent": {"dx": 12, "dy": 4, "a": "start"} } %}
+  <h2>Catch rate vs. false alarms</h2>
+  <p class="sub">Flag everything and you "win" detection; flag nothing and you "win" false positives. The only square that counts is bottom-right — catches the malware, spares the clean code. <span class="audit-note">Each dot: catch rate / false-positive rate.</span></p>
+  <div class="frontier-wrap">
+    <svg viewBox="0 0 680 400" role="img" aria-label="Detection rate versus false-positive rate for each engine; Atomdrift sits in the bottom-right, high detection and low false positives.">
+      <!-- the goal corner: high catch, low false alarms -->
+      <rect class="frontier-sweet" x="{{ PL + (70/100*plotW) }}" y="{{ PB - (10/yMax*plotH) }}" width="{{ PR - (PL + (70/100*plotW)) }}" height="{{ (10/yMax*plotH) }}"></rect>
+      <text class="frontier-sweet-lab" x="{{ PR - 6 }}" y="{{ PB - (10/yMax*plotH) - 6 }}" text-anchor="end">the good corner ↘</text>
+      <!-- gridlines + ticks -->
+      {%- for v in [0, 25, 50, 75, 100] %}
+      <line class="frontier-grid" x1="{{ PL + (v/100*plotW) }}" y1="{{ PT }}" x2="{{ PL + (v/100*plotW) }}" y2="{{ PB }}"></line>
+      <text class="frontier-tick" x="{{ PL + (v/100*plotW) }}" y="{{ PB + 18 }}" text-anchor="middle">{{ v }}</text>
+      {%- endfor %}
+      {%- for v in [0, 10, 20, 30, 40, 50] %}
+      <line class="frontier-grid" x1="{{ PL }}" y1="{{ PB - (v/yMax*plotH) }}" x2="{{ PR }}" y2="{{ PB - (v/yMax*plotH) }}"></line>
+      <text class="frontier-tick" x="{{ PL - 8 }}" y="{{ PB - (v/yMax*plotH) + 4 }}" text-anchor="end">{{ v }}</text>
+      {%- endfor %}
+      <!-- axes -->
+      <line class="frontier-axis" x1="{{ PL }}" y1="{{ PT }}" x2="{{ PL }}" y2="{{ PB }}"></line>
+      <line class="frontier-axis" x1="{{ PL }}" y1="{{ PB }}" x2="{{ PR }}" y2="{{ PB }}"></line>
+      <text class="frontier-alab" x="{{ (PL + PR) / 2 }}" y="395" text-anchor="middle">Detection rate (%) — higher is better →</text>
+      <text class="frontier-alab" transform="translate(15,{{ (PT + PB) / 2 }}) rotate(-90)" text-anchor="middle">False-positive rate (%) — lower is better ↓</text>
+      <!-- engines -->
+      {%- for p in fr %}
+      {%- set L = lpos[p.scanner] or {"dx": 12, "dy": -11, "a": "start"} %}
+      <circle class="frontier-pt" cx="{{ PL + (p.det/100*plotW) }}" cy="{{ PB - (p.fp/yMax*plotH) }}" r="{{ 9 if p.us else 7 }}" fill="{{ fcol[p.scanner] or '#475569' }}"></circle>
+      <text class="frontier-plab{% if p.us %} us{% endif %}" fill="{{ fcol[p.scanner] or '#475569' }}"
+            x="{{ PL + (p.det/100*plotW) + L.dx }}" y="{{ PB - (p.fp/yMax*plotH) + L.dy }}"
+            text-anchor="{{ L.a }}">{{ fname[p.scanner] or p.scanner }} · {{ p.det }}/{{ p.fp }}</text>
+      {%- endfor %}
+    </svg>
+  </div>
   {%- endif %}
 
   <h2>Detection by ecosystem</h2>
@@ -288,7 +387,7 @@ description: How malware scanners compare on real supply-chain attacks — detec
   </div>
 
   <h2>Detection over time</h2>
-  <p class="sub">Each engine's catch rate on known malware, run over run — higher and steadier is better. <span class="audit-note">Series starts 9 Jul 2026, when the current detection pipeline shipped. Click a name to isolate it.</span></p>
+  <p class="sub">Each engine's catch rate on known malware, run over run.</p>
   {%- if history and history | length >= 2 %}
   <div class="trend-wrap"><canvas id="trendChart"></canvas></div>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
