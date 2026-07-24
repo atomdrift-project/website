@@ -299,7 +299,7 @@ description: How malware scanners compare on real supply-chain attacks — detec
   <p class="sub">What each engine is built to scan.</p>
 
   <h2>Zero-day detection</h2>
-  <p class="sub">Catch rate on {{ battle.detection.sample_count }} freshly-published malware packages{% if battle.malware_age %} — {{ battle.malware_age.mean_hours | round(0) }} hours old on average, none over {{ battle.malware_age.max_hours | round(0) }}{% endif %} — pulled live from <a href="https://osv.dev/list?ecosystem=&q=MAL" target="_blank" rel="noopener">OSV</a>, <a href="https://opensourcemalware.com/" target="_blank" rel="noopener">OSM</a>, and other threat feeds.</p>
+  <p class="sub">Catch rate on {{ battle.detection.sample_count }} freshly-published malware packages, pulled live from <a href="https://osv.dev/list?ecosystem=&q=MAL" target="_blank" rel="noopener">OSV</a>, <a href="https://opensourcemalware.com/" target="_blank" rel="noopener">OSM</a>, and other threat feeds.</p>
   <div class="legend">
     <span><i class="sw-hostile"></i> Flagged hostile</span>
     <span><i class="sw-suspicious"></i> Flagged suspicious</span>
@@ -386,8 +386,8 @@ description: How malware scanners compare on real supply-chain attacks — detec
     {%- endfor %}
   </div>
 
-  <h2>Detection over time</h2>
-  <p class="sub">Each engine's catch rate on known malware, run over run.</p>
+  <h2>Zero-day detection over time</h2>
+  <p class="sub">Each engine's catch rate, run over run, on malware this fresh:{% if battle.malware_age %} {{ battle.malware_age.min_hours | round(0) }}h youngest, {{ battle.malware_age.mean_hours | round(0) }}h mean, {{ battle.malware_age.max_hours | round(0) }}h oldest{% else %} pulled straight from live threat feeds{% endif %}.</p>
   {%- if history and history | length >= 2 %}
   <div class="trend-wrap"><canvas id="trendChart"></canvas></div>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
