@@ -16,6 +16,9 @@ description: How malware scanners compare on real supply-chain attacks — detec
   .cmp-hero .stripe { height: 4px; width: 72px; border-radius: 2px; margin: 12px 0 16px;
                       background: linear-gradient(90deg, var(--toxic) 0%, var(--toxic-muted) 60%, transparent 100%); }
   .cmp-hero .lede { color: var(--graphite); max-width: none; line-height: 1.6; font-size: 1.02rem; }
+  .cmp-hero .brief { color: #166534; font-size: 1.12rem; font-weight: 500; line-height: 1.5; }
+  .cmp-hero .brief b { color: #166534; font-weight: 800; }
+  .cmp-hero .brief a { color: #166534; text-decoration: underline; text-underline-offset: 2px; }
   .cmp-hero .lede b { color: var(--carbon); }
 
   /* section headings (mirror .content h2) */
@@ -233,11 +236,17 @@ description: How malware scanners compare on real supply-chain attacks — detec
   <div class="cmp-hero">
     <h1>Malware Scanner <span class="accent">Battle Royale</span></h1>
     <div class="stripe"></div>
-    <p class="lede">
-      Supply-chain attacks reach production faster than the feeds that
-      track them — so grading a scanner on last month's malware proves
-      nothing, and catching tomorrow's is the whole game
-      <a href="/scan/">atomscan</a> plays.
+    {%- set h = battle | headline %}
+    <p class="lede brief">
+      {%- if h %}
+      As of {{ battle.generated_at | dateDisplay }},
+      <a href="/scan/">Atomdrift</a> catches <b>{{ h.detRate }}%</b> of
+      zero-day malware —
+      {% if h.lead and h.lead >= 1.5 %}<b>{{ h.lead | round(1) }}×</b> the next-best engine{% else %}<b>+{{ h.leadPts }} points</b> ahead of the next-best engine{% endif %}.
+      {%- else %}
+      Catching tomorrow's supply-chain malware — before the feeds catch up —
+      is the whole game <a href="/scan/">atomscan</a> plays.
+      {%- endif %}
     </p>
   </div>
 
