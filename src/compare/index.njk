@@ -198,9 +198,13 @@ description: How malware scanners compare on real supply-chain attacks — detec
     <h1>Malware Scanner <span class="accent">Battle Royale</span></h1>
     <div class="stripe"></div>
     <p class="lede">
-      Every run pulls the newest <b>known-bad</b> and <b>known-good</b> packages from live threat feeds
-      and scans them with every engine — same samples, ground-truth labels. Last updated
-      {{ battle.generated_at | dateDisplay }}
+      A <b>zero-day</b> test of supply-chain malware detection: every run pulls the freshest
+      <b>known-bad</b> and <b>known-good</b> packages straight from live threat feeds and scans them
+      with every engine — same samples, ground-truth labels.{% if battle.malware_age %} The malware is
+      genuinely new — this run's averaged <b>{{ battle.malware_age.mean_hours | round(0) }} hours</b> old,
+      none more than {{ battle.malware_age.max_hours | round(0) }} — so catching it means stopping an
+      attack before the ecosystem has flagged it, the window <a href="/scan/">atomscan</a> is built for.{% endif %}
+      Last updated {{ battle.generated_at | dateDisplay }}
       ({{ battle.detection.sample_count }} malware · {{ battle.false_positive.sample_count }} benign).
     </p>
   </div>
@@ -284,13 +288,17 @@ description: How malware scanners compare on real supply-chain attacks — detec
   </div>
 
   <h2>Detection over time</h2>
-  <p class="sub">Each engine's catch rate on known malware, run over run — higher and steadier is better. <span class="audit-note">Click a name to isolate it.</span></p>
+  <p class="sub">Each engine's catch rate on known malware, run over run — higher and steadier is better. <span class="audit-note">Series starts 9 Jul 2026, when the current detection pipeline shipped. Click a name to isolate it.</span></p>
   {%- if history and history | length >= 2 %}
   <div class="trend-wrap"><canvas id="trendChart"></canvas></div>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script>
   (function () {
-    const H = {{ history | dump | safe }};
+    // Truncate to the 2026-07-09 10:00 UTC pipeline overhaul: earlier runs measured a
+    // materially different detection stack, so plotting them would misrepresent the
+    // current engines. Non-destructive — history.json keeps every point.
+    const CUTOFF = Date.parse('2026-07-09T10:00:00Z');
+    const H = ({{ history | dump | safe }}).filter(p => Date.parse(p.at) >= CUTOFF);
     const PROV = {{ providers | dump | safe }};
     const COLOR = {
       ascan: '#16a34a', socket: '#7c3aed', aikido: '#0891b2', guarddog: '#d97706',
@@ -380,6 +388,7 @@ description: How malware scanners compare on real supply-chain attacks — detec
     <div class="method-body">
       <ul>
         <li><strong>Known-bad</strong> packages are pulled from live threat feeds. Independent feeds are trusted as-is — a bogus listing just makes every engine miss it equally. But a listing from a feed that is <em>also a contestant</em> (Socket, Aikido Malware, GuardDog by Datadog) is kept only when an <em>independent</em> engine corroborates it, so no one is credited for its own possibly-spurious self-report.</li>
+        <li><strong>Freshness</strong> is the point: every sample is drawn from the last 48 hours of feed activity, keeping the cohort zero-day. The malware age quoted up top is measured per sample from its first sighting in a public feed to scan time{% if battle.malware_age %} — this run: {{ battle.malware_age.mean_hours | round(0) }}h mean, {{ battle.malware_age.median_hours | round(0) }}h median, {{ battle.malware_age.max_hours | round(0) }}h max across {{ battle.malware_age.n }} samples{% endif %}.</li>
         <li><strong>Presumed-good</strong> packages are drawn from the freshest 48 hours of the open-source firehose: curated good feeds, newly-published packages nobody has reported, and packages a contestant's own feed has flagged <em>solo</em> (kept in so that vendor's false positives stay measurable — a corroborated report relabels the sample bad and removes it). Samples from independent malware registries never enter this pool. Any flag against a presumed-good package, <em>hostile or suspicious</em>, is a false positive.</li>
         <li><strong>Adjudication:</strong> presumed-good is provisional — threat feeds corroborate malware days after publication. Every pick is re-checked against the label database on later runs: one that turns out to be malware is retroactively removed from that run's false-positive rates, and any engine that flagged it at scan time is credited with an <em>early detection</em> — it beat the feed consensus, and isn't scored as a false alarm for it.</li>
         <li>Each engine's native severity is normalised to five tiers — <em>hostile</em>, <em>suspicious</em>, <em>benign</em> (analyzed, nothing found), <em>no data</em> (the engine has no record of the sample — clean only by absence), <em>unsupported</em>. A sample is <strong>caught</strong> (on known-bad) or a <strong>false alarm</strong> (on presumed-good) when it's flagged <em>hostile or suspicious</em>; the bars stack the two shades, darker for hostile. On the detection bars a red share anchored right is samples the engine <em>errored</em> on (a miss — hover it for the failures); on the known-good bars the light-grey right end is what the engine can't scan.</li>

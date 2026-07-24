@@ -1759,6 +1759,12 @@
       ]
     }
   ],
+  "malware_age": {
+    "n": 50,
+    "mean_hours": 25.816348366483333,
+    "median_hours": 30.979762129999997,
+    "max_hours": 48.3882204025
+  },
   "samples": [
     {
       "sha256": "cdec7b16aa6e85a09feec3e97573c0255d0219ea9c3072a41a423df1b8a18ee5",
