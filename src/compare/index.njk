@@ -148,18 +148,23 @@ description: How malware scanners compare on real supply-chain attacks — detec
   .cta-primary { background: var(--toxic); border-color: var(--toxic); color: var(--carbon); }
   .cta-primary:hover { background: var(--toxic-dark); border-color: var(--toxic-dark); color: #fff; }
 
-  /* detection-vs-false-positive trade-off scatter */
-  .frontier-wrap { margin: 14px 0 6px; }
-  .frontier-wrap svg { width: 100%; height: auto; max-width: 720px; display: block; }
+  /* detection-vs-false-positive trade-off scatter — full width, matched to the trend chart */
+  .frontier-wrap { margin: 16px 0 6px; }
+  .frontier-wrap svg { width: 100%; height: auto; display: block; }
   .frontier-grid { stroke: var(--border); stroke-width: 1; }
   .frontier-axis { stroke: var(--slate); stroke-width: 1.5; }
   .frontier-tick { fill: var(--slate); font-size: 11px; font-family: system-ui, sans-serif; }
   .frontier-alab { fill: var(--iron); font-size: 12.5px; font-weight: 600; font-family: 'Oxanium', sans-serif; }
-  .frontier-sweet { fill: var(--g-good); opacity: .11; }
-  .frontier-sweet-lab { fill: var(--t-benign); font-size: 11px; font-weight: 700; font-family: 'Oxanium', sans-serif; }
-  .frontier-plab { font-size: 12px; font-weight: 700; font-family: 'Oxanium', sans-serif; fill: var(--carbon); }
-  .frontier-plab.us { fill: var(--atomdrift-blue); font-size: 13px; }
+  .frontier-sweet { fill: var(--g-good); opacity: .09; }
+  .frontier-sweet-edge { stroke: var(--t-benign); stroke-width: 1; stroke-dasharray: 4 4; opacity: .5; }
+  .frontier-sweet-lab { fill: var(--t-benign); font-size: 12.5px; font-weight: 700; font-family: 'Oxanium', sans-serif; letter-spacing: .3px; }
+  .frontier-arrow { stroke: var(--t-benign); stroke-width: 1.5; fill: none; }
+  .frontier-plab { font-size: 12.5px; font-weight: 700; font-family: 'Oxanium', sans-serif; }
+  .frontier-plab.us { font-size: 13.5px; }
+  .frontier-pval { font-size: 10.5px; font-weight: 500; fill: var(--slate); }
+  .frontier-plab.us .frontier-pval { fill: var(--iron); }
   .frontier-pt { stroke: #fff; stroke-width: 2; }
+  .frontier-halo { opacity: .16; }
 </style>
 
 {# Bars show what each engine flagged, as a share of the cohort: green = hostile,
@@ -339,39 +344,54 @@ description: How malware scanners compare on real supply-chain attacks — detec
 
   {%- set fr = battle | frontier %}
   {%- if fr | length >= 2 %}
-  {%- set PL = 54 %}{%- set PR = 660 %}{%- set PT = 18 %}{%- set PB = 354 %}
-  {%- set plotW = PR - PL %}{%- set plotH = PB - PT %}{%- set yMax = 50 %}
+  {%- set PL = 60 %}{%- set PR = 904 %}{%- set PT = 26 %}{%- set PB = 306 %}
+  {%- set plotW = PR - PL %}{%- set plotH = PB - PT %}
+  {# dynamic y-axis: just enough headroom above the worst false-alarm rate, snapped to a clean grid — so the field fills the plot instead of hugging the floor of a fixed 0–100 scale #}
+  {%- set maxFp = 0 %}{%- for p in fr %}{% if p.fp > maxFp %}{% set maxFp = p.fp %}{% endif %}{% endfor %}
+  {%- set yMax = ((maxFp + 5) / 5) | round(0, 'ceil') * 5 %}{% if yMax < 15 %}{% set yMax = 15 %}{% endif %}
+  {%- set yStep = 5 %}{% if yMax > 20 %}{% set yStep = 10 %}{% endif %}{% if yMax > 60 %}{% set yStep = 20 %}{% endif %}
+  {%- set sweetFp = 5 %}{%- set sweetDet = 70 %}
+  {%- set zoneX = PL + (sweetDet / 100 * plotW) %}{%- set zoneTopY = PB - (sweetFp / yMax * plotH) %}
   {%- set fcol = { "ascan": "#16a34a", "socket": "#7c3aed", "aikido": "#0891b2", "guarddog": "#d97706", "malcontent": "#db2777", "clamav": "#475569" } %}
   {%- set fname = { "ascan": "Atomdrift", "socket": "Socket", "aikido": "Aikido", "guarddog": "GuardDog", "malcontent": "malcontent", "clamav": "ClamAV" } %}
-  {%- set lpos = { "ascan": {"dx": -13, "dy": -12, "a": "end"}, "socket": {"dx": 12, "dy": -11, "a": "start"}, "aikido": {"dx": 0, "dy": -14, "a": "middle"}, "clamav": {"dx": 12, "dy": -11, "a": "start"}, "guarddog": {"dx": 12, "dy": 4, "a": "start"}, "malcontent": {"dx": 12, "dy": 4, "a": "start"} } %}
+  {%- set lpos = { "ascan": {"dx": -14, "dy": -13, "a": "end"}, "socket": {"dx": 12, "dy": 4, "a": "start"}, "guarddog": {"dx": 12, "dy": -9, "a": "start"}, "aikido": {"dx": 0, "dy": -14, "a": "middle"}, "clamav": {"dx": 11, "dy": -9, "a": "start"}, "malcontent": {"dx": 12, "dy": 4, "a": "start"} } %}
   <h2>Catch rate vs. false alarms</h2>
-  <p class="sub">Flag everything and you "win" detection; flag nothing and you "win" false positives. The only square that counts is bottom-right — catches the malware, spares the clean code. <span class="audit-note">Each dot: catch rate / false-positive rate.</span></p>
+  <p class="sub">Flag everything and you "win" detection; flag nothing and you "win" false positives. The only square that counts is the bottom-right corner — catch the malware, spare the clean code.</p>
   <div class="frontier-wrap">
-    <svg viewBox="0 0 680 400" role="img" aria-label="Detection rate versus false-positive rate for each engine; Atomdrift sits in the bottom-right, high detection and low false positives.">
-      <!-- the goal corner: high catch, low false alarms -->
-      <rect class="frontier-sweet" x="{{ PL + (70/100*plotW) }}" y="{{ PB - (10/yMax*plotH) }}" width="{{ PR - (PL + (70/100*plotW)) }}" height="{{ (10/yMax*plotH) }}"></rect>
-      <text class="frontier-sweet-lab" x="{{ PR - 6 }}" y="{{ PB - (10/yMax*plotH) - 6 }}" text-anchor="end">the good corner ↘</text>
+    <svg viewBox="0 0 960 356" role="img" aria-label="Detection rate versus false-positive rate for each engine; Atomdrift sits in the bottom-right, high detection and low false positives.">
+      <!-- sweet spot: the bottom-right corner — high catch AND low false alarms -->
+      <rect class="frontier-sweet" x="{{ zoneX }}" y="{{ zoneTopY }}" width="{{ PR - zoneX }}" height="{{ PB - zoneTopY }}"></rect>
+      <line class="frontier-sweet-edge" x1="{{ zoneX }}" y1="{{ zoneTopY }}" x2="{{ PR }}" y2="{{ zoneTopY }}"></line>
+      {%- set calloutX = (zoneX + PR) / 2 %}
+      <text class="frontier-sweet-lab" x="{{ calloutX }}" y="{{ PB - (10.2/yMax*plotH) }}" text-anchor="middle">the sweet spot</text>
+      <path class="frontier-arrow" d="M {{ calloutX }} {{ PB - (8.6/yMax*plotH) }} L {{ calloutX }} {{ zoneTopY - 1 }}" marker-end="url(#fArrow)"></path>
+      <defs>
+        <marker id="fArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M 0 1 L 9 5 L 0 9 z" fill="var(--t-benign)"></path>
+        </marker>
+      </defs>
       <!-- gridlines + ticks -->
       {%- for v in [0, 25, 50, 75, 100] %}
       <line class="frontier-grid" x1="{{ PL + (v/100*plotW) }}" y1="{{ PT }}" x2="{{ PL + (v/100*plotW) }}" y2="{{ PB }}"></line>
       <text class="frontier-tick" x="{{ PL + (v/100*plotW) }}" y="{{ PB + 18 }}" text-anchor="middle">{{ v }}</text>
       {%- endfor %}
-      {%- for v in [0, 10, 20, 30, 40, 50] %}
+      {%- for v in range(0, yMax + 1, yStep) %}
       <line class="frontier-grid" x1="{{ PL }}" y1="{{ PB - (v/yMax*plotH) }}" x2="{{ PR }}" y2="{{ PB - (v/yMax*plotH) }}"></line>
-      <text class="frontier-tick" x="{{ PL - 8 }}" y="{{ PB - (v/yMax*plotH) + 4 }}" text-anchor="end">{{ v }}</text>
+      <text class="frontier-tick" x="{{ PL - 9 }}" y="{{ PB - (v/yMax*plotH) + 4 }}" text-anchor="end">{{ v }}</text>
       {%- endfor %}
       <!-- axes -->
       <line class="frontier-axis" x1="{{ PL }}" y1="{{ PT }}" x2="{{ PL }}" y2="{{ PB }}"></line>
       <line class="frontier-axis" x1="{{ PL }}" y1="{{ PB }}" x2="{{ PR }}" y2="{{ PB }}"></line>
-      <text class="frontier-alab" x="{{ (PL + PR) / 2 }}" y="395" text-anchor="middle">Detection rate (%) — higher is better →</text>
-      <text class="frontier-alab" transform="translate(15,{{ (PT + PB) / 2 }}) rotate(-90)" text-anchor="middle">False-positive rate (%) — lower is better ↓</text>
+      <text class="frontier-alab" x="{{ (PL + PR) / 2 }}" y="348" text-anchor="middle">Catch rate  ·  higher is better →</text>
+      <text class="frontier-alab" transform="translate(16,{{ (PT + PB) / 2 }}) rotate(-90)" text-anchor="middle">False-alarm rate  ·  lower is better ↓</text>
       <!-- engines -->
       {%- for p in fr %}
       {%- set L = lpos[p.scanner] or {"dx": 12, "dy": -11, "a": "start"} %}
-      <circle class="frontier-pt" cx="{{ PL + (p.det/100*plotW) }}" cy="{{ PB - (p.fp/yMax*plotH) }}" r="{{ 9 if p.us else 7 }}" fill="{{ fcol[p.scanner] or '#475569' }}"></circle>
+      {%- set cx = PL + (p.det/100*plotW) %}{%- set cy = PB - (p.fp/yMax*plotH) %}
+      {%- if p.us %}<circle class="frontier-halo" cx="{{ cx }}" cy="{{ cy }}" r="14" fill="{{ fcol[p.scanner] }}"></circle>{% endif %}
+      <circle class="frontier-pt{% if p.us %} us{% endif %}" cx="{{ cx }}" cy="{{ cy }}" r="{{ 8 if p.us else 6 }}" fill="{{ fcol[p.scanner] or '#475569' }}"></circle>
       <text class="frontier-plab{% if p.us %} us{% endif %}" fill="{{ fcol[p.scanner] or '#475569' }}"
-            x="{{ PL + (p.det/100*plotW) + L.dx }}" y="{{ PB - (p.fp/yMax*plotH) + L.dy }}"
-            text-anchor="{{ L.a }}">{{ fname[p.scanner] or p.scanner }} · {{ p.det }}/{{ p.fp }}</text>
+            x="{{ cx + L.dx }}" y="{{ cy + L.dy }}" text-anchor="{{ L.a }}">{{ fname[p.scanner] or p.scanner }}<tspan class="frontier-pval" dx="6">{{ p.det }}% caught · {{ p.fp }}% false</tspan></text>
       {%- endfor %}
     </svg>
   </div>
