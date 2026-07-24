@@ -77,4 +77,4 @@ features after tweaking a downstream model.
 
 Add `filefacts = "1.1"` to `Cargo.toml` to use it as a library, or see
 [Getting started](/filefacts/getting-started/) for the CLI. Source and issues
-live on [Codeberg](https://codeberg.org/atomdrift/filefacts).
+live on [GitHub](https://github.com/atomdrift-project/filefacts).

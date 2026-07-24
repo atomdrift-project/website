@@ -6,7 +6,7 @@ summary: "The Atomdrift research lab will be offline for several hours today whi
 
 The Atomdrift research lab will be offline for several hours today while engineers upgrade the network uplink that has been pinned at line rate, around the clock, under the load of the lab's own supply-chain crawler.
 
-That crawler is [forager](https://codeberg.org/atomdrift/forager), a Go service that polls public package registries for new and updated releases and feeds them to [litmus](https://codeberg.org/atomdrift/litmus) and [cleave](https://codeberg.org/atomdrift/cleave) for malware analysis. Open-source maintainers do not publish on a schedule; they publish continuously, and forager ingests continuously to match.
+That crawler is [forager](https://github.com/isotope13-dev/forager), a Go service that polls public package registries for new and updated releases and feeds them to [litmus](https://github.com/atomdrift-project/litmus) and [cleave](https://github.com/atomdrift-project/cleave) for malware analysis. Open-source maintainers do not publish on a schedule; they publish continuously, and forager ingests continuously to match.
 
 forager presently tracks more than 100 marketplaces. A sample, drawn from its `pkg/registry` tree:
 

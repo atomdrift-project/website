@@ -6,23 +6,23 @@ summary: "cleave fixes a class of rayon deadlocks, parses Python pickle and MSI-
 
 Three releases.
 
-**[stng](/stng/) v1.2.1.** stng was occasionally classifying Java and Kotlin source as embedded Python. `import android.os.Build;` is not a Python file. The heuristic now rejects semicolon-terminated imports and ignores `os.` matches that come from `android.os`. [v1.2.1](https://codeberg.org/atomdrift/stng/releases/tag/v1.2.1).
+**[stng](/stng/) v1.2.1.** stng was occasionally classifying Java and Kotlin source as embedded Python. `import android.os.Build;` is not a Python file. The heuristic now rejects semicolon-terminated imports and ignores `os.` matches that come from `android.os`. [v1.2.1](https://github.com/atomdrift-project/stng/releases/tag/v1.2.1).
 
 **[cleave](/cleave/) v1.2.0.**
 
-cleave now identifies about seventy-five file formats. New since v1.1.0: XML, Makefile, plain text, MSI-embedded PE, XDG `.desktop`, systemd units, OpenDocument, Python pickle, and several others. [FILE_FORMATS.md](https://codeberg.org/atomdrift/cleave/src/branch/main/FILE_FORMATS.md) has the full table.
+cleave now identifies about seventy-five file formats. New since v1.1.0: XML, Makefile, plain text, MSI-embedded PE, XDG `.desktop`, systemd units, OpenDocument, Python pickle, and several others. [FILE_FORMATS.md](https://github.com/atomdrift-project/cleave/src/branch/main/FILE_FORMATS.md) has the full table.
 
 The rayon threading was reworked. Several classes of deadlock are now structurally impossible rather than rare. YARA initialization no longer races with cleave's shared resources. Rizin subprocesses are killed on exit rather than orphaned. Performance changes followed: rizin and goblin run in parallel, rizin is skipped for Go binaries, trait evaluation is precompiled, archives stay in memory, SHA256 hashes are reused.
 
-A `kv` subcommand was added. Symbol offsets are tracked. MBC and ATT&CK mappings are emitted in the report. Goblin's unbounded ELF note reader is bounded. CRX3 extraction works. Oversized archive filenames no longer crash. Unroutable `.0`-octet IPs are dropped from findings. [v1.2.0](https://codeberg.org/atomdrift/cleave/releases/tag/v1.2.0).
+A `kv` subcommand was added. Symbol offsets are tracked. MBC and ATT&CK mappings are emitted in the report. Goblin's unbounded ELF note reader is bounded. CRX3 extraction works. Oversized archive filenames no longer crash. Unroutable `.0`-octet IPs are dropped from findings. [v1.2.0](https://github.com/atomdrift-project/cleave/releases/tag/v1.2.0).
 
 **[litmus](/litmus/) v1.1.0.**
 
-litmus can now run as a fleet. `litmus worker` pulls jobs from a [hopper](https://codeberg.org/atomdrift/hopper) queue and verifies local paths by SHA256. `litmus serve` adds CIDR allowlists, an RSS ceiling that returns 503 before the host swaps, configurable `--workers` slots, and a 10-minute cooperative timeout that signals cleave to abort slow YARA rules. `litmus validate` re-scans known-benign samples against the current rules and model.
+litmus can now run as a fleet. `litmus worker` pulls jobs from a [hopper](https://github.com/atomdrift-project/hopper) queue and verifies local paths by SHA256. `litmus serve` adds CIDR allowlists, an RSS ceiling that returns 503 before the host swaps, configurable `--workers` slots, and a 10-minute cooperative timeout that signals cleave to abort slow YARA rules. `litmus validate` re-scans known-benign samples against the current rules and model.
 
 Sensitivity is gzip-style: `-1` through `-9`, default `-5`. Feature parity with the v16 model was reconciled — three missing aggregates, the `score:density` computation, and boolean metric handling.
 
-The default model (`scan-v16`) is beta. See the README for the caveat. [v1.1.0](https://codeberg.org/atomdrift/litmus/releases/tag/v1.1.0).
+The default model (`scan-v16`) is beta. See the README for the caveat. [v1.1.0](https://github.com/atomdrift-project/litmus/releases/tag/v1.1.0).
 
 ---
 
