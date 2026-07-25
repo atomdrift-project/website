@@ -499,7 +499,7 @@
   {
     "at": "2026-07-21T03:42:34.429593481Z",
     "bad": 50,
-    "good": 48,
+    "good": 49,
     "detection": {
       "aikido": 0.02,
       "ascan": 0.82,
@@ -510,10 +510,10 @@
     },
     "false_positive": {
       "aikido": 0,
-      "ascan": 0.10416666666666667,
+      "ascan": 0.12244897959183673,
       "clamav": 0,
-      "guarddog": 0.020833333333333332,
-      "malcontent": 0.1875,
+      "guarddog": 0.04081632653061224,
+      "malcontent": 0.1836734693877551,
       "socket": 0
     }
   },
@@ -604,7 +604,7 @@
   {
     "at": "2026-07-24T08:44:58.733583934Z",
     "bad": 50,
-    "good": 50,
+    "good": 49,
     "detection": {
       "aikido": 0.3,
       "ascan": 0.96,
@@ -615,11 +615,32 @@
     },
     "false_positive": {
       "aikido": 0,
-      "ascan": 0.02,
+      "ascan": 0.02040816326530612,
       "clamav": 0,
-      "guarddog": 0.12,
-      "malcontent": 0.24,
-      "socket": 0.02
+      "guarddog": 0.10204081632653061,
+      "malcontent": 0.22448979591836735,
+      "socket": 0
+    }
+  },
+  {
+    "at": "2026-07-25T03:47:46.284444081Z",
+    "bad": 50,
+    "good": 50,
+    "detection": {
+      "aikido": 0.1,
+      "ascan": 0.94,
+      "clamav": 0.3,
+      "guarddog": 0.02,
+      "malcontent": 0.58,
+      "socket": 0.1
+    },
+    "false_positive": {
+      "aikido": 0,
+      "ascan": 0,
+      "clamav": 0,
+      "guarddog": 0.02,
+      "malcontent": 0.16,
+      "socket": 0
     }
   }
 ]
