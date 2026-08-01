@@ -20,6 +20,10 @@ description: How malware scanners compare on real supply-chain attacks — detec
   .cmp-hero .brief b { color: #166534; font-weight: 800; }
   .cmp-hero .brief a { color: #166534; text-decoration: underline; text-underline-offset: 2px; }
   .cmp-hero .lede b { color: var(--carbon); }
+  .cmp-meta { color: var(--slate); font-size: .78rem; line-height: 1.65; margin: 10px 0 0;
+              border-top: 1px solid var(--border); padding-top: 9px; }
+  .cmp-meta b { color: var(--iron); font-weight: 700; }
+  .cmp-meta a { color: var(--slate); }
 
   /* section headings (mirror .content h2) */
   .compare h2 { font-family: 'Oxanium', sans-serif; font-size: 1.2rem; font-weight: 700; color: var(--carbon);
@@ -148,31 +152,41 @@ description: How malware scanners compare on real supply-chain attacks — detec
   .cta-primary { background: var(--toxic); border-color: var(--toxic); color: var(--carbon); }
   .cta-primary:hover { background: var(--toxic-dark); border-color: var(--toxic-dark); color: #fff; }
 
-  /* detection-vs-false-positive trade-off scatter — full width, matched to the trend chart */
-  .frontier-wrap { margin: 16px 0 6px; }
+  /* catch-rate / false-alarm quadrant. Geometry and label placement are computed
+     in the `quadrant` filter; this only styles what it emits. */
+  .frontier-wrap { margin: 14px 0 4px; }
   .frontier-wrap svg { width: 100%; height: auto; display: block; }
-  .frontier-grid { stroke: var(--border); stroke-width: 1; }
-  .frontier-axis { stroke: var(--slate); stroke-width: 1.5; }
-  .frontier-tick { fill: var(--slate); font-size: 11px; font-family: system-ui, sans-serif; }
-  .frontier-alab { fill: var(--iron); font-size: 12.5px; font-weight: 600; font-family: 'Oxanium', sans-serif; }
-  .frontier-sweet { fill: var(--g-good); opacity: .09; }
-  .frontier-sweet-edge { stroke: var(--t-benign); stroke-width: 1; stroke-dasharray: 4 4; opacity: .5; }
-  .frontier-sweet-lab { fill: var(--t-benign); font-size: 12.5px; font-weight: 700; font-family: 'Oxanium', sans-serif; letter-spacing: .3px; }
-  .frontier-arrow { stroke: var(--t-benign); stroke-width: 1.5; fill: none; }
-  .frontier-plab { font-size: 12.5px; font-weight: 700; font-family: 'Oxanium', sans-serif; }
-  .frontier-plab.us { font-size: 13.5px; }
-  .frontier-pval { font-size: 10.5px; font-weight: 500; fill: var(--slate); }
-  .frontier-plab.us .frontier-pval { fill: var(--iron); }
-  .frontier-pt { stroke: #fff; stroke-width: 2; }
-  .frontier-halo { opacity: .16; }
+  .q-grid { stroke: var(--border); stroke-width: 1; }
+  .q-axis { stroke: var(--slate); stroke-width: 1.25; }
+  .q-div { stroke: var(--slate); stroke-width: 1; stroke-dasharray: 5 5; opacity: .45; }
+  .q-tick { fill: var(--slate); font-size: 11px; font-family: system-ui, sans-serif; }
+  .q-alab { fill: var(--iron); font-size: 12.5px; font-weight: 600; font-family: 'Oxanium', sans-serif; }
+  .q-target { fill: var(--g-good); opacity: .08; }
+  .q-quad { fill: var(--slate); opacity: .62; font-size: 11px; font-weight: 700; letter-spacing: .09em;
+            text-transform: uppercase; font-family: 'Oxanium', sans-serif; }
+  .q-quad.on-target { fill: var(--t-benign); opacity: .85; }
+  .q-leader { stroke: var(--slate); stroke-width: 1; opacity: .45; }
+  .q-pt { stroke: #fff; stroke-width: 2; }
+  .q-count { fill: #fff; font-size: 11.5px; font-weight: 800; font-family: 'Oxanium', sans-serif; }
+  .q-halo { opacity: .15; }
+  .q-swatch { rx: 1.5; }
+  .q-name { fill: var(--carbon); font-size: 12.5px; font-weight: 600; font-family: 'Oxanium', sans-serif; }
+  .q-name.us { font-weight: 800; }
+  .q-val { fill: var(--slate); font-size: 10.5px; font-weight: 500; font-family: system-ui, sans-serif; }
+
+  /* figure notes — the source-and-sample-size line every chart carries */
+  .fig-note { color: var(--slate); font-size: .76rem; line-height: 1.5; margin: 6px 0 0; }
+  .fig-note a { color: var(--slate); }
 </style>
 
 {# Bars show what each engine flagged, as a share of the cohort: green = hostile,
-   light green = suspicious, anchored left. On detection bars (kind 'bad' and the
-   per-ecosystem cards) a red share anchored right is samples the engine errored
-   on — still a miss, and the mouseover names each failure. On the known-good
-   bars (kind 'good') the light-grey right end is what the engine can't scan
-   (unsupported registry or file type). The clear middle is the
+   light green = suspicious, anchored left. Anchored right: on detection bars
+   (kind 'bad' and the per-ecosystem cards) a red share is samples the engine
+   errored on — still a miss, and the mouseover names each failure — followed by
+   a light-grey share for what it can't scan at all. Every bar carries that grey
+   tail, because the denominator is the whole cohort for every engine (see
+   battle.go: a skip is a non-catch, not an exemption); on the known-good bars it
+   marks the stretch that is untested rather than earned. The clear middle is the
    affirmatively-analyzed all-clear. On known-bad the fill is the catch rate
    (more is better); on known-good it's the false-alarm rate (less is better). #}
 {%- macro bar(s, kind) -%}
@@ -186,7 +200,7 @@ description: How malware scanners compare on real supply-chain attacks — detec
         {%- set errs = battle.samples | errorLines(s.scanner, 'bad') if kind == 'bad' else [] -%}
         <span class="seg seg-errored" style="width:{{ errored / s.supported * 100 }}%; margin-left:auto" title="{{ errored }} errored (counts as a miss){% if errs | length %}:{{ '\n' }}{{ errs | join('\n') }}{% endif %}"></span>
       {%- endif -%}
-      {%- if kind == 'good' and s.unsupported > 0 %}<span class="seg seg-unsupported" style="width:{{ s.unsupported / s.supported * 100 }}%; margin-left:auto" title="{{ s.unsupported }} — provider does not support this registry or file type"></span>{% endif -%}
+      {%- if s.unsupported > 0 %}<span class="seg seg-unsupported" style="width:{{ s.unsupported / s.supported * 100 }}%{% if not (kind != 'good' and errored > 0) %}; margin-left:auto{% endif %}" title="{{ s.unsupported }} — provider does not support this registry or file type{% if kind != 'good' %}; scored as a miss{% endif %}"></span>{% endif -%}
     {%- endif -%}
   </div>
 {%- endmacro -%}
@@ -247,11 +261,18 @@ description: How malware scanners compare on real supply-chain attacks — detec
       As of {{ battle.generated_at | dateDisplay }},
       <a href="/scan/">Atomdrift</a> catches <b>{{ h.detRate }}%</b> of
       zero-day malware —
-      {% if h.lead and h.lead >= 1.5 %}<b>{{ h.lead | round(1) }}×</b> the next-best engine{% else %}<b>+{{ h.leadPts }} points</b> ahead of the next-best engine{% endif %}.
+      {% if h.lead and h.lead >= 1.5 %}<b>{{ h.lead | round(1) }}×</b>{% else %}<b>{{ h.leadPts }} points</b> clear of{% endif %}
+      the next-best engine{% if h.bestName %}, {{ providers[h.bestName].name or h.bestName }} at {{ h.bestDet }}%{% endif %}.
       {%- else %}
       Catching tomorrow's supply-chain malware — before the feeds catch up —
       is the whole game <a href="/scan/">atomscan</a> plays.
       {%- endif %}
+    </p>
+    <p class="cmp-meta">
+      {{ battle.detection.leaderboard | length }} engines · n&nbsp;=&nbsp;{{ battle.detection.sample_count }} known-malware, {{ battle.false_positive.sample_count }} presumed-good ·
+      rebuilt from live feeds every night · <a href="#methodology">methodology</a>
+      <br><b>Disclosure:</b> this benchmark is run and published by the Atomdrift project, which is one of the engines measured.
+      Every sample, verdict and rate is published below so anyone can check the scoring.
     </p>
   </div>
 
@@ -275,10 +296,12 @@ description: How malware scanners compare on real supply-chain attacks — detec
   {%- endif %}
   #}
 
+  <h2 id="capabilities">What each engine is built to scan</h2>
+  <p class="sub">Capabilities as documented by each vendor — the ground the benchmark is run on.</p>
   <table class="cmp-table feature-table">
     <thead>
       <tr>
-        <th>Provider</th><th>License</th>
+        <th>Provider</th><th>License&nbsp;/&nbsp;access</th>
         <th class="ctr" title="Scans your own first-party application source">App&nbsp;code</th>
         <th class="ctr" title="Catches malware in code vendored/bundled into a package — not just declared dependencies">Vendored&nbsp;code</th>
         <th class="ctr" title="Resolves and checks a package's declared dependencies">Dependencies</th>
@@ -292,20 +315,20 @@ description: How malware scanners compare on real supply-chain attacks — detec
         {%- set key = p.key %}
         <tr{% if key == 'ascan' %} class="us-row"{% endif %}>
           <td class="prov{% if key == 'ascan' %} us{% endif %}">{{ p.name or key }}</td>
-          <td>{{ p.license or "—" }}</td>
+          <td{% if p.license_note %} title="{{ p.license_note }}"{% endif %}>{{ p.license or "—" }}{% if p.license_note %}<span class="lic-note">*</span>{% endif %}</td>
           <td class="feat">{% if p.appcode %}<span class="yes" title="yes">✓</span>{% else %}<span class="no" title="no">✗</span>{% endif %}</td>
           <td class="feat">{% if p.vendored %}<span class="yes" title="yes">✓</span>{% else %}<span class="no" title="no">✗</span>{% endif %}</td>
           <td class="feat">{% if p.deps %}<span class="yes" title="yes">✓</span>{% else %}<span class="no" title="no">✗</span>{% endif %}</td>
           <td class="feat">{% if p.binaries %}<span class="yes" title="yes">✓</span>{% else %}<span class="no" title="no">✗</span>{% endif %}</td>
           <td class="feat">{% if p.airgap %}<span class="yes" title="yes">✓</span>{% else %}<span class="no" title="no">✗</span>{% endif %}</td>
-          <td class="regs">{% if p.registries | length %}<span class="reg-count" title="{{ p.registries | join(' · ') }}">{{ p.registries | length }}</span>{% else %}<span class="no">—</span>{% endif %}</td>
+          <td class="regs">{% if p.registries | length %}<span class="reg-count" title="{{ p.registries | join(' · ') }}">{{ p.registries | length }}</span>{% else %}<span class="no" title="{{ p.registries_note or 'no registry coverage' }}">n/a</span>{% endif %}</td>
         </tr>
       {%- endfor %}
     </tbody>
   </table>
-  <p class="sub">What each engine is built to scan.</p>
+  <p class="fig-note">Table 1 — Engine capabilities. <b>Registries</b> counts the package registries an engine resolves; <em>n/a</em> marks the engines that work on files rather than packages (hover a cell for the detail). <span class="lic-note">*</span> hover for the access tier measured here.</p>
 
-  <h2>Zero-day detection</h2>
+  <h2 id="detection">Zero-day detection</h2>
   <p class="sub">Catch rate on {{ battle.detection.sample_count }} freshly-published malware packages, pulled live from <a href="https://osv.dev/list?ecosystem=&q=MAL" target="_blank" rel="noopener">OSV</a>, <a href="https://opensourcemalware.com/" target="_blank" rel="noopener">OSM</a>, and other threat feeds.</p>
   <div class="legend">
     <span><i class="sw-hostile"></i> Flagged hostile</span>
@@ -313,13 +336,15 @@ description: How malware scanners compare on real supply-chain attacks — detec
     {%- if battle.detection.leaderboard | selectattr("errored") | length %}
     <span><i class="sw-errored"></i> Errored (counts as a miss)</span>
     {%- endif %}
+    <span><i class="sw-unsupported"></i> Couldn't scan — out of the engine's scope (counts as a miss)</span>
   </div>
   {{ benchRows(battle.detection.leaderboard, 'bad') }}
+  <p class="fig-note">Fig. 1 — Share of {{ battle.detection.sample_count }} known-malware samples flagged, all {{ battle.detection.leaderboard | length }} engines, {{ battle.generated_at | dateDisplay }}. Every engine is scored over the same cohort: a sample it can't scan is a miss, not an exemption — the grey tail shows how much of the cohort that is, and Fig. 2 measures that scope directly.</p>
 
-  <h2>Coverage — what each engine can scan</h2>
+  <h2 id="coverage">Coverage — what each engine can scan</h2>
   <p class="sub">Share of this run's files each engine can even analyze — coverage, not detection.</p>
   <div class="bench">
-  {%- for c in battle.samples | coverageBoard(providers, battle.ascan_types) %}
+  {%- for c in battle.samples | coverageBoard(providers, battle.ascan_types, battle.detection.leaderboard) %}
     <div class="rname{% if c.scanner == 'ascan' %} us{% endif %}">{{ c.name }}</div>
     <div class="bar" title="{{ c.supported }} of {{ c.total }} files{% if c.uncovered | length %} · can't scan: {{ c.uncovered | join(', ') }}{% endif %}">
       {%- if c.rate > 0 %}<span class="seg seg-cov" style="width:{{ c.rate * 100 }}%"></span>{% endif -%}
@@ -327,77 +352,78 @@ description: How malware scanners compare on real supply-chain attacks — detec
     <div class="rpct">{{ (c.rate * 100) | round(0) }}%</div>
   {%- endfor %}
   </div>
+  <p class="fig-note">Fig. 2 — Files in this run's samples each engine can analyze, from its declared registry and file-type support. Hover a bar for what it skips. Hash-based engines take any file, so they cover everything the run contains.</p>
 
-  <h2>False positives — flagged good packages</h2>
+  <h2 id="false-positives">False positives — flagged good packages</h2>
   {%- if battle.false_positive.sample_count > 0 %}
   <p class="sub">Across {{ battle.false_positive.sample_count }} presumed-good packages — any flag is a false alarm. The grey tail is what an engine can't scan, so that stretch is untested, not earned.</p>
   <div class="legend">
     <span><i class="sw-hostile"></i> Flagged hostile</span>
     <span><i class="sw-suspicious"></i> Flagged suspicious</span>
-    <span><i class="sw-unsupported"></i> Provider does not support this registry or file type</span>
+    <span><i class="sw-unsupported"></i> Couldn't scan — out of the engine's scope (untested, not earned)</span>
   </div>
   {{ benchRows(battle.false_positive.leaderboard, 'good') }}
+  <p class="fig-note">Fig. 3 — Share of {{ battle.false_positive.sample_count }} presumed-good packages each engine flagged, over the same cohort.{% if battle.false_positive.sample_count < 20 %} A cohort this small resolves false alarms coarsely — one flag moves an engine by {{ (100 / battle.false_positive.sample_count) | round(0) }} points; read it as a floor, not a precise rate.{% endif %} Flags here are re-adjudicated as feeds catch up (see methodology).</p>
   {%- else %}
   <p class="sub">No known-good packages were pulled this run, so there's nothing to measure false positives against.</p>
   <div class="note">No known-good samples in this run — false-positive rates are <em>undefined</em>, not zero. An engine shows 0% here only when it was actually tested on good packages and flagged none; this panel returns with the next run that includes a good cohort.</div>
   {%- endif %}
 
-  {%- set fr = battle | frontier %}
-  {%- if fr | length >= 2 %}
-  {%- set PL = 60 %}{%- set PR = 904 %}{%- set PT = 26 %}{%- set PB = 306 %}
-  {%- set plotW = PR - PL %}{%- set plotH = PB - PT %}
-  {# dynamic y-axis: just enough headroom above the worst false-alarm rate, snapped to a clean grid — so the field fills the plot instead of hugging the floor of a fixed 0–100 scale #}
-  {%- set maxFp = 0 %}{%- for p in fr %}{% if p.fp > maxFp %}{% set maxFp = p.fp %}{% endif %}{% endfor %}
-  {%- set yMax = ((maxFp + 5) / 5) | round(0, 'ceil') * 5 %}{% if yMax < 15 %}{% set yMax = 15 %}{% endif %}
-  {%- set yStep = 5 %}{% if yMax > 20 %}{% set yStep = 10 %}{% endif %}{% if yMax > 60 %}{% set yStep = 20 %}{% endif %}
-  {%- set sweetFp = 5 %}{%- set sweetDet = 70 %}
-  {%- set zoneX = PL + (sweetDet / 100 * plotW) %}{%- set zoneTopY = PB - (sweetFp / yMax * plotH) %}
-  {%- set fcol = { "ascan": "#16a34a", "socket": "#7c3aed", "aikido": "#0891b2", "guarddog": "#d97706", "malcontent": "#db2777", "clamav": "#475569" } %}
-  {%- set fname = { "ascan": "Atomdrift", "socket": "Socket", "aikido": "Aikido", "guarddog": "GuardDog", "malcontent": "malcontent", "clamav": "ClamAV" } %}
-  {%- set lpos = { "ascan": {"dx": -14, "dy": -13, "a": "end"}, "socket": {"dx": 12, "dy": 4, "a": "start"}, "guarddog": {"dx": 12, "dy": -9, "a": "start"}, "aikido": {"dx": 0, "dy": -14, "a": "middle"}, "clamav": {"dx": 11, "dy": -9, "a": "start"}, "malcontent": {"dx": 12, "dy": 4, "a": "start"} } %}
+  {%- set q = battle | quadrant(providers) %}
+  {%- if q %}
   <h2>Catch rate vs. false alarms</h2>
-  <p class="sub">Flag everything and you "win" detection; flag nothing and you "win" false positives. The only square that counts is the bottom-right corner — catch the malware, spare the clean code.</p>
+  <p class="sub">Flag everything and you win on detection; flag nothing and you win on false positives. Only the top-right corner is worth anything — catch the malware, spare the clean code.</p>
   <div class="frontier-wrap">
-    <svg viewBox="0 0 960 356" role="img" aria-label="Detection rate versus false-positive rate for each engine; Atomdrift sits in the bottom-right, high detection and low false positives.">
-      <!-- sweet spot: the bottom-right corner — high catch AND low false alarms -->
-      <rect class="frontier-sweet" x="{{ zoneX }}" y="{{ zoneTopY }}" width="{{ PR - zoneX }}" height="{{ PB - zoneTopY }}"></rect>
-      <line class="frontier-sweet-edge" x1="{{ zoneX }}" y1="{{ zoneTopY }}" x2="{{ PR }}" y2="{{ zoneTopY }}"></line>
-      {%- set calloutX = (zoneX + PR) / 2 %}
-      <text class="frontier-sweet-lab" x="{{ calloutX }}" y="{{ PB - (10.2/yMax*plotH) }}" text-anchor="middle">the sweet spot</text>
-      <path class="frontier-arrow" d="M {{ calloutX }} {{ PB - (8.6/yMax*plotH) }} L {{ calloutX }} {{ zoneTopY - 1 }}" marker-end="url(#fArrow)"></path>
-      <defs>
-        <marker id="fArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-          <path d="M 0 1 L 9 5 L 0 9 z" fill="var(--t-benign)"></path>
-        </marker>
-      </defs>
-      <!-- gridlines + ticks -->
-      {%- for v in [0, 25, 50, 75, 100] %}
-      <line class="frontier-grid" x1="{{ PL + (v/100*plotW) }}" y1="{{ PT }}" x2="{{ PL + (v/100*plotW) }}" y2="{{ PB }}"></line>
-      <text class="frontier-tick" x="{{ PL + (v/100*plotW) }}" y="{{ PB + 18 }}" text-anchor="middle">{{ v }}</text>
+    <svg viewBox="0 0 {{ q.w }} {{ q.h }}" role="img" aria-label="Catch rate against false-alarm rate for every engine measured this run. The horizontal axis is catch rate, higher to the right; the vertical axis is false-alarm rate, inverted so fewer false alarms is higher. Per-engine figures are listed in the reference tables below.">
+      <!-- target quadrant: high catch, few false alarms -->
+      <rect class="q-target" x="{{ q.xDiv }}" y="{{ q.pt }}" width="{{ q.pr - q.xDiv }}" height="{{ q.yDiv - q.pt }}"></rect>
+      <!-- gridlines -->
+      {%- for t in q.xTicks %}
+      <line class="q-grid" x1="{{ t.x }}" y1="{{ q.pt }}" x2="{{ t.x }}" y2="{{ q.pb }}"></line>
+      <text class="q-tick" x="{{ t.x }}" y="{{ q.pb + 19 }}" text-anchor="middle">{{ t.v }}%</text>
       {%- endfor %}
-      {%- for v in range(0, yMax + 1, yStep) %}
-      <line class="frontier-grid" x1="{{ PL }}" y1="{{ PB - (v/yMax*plotH) }}" x2="{{ PR }}" y2="{{ PB - (v/yMax*plotH) }}"></line>
-      <text class="frontier-tick" x="{{ PL - 9 }}" y="{{ PB - (v/yMax*plotH) + 4 }}" text-anchor="end">{{ v }}</text>
+      {%- for t in q.yTicks %}
+      <line class="q-grid" x1="{{ q.pl }}" y1="{{ t.y }}" x2="{{ q.pr }}" y2="{{ t.y }}"></line>
+      <text class="q-tick" x="{{ q.pl - 10 }}" y="{{ t.y + 4 }}" text-anchor="end">{{ t.v }}%</text>
       {%- endfor %}
+      <!-- quadrant dividers + captions -->
+      <line class="q-div" x1="{{ q.xDiv }}" y1="{{ q.pt }}" x2="{{ q.xDiv }}" y2="{{ q.pb }}"></line>
+      <line class="q-div" x1="{{ q.pl }}" y1="{{ q.yDiv }}" x2="{{ q.pr }}" y2="{{ q.yDiv }}"></line>
+      <text class="q-quad" x="{{ q.pl + 10 }}" y="{{ q.pt + 20 }}">Conservative</text>
+      <text class="q-quad on-target" x="{{ q.pr - 10 }}" y="{{ q.pt + 20 }}" text-anchor="end">Precise</text>
+      <text class="q-quad" x="{{ q.pl + 10 }}" y="{{ q.pb - 10 }}">Trailing</text>
+      <text class="q-quad" x="{{ q.pr - 10 }}" y="{{ q.pb - 10 }}" text-anchor="end">Aggressive</text>
       <!-- axes -->
-      <line class="frontier-axis" x1="{{ PL }}" y1="{{ PT }}" x2="{{ PL }}" y2="{{ PB }}"></line>
-      <line class="frontier-axis" x1="{{ PL }}" y1="{{ PB }}" x2="{{ PR }}" y2="{{ PB }}"></line>
-      <text class="frontier-alab" x="{{ (PL + PR) / 2 }}" y="348" text-anchor="middle">Catch rate  ·  higher is better →</text>
-      <text class="frontier-alab" transform="translate(16,{{ (PT + PB) / 2 }}) rotate(-90)" text-anchor="middle">False-alarm rate  ·  lower is better ↓</text>
-      <!-- engines -->
-      {%- for p in fr %}
-      {%- set L = lpos[p.scanner] or {"dx": 12, "dy": -11, "a": "start"} %}
-      {%- set cx = PL + (p.det/100*plotW) %}{%- set cy = PB - (p.fp/yMax*plotH) %}
-      {%- if p.us %}<circle class="frontier-halo" cx="{{ cx }}" cy="{{ cy }}" r="14" fill="{{ fcol[p.scanner] }}"></circle>{% endif %}
-      <circle class="frontier-pt{% if p.us %} us{% endif %}" cx="{{ cx }}" cy="{{ cy }}" r="{{ 8 if p.us else 6 }}" fill="{{ fcol[p.scanner] or '#475569' }}"></circle>
-      <text class="frontier-plab{% if p.us %} us{% endif %}" fill="{{ fcol[p.scanner] or '#475569' }}"
-            x="{{ cx + L.dx }}" y="{{ cy + L.dy }}" text-anchor="{{ L.a }}">{{ fname[p.scanner] or p.scanner }}<tspan class="frontier-pval" dx="6">{{ p.det }}% caught · {{ p.fp }}% false</tspan></text>
+      <line class="q-axis" x1="{{ q.pl }}" y1="{{ q.pt }}" x2="{{ q.pl }}" y2="{{ q.pb }}"></line>
+      <line class="q-axis" x1="{{ q.pl }}" y1="{{ q.pb }}" x2="{{ q.pr }}" y2="{{ q.pb }}"></line>
+      <text class="q-alab" x="{{ (q.pl + q.pr) / 2 }}" y="{{ q.pb + 46 }}" text-anchor="middle">Catch rate on known malware  ·  higher is better →</text>
+      <text class="q-alab" transform="translate(18,{{ (q.pt + q.pb) / 2 }}) rotate(-90)" text-anchor="middle">False alarms on clean packages  ·  fewer is better ↑</text>
+      <!-- engines: one marker per distinct result, labelled clear of its neighbours -->
+      {%- for g in q.groups %}
+      {%- if g.leader %}<line class="q-leader" x1="{{ g.leader.x1 }}" y1="{{ g.leader.y1 }}" x2="{{ g.leader.x2 }}" y2="{{ g.leader.y2 }}"></line>{% endif %}
+      {%- if g.us %}<circle class="q-halo" cx="{{ g.x }}" cy="{{ g.y }}" r="17" fill="{{ g.color }}"></circle>{% endif %}
+      <circle class="q-pt" cx="{{ g.x }}" cy="{{ g.y }}" r="{{ g.r }}" fill="{{ g.color }}">
+        <title>{% for e in g.engines %}{{ e.name }}{% if not loop.last %}, {% endif %}{% endfor %} — {{ g.value }}</title>
+      </circle>
+      {%- if g.n > 1 %}<text class="q-count" x="{{ g.x }}" y="{{ g.y + 4 }}" text-anchor="middle">{{ g.n }}</text>{% endif %}
+      {%- for e in g.engines %}
+      {%- set ly = g.label.y + (loop.index0 * q.lineH) + 11 %}
+      {%- if g.label.anchor == 'end' %}
+      <rect class="q-swatch" x="{{ g.label.tx - 9 }}" y="{{ ly - 8 }}" width="8" height="8" fill="{{ e.color }}"></rect>
+      <text class="q-name{% if e.us %} us{% endif %}" x="{{ g.label.tx - 15 }}" y="{{ ly }}" text-anchor="end">{{ e.name }}</text>
+      {%- else %}
+      <rect class="q-swatch" x="{{ g.label.x }}" y="{{ ly - 8 }}" width="8" height="8" fill="{{ e.color }}"></rect>
+      <text class="q-name{% if e.us %} us{% endif %}" x="{{ g.label.x + 14 }}" y="{{ ly }}">{{ e.name }}</text>
+      {%- endif %}
+      {%- endfor %}
+      <text class="q-val" x="{{ g.label.tx }}" y="{{ g.label.y + (g.engines | length * q.lineH) + 11 }}" text-anchor="{{ g.label.anchor }}">{{ g.value }}</text>
       {%- endfor %}
     </svg>
   </div>
+  <p class="fig-note">Fig. 4 — Catch rate on {{ battle.detection.sample_count }} known-malware samples against false alarms on {{ battle.false_positive.sample_count }} presumed-good packages, {{ battle.generated_at | dateDisplay }}. The false-alarm axis is inverted — 0% at the top — so up and to the right is better. Engines with identical results share one numbered marker. Quadrant boundaries are fixed at {{ q.xDivVal }}% catch and {{ q.yDivVal }}% false alarms.</p>
   {%- endif %}
 
-  <h2>Detection by ecosystem</h2>
+  <h2 id="by-ecosystem">Detection by ecosystem</h2>
   <p class="sub">Catch rate within each ecosystem, over the samples each engine can scan there.</p>
   <div class="eco-grid">
     {%- for e in battle.detection.by_ecosystem | byEcoSize %}
@@ -407,8 +433,9 @@ description: How malware scanners compare on real supply-chain attacks — detec
       </div>
     {%- endfor %}
   </div>
+  <p class="fig-note">Fig. 5 — The same {{ battle.detection.sample_count }} samples split by ecosystem. Cohorts this small are indicative, not conclusive; the sample count is on each card.</p>
 
-  <h2>Zero-day detection over time</h2>
+  <h2 id="over-time">Zero-day detection over time</h2>
   <p class="sub">Each engine's catch rate, run over run, on malware this fresh:{% if battle.malware_age %} {{ battle.malware_age.min_hours | round(0) }}h youngest, {{ battle.malware_age.mean_hours | round(0) }}h mean, {{ battle.malware_age.max_hours | round(0) }}h oldest{% else %} pulled straight from live threat feeds{% endif %}.</p>
   {%- if history and history | length >= 2 %}
   <div class="trend-wrap"><canvas id="trendChart"></canvas></div>
@@ -421,16 +448,19 @@ description: How malware scanners compare on real supply-chain attacks — detec
     const CUTOFF = Date.parse('2026-07-09T10:00:00Z');
     const H = ({{ history | dump | safe }}).filter(p => Date.parse(p.at) >= CUTOFF);
     const PROV = {{ providers | dump | safe }};
-    const COLOR = {
-      ascan: '#16a34a', socket: '#7c3aed', aikido: '#0891b2', guarddog: '#d97706',
-      malcontent: '#db2777', clamav: '#475569'
-    };
+    // Engine colors and draw order come from providers.json — one declaration
+    // shared with the quadrant, so an engine keeps its hue across the page and
+    // no engine can be missing from this chart just by being absent from a map
+    // hardcoded here.
+    const ENGINES = Object.keys(PROV).filter(e => !PROV[e].hidden)
+      .sort((a, b) => (PROV[a].slot || 99) - (PROV[b].slot || 99));
+    const COLOR = Object.fromEntries(ENGINES.map(e => [e, PROV[e].color || '#6b7280']));
     const US = 'ascan';
     const hexA = (h, a) => h + Math.round(a * 255).toString(16).padStart(2, '0');
     const labels = H.map(p => new Date(p.at).toLocaleString(undefined, { month: 'short', day: 'numeric', hour: 'numeric' }));
     // Atomdrift is the subject: drawn last (on top), bold and full-color; the field
     // is thinned and faded so the comparison reads at a glance.
-    const order = Object.keys(COLOR).filter(e => e !== US).concat(US);
+    const order = ENGINES.filter(e => e !== US).concat(US);
     const datasets = order.map(e => {
       const us = e === US;
       return {
@@ -500,24 +530,25 @@ description: How malware scanners compare on real supply-chain attacks — detec
     });
   })();
   </script>
+  <p class="fig-note">Fig. 6 — Catch rate per recorded run, all {{ providers | bySlot | length }} engines. Each run draws a fresh cohort from the feeds, so movement between points is the cohort changing as much as the engines; the series starts at the 2026-07-09 pipeline overhaul, before which a materially different stack was measured.</p>
   {%- else %}
   <div class="note">Historical trend is collecting. Each recorded run appends a snapshot; the line chart appears once there are at least two.</div>
   {%- endif %}
 
-  <details class="method">
+  <details class="method" id="methodology">
     <summary>Methodology</summary>
     <div class="method-body">
       <ul>
-        <li><strong>Known-bad</strong> packages are pulled from live threat feeds. Independent feeds are trusted as-is — a bogus listing just makes every engine miss it equally. But a listing from a feed that is <em>also a contestant</em> (Socket, Aikido Malware, GuardDog by Datadog) is kept only when an <em>independent</em> engine corroborates it, so no one is credited for its own possibly-spurious self-report.</li>
+        <li><strong>Known-bad</strong> packages are pulled from live threat feeds. Independent feeds are trusted as-is — a bogus listing just makes every engine miss it equally. But a listing from a feed that is <em>also a contestant</em> (Socket, Aikido Malware, GuardDog by Datadog, SafeDep, VT) is kept only when an <em>independent</em> engine corroborates it, so no one is credited for its own possibly-spurious self-report. Atomdrift's own verdicts are held to the same bar and never seed the cohort.</li>
         <li><strong>Freshness</strong> is the point: every sample is drawn from the last 48 hours of feed activity, keeping the cohort zero-day. The malware age quoted up top is measured per sample from its first sighting in a public feed to scan time{% if battle.malware_age %} — this run: {{ battle.malware_age.mean_hours | round(0) }}h mean, {{ battle.malware_age.median_hours | round(0) }}h median, {{ battle.malware_age.max_hours | round(0) }}h max across {{ battle.malware_age.n }} samples{% endif %}.</li>
         <li><strong>Presumed-good</strong> packages are drawn from the freshest 48 hours of the open-source firehose: curated good feeds, newly-published packages nobody has reported, and packages a contestant's own feed has flagged <em>solo</em> (kept in so that vendor's false positives stay measurable — a corroborated report relabels the sample bad and removes it). Samples from independent malware registries never enter this pool. Any flag against a presumed-good package, <em>hostile or suspicious</em>, is a false positive.</li>
         <li><strong>Adjudication:</strong> presumed-good is provisional — threat feeds corroborate malware days after publication. Every pick is re-checked against the label database on later runs: one that turns out to be malware is retroactively removed from that run's false-positive rates, and any engine that flagged it at scan time is credited with an <em>early detection</em> — it beat the feed consensus, and isn't scored as a false alarm for it.</li>
-        <li>Each engine's native severity is normalised to five tiers — <em>hostile</em>, <em>suspicious</em>, <em>benign</em> (analyzed, nothing found), <em>no data</em> (the engine has no record of the sample — clean only by absence), <em>unsupported</em>. A sample is <strong>caught</strong> (on known-bad) or a <strong>false alarm</strong> (on presumed-good) when it's flagged <em>hostile or suspicious</em>; the bars stack the two shades, darker for hostile. On the detection bars a red share anchored right is samples the engine <em>errored</em> on (a miss — hover it for the failures); on the known-good bars the light-grey right end is what the engine can't scan.</li>
-        <li>Rates are taken over what each engine can actually scan: a sample it <em>skips</em> — unsupported ecosystem or file type — drops from the denominator, but a sample it <em>errors</em> on still counts as a miss.</li>
+        <li>Each engine's native severity is normalised to five tiers — <em>hostile</em>, <em>suspicious</em>, <em>benign</em> (analyzed, nothing found), <em>no data</em> (the engine has no record of the sample — clean only by absence), <em>unsupported</em>. A sample is <strong>caught</strong> (on known-bad) or a <strong>false alarm</strong> (on presumed-good) when it's flagged <em>hostile or suspicious</em>; the bars stack the two shades, darker for hostile. Anchored to the right of every bar: a red share for samples the engine <em>errored</em> on (hover it for the failures), then a light-grey share for what it can't scan.</li>
+        <li><strong>The denominator is the whole cohort</strong>, identical for every engine: once a sample is in, everyone got a shot at it, so a skip (unsupported ecosystem or file type), an error, or "no record of this package" all count the same as a miss. Rates are therefore comparable across engines but understate a narrow engine <em>within its own scope</em> — read them next to the coverage panel, which is exactly where that scope is measured.</li>
         <li>This is <strong>preliminary</strong>: the corpus is small and refreshed continuously, and the known-bad set is still being widened. Numbers will move.</li>
       </ul>
       {%- if battle.versions %}
-      <p class="method-versions"><strong>Engine versions:</strong> {% for k, v in battle.versions %}{% if not loop.first %} · {% endif %}{{ providers[k].name or k }} {{ v }}{% endfor %} <span class="audit-note">(local engines; Socket and Aikido Malware are hosted; OSV/OSM are live feeds)</span></p>
+      <p class="method-versions"><strong>Engine versions:</strong> {% for k, v in battle.versions %}{% if not loop.first %} · {% endif %}{{ providers[k].name or k }} {{ v }}{% endfor %} <span class="audit-note">(locally-run engines; {% for p in providers | bySlot | selectattr("hosted") %}{{ p.name }}{% if not loop.last %}, {% endif %}{% endfor %} are hosted services queried live, so they carry no pinned version; OSV/OSM are live feeds)</span></p>
       {%- endif %}
     </div>
   </details>
@@ -539,12 +570,12 @@ description: How malware scanners compare on real supply-chain attacks — detec
       <table class="audit-table">
         <thead><tr><th>Provider</th><th>Skipped ecosystems</th><th>Unscannable file types</th></tr></thead>
         <tbody>
-        {%- for c in battle.samples | coverageBoard(providers, battle.ascan_types) %}
+        {%- for c in battle.samples | coverageBoard(providers, battle.ascan_types, battle.detection.leaderboard) %}
           {%- set g = battle.samples | coverageGaps(c.scanner, battle.ascan_types) %}
           <tr>
             <td class="prov{% if c.scanner == 'ascan' %} us{% endif %}">{{ c.name }}</td>
-            <td>{% if g.ecoMissed | length %}{% for pair in g.ecoMissed %}{{ pair[0] }} ({{ pair[1] }} files){% if not loop.last %}, {% endif %}{% endfor %}{% else %}<span class="tier-na">-</span>{% endif %}</td>
-            <td>{% if g.typeMissed | length %}{% for pair in g.typeMissed %}{{ pair[0] }} ({{ pair[1] }} files){% if not loop.last %}, {% endif %}{% endfor %}{% else %}<span class="tier-na">-</span>{% endif %}</td>
+            <td>{% if g.ecoMissed | length %}{% for pair in g.ecoMissed %}{{ pair[0] }} ({{ pair[1] }} file{{ "s" if pair[1] != 1 }}){% if not loop.last %}, {% endif %}{% endfor %}{% else %}<span class="tier-na">-</span>{% endif %}</td>
+            <td>{% if g.typeMissed | length %}{% for pair in g.typeMissed %}{{ pair[0] }} ({{ pair[1] }} file{{ "s" if pair[1] != 1 }}){% if not loop.last %}, {% endif %}{% endfor %}{% else %}<span class="tier-na">-</span>{% endif %}</td>
           </tr>
         {%- endfor %}
         </tbody>

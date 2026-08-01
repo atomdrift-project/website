@@ -158,21 +158,197 @@ module.exports = function(eleventyConfig) {
     };
   });
 
-  // frontier joins each engine's detection and false-positive rates into one point
-  // for the trade-off scatter — the view that shows catch rate and false alarms are
-  // only impressive together. Engines missing either measure this run are dropped.
-  eleventyConfig.addFilter("frontier", function(battle) {
+  // Engine draw order for anything that colors by engine (the quadrant, the trend
+  // chart): the fixed categorical slot order declared in providers.json. Fixed
+  // order, never cycled — an engine keeps its hue whichever chart it appears in
+  // and whoever else is on screen.
+  eleventyConfig.addFilter("bySlot", function(providers) {
+    return Object.entries(providers || {})
+      .filter(function([, p]) { return !p.hidden; })
+      .map(function([key, p]) { return Object.assign({ key: key }, p); })
+      .sort(function(a, b) { return (a.slot || 99) - (b.slot || 99); });
+  });
+
+  // ---------------------------------------------------------------------------
+  // quadrant: the catch-rate / false-alarm trade-off plot.
+  //
+  // Everything the SVG needs is computed here — axes, quadrant dividers, marker
+  // positions and, the hard part, label placement. Labels are laid out against
+  // real bounding boxes: engines that scored identically collapse into one
+  // marker with a stacked label, and every remaining box is placed by trying
+  // candidate sides and nudging until it clears the markers and the boxes
+  // already placed. Doing this in the template is what produced the pile-up of
+  // overlapping text and labels stranded from their circles.
+  //
+  // The y axis is *inverted* — 0% false alarms at the top — so that up and to
+  // the right is unambiguously better and the four quadrants read the way a
+  // reader expects: Precise top-right, Trailing bottom-left.
+  // ---------------------------------------------------------------------------
+  const QW = 960, QH = 500;            // viewBox
+  const QPL = 66, QPR = 830, QPT = 54, QPB = 404; // plot rect (right gutter holds labels)
+  const NAME_PX = 7.4, VAL_PX = 5.9, SWATCH = 15, LINE_H = 15;
+  const XDIV = 50;                     // catch-rate divider (%)
+  const YDIV = 5;                      // false-alarm divider (%)
+
+  function overlaps(a, b, pad) {
+    const p = pad || 0;
+    return !(a.x + a.w + p <= b.x || b.x + b.w + p <= a.x || a.y + a.h + p <= b.y || b.y + b.h + p <= a.y);
+  }
+  function overlapArea(a, b) {
+    const dx = Math.min(a.x + a.w, b.x + b.w) - Math.max(a.x, b.x);
+    const dy = Math.min(a.y + a.h, b.y + b.h) - Math.max(a.y, b.y);
+    return dx > 0 && dy > 0 ? dx * dy : 0;
+  }
+
+  eleventyConfig.addFilter("quadrant", function(battle, providers) {
+    const provs = providers || {};
     const det = (battle && battle.detection && battle.detection.leaderboard) || [];
     const fp = (battle && battle.false_positive && battle.false_positive.leaderboard) || [];
     const fpBy = {};
     for (const s of fp) fpBy[s.scanner] = s;
+
+    // One point per engine that has both measures this run.
     const pts = [];
     for (const d of det) {
+      if (isHidden(provs, d.scanner)) continue;
       const dr = flaggedRate(d), fr = flaggedRate(fpBy[d.scanner]);
       if (dr === null || fr === null) continue;
-      pts.push({ scanner: d.scanner, det: Math.round(dr), fp: Math.round(fr), us: d.scanner === "ascan" });
+      const p = provs[d.scanner] || {};
+      pts.push({
+        key: d.scanner, name: p.name || d.scanner, color: p.color || "#6b7280",
+        det: Math.round(dr), fp: Math.round(fr), us: d.scanner === "ascan",
+      });
     }
-    return pts;
+    if (pts.length < 2) return null;
+
+    // y scale: enough headroom above the worst false-alarm rate to keep the
+    // divider on screen, so a run where nobody cries wolf still reads as a
+    // quadrant instead of a single line of dots pinned to the top edge.
+    const maxFp = Math.max(...pts.map((p) => p.fp));
+    let yMax = Math.max(10, Math.ceil((maxFp * 1.35) / 5) * 5);
+    const yStep = yMax > 60 ? 20 : (yMax > 20 ? 10 : 5);
+    // The data band is inset from the plot frame: a run where every engine holds
+    // its fire puts the whole field on the 0% line, and without headroom those
+    // markers would straddle the frame edge. The band above 0% also gives the
+    // top quadrant captions somewhere to sit that data never reaches.
+    const dataTop = QPT + 34, dataBottom = QPB - 16;
+    const dataLeft = QPL + 14, dataRight = QPR - 14;
+    const xOf = (v) => dataLeft + (v / 100) * (dataRight - dataLeft);
+    const yOf = (v) => dataTop + (v / yMax) * (dataBottom - dataTop); // inverted: 0% at the top
+
+    // Engines that scored identically share a marker — four dots stacked on one
+    // pixel with four labels fighting over it is the overlap the reader sees.
+    const groups = [];
+    const byPos = {};
+    for (const p of pts) {
+      const k = p.det + "|" + p.fp;
+      if (!byPos[k]) {
+        byPos[k] = { det: p.det, fp: p.fp, x: xOf(p.det), y: yOf(p.fp), engines: [], us: false };
+        groups.push(byPos[k]);
+      }
+      byPos[k].engines.push(p);
+      if (p.us) byPos[k].us = true;
+    }
+
+    // Label box for a group: one line per engine (swatch + name), then the
+    // shared value line. Sizes are estimated from character counts — close
+    // enough for collision purposes at these font sizes.
+    for (const g of groups) {
+      g.n = g.engines.length;
+      g.r = g.n > 1 ? 11 : (g.us ? 9 : 6.5);
+      // A shared marker is drawn neutral with its count inside — painting it one
+      // member's hue would credit that engine with the position alone.
+      g.color = g.n > 1 ? "#6b7280" : g.engines[0].color;
+      g.value = g.det + "% caught · " + g.fp + "% false";
+      const nameW = Math.max(...g.engines.map((e) => e.name.length * NAME_PX)) + SWATCH;
+      g.w = Math.max(nameW, g.value.length * VAL_PX);
+      g.h = (g.engines.length + 1) * LINE_H;
+    }
+
+    const markerBoxes = groups.map((g) => ({ x: g.x - g.r - 3, y: g.y - g.r - 3, w: 2 * g.r + 6, h: 2 * g.r + 6 }));
+    // The four quadrant captions are drawn in the corners; seed them as
+    // obstacles so a data label never lands on top of one.
+    const CW = 140, CH = 22;
+    const placed = [
+      { x: QPL + 8, y: QPT + 4, w: CW, h: CH },             // conservative
+      { x: QPR - 8 - CW, y: QPT + 4, w: CW, h: CH },        // precise
+      { x: QPL + 8, y: QPB - 4 - CH, w: CW, h: CH },        // trailing
+      { x: QPR - 8 - CW, y: QPB - 4 - CH, w: CW, h: CH },   // aggressive
+    ];
+    const GAP = 13;   // marker-to-label clearance
+    const BOUND = { x: 6, y: 6, w: QW - 12, h: QH - 12 };
+
+    // Candidate sides, preferred order per point: away from the nearer edge
+    // first, so labels lean into open space instead of off the plot.
+    function candidates(g) {
+      const right = { x: g.x + GAP, y: g.y - g.h / 2, anchor: "start" };
+      const left = { x: g.x - GAP - g.w, y: g.y - g.h / 2, anchor: "end" };
+      const below = { x: g.x - g.w / 2, y: g.y + GAP, anchor: "middle" };
+      const above = { x: g.x - g.w / 2, y: g.y - GAP - g.h, anchor: "middle" };
+      const horizFirst = g.x > (QPL + QPR) / 2 ? [left, right] : [right, left];
+      const vertFirst = g.y < dataTop + 50 ? [below, above] : [above, below];
+      return horizFirst.concat(vertFirst);
+    }
+
+    // Cost of a placement: how much it collides with markers and already-placed
+    // labels, plus a penalty for leaving the frame.
+    function cost(box) {
+      let c = 0;
+      for (const m of markerBoxes) c += overlapArea(box, m) * 3;
+      for (const p of placed) c += overlapArea(box, p);
+      const outX = Math.max(0, BOUND.x - box.x) + Math.max(0, (box.x + box.w) - (BOUND.x + BOUND.w));
+      const outY = Math.max(0, BOUND.y - box.y) + Math.max(0, (box.y + box.h) - (BOUND.y + BOUND.h));
+      return c + (outX + outY) * 400;
+    }
+
+    // Subject first, then the crowded groups, then by catch rate — the labels
+    // that matter most get the clean positions.
+    const order = groups.slice().sort((a, b) =>
+      (b.us - a.us) || (b.engines.length - a.engines.length) || (b.det - a.det));
+    for (const g of order) {
+      let best = null;
+      for (const c of candidates(g)) {
+        for (const dy of [0, 14, -14, 28, -28, 44, -44, 62, -62]) {
+          const box = { x: c.x, y: c.y + dy, w: g.w, h: g.h, anchor: c.anchor };
+          const sc = cost(box) + Math.abs(dy) * 2;
+          if (!best || sc < best.sc) best = { box: box, sc: sc };
+          if (sc === 0) break;
+        }
+        if (best && best.sc === 0) break;
+      }
+      const box = best.box;
+      g.label = {
+        x: box.x, y: box.y, w: g.w, h: g.h, anchor: box.anchor,
+        // Text x per anchor: names run left-to-right from the swatch on a
+        // start-anchored box, right-to-left into it on an end-anchored one.
+        tx: box.anchor === "end" ? box.x + g.w : (box.anchor === "middle" ? box.x + g.w / 2 : box.x),
+      };
+      // A leader line whenever the box ended up away from its marker, so no
+      // label is ever stranded from the circle it names.
+      const cx = box.x + g.w / 2, cy = box.y + g.h / 2;
+      const dist = Math.hypot(cx - g.x, cy - g.y);
+      if (dist > g.r + GAP + 12) {
+        const ex = Math.max(box.x, Math.min(g.x, box.x + g.w));
+        const ey = Math.max(box.y, Math.min(g.y, box.y + g.h));
+        const a = Math.atan2(ey - g.y, ex - g.x);
+        g.leader = { x1: g.x + Math.cos(a) * (g.r + 2), y1: g.y + Math.sin(a) * (g.r + 2), x2: ex, y2: ey };
+      }
+      placed.push(box);
+    }
+
+    return {
+      w: QW, h: QH, pl: QPL, pr: QPR, pt: QPT, pb: QPB,
+      yMax: yMax,
+      xTicks: [0, 25, 50, 75, 100].map((v) => ({ v: v, x: xOf(v) })),
+      yTicks: (function() {
+        const out = [];
+        for (let v = 0; v <= yMax; v += yStep) out.push({ v: v, y: yOf(v) });
+        return out;
+      })(),
+      xDiv: xOf(XDIV), yDiv: yOf(YDIV), xDivVal: XDIV, yDivVal: YDIV,
+      groups: groups,
+      lineH: LINE_H, swatch: SWATCH,
+    };
   });
 
   // Capability coverage: the share of a sample set's constituent files a scanner
@@ -215,6 +391,13 @@ module.exports = function(eleventyConfig) {
     "chrome", "rust", "crates", "ruby", "rubygems", "java", "maven", "jetbrains",
     "wordpress", "github-actions", "github_actions", "firefox", "edge", "homebrew", "github", "skills_sh"]);
   const GUARDDOG_ECOS = new Set(["javascript", "python", "go", "golang", "ruby", "rubygems", "github-actions", "github_actions"]);
+  // SafeDep's community malware-analysis API — the ecosystems safeDepEcosystem()
+  // in gauntlet maps a sample onto; anything else it reports as unsupported.
+  const SAFEDEP_ECOS = new Set(["javascript", "typescript", "npm", "node", "nodejs", "python", "pypi",
+    "java", "maven", "ruby", "rubygems", "gem", "csharp", "dotnet", "nuget", "rust", "cargo", "crates",
+    "crates.io", "go", "golang", "php", "packagist", "composer", "github-actions", "github_actions",
+    "actions", "terraform", "terraform_module", "terraform_provider", "vscode", "openvsx", "homebrew",
+    "github", "github_release", "github_repo", "github_repository"]);
   // Per-engine supported file types, in ascan's vocabulary. ascan is special-cased
   // to battle.ascan_types in computeCoverage. ecos gates a deps service to the
   // package ecosystems it indexes.
@@ -233,6 +416,11 @@ module.exports = function(eleventyConfig) {
     // counts within any ecosystem Aikido indexes — not just skills.sh.
     aikido: { types: union(T_SOURCE, T_SCRIPT, T_MANIFEST, new Set(["markdown"])), ecos: AIKIDO_ECOS },
     guarddog: { types: union(T_SOURCE, T_SCRIPT, T_MANIFEST), ecos: GUARDDOG_ECOS },
+    safedep: { types: union(T_SOURCE, T_SCRIPT, T_MANIFEST), ecos: SAFEDEP_ECOS },
+    // VT takes any file: it identifies by hash, so every byte sequence is in
+    // scope and no registry or file type gates it. Coverage is capability, not
+    // knowledge — whether VT has a *record* of a file is scored as detection.
+    virustotal: { any: true },
   };
 
   // innerFiles is a sample's member file-type counts with the outer archive
@@ -265,7 +453,8 @@ module.exports = function(eleventyConfig) {
       const files = Object.values(fts).reduce(function(a, b) { return a + b; }, 0);
       if (!files) continue;
       total += files;
-      if (m.ecos && !m.ecos.has(s.ecosystem)) { uncovered.add(s.ecosystem + " (ecosystem)"); continue; }
+      if (m.any) { supported += files; continue; }
+      if (m.ecos && !m.ecos.has(s.ecosystem)) { uncovered.add((s.ecosystem || "unknown") + " (ecosystem)"); continue; }
       for (const t in fts) {
         if (m.types.has(t)) supported += fts[t];
         else uncovered.add(t);
@@ -275,18 +464,27 @@ module.exports = function(eleventyConfig) {
   }
   eleventyConfig.addFilter("coverage", computeCoverage);
 
-  // Engines retained in the data (battle.json, history.json) but hidden from the
-  // rendered graphs — sporadic entrants whose intermittent points would misread as
-  // real contestants. Data is kept; only the charts filter it. Mirror this set in
-  // the trend-chart script in compare/index.njk.
-  const HIDDEN_ENGINES = new Set([]);
+  // An engine is hidden from the rendered charts by setting "hidden": true on its
+  // providers.json entry — for a sporadic entrant whose intermittent points would
+  // misread as a real contestant. The data (battle.json, history.json) is kept
+  // either way. providers.json is the single list every chart draws from, so an
+  // engine can no longer be present in one graph and missing from the next.
+  const isHidden = (providers, key) => !!((providers || {})[key] || {}).hidden;
 
   // Coverage as a sortable board for the bar chart: one row per engine that has a
   // coverage model, highest coverage first. Hidden engines are omitted.
-  eleventyConfig.addFilter("coverageBoard", function(samples, providers, ascanTypes) {
+  // `ran` is a leaderboard: pass it and coverage is restricted to the engines
+  // that actually competed this run, so no engine can appear in one chart and be
+  // missing from the next (a hosted engine can drop out of a run — quota, outage
+  // — and its capability row would otherwise linger here alone).
+  eleventyConfig.addFilter("coverageBoard", function(samples, providers, ascanTypes, ran) {
     const out = [];
+    const competed = Array.isArray(ran) && ran.length
+      ? new Set(ran.map(function(s) { return s.scanner; }))
+      : null;
     for (const key in (providers || {})) {
-      if (HIDDEN_ENGINES.has(key)) continue;
+      if (isHidden(providers, key)) continue;
+      if (competed && !competed.has(key)) continue;
       const cov = computeCoverage(samples, key, ascanTypes);
       if (cov) out.push(Object.assign({ scanner: key, name: (providers[key] || {}).name || key }, cov));
     }
@@ -305,8 +503,10 @@ module.exports = function(eleventyConfig) {
       const fts = innerFiles(s);
       const files = Object.values(fts).reduce(function(a, b) { return a + b; }, 0);
       if (!files) continue;
+      if (m.any) continue;
       if (m.ecos && !m.ecos.has(s.ecosystem)) {
-        ecoMissed[s.ecosystem] = (ecoMissed[s.ecosystem] || 0) + files;
+        const eco = s.ecosystem || "unknown";
+        ecoMissed[eco] = (ecoMissed[eco] || 0) + files;
         continue;
       }
       for (const t in fts) {
