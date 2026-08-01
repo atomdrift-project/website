@@ -260,7 +260,11 @@ module.exports = function(eleventyConfig) {
       // member's hue would credit that engine with the position alone.
       g.color = g.n > 1 ? "#6b7280" : g.engines[0].color;
       g.value = g.det + "% caught · " + g.fp + "% false";
-      const nameW = Math.max(...g.engines.map((e) => e.name.length * NAME_PX)) + SWATCH;
+      // Swatches only on a shared marker: there the dot is neutral grey with a
+      // count in it, so the label has to carry each member's color. A lone
+      // engine's own dot sits right beside its name and already does that —
+      // a swatch there is the same color twice, a few pixels apart.
+      const nameW = Math.max(...g.engines.map((e) => e.name.length * NAME_PX)) + (g.n > 1 ? SWATCH : 0);
       g.w = Math.max(nameW, g.value.length * VAL_PX);
       g.h = (g.engines.length + 1) * LINE_H;
     }

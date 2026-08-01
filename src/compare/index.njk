@@ -408,13 +408,12 @@ description: How malware scanners compare on real supply-chain attacks — detec
       {%- if g.n > 1 %}<text class="q-count" x="{{ g.x }}" y="{{ g.y + 4 }}" text-anchor="middle">{{ g.n }}</text>{% endif %}
       {%- for e in g.engines %}
       {%- set ly = g.label.y + (loop.index0 * q.lineH) + 11 %}
-      {%- if g.label.anchor == 'end' %}
-      <rect class="q-swatch" x="{{ g.label.tx - 9 }}" y="{{ ly - 8 }}" width="8" height="8" fill="{{ e.color }}"></rect>
-      <text class="q-name{% if e.us %} us{% endif %}" x="{{ g.label.tx - 15 }}" y="{{ ly }}" text-anchor="end">{{ e.name }}</text>
-      {%- else %}
-      <rect class="q-swatch" x="{{ g.label.x }}" y="{{ ly - 8 }}" width="8" height="8" fill="{{ e.color }}"></rect>
-      <text class="q-name{% if e.us %} us{% endif %}" x="{{ g.label.x + 14 }}" y="{{ ly }}">{{ e.name }}</text>
+      {%- if g.n > 1 %}
+      {%- set sx = (g.label.tx - 9) if g.label.anchor == 'end' else (g.label.x if g.label.anchor == 'start' else g.label.tx - (e.name | length * 3.7) - 13) %}
+      <rect class="q-swatch" x="{{ sx }}" y="{{ ly - 8 }}" width="8" height="8" fill="{{ e.color }}"></rect>
       {%- endif %}
+      {%- set nx = (g.label.tx - 15 if g.n > 1 else g.label.tx) if g.label.anchor == 'end' else (g.label.x + 14 if g.n > 1 else g.label.x) %}
+      <text class="q-name{% if e.us %} us{% endif %}" x="{{ g.label.tx if g.label.anchor == 'middle' else nx }}" y="{{ ly }}" text-anchor="{{ g.label.anchor }}">{{ e.name }}</text>
       {%- endfor %}
       <text class="q-val" x="{{ g.label.tx }}" y="{{ g.label.y + (g.engines | length * q.lineH) + 11 }}" text-anchor="{{ g.label.anchor }}">{{ g.value }}</text>
       {%- endfor %}
@@ -456,10 +455,11 @@ description: How malware scanners compare on real supply-chain attacks — detec
       .sort((a, b) => (PROV[a].slot || 99) - (PROV[b].slot || 99));
     const COLOR = Object.fromEntries(ENGINES.map(e => [e, PROV[e].color || '#6b7280']));
     const US = 'ascan';
-    const hexA = (h, a) => h + Math.round(a * 255).toString(16).padStart(2, '0');
     const labels = H.map(p => new Date(p.at).toLocaleString(undefined, { month: 'short', day: 'numeric', hour: 'numeric' }));
-    // Atomdrift is the subject: drawn last (on top), bold and full-color; the field
-    // is thinned and faded so the comparison reads at a glance.
+    // Atomdrift is the subject: drawn last (on top) and heavier than the field.
+    // The emphasis is weight only — fading the others toward the surface used to
+    // collapse them into each other (seven lines at 45% alpha sit ~7 ΔE apart,
+    // under the ~15 a full-color reader needs), so every line keeps its own hue.
     const order = ENGINES.filter(e => e !== US).concat(US);
     const datasets = order.map(e => {
       const us = e === US;
@@ -467,9 +467,9 @@ description: How malware scanners compare on real supply-chain attacks — detec
         label: (PROV[e] && PROV[e].name) || e,
         data: H.map(p => (p.detection && p.detection[e] != null) ? Math.round(p.detection[e] * 100) : null),
         solidColor: COLOR[e],
-        borderColor: us ? COLOR[e] : hexA(COLOR[e], 0.45),
-        backgroundColor: us ? COLOR[e] : hexA(COLOR[e], 0.45),
-        borderWidth: us ? 3.5 : 1.5,
+        borderColor: COLOR[e],
+        backgroundColor: COLOR[e],
+        borderWidth: us ? 4 : 2,
         pointRadius: us ? 4 : 2.5,
         pointHoverRadius: us ? 6 : 4,
         tension: 0.25, spanGaps: true
@@ -520,7 +520,13 @@ description: How malware scanners compare on real supply-chain attacks — detec
           y: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%' }, title: { display: true, text: 'Catch rate' } }
         },
         plugins: {
-          legend: { position: 'bottom' },
+          // Chart.js defaults to a 40px line-style box per entry, which pushes
+          // eight engines onto three rows and eats the chart's height. Small
+          // circular swatches keep the whole field on one or two rows.
+          legend: {
+            position: 'bottom',
+            labels: { usePointStyle: true, pointStyle: 'circle', boxWidth: 8, boxHeight: 8, padding: 12, font: { size: 11 } }
+          },
           tooltip: {
             itemSort: (a, b) => b.parsed.y - a.parsed.y,
             callbacks: { label: c => `${c.dataset.label}: ${c.parsed.y}%` }

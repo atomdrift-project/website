@@ -15,7 +15,7 @@
     "appcode": false, "vendored": true, "deps": false, "binaries": true, "airgap": false,
     "identifies": "file hash",
     "hosted": true,
-    "slot": 2, "color": "#eb6834",
+    "slot": 2, "color": "#b63202",
     "registries": [],
     "registries_note": "hash-based — identifies files, not packages, so it has no registry coverage to report",
     "url": "https://www.virustotal.com/"
@@ -25,7 +25,7 @@
     "license": "Apache-2.0",
     "appcode": true, "vendored": true, "deps": false, "binaries": true, "airgap": true,
     "identifies": "file contents",
-    "slot": 3, "color": "#1baf7a",
+    "slot": 3, "color": "#0ca4a0",
     "registries": [],
     "registries_note": "scans files and archives directly; no registry lookup",
     "url": "https://github.com/chainguard-dev/malcontent"
@@ -35,7 +35,7 @@
     "license": "GPLv2",
     "appcode": false, "vendored": true, "deps": false, "binaries": true, "airgap": true,
     "identifies": "file contents",
-    "slot": 4, "color": "#eda100",
+    "slot": 4, "color": "#ce7f0e",
     "registries": [],
     "registries_note": "signature matching against file contents; no registry lookup",
     "url": "https://www.clamav.net/"
@@ -46,7 +46,7 @@
     "appcode": false, "vendored": false, "deps": true, "binaries": false, "airgap": false,
     "identifies": "package version",
     "hosted": true,
-    "slot": 5, "color": "#e87ba4",
+    "slot": 5, "color": "#8f0272",
     "registries": ["npm", "PyPI", "Go", "crates.io", "Packagist", "Maven", "NuGet", "RubyGems", "Hugging Face", "Chrome", "Open VSX"],
     "url": "https://socket.dev/"
   },
@@ -56,7 +56,7 @@
     "appcode": false, "vendored": false, "deps": true, "binaries": false, "airgap": false,
     "identifies": "package version",
     "hosted": true,
-    "slot": 6, "color": "#008300",
+    "slot": 6, "color": "#007149",
     "registries": ["npm", "PyPI", "NuGet", "Go", "Packagist", "VS Code", "Open VSX", "Chrome", "crates.io", "RubyGems", "JetBrains", "WordPress", "GitHub Actions", "Maven", "Firefox", "Edge", "Homebrew", "GitHub"],
     "url": "https://www.aikido.dev/"
   },
@@ -65,7 +65,7 @@
     "license": "Apache-2.0",
     "appcode": false, "vendored": true, "deps": true, "binaries": false, "airgap": false,
     "identifies": "package version",
-    "slot": 7, "color": "#4a3aa7",
+    "slot": 7, "color": "#542eb7",
     "registries": ["npm", "PyPI", "Go", "RubyGems", "GitHub Actions"],
     "url": "https://github.com/DataDog/guarddog"
   },
@@ -75,7 +75,7 @@
     "appcode": false, "vendored": false, "deps": true, "binaries": false, "airgap": false,
     "identifies": "package version",
     "hosted": true,
-    "slot": 8, "color": "#e34948",
+    "slot": 8, "color": "#fe5a80",
     "registries": ["npm", "PyPI", "Maven", "RubyGems", "NuGet", "crates.io", "Go", "Packagist", "GitHub Actions", "GitHub", "VS Code", "Open VSX", "Homebrew", "Terraform"],
     "url": "https://safedep.io/"
   }
