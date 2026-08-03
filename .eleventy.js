@@ -170,6 +170,57 @@ module.exports = function(eleventyConfig) {
   });
 
   // ---------------------------------------------------------------------------
+  // chartProviders: providers.json with a chart-only display name attached.
+  //
+  // A chart legend has room for a fuller label than a sentence does, and
+  // VirusTotal's whole shape is that it is an aggregate of other engines — the
+  // legend is where that belongs, so a reader isn't comparing one scanner's
+  // result against seventy pooled ones without being told. Prose, the audit
+  // table's narrow per-engine columns and the methodology line keep the short
+  // `name`, so a sentence still reads "the next-best engine, VirusTotal at 61%".
+  //
+  // The count is measured, not declared: VT reports how many engines actually
+  // scanned each sample and that varies run to run and file to file (60-71 in a
+  // recent run, as engines time out or skip a type), so this takes the run's
+  // median rather than a hardcoded number that goes stale as VT's roster moves.
+  // ---------------------------------------------------------------------------
+
+  // vtEngineTotal is the median engine count across a run's VirusTotal verdicts,
+  // or null if none are readable. The total lives in the verdict detail, which
+  // gauntlet writes as "2/70 engines (malicious=2, suspicious=0)"; a detail that
+  // doesn't match is skipped, so a format change downgrades the label to the
+  // plain name instead of printing a wrong count.
+  function vtEngineTotal(battle) {
+    const totals = [];
+    for (const s of (battle && battle.samples) || []) {
+      for (const v of s.verdicts || []) {
+        if (v.scanner !== "virustotal") continue;
+        const m = /^\d+\/(\d+) engines/.exec(v.detail || "");
+        if (m) totals.push(Number(m[1]));
+      }
+    }
+    if (!totals.length) return null;
+    totals.sort(function(a, b) { return a - b; });
+    const mid = totals.length >> 1;
+    return totals.length % 2 ? totals[mid] : Math.round((totals[mid - 1] + totals[mid]) / 2);
+  }
+
+  eleventyConfig.addGlobalData("chartProviders", function() {
+    let providers = {}, battle = {};
+    try {
+      providers = require("./src/_data/providers.json");
+      battle = require("./src/_data/battle.json");
+    } catch (e) {
+      return providers;
+    }
+    const out = {};
+    for (const [key, p] of Object.entries(providers)) out[key] = Object.assign({}, p);
+    const n = vtEngineTotal(battle);
+    if (n && out.virustotal) out.virustotal.chartName = out.virustotal.name + " [" + n + " engines]";
+    return out;
+  });
+
+  // ---------------------------------------------------------------------------
   // quadrant: the catch-rate / false-alarm trade-off plot.
   //
   // Everything the SVG needs is computed here — axes, quadrant dividers, marker
@@ -200,6 +251,61 @@ module.exports = function(eleventyConfig) {
     return dx > 0 && dy > 0 ? dx * dy : 0;
   }
 
+  // --- Atomdrift's operating curve ------------------------------------------
+  //
+  // `-l N` is a false-positive budget: N flagged benign files per 100 million,
+  // calibrated per file type. gauntlet records, per sample, the STRICTEST level at
+  // which atomscan fires ("level 25 (p=0.8500)"; -1 = never fires), and scores a
+  // fire at any level as a flag — so the published rate is the top of the dial.
+  // The rest of the curve is already in battle.json, one level per sample, so it
+  // costs a parse rather than a re-scan.
+  const DIAL_STOPS = [0, 1, 5, 25, 50, 500, 1000, 3000, 25000];
+  const DIAL_DEFAULT = 50;
+
+  function ascanLevels(samples, label) {
+    const out = [];
+    for (const s of samples || []) {
+      if (s.label !== label) continue;
+      if (label === "bad" && s.excluded) continue;   // same cohort the bars score
+      const v = (s.verdicts || []).find((x) => x.scanner === "ascan");
+      if (!v || !v.detail) continue;
+      const m = /level\s+(-?[\d.]+)/.exec(v.detail);
+      if (m) out.push(parseFloat(m[1]));
+    }
+    return out;
+  }
+
+  // Share of `levels` that fire at or below budget L. A level of -1 never fires.
+  function firesAt(levels, L) {
+    if (!levels.length) return null;
+    let n = 0;
+    for (const x of levels) if (x >= 0 && x <= L) n++;
+    return (n / levels.length) * 100;
+  }
+
+  function ascanCurve(battle) {
+    const bad = ascanLevels(battle && battle.samples, "bad");
+    const good = ascanLevels(battle && battle.samples, "good");
+    if (bad.length < 5 || !good.length) return null;   // too thin to plot honestly
+    const curve = DIAL_STOPS.map((L) => ({
+      l: L, det: Math.round(firesAt(bad, L)), fp: Math.round(firesAt(good, L)),
+    }));
+    // A flat curve means every sample fired at one stop — nothing to show.
+    return curve.some((c) => c.det !== curve[0].det) ? curve : null;
+  }
+
+  eleventyConfig.addFilter("ascanCurve", ascanCurve);
+
+  // The stop a given -l budget lands on, for prose that has to name a number
+  // ("the shipped default catches N%") without hardcoding it.
+  eleventyConfig.addFilter("curveStop", function(curve, l) {
+    if (!curve || !curve.length) return null;
+    let out = curve[0];
+    for (const c of curve) if (c.l <= l) out = c;
+    return out;
+  });
+  eleventyConfig.addGlobalData("dialDefault", () => DIAL_DEFAULT);
+
   eleventyConfig.addFilter("quadrant", function(battle, providers) {
     const provs = providers || {};
     const det = (battle && battle.detection && battle.detection.leaderboard) || [];
@@ -207,15 +313,22 @@ module.exports = function(eleventyConfig) {
     const fpBy = {};
     for (const s of fp) fpBy[s.scanner] = s;
 
+    // Atomdrift is not a point on this chart, it is a curve: -l sets a
+    // false-positive budget, so every stop on the grid is a different operating
+    // point. When the curve is recoverable we draw it and drop ascan's single
+    // dot, which would otherwise sit on the curve claiming to be the whole story.
+    const curve = ascanCurve(battle);
+
     // One point per engine that has both measures this run.
     const pts = [];
     for (const d of det) {
       if (isHidden(provs, d.scanner)) continue;
+      if (curve && d.scanner === "ascan") continue;
       const dr = flaggedRate(d), fr = flaggedRate(fpBy[d.scanner]);
       if (dr === null || fr === null) continue;
       const p = provs[d.scanner] || {};
       pts.push({
-        key: d.scanner, name: p.name || d.scanner, color: p.color || "#6b7280",
+        key: d.scanner, name: p.chartName || p.name || d.scanner, color: p.color || "#6b7280",
         det: Math.round(dr), fp: Math.round(fr), us: d.scanner === "ascan",
       });
     }
@@ -224,7 +337,7 @@ module.exports = function(eleventyConfig) {
     // y scale: enough headroom above the worst false-alarm rate to keep the
     // divider on screen, so a run where nobody cries wolf still reads as a
     // quadrant instead of a single line of dots pinned to the top edge.
-    const maxFp = Math.max(...pts.map((p) => p.fp));
+    const maxFp = Math.max(...pts.map((p) => p.fp), ...(curve ? curve.map((c) => c.fp) : []));
     let yMax = Math.max(10, Math.ceil((maxFp * 1.35) / 5) * 5);
     const yStep = yMax > 60 ? 20 : (yMax > 20 ? 10 : 5);
     // The data band is inset from the plot frame: a run where every engine holds
@@ -269,7 +382,37 @@ module.exports = function(eleventyConfig) {
       g.h = (g.engines.length + 1) * LINE_H;
     }
 
-    const markerBoxes = groups.map((g) => ({ x: g.x - g.r - 3, y: g.y - g.r - 3, w: 2 * g.r + 6, h: 2 * g.r + 6 }));
+    // Curve geometry. Consecutive stops that score identically collapse to one
+    // vertex — the grid has stops the model doesn't distinguish, and drawing them
+    // as separate points would imply precision the measurement doesn't have.
+    let curveGeo = null;
+    if (curve) {
+      const verts = [];
+      for (const c of curve) {
+        const prev = verts[verts.length - 1];
+        if (prev && prev.det === c.det && prev.fp === c.fp) { prev.lHi = c.l; continue; }
+        verts.push({ det: c.det, fp: c.fp, lLo: c.l, lHi: c.l, x: xOf(c.det), y: yOf(c.fp) });
+      }
+      // Label the ends and the shipped default; the rest are drawn but unlabelled,
+      // so the curve reads as a range rather than a table of nine numbers.
+      for (const v of verts) {
+        v.label = v.lLo === 0 ? "-l 0"
+          : (v.lLo <= DIAL_DEFAULT && v.lHi >= DIAL_DEFAULT ? "-l " + DIAL_DEFAULT + " · default"
+          : (v.lHi === DIAL_STOPS[DIAL_STOPS.length - 1] ? "-l " + v.lHi : null));
+        v.sub = v.det + "% caught" + (v.fp === 0 ? " · no false alarms" : "");
+      }
+      curveGeo = {
+        verts: verts,
+        points: verts.map((v) => v.x.toFixed(1) + "," + v.y.toFixed(1)).join(" "),
+        color: (provs.ascan && provs.ascan.color) || "#2a78d6",
+        name: (provs.ascan && provs.ascan.name) || "Atomdrift",
+      };
+    }
+
+    const markerBoxes = groups.map((g) => ({ x: g.x - g.r - 3, y: g.y - g.r - 3, w: 2 * g.r + 6, h: 2 * g.r + 6 }))
+      // The curve is an obstacle too: a competitor label parked on top of it is
+      // worse than one nudged a few pixels.
+      .concat(curveGeo ? curveGeo.verts.map((v) => ({ x: v.x - 9, y: v.y - 9, w: 18, h: 18 })) : []);
     // The four quadrant captions are drawn in the corners; seed them as
     // obstacles so a data label never lands on top of one.
     const CW = 140, CH = 22;
@@ -351,6 +494,7 @@ module.exports = function(eleventyConfig) {
       })(),
       xDiv: xOf(XDIV), yDiv: yOf(YDIV), xDivVal: XDIV, yDivVal: YDIV,
       groups: groups,
+      curve: curveGeo,
       lineH: LINE_H, swatch: SWATCH,
     };
   });

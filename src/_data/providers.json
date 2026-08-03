@@ -9,7 +9,7 @@
     "url": "https://atomdrift.org/scan/"
   },
   "virustotal": {
-    "name": "VT",
+    "name": "VirusTotal",
     "license": "SaaS subscription",
     "license_note": "free tier used for this benchmark",
     "appcode": false, "vendored": true, "deps": false, "binaries": true, "airgap": false,
@@ -61,7 +61,7 @@
     "url": "https://www.aikido.dev/"
   },
   "guarddog": {
-    "name": "GuardDog by Datadog",
+    "name": "GuardDog",
     "license": "Apache-2.0",
     "appcode": false, "vendored": true, "deps": true, "binaries": false, "airgap": false,
     "identifies": "package version",

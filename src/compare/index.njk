@@ -2,382 +2,267 @@
 layout: base.njk
 title: Compare
 permalink: /compare/
-description: How malware scanners compare on real supply-chain attacks — detection rate and false positives, measured against fresh, ground-truth-labelled packages.
+description: How Atomdrift Scan compares to Socket, Aikido, VirusTotal, ClamAV and the rest on live zero-day malware — measured daily, every sample published.
 ---
 
 <style>
   .compare { max-width: 1000px; margin: 0 auto; padding: 4px 24px 64px; }
 
-  /* hero */
-  .cmp-hero { padding: 14px 0 6px; }
-  .cmp-hero h1 { font-family: 'Oxanium', sans-serif; font-size: 2.15rem; font-weight: 800;
-                 color: var(--carbon); letter-spacing: -0.6px; line-height: 1.05; margin: 0; }
-  .cmp-hero h1 .accent { color: var(--atomdrift-blue); }
-  .cmp-hero .stripe { height: 4px; width: 72px; border-radius: 2px; margin: 12px 0 16px;
-                      background: linear-gradient(90deg, var(--toxic) 0%, var(--toxic-muted) 60%, transparent 100%); }
-  .cmp-hero .lede { color: var(--graphite); max-width: none; line-height: 1.6; font-size: 1.02rem; }
-  .cmp-hero .brief { color: #166534; font-size: 1.12rem; font-weight: 500; line-height: 1.5; }
-  .cmp-hero .brief b { color: #166534; font-weight: 800; }
-  .cmp-hero .brief a { color: #166534; text-decoration: underline; text-underline-offset: 2px; }
-  .cmp-hero .lede b { color: var(--carbon); }
-  .cmp-meta { color: var(--slate); font-size: .78rem; line-height: 1.65; margin: 10px 0 0;
-              border-top: 1px solid var(--border); padding-top: 9px; }
-  .cmp-meta b { color: var(--iron); font-weight: 700; }
-  .cmp-meta a { color: var(--slate); }
-
-  /* section headings (mirror .content h2) */
-  .compare h2 { font-family: 'Oxanium', sans-serif; font-size: 1.2rem; font-weight: 700; color: var(--carbon);
-                border-bottom: 1px solid var(--border); padding-bottom: 6px; margin: 44px 0 4px; letter-spacing: -0.3px; }
-  .compare .sub { color: var(--slate); font-size: .85rem; margin: 0 0 16px; }
-
-  /* outcome colors: green = scanner did the right thing, red = wrong
-     (errored on detection counts as a miss), light grey = can't scan.
-     --t-* keep the raw severity colors used by the audit table. */
+  /* one bar palette for every engine: hostile solid, suspicious pale, grey = unreadable.
+     Atomdrift is marked by its label, not by a colour of its own. */
   :root {
-    --t-hostile: #dc2626; --t-suspicious: #e0a526; --t-benign: #2f9e63; --t-nodata: #7b8494; --t-unsupported: #b6bcc6;
-    --g-good: #b5d400; --g-good-weak: #e3efab; --g-bad: #e5484d; --g-bad-weak: #f4b4b6; --g-na: #cdd2da;
+    --h: #9abe25; --s: #cfe09a; --na: #dfe3e8;
+    --t-hostile: #dc2626; --t-suspicious: #e0a526; --t-benign: #2f9e63; --t-nodata: #7b8494;
   }
-  .legend { display: flex; gap: 8px 20px; flex-wrap: wrap; align-items: center; font-size: .8rem; color: var(--iron); margin: 14px 0 4px; }
-  .legend span { display: inline-flex; align-items: center; gap: 6px; }
-  .legend i { width: 11px; height: 11px; border-radius: 2px; display: inline-block; }
-  .legend-note { color: var(--slate); font-size: .76rem; font-style: italic; }
-  .sw-hostile { background: var(--g-good); } .sw-suspicious { background: var(--g-good-weak); }
-  .sw-errored { background: var(--g-bad); } .sw-unsupported { background: var(--t-unsupported); }
 
-  /* comparison table */
-  .cmp-table { width: 100%; border-collapse: collapse; margin: 16px 0 6px; font-size: .92rem; }
-  .cmp-table th { font-size: .7rem; text-transform: uppercase; letter-spacing: .05em; color: var(--slate);
-                  font-weight: 600; text-align: left; padding: 8px 12px; border-bottom: 2px solid var(--border); }
-  .cmp-table td { padding: 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
-  .cmp-table tr:hover td { background: var(--cream); }
-  .cmp-table tr.us-row td { background: var(--toxic-dim); }
-  .cmp-table tr.us-row:hover td { background: var(--toxic-dim); }
-  .cmp-table td.num { text-align: right; font-variant-numeric: tabular-nums; font-weight: 700; }
-  .cmp-table .na { color: var(--slate); font-weight: 400; }
-  .cmp-table .prov { font-family: 'Oxanium', sans-serif; font-weight: 700; font-size: .98rem; }
-  .cmp-table .prov.us { color: var(--atomdrift-blue); }
-  .cmp-table .good { color: var(--t-benign); } .cmp-table .bad { color: var(--t-hostile); }
-
-  /* stacked bars */
-  .bench { display: grid; grid-template-columns: max-content 1fr 66px; gap: 9px 14px; align-items: center; margin: 9px 0; }
-  .bench .rname { font-family: 'Oxanium', sans-serif; font-weight: 600; font-size: .9rem; color: var(--carbon); white-space: nowrap; }
-  .bench .rname.us { color: var(--atomdrift-blue); }
-  .bench .rpct { text-align: right; font-variant-numeric: tabular-nums; font-weight: 700; font-size: .9rem; color: var(--carbon); line-height: 1.1; }
-  .bench .rpct.neg { color: var(--g-bad); }
-  .bar { display: flex; height: 24px; border-radius: 5px; overflow: hidden; background: var(--mist);
-         box-shadow: inset 0 0 0 1px rgba(0,0,0,.05); }
-  .bar .seg { height: 100%; }
-  .bar .seg-hostile { background: var(--g-good); }        /* flagged hostile */
-  .bar .seg-suspicious { background: var(--g-good-weak); } /* flagged suspicious */
-  .bar .seg-errored { background: var(--g-bad); }          /* scanner failed — counts as a miss (detection) */
-  .bar .seg-unsupported { background: var(--t-unsupported); } /* can't scan: unsupported ecosystem/file type */
-  .bar .seg-cov { background: var(--g-good); }             /* capability coverage */
-
-  /* per-ecosystem cards */
-  .eco-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px 26px; margin-top: 16px; }
-  .eco-card { background: var(--cream); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; transition: box-shadow .2s; }
-  .eco-card:hover { box-shadow: -3px 0 0 0 var(--toxic), 0 1px 3px rgba(0,0,0,.06); }
-  .eco-card h4 { font-family: 'Oxanium', sans-serif; margin: 0 0 8px; font-size: .82rem; text-transform: uppercase;
-                 letter-spacing: .04em; color: var(--iron); }
-
-  .note { background: var(--cream); border: 1px solid var(--border); border-left: 3px solid var(--toxic-muted);
-          border-radius: 6px; padding: 12px 16px; font-size: .85rem; color: var(--graphite); margin: 18px 0; }
-  details.method { margin-top: 40px; font-size: .88rem; color: var(--graphite); }
-  details.method > summary { cursor: pointer; list-style: none; display: inline-flex; align-items: center; gap: 9px;
-    font-family: 'Oxanium', sans-serif; font-weight: 700; font-size: 1rem; color: var(--carbon); padding: 6px 0; }
-  details.method > summary::-webkit-details-marker { display: none; }
-  details.method > summary::before { content: "▸"; color: var(--toxic-dark); font-size: .8rem; transition: transform .15s ease; }
-  details.method[open] > summary::before { transform: rotate(90deg); }
-  details.method > summary:hover { color: var(--atomdrift-blue); }
-  details.method .method-body { margin: 4px 0 0 12px; padding: 14px 20px 16px;
-    background: var(--cream); border-left: 3px solid var(--toxic); border-radius: 0 8px 8px 0; }
-  details.method .method-body ul { margin: 0; padding-left: 20px; }
-  .method-versions { margin: 12px 0 0; font-size: .82rem; }
-  details.method li { margin: 9px 0; line-height: 1.6; }
-  details.method li::marker { color: var(--toxic-dark); }
-  details.method strong { color: var(--carbon); }
-  details.method em { font-style: normal; font-weight: 600; color: var(--graphite); }
-
-  /* feature matrix: ✓/✗ capability cells + registry count (list on hover) */
-  .feature-table th.ctr, .feature-table td.feat, .feature-table td.regs { text-align: center; }
-  .feature-table td.feat { font-size: 1.05rem; line-height: 1; }
-  .feature-table .yes { color: var(--toxic-dark); font-weight: 800; }
-  .feature-table .no { color: var(--g-na); font-weight: 700; }
-  .reg-count { font-family: 'Oxanium', sans-serif; font-weight: 800; font-variant-numeric: tabular-nums;
-               color: var(--carbon); font-size: 1rem; cursor: help; border-bottom: 1px dotted var(--slate); }
-  .feature-table tr.us-row .reg-count { color: var(--atomdrift-blue); }
-
-  /* reference-data audit */
-  details.audit { margin-top: 32px; }
-  details.audit > summary { cursor: pointer; font-family: 'Oxanium', sans-serif; font-weight: 700; color: var(--carbon); padding: 6px 0; }
-  .audit-h { font-family: 'Oxanium', sans-serif; margin: 22px 0 2px; font-size: .92rem; color: var(--carbon); }
-  .audit-note { font-weight: 400; color: var(--slate); font-size: .78rem; }
-  .trend-wrap { position: relative; height: 340px; margin-top: 8px; }
-  .audit-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 8px; margin-top: 10px; }
-  .audit-table { width: 100%; border-collapse: collapse; font-size: .78rem; }
-  .audit-table th, .audit-table td { padding: 6px 9px; border-bottom: 1px solid var(--border); text-align: left; white-space: nowrap; }
-  .audit-table thead th { background: var(--cream); font-size: .66rem; text-transform: uppercase; letter-spacing: .03em; color: var(--slate); }
-  .audit-table tr:last-child td { border-bottom: none; }
-  .audit-table .mono { font-family: 'SF Mono', Consolas, monospace; }
-  .audit-table a { color: var(--atomdrift-blue); text-decoration: none; }
-  .audit-table a:hover { text-decoration: underline; }
-  .lab-bad { color: var(--t-hostile); font-weight: 600; } .lab-good { color: var(--t-benign); } .lab-unknown { color: var(--slate); }
-  .tier-hostile { background: rgba(220,38,38,.12); color: #991b1b; font-weight: 700; text-align: center; }
-  .tier-suspicious { background: rgba(224,165,38,.18); color: #854d0e; font-weight: 700; text-align: center; }
-  .tier-benign { background: rgba(47,158,99,.13); color: #166534; text-align: center; }
-  .tier-nodata { background: rgba(123,132,148,.18); color: var(--slate); font-weight: 600; text-align: center; }
-  .tier-unsupported { background: var(--mist); color: var(--slate); text-align: center; }
-  .tier-na { color: var(--g-na); text-align: center; font-weight: 600; }
-
-  /* headline scoreboard — the one result a skimmer should leave with */
-  .scoreboard { display: flex; gap: 24px; align-items: center; flex-wrap: wrap;
-    background: var(--carbon); color: #fff; border-radius: 12px; padding: 22px 26px; margin: 20px 0 12px;
-    box-shadow: 0 2px 12px rgba(0,0,0,.14); }
-  .scoreboard .score-num { font-family: 'Oxanium', sans-serif; font-weight: 800; font-size: 4.4rem;
-    line-height: .85; color: var(--toxic); letter-spacing: -2px; }
-  .scoreboard .score-num .pct { font-size: 2.2rem; letter-spacing: -1px; }
-  .scoreboard .score-body { flex: 1 1 360px; }
-  .scoreboard .score-lead { font-size: 1.04rem; line-height: 1.5; margin: 0 0 9px; color: #eef0f3; }
-  .scoreboard .score-lead b { color: var(--toxic); }
-  .scoreboard .score-diff { font-size: .85rem; line-height: 1.55; margin: 0; color: #b9bfc9; }
-  .scoreboard .score-diff b { color: #eef0f3; font-weight: 700; }
-  .scoreboard .score-diff a { color: #fff; text-decoration: underline; text-underline-offset: 2px; }
-
-  /* calls to action */
-  .cta-row { display: flex; gap: 12px; flex-wrap: wrap; margin: 2px 0 6px; }
+  /* ---------- hero ---------- */
+  .cmp-hero { display: grid; grid-template-columns: 1.08fr 1fr; gap: 28px; align-items: start; padding: 18px 0 4px; }
+  .cmp-hero .kick { font-family: 'Oxanium', sans-serif; font-size: .66rem; font-weight: 800; letter-spacing: .15em;
+                    text-transform: uppercase; color: var(--slate); margin-bottom: 9px; }
+  .cmp-hero h1 { font-family: 'Oxanium', sans-serif; font-size: 2.15rem; font-weight: 800; color: var(--carbon);
+                 letter-spacing: -1.1px; line-height: 1.03; margin: 0; }
+  .cmp-hero h1 em { font-style: normal; color: var(--atomdrift-blue); }
+  .cmp-hero .say { margin: 12px 0 0; color: var(--iron); line-height: 1.6; font-size: .95rem; }
+  .cmp-hero .say b { color: var(--carbon); font-weight: 600; }
+  .replaces { margin: 12px 0 0; font-size: .8rem; color: var(--slate); line-height: 1.5; }
+  .replaces b { color: var(--graphite); font-weight: 600; }
+  .cta-row { display: flex; gap: 9px; flex-wrap: wrap; margin: 15px 0 0; }
   .cta { display: inline-flex; align-items: center; font-family: 'Oxanium', sans-serif; font-weight: 700;
-    font-size: .92rem; padding: 10px 18px; border-radius: 7px; text-decoration: none;
-    border: 1.5px solid var(--border); color: var(--carbon); transition: border-color .15s, color .15s, background .15s; }
+         font-size: .82rem; padding: 8px 15px; border-radius: 7px; text-decoration: none;
+         border: 1.5px solid var(--border); color: var(--carbon); transition: border-color .15s, color .15s, background .15s; }
   .cta:hover { border-color: var(--atomdrift-blue); color: var(--atomdrift-blue); }
-  .cta-primary { background: var(--toxic); border-color: var(--toxic); color: var(--carbon); }
+  .cta-primary { background: var(--toxic); border-color: var(--toxic); color: var(--carbon); font-weight: 800; }
   .cta-primary:hover { background: var(--toxic-dark); border-color: var(--toxic-dark); color: #fff; }
+  .instl { margin-top: 11px; font-family: 'SF Mono', Consolas, monospace; font-size: .78rem; background: var(--mist);
+           border-radius: 6px; padding: 8px 12px; color: var(--carbon); overflow-x: auto; }
+  .badges { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 12px; }
+  .bdg { font-family: 'Oxanium', sans-serif; font-size: .62rem; font-weight: 800; letter-spacing: .05em;
+         text-transform: uppercase; border: 1px solid var(--border); border-radius: 5px; padding: 3px 8px; color: var(--iron); }
+  .bdg.hot { border-color: var(--toxic-dark); color: var(--toxic-dark); background: var(--toxic-dim); }
 
-  /* catch-rate / false-alarm quadrant. Geometry and label placement are computed
-     in the `quadrant` filter; this only styles what it emits. */
-  .frontier-wrap { margin: 14px 0 4px; }
-  .frontier-wrap svg { width: 100%; height: auto; display: block; }
+  .proof { background: var(--carbon); border-radius: 12px; padding: 19px 21px; color: #fff;
+           display: flex; flex-direction: column; gap: 11px; }
+  .proof .vs { display: flex; align-items: flex-end; gap: 16px; }
+  .proof .big { font-family: 'Oxanium', sans-serif; font-size: 3.2rem; font-weight: 800; line-height: .82;
+                letter-spacing: -2.5px; color: var(--toxic); }
+  .proof .big small { display: block; font-size: .62rem; font-weight: 800; letter-spacing: .08em; color: #b9bfc9;
+                      margin-top: 8px; text-transform: uppercase; }
+  .proof .them { font-family: 'Oxanium', sans-serif; font-size: 1.7rem; font-weight: 800; line-height: .9;
+                 letter-spacing: -1.2px; color: #8f96a0; padding-bottom: 4px; }
+  .proof .them small { display: block; font-size: .6rem; font-weight: 700; letter-spacing: .06em; color: #71787f;
+                       margin-top: 7px; text-transform: uppercase; }
+  .proof p { margin: 0; font-size: .78rem; line-height: 1.55; color: #d5d9d2; }
+  .proof p b { color: var(--toxic); }
+  .proof .terms { border-top: 1px solid #2a2e28; padding-top: 10px; font-size: .68rem; color: #9aa196; line-height: 1.5; }
+
+  /* ---------- sections ---------- */
+  .compare h2 { font-family: 'Oxanium', sans-serif; font-size: 1.05rem; font-weight: 800; color: var(--carbon);
+                border-bottom: 1px solid var(--border); padding-bottom: 6px; margin: 40px 0 4px; letter-spacing: -.3px;
+                display: flex; align-items: baseline; gap: 9px; flex-wrap: wrap; }
+  .compare h2 .note { font-family: 'Inter', sans-serif; font-size: .72rem; font-weight: 400; color: var(--slate); }
+  .compare .sub { color: var(--iron); font-size: .88rem; margin: 10px 0 14px; max-width: 64ch; }
+  .compare .sub b { color: var(--carbon); font-weight: 600; }
+
+  /* ---------- bars ---------- */
+  .rows { display: grid; grid-template-columns: max-content 1fr max-content; gap: 6px 12px; align-items: center; margin: 12px 0 8px; }
+  .rows .rn { font-family: 'Oxanium', sans-serif; font-weight: 600; font-size: .8rem; white-space: nowrap; color: var(--graphite); }
+  .rows .rn.us { color: var(--atomdrift-blue); font-weight: 800; }
+  .rows .tr { height: 17px; background: var(--mist); border-radius: 4px; overflow: hidden; display: flex;
+              box-shadow: inset 0 0 0 1px rgba(0,0,0,.05); }
+  .rows .hb { height: 100%; background: var(--h); }
+  .rows .sb { height: 100%; background: var(--s); }
+  .rows .un { height: 100%; background: var(--na); margin-left: auto; }
+  .rows .rv { font-family: 'Oxanium', sans-serif; font-weight: 800; font-size: .8rem; font-variant-numeric: tabular-nums;
+              text-align: right; min-width: 36px; color: var(--carbon); }
+  .legend { display: flex; gap: 8px 16px; flex-wrap: wrap; align-items: center; font-size: .72rem; color: var(--iron); }
+  .legend i { width: 11px; height: 11px; border-radius: 2px; display: inline-block; margin-right: 5px; vertical-align: -1px; }
+  .fig-note { color: var(--slate); font-size: .74rem; line-height: 1.55; margin: 8px 0 0; }
+  .fig-note b { color: var(--graphite); }
+  .fig-note a { color: var(--slate); }
+
+  /* ---------- frontier ---------- */
+  .frontier-wrap { margin: 14px 0 4px; overflow-x: auto; }
+  .frontier-wrap svg { width: 100%; min-width: 520px; height: auto; display: block; }
   .q-grid { stroke: var(--border); stroke-width: 1; }
   .q-axis { stroke: var(--slate); stroke-width: 1.25; }
   .q-div { stroke: var(--slate); stroke-width: 1; stroke-dasharray: 5 5; opacity: .45; }
   .q-tick { fill: var(--slate); font-size: 11px; font-family: system-ui, sans-serif; }
   .q-alab { fill: var(--iron); font-size: 12.5px; font-weight: 600; font-family: 'Oxanium', sans-serif; }
-  .q-target { fill: var(--g-good); opacity: .08; }
-  .q-quad { fill: var(--slate); opacity: .62; font-size: 11px; font-weight: 700; letter-spacing: .09em;
+  .q-target { fill: var(--toxic); opacity: .11; }
+  .q-quad { fill: var(--slate); opacity: .6; font-size: 11px; font-weight: 700; letter-spacing: .09em;
             text-transform: uppercase; font-family: 'Oxanium', sans-serif; }
-  .q-quad.on-target { fill: var(--t-benign); opacity: .85; }
+  .q-quad.on-target { fill: var(--toxic-dark); opacity: .95; }
   .q-leader { stroke: var(--slate); stroke-width: 1; opacity: .45; }
   .q-pt { stroke: #fff; stroke-width: 2; }
   .q-count { fill: #fff; font-size: 11.5px; font-weight: 800; font-family: 'Oxanium', sans-serif; }
-  .q-halo { opacity: .15; }
   .q-swatch { rx: 1.5; }
   .q-name { fill: var(--carbon); font-size: 12.5px; font-weight: 600; font-family: 'Oxanium', sans-serif; }
-  .q-name.us { font-weight: 800; }
   .q-val { fill: var(--slate); font-size: 10.5px; font-weight: 500; font-family: system-ui, sans-serif; }
+  .q-curve { fill: none; stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round; }
+  .q-cpt { stroke: #fff; stroke-width: 2.5; }
+  .q-clab { font-family: 'SF Mono', Consolas, monospace; font-size: 11px; font-weight: 700; }
+  .q-csub { fill: var(--slate); font-size: 10px; font-family: system-ui, sans-serif; }
+  .q-cname { font-family: 'Oxanium', sans-serif; font-size: 12px; font-weight: 800; }
 
-  /* figure notes — the source-and-sample-size line every chart carries */
-  .fig-note { color: var(--slate); font-size: .76rem; line-height: 1.5; margin: 6px 0 0; }
-  .fig-note a { color: var(--slate); }
+  /* ---------- how it decides ---------- */
+  .pipe { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 6px; }
+  .step { border: 1px solid var(--border); border-radius: 9px; padding: 12px 14px; display: flex; flex-direction: column; gap: 5px; }
+  .step .n { font-family: 'Oxanium', sans-serif; font-size: .58rem; font-weight: 800; letter-spacing: .12em;
+             color: var(--toxic-dark); text-transform: uppercase; }
+  .step h4 { font-family: 'Oxanium', sans-serif; margin: 0; font-size: .82rem; font-weight: 800; color: var(--carbon); }
+  .step p { margin: 0; font-size: .74rem; color: var(--graphite); line-height: 1.45; }
+  .det { background: var(--cream); border: 1px solid var(--border); border-left: 3px solid var(--toxic);
+         border-radius: 0 8px 8px 0; padding: 11px 15px; font-size: .8rem; color: var(--graphite); line-height: 1.6; margin-top: 12px; }
+  .det b { color: var(--carbon); font-family: 'Oxanium', sans-serif; }
+
+  /* ---------- rent vs own ---------- */
+  .own { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 6px; }
+  .own .col { border: 1px solid var(--border); border-radius: 10px; padding: 13px 16px; }
+  .own .col.us { border-color: var(--toxic-dark); background: var(--toxic-dim); }
+  .own .lbl { font-family: 'Oxanium', sans-serif; font-size: .68rem; font-weight: 800; letter-spacing: .09em;
+              text-transform: uppercase; color: var(--slate); display: block; margin-bottom: 9px; }
+  .own .col.us .lbl { color: var(--toxic-dark); }
+  .own ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; }
+  .own li { position: relative; padding-left: 19px; font-size: .78rem; line-height: 1.45; color: var(--graphite); }
+  .own .them li::before { content: "✗"; position: absolute; left: 0; top: 0; color: #e5484d; font-weight: 800; font-size: .7rem; }
+  .own .us li::before { content: "✓"; position: absolute; left: 0; top: 0; color: var(--toxic-dark); font-weight: 800; font-size: .7rem; }
+  .own .us li { color: var(--carbon); }
+  .ship { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 12px; }
+  .ship div { border: 1px solid var(--border); border-radius: 9px; padding: 11px 13px; }
+  .ship .w { font-family: 'Oxanium', sans-serif; font-weight: 800; font-size: .8rem; color: var(--carbon); }
+  .ship p { margin: 4px 0 0; font-size: .72rem; color: var(--graphite); line-height: 1.45; }
+
+  /* ---------- trend ---------- */
+  .trend-wrap { position: relative; height: 340px; margin-top: 10px; }
+
+  /* ---------- samples + method ---------- */
+  .samples { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 22px; font-family: 'SF Mono', Consolas, monospace;
+             font-size: .74rem; margin-top: 10px; }
+  .samples a { color: var(--atomdrift-blue); text-decoration: none; white-space: nowrap; overflow: hidden;
+               text-overflow: ellipsis; display: block; }
+  .samples a::before { content: "▪ "; color: var(--h); }
+  .samples a:hover { text-decoration: underline; }
+  .meth { background: var(--cream); border: 1px solid var(--border); border-radius: 8px; padding: 12px 15px;
+          font-size: .78rem; color: var(--graphite); line-height: 1.65; margin-top: 14px; }
+  .meth b { color: var(--carbon); font-family: 'Oxanium', sans-serif; }
+  .closer { margin-top: 34px; background: var(--carbon); border-radius: 12px; padding: 20px 24px; display: flex;
+            justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
+  .closer h4 { color: #fff; font-size: 1.05rem; letter-spacing: -.5px; margin: 0; font-family: 'Oxanium', sans-serif; font-weight: 800; }
+  .closer p { margin: 5px 0 0; color: #b9bfc9; font-size: .78rem; }
+  .closer .inst { font-family: 'SF Mono', Consolas, monospace; font-size: .78rem; background: #1c1f1a; color: var(--toxic);
+                  border-radius: 7px; padding: 10px 15px; }
+
+  @media (max-width: 860px) { .pipe, .ship { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 720px) {
+    .cmp-hero { grid-template-columns: 1fr; gap: 20px; }
+    .own, .samples { grid-template-columns: 1fr; }
+    .cmp-hero h1 { font-size: 1.7rem; }
+  }
 </style>
 
-{# Bars show what each engine flagged, as a share of the cohort: green = hostile,
-   light green = suspicious, anchored left. Anchored right: on detection bars
-   (kind 'bad' and the per-ecosystem cards) a red share is samples the engine
-   errored on — still a miss, and the mouseover names each failure — followed by
-   a light-grey share for what it can't scan at all. Every bar carries that grey
-   tail, because the denominator is the whole cohort for every engine (see
-   battle.go: a skip is a non-catch, not an exemption); on the known-good bars it
-   marks the stretch that is untested rather than earned. The clear middle is the
-   affirmatively-analyzed all-clear. On known-bad the fill is the catch rate
-   (more is better); on known-good it's the false-alarm rate (less is better). #}
-{%- macro bar(s, kind) -%}
-  {%- set nodata = s.nodata or 0 -%}
-  {%- set errored = s.errored or 0 -%}
-  <div class="bar" title="{{ s.hostile }} hostile · {{ s.suspicious }} suspicious · {{ s.benign }} analyzed clean{% if nodata %} · {{ nodata }} no data (couldn't confirm){% endif %}{% if errored %} · {{ errored }} errored{% if kind != 'good' %} (counts as a miss){% endif %}{% endif %}{% if s.unsupported %} · {{ s.unsupported }} can't scan{% endif %}">
-    {%- if s.supported > 0 -%}
-      {%- if s.hostile > 0 %}<span class="seg seg-hostile" style="width:{{ s.hostile / s.supported * 100 }}%"></span>{% endif -%}
-      {%- if s.suspicious > 0 %}<span class="seg seg-suspicious" style="width:{{ s.suspicious / s.supported * 100 }}%"></span>{% endif -%}
-      {%- if kind != 'good' and errored > 0 -%}
-        {%- set errs = battle.samples | errorLines(s.scanner, 'bad') if kind == 'bad' else [] -%}
-        <span class="seg seg-errored" style="width:{{ errored / s.supported * 100 }}%; margin-left:auto" title="{{ errored }} errored (counts as a miss){% if errs | length %}:{{ '\n' }}{{ errs | join('\n') }}{% endif %}"></span>
-      {%- endif -%}
-      {%- if s.unsupported > 0 %}<span class="seg seg-unsupported" style="width:{{ s.unsupported / s.supported * 100 }}%{% if not (kind != 'good' and errored > 0) %}; margin-left:auto{% endif %}" title="{{ s.unsupported }} — provider does not support this registry or file type{% if kind != 'good' %}; scored as a miss{% endif %}"></span>{% endif -%}
-    {%- endif -%}
-  </div>
-{%- endmacro -%}
-
-{# The number is the flagged rate (hostile + suspicious) over what the engine
-   could scan — so it always matches the bar's fill. #}
-{%- macro benchRows(board, kind) -%}
-  <div class="bench">
+{# One palette for every engine — hostile solid, suspicious pale, both anchored left;
+   a grey tail on the right for files the engine could not open, which the methodology
+   scores as a miss. Atomdrift is identified by its label, not by a colour of its own. #}
+{%- macro rows(board) -%}
+  <div class="rows">
   {%- for s in board | byFlagged %}
     {%- set p = providers[s.scanner] %}
-    <div class="rname{% if s.scanner == 'ascan' %} us{% endif %}">{{ p.name or s.scanner }}</div>
-    {{ bar(s, kind) }}
+    {%- set unsup = s.unsupported or 0 %}
+    <div class="rn{% if s.scanner == 'ascan' %} us{% endif %}">{{ p.name or s.scanner }}</div>
+    <div class="tr" title="{{ s.hostile }} hostile · {{ s.suspicious }} suspicious · {{ s.benign }} analyzed clean{% if s.nodata %} · {{ s.nodata }} no record{% endif %}{% if s.errored %} · {{ s.errored }} errored{% endif %}{% if unsup %} · {{ unsup }} couldn't open{% endif %}">
+      {%- if s.supported > 0 -%}
+        {%- if s.hostile > 0 %}<span class="hb" style="width:{{ s.hostile / s.supported * 100 }}%"></span>{% endif -%}
+        {%- if s.suspicious > 0 %}<span class="sb" style="width:{{ s.suspicious / s.supported * 100 }}%"></span>{% endif -%}
+        {%- if unsup > 0 %}<span class="un" style="width:{{ unsup / s.supported * 100 }}%"></span>{% endif -%}
+      {%- endif -%}
+    </div>
     {%- if s.supported %}
-    <div class="rpct">{{ (100 * (s.hostile + s.suspicious) / s.supported) | round(0) }}%</div>
+    <div class="rv">{{ (100 * (s.hostile + s.suspicious) / s.supported) | round(0) }}%</div>
     {%- else %}
-    <div class="rpct" style="color:var(--slate)">—</div>
+    <div class="rv" style="color:var(--slate)">—</div>
     {%- endif %}
   {%- endfor %}
-  </div>
-{%- endmacro -%}
-
-{%- macro auditTable(samples, board) -%}
-  <div class="audit-wrap">
-    <table class="audit-table">
-      <thead>
-        <tr>
-          <th>Package</th>
-          {%- for s in board %}<th>{{ providers[s.scanner].name or s.scanner }}</th>{%- endfor %}
-        </tr>
-      </thead>
-      <tbody>
-        {%- for sm in samples %}
-        <tr>
-          <td><a href="https://lab.atomdrift.org/file/{{ sm.sha256 }}" title="{{ sm.filename }}{% if sm.ecosystem %} · {{ sm.ecosystem }}{% endif %} — view in Atomdrift Lab">{{ sm.purl or sm.filename }}</a></td>
-          {%- for s in board %}
-            {%- set v = sm.verdicts | find("scanner", s.scanner) %}
-            {%- if v and v.tier != 'unsupported' %}
-            <td class="tier-{{ v.tier }}" title="{{ v.tier }}{% if v.detail %} — {{ v.detail }}{% endif %}">{{ v.tier | first | upper }}</td>
-            {%- else %}
-            <td class="tier-na" title="not supported{% if v and v.detail %} — {{ v.detail }}{% endif %}">-</td>
-            {%- endif %}
-          {%- endfor %}
-        </tr>
-        {%- endfor %}
-      </tbody>
-    </table>
   </div>
 {%- endmacro -%}
 
 <div class="main-full compare">
 
-  <div class="cmp-hero">
-    <h1>Malware Scanner <span class="accent">Battle Royale</span></h1>
-    <div class="stripe"></div>
-    {%- set h = battle | headline %}
-    <p class="lede brief">
-      {%- if h %}
-      As of {{ battle.generated_at | dateDisplay }},
-      <a href="/scan/">Atomdrift</a> catches <b>{{ h.detRate }}%</b> of
-      zero-day malware —
-      {% if h.lead and h.lead >= 1.5 %}<b>{{ h.lead | round(1) }}×</b>{% else %}<b>{{ h.leadPts }} points</b> clear of{% endif %}
-      the next-best engine{% if h.bestName %}, {{ providers[h.bestName].name or h.bestName }} at {{ h.bestDet }}%{% endif %}.
-      {%- else %}
-      Catching tomorrow's supply-chain malware — before the feeds catch up —
-      is the whole game <a href="/scan/">atomscan</a> plays.
-      {%- endif %}
-    </p>
-    <p class="cmp-meta">
-      {{ battle.detection.leaderboard | length }} engines · n&nbsp;=&nbsp;{{ battle.detection.sample_count }} known-malware, {{ battle.false_positive.sample_count }} presumed-good ·
-      rebuilt from live feeds every night · <a href="#methodology">methodology</a>
-      <br><b>Disclosure:</b> this benchmark is run and published by the Atomdrift project, which is one of the engines measured.
-      Every sample, verdict and rate is published below so anyone can check the scoring.
-    </p>
-  </div>
-
-  {# Scoreboard + CTAs hidden pending rework — remove this comment marker and the closing one below to re-enable.
   {%- set h = battle | headline %}
-  {%- if h %}
-  <div class="scoreboard">
-    <div class="score-num">{{ h.detRate }}<span class="pct">%</span></div>
-    <div class="score-body">
-      <p class="score-lead">of this run's {{ h.sampleCount }} zero-day samples caught —
-        {% if h.lead and h.lead >= 1.5 %}<b>{{ h.lead | round(1) }}×</b> the next-best engine{% else %}<b>{{ h.leadPts }} points</b> clear of the next-best engine{% endif %}
-        ({{ providers[h.bestName].name or h.bestName }}, {{ h.bestDet }}%){% if h.fpRate != null %}, while crying wolf on just {{ h.fpRate }}% of clean packages{% endif %}.</p>
-      <p class="score-diff"><b>Zero detection lag.</b> No feed to poll, no vendor verdict to wait on, no cloud round-trip —
-        <a href="/scan/">atomscan</a> decides locally and autonomously, the moment a package lands.</p>
+  {%- set curve = battle | ascanCurve %}
+
+  <div class="cmp-hero">
+    <div>
+      <div class="kick">Open-source · built for zero-day supply-chain attacks</div>
+      {%- if h and h.bestName and h.detRate > h.bestDet %}
+      <h1>It beats {{ providers[h.bestName].name or h.bestName }}.<br>It runs <em>offline</em>, on your laptop.</h1>
+      {%- else %}
+      <h1>It reads the file itself.<br>It runs <em>offline</em>, on your laptop.</h1>
+      {%- endif %}
+      <p class="say"><b>Atomdrift Scan reads a file and tells you if it's trying to hurt you.</b> An npm package, a
+        Windows DLL, a router binary, a container layer, your own build output. No cloud. No API key. No queue. It
+        decides the first time it sees the file — the only way to catch a supply-chain attack on day zero, in the
+        hours before any feed has named it.</p>
+      <p class="replaces"><b>Replaces:</b> Socket · Aikido · ReversingLabs for supply-chain scanning, and
+        ClamAV · malcontent for local file scanning.</p>
+      <div class="cta-row">
+        <a class="cta cta-primary" href="/scan/">Install it →</a>
+        <a class="cta" href="#how">How it decides</a>
+        <a class="cta" href="#samples">See every sample</a>
+      </div>
+      <div class="instl">brew install atomdrift/tap/scan</div>
+      <div class="badges">
+        <span class="bdg hot">Apache-2.0</span>
+        <span class="bdg">{{ providers.ascan.registries | length }} registries</span>
+        <span class="bdg">95 file types</span>
+        <span class="bdg">Linux · macOS · BSD · illumos</span>
+        <span class="bdg">no telemetry</span>
+      </div>
     </div>
-  </div>
-  <div class="cta-row">
-    <a class="cta cta-primary" href="/scan/">Point it at your dependencies →</a>
-    <a class="cta" href="/scan/how-it-works/">How it works</a>
-  </div>
-  {%- endif %}
-  #}
 
-  <h2 id="capabilities">What each engine is built to scan</h2>
-  <p class="sub">Capabilities as documented by each vendor — the ground the benchmark is run on.</p>
-  <table class="cmp-table feature-table">
-    <thead>
-      <tr>
-        <th>Provider</th><th>License&nbsp;/&nbsp;access</th>
-        <th class="ctr" title="Scans your own first-party application source">App&nbsp;code</th>
-        <th class="ctr" title="Catches malware in code vendored/bundled into a package — not just declared dependencies">Vendored&nbsp;code</th>
-        <th class="ctr" title="Resolves and checks a package's declared dependencies">Dependencies</th>
-        <th class="ctr" title="Scans compiled binaries">Binaries</th>
-        <th class="ctr" title="Runs fully offline — no cloud service required">Air-gap</th>
-        <th class="ctr" title="Package registries with coverage — hover for the list">Registries</th>
-      </tr>
-    </thead>
-    <tbody>
-      {%- for p in providers | byRegistries %}
-        {%- set key = p.key %}
-        <tr{% if key == 'ascan' %} class="us-row"{% endif %}>
-          <td class="prov{% if key == 'ascan' %} us{% endif %}">{{ p.name or key }}</td>
-          <td{% if p.license_note %} title="{{ p.license_note }}"{% endif %}>{{ p.license or "—" }}{% if p.license_note %}<span class="lic-note">*</span>{% endif %}</td>
-          <td class="feat">{% if p.appcode %}<span class="yes" title="yes">✓</span>{% else %}<span class="no" title="no">✗</span>{% endif %}</td>
-          <td class="feat">{% if p.vendored %}<span class="yes" title="yes">✓</span>{% else %}<span class="no" title="no">✗</span>{% endif %}</td>
-          <td class="feat">{% if p.deps %}<span class="yes" title="yes">✓</span>{% else %}<span class="no" title="no">✗</span>{% endif %}</td>
-          <td class="feat">{% if p.binaries %}<span class="yes" title="yes">✓</span>{% else %}<span class="no" title="no">✗</span>{% endif %}</td>
-          <td class="feat">{% if p.airgap %}<span class="yes" title="yes">✓</span>{% else %}<span class="no" title="no">✗</span>{% endif %}</td>
-          <td class="regs">{% if p.registries | length %}<span class="reg-count" title="{{ p.registries | join(' · ') }}">{{ p.registries | length }}</span>{% else %}<span class="no" title="{{ p.registries_note or 'no registry coverage' }}">n/a</span>{% endif %}</td>
-        </tr>
-      {%- endfor %}
-    </tbody>
-  </table>
-  <p class="fig-note">Table 1 — Engine capabilities. <b>Registries</b> counts the package registries an engine resolves; <em>n/a</em> marks the engines that work on files rather than packages (hover a cell for the detail). <span class="lic-note">*</span> hover for the access tier measured here.</p>
-
-  <h2 id="detection">Zero-day detection</h2>
-  <p class="sub">Catch rate on {{ battle.detection.sample_count }} freshly-published malware packages, pulled live from <a href="https://osv.dev/list?ecosystem=&q=MAL" target="_blank" rel="noopener">OSV</a>, <a href="https://opensourcemalware.com/" target="_blank" rel="noopener">OSM</a>, and other threat feeds.</p>
-  <div class="legend">
-    <span><i class="sw-hostile"></i> Flagged hostile</span>
-    <span><i class="sw-suspicious"></i> Flagged suspicious</span>
-    {%- if battle.detection.leaderboard | selectattr("errored") | length %}
-    <span><i class="sw-errored"></i> Errored (counts as a miss)</span>
+    {%- if h %}
+    <div class="proof">
+      <div class="vs">
+        <div class="big">{{ h.detRate }}%<small>Atomdrift, local</small></div>
+        {%- if h.bestName %}
+        <div class="them">{{ h.bestDet }}%<small>{{ providers[h.bestName].name or h.bestName }}{% if h.bestName == 'virustotal' %} · ~70 engines{% endif %}</small></div>
+        {%- endif %}
+      </div>
+      <p><b>{{ battle.detection.sample_count }} live malware samples, none older than 48 hours.</b>
+        {%- if h.bestName == 'virustotal' %} One offline binary out-detected the combined verdict of roughly seventy
+        commercial engines behind a paid API.{% else %} One offline binary, no network access, ahead of every engine
+        it was measured against.{% endif %}</p>
+      <div class="terms">Same cohort for every engine; a file an engine can't open counts as a miss, ours included.
+        Rebuilt daily, every sample and verdict published below.</div>
+    </div>
     {%- endif %}
-    <span><i class="sw-unsupported"></i> Couldn't scan — out of the engine's scope (counts as a miss)</span>
   </div>
-  {{ benchRows(battle.detection.leaderboard, 'bad') }}
-  <p class="fig-note">Fig. 1 — Share of {{ battle.detection.sample_count }} known-malware samples flagged, all {{ battle.detection.leaderboard | length }} engines, {{ battle.generated_at | dateDisplay }}. Every engine is scored over the same cohort: a sample it can't scan is a miss, not an exemption — the grey tail shows how much of the cohort that is, and Fig. 2 measures that scope directly.</p>
 
-  <h2 id="coverage">Coverage — what each engine can scan</h2>
-  <p class="sub">Share of this run's files each engine can even analyze — coverage, not detection.</p>
-  <div class="bench">
-  {%- for c in battle.samples | coverageBoard(providers, battle.ascan_types, battle.detection.leaderboard) %}
-    <div class="rname{% if c.scanner == 'ascan' %} us{% endif %}">{{ c.name }}</div>
-    <div class="bar" title="{{ c.supported }} of {{ c.total }} files{% if c.uncovered | length %} · can't scan: {{ c.uncovered | join(', ') }}{% endif %}">
-      {%- if c.rate > 0 %}<span class="seg seg-cov" style="width:{{ c.rate * 100 }}%"></span>{% endif -%}
-    </div>
-    <div class="rpct">{{ (c.rate * 100) | round(0) }}%</div>
-  {%- endfor %}
-  </div>
-  <p class="fig-note">Fig. 2 — Files in this run's samples each engine can analyze, from its declared registry and file-type support. Hover a bar for what it skips. Hash-based engines take any file, so they cover everything the run contains.</p>
-
-  <h2 id="false-positives">False positives — flagged good packages</h2>
-  {%- if battle.false_positive.sample_count > 0 %}
-  <p class="sub">Across {{ battle.false_positive.sample_count }} presumed-good packages — any flag is a false alarm. The grey tail is what an engine can't scan, so that stretch is untested, not earned.</p>
+  <h2 id="results">Latest results <span class="note">{{ battle.detection.sample_count }} malware samples, none older than 48 hours · {{ battle.generated_at | dateDisplay }}</span></h2>
+  {{ rows(battle.detection.leaderboard) }}
   <div class="legend">
-    <span><i class="sw-hostile"></i> Flagged hostile</span>
-    <span><i class="sw-suspicious"></i> Flagged suspicious</span>
-    <span><i class="sw-unsupported"></i> Couldn't scan — out of the engine's scope (untested, not earned)</span>
+    <span><i style="background:var(--h)"></i>flagged hostile</span>
+    <span><i style="background:var(--s)"></i>flagged suspicious</span>
+    <span><i style="background:var(--na)"></i>couldn't open the file</span>
   </div>
-  {{ benchRows(battle.false_positive.leaderboard, 'good') }}
-  <p class="fig-note">Fig. 3 — Share of {{ battle.false_positive.sample_count }} presumed-good packages each engine flagged, over the same cohort.{% if battle.false_positive.sample_count < 20 %} A cohort this small resolves false alarms coarsely — one flag moves an engine by {{ (100 / battle.false_positive.sample_count) | round(0) }} points; read it as a floor, not a precise rate.{% endif %} Flags here are re-adjudicated as feeds catch up (see methodology).</p>
+  {%- if curve %}
+  {%- set curveTop = curve | last %}
+  {%- set curveDef = curve | curveStop(dialDefault) %}
+  <p class="fig-note">Every engine is scored at its most sensitive setting, ours included: <b>{{ curveTop.det }}% is
+    the top of our dial, {{ curveDef.det }}% is the shipped default</b> — and both beat the field. <b>Grey is
+    scope</b> — engines that only read packages from registries they support can't open the rest of the cohort.</p>
   {%- else %}
-  <p class="sub">No known-good packages were pulled this run, so there's nothing to measure false positives against.</p>
-  <div class="note">No known-good samples in this run — false-positive rates are <em>undefined</em>, not zero. An engine shows 0% here only when it was actually tested on good packages and flagged none; this panel returns with the next run that includes a good cohort.</div>
+  <p class="fig-note"><b>Grey is scope</b> — engines that only read packages from registries they support can't open the rest of the cohort.</p>
   {%- endif %}
 
-  {%- set q = battle | quadrant(providers) %}
+  {%- set q = battle | quadrant(chartProviders) %}
   {%- if q %}
-  <h2>Catch rate vs. false alarms</h2>
-  <p class="sub">Flag everything and you win on detection; flag nothing and you win on false positives. Only the top-right corner is worth anything — catch the malware, spare the clean code.</p>
+  <h2 id="frontier">Catch rate vs. false alarms <span class="note">everyone else is a dot — we're the line</span></h2>
+  <p class="sub">Flag everything and you win on detection. Flag nothing and you win on false alarms. Only the top-right
+    corner counts. <b>Every rival is one dot — one point is all they ship. We're the curve</b>, and the labels on it
+    are settings you choose.</p>
   <div class="frontier-wrap">
-    <svg viewBox="0 0 {{ q.w }} {{ q.h }}" role="img" aria-label="Catch rate against false-alarm rate for every engine measured this run. The horizontal axis is catch rate, higher to the right; the vertical axis is false-alarm rate, inverted so fewer false alarms is higher. Per-engine figures are listed in the reference tables below.">
-      <!-- target quadrant: high catch, few false alarms -->
+    <svg viewBox="0 0 {{ q.w }} {{ q.h }}" role="img" aria-label="Catch rate against false-alarm rate for every engine measured this run. The horizontal axis is catch rate, higher to the right; the vertical axis is false-alarm rate, inverted so fewer false alarms is higher. Atomdrift is drawn as a curve across its false-positive budget settings rather than a single point. Per-engine figures are listed in the tables below.">
       <rect class="q-target" x="{{ q.xDiv }}" y="{{ q.pt }}" width="{{ q.pr - q.xDiv }}" height="{{ q.yDiv - q.pt }}"></rect>
-      <!-- gridlines -->
       {%- for t in q.xTicks %}
       <line class="q-grid" x1="{{ t.x }}" y1="{{ q.pt }}" x2="{{ t.x }}" y2="{{ q.pb }}"></line>
       <text class="q-tick" x="{{ t.x }}" y="{{ q.pb + 19 }}" text-anchor="middle">{{ t.v }}%</text>
@@ -386,22 +271,20 @@ description: How malware scanners compare on real supply-chain attacks — detec
       <line class="q-grid" x1="{{ q.pl }}" y1="{{ t.y }}" x2="{{ q.pr }}" y2="{{ t.y }}"></line>
       <text class="q-tick" x="{{ q.pl - 10 }}" y="{{ t.y + 4 }}" text-anchor="end">{{ t.v }}%</text>
       {%- endfor %}
-      <!-- quadrant dividers + captions -->
       <line class="q-div" x1="{{ q.xDiv }}" y1="{{ q.pt }}" x2="{{ q.xDiv }}" y2="{{ q.pb }}"></line>
       <line class="q-div" x1="{{ q.pl }}" y1="{{ q.yDiv }}" x2="{{ q.pr }}" y2="{{ q.yDiv }}"></line>
       <text class="q-quad" x="{{ q.pl + 10 }}" y="{{ q.pt + 20 }}">Conservative</text>
-      <text class="q-quad on-target" x="{{ q.pr - 10 }}" y="{{ q.pt + 20 }}" text-anchor="end">Precise</text>
+      <text class="q-quad on-target" x="{{ q.pr - 10 }}" y="{{ q.pt + 20 }}" text-anchor="end">The corner that matters</text>
       <text class="q-quad" x="{{ q.pl + 10 }}" y="{{ q.pb - 10 }}">Trailing</text>
       <text class="q-quad" x="{{ q.pr - 10 }}" y="{{ q.pb - 10 }}" text-anchor="end">Aggressive</text>
-      <!-- axes -->
       <line class="q-axis" x1="{{ q.pl }}" y1="{{ q.pt }}" x2="{{ q.pl }}" y2="{{ q.pb }}"></line>
       <line class="q-axis" x1="{{ q.pl }}" y1="{{ q.pb }}" x2="{{ q.pr }}" y2="{{ q.pb }}"></line>
-      <text class="q-alab" x="{{ (q.pl + q.pr) / 2 }}" y="{{ q.pb + 46 }}" text-anchor="middle">Catch rate on known malware  ·  higher is better →</text>
-      <text class="q-alab" transform="translate(18,{{ (q.pt + q.pb) / 2 }}) rotate(-90)" text-anchor="middle">False alarms on clean packages  ·  fewer is better ↑</text>
-      <!-- engines: one marker per distinct result, labelled clear of its neighbours -->
+      <text class="q-alab" x="{{ (q.pl + q.pr) / 2 }}" y="{{ q.pb + 46 }}" text-anchor="middle">Malware caught  ·  higher is better →</text>
+      <text class="q-alab" transform="translate(18,{{ (q.pt + q.pb) / 2 }}) rotate(-90)" text-anchor="middle">False alarms  ·  fewer is better ↑</text>
+
+      {# competitors: one fixed point each #}
       {%- for g in q.groups %}
       {%- if g.leader %}<line class="q-leader" x1="{{ g.leader.x1 }}" y1="{{ g.leader.y1 }}" x2="{{ g.leader.x2 }}" y2="{{ g.leader.y2 }}"></line>{% endif %}
-      {%- if g.us %}<circle class="q-halo" cx="{{ g.x }}" cy="{{ g.y }}" r="17" fill="{{ g.color }}"></circle>{% endif %}
       <circle class="q-pt" cx="{{ g.x }}" cy="{{ g.y }}" r="{{ g.r }}" fill="{{ g.color }}">
         <title>{% for e in g.engines %}{{ e.name }}{% if not loop.last %}, {% endif %}{% endfor %} — {{ g.value }}</title>
       </circle>
@@ -413,29 +296,41 @@ description: How malware scanners compare on real supply-chain attacks — detec
       <rect class="q-swatch" x="{{ sx }}" y="{{ ly - 8 }}" width="8" height="8" fill="{{ e.color }}"></rect>
       {%- endif %}
       {%- set nx = (g.label.tx - 15 if g.n > 1 else g.label.tx) if g.label.anchor == 'end' else (g.label.x + 14 if g.n > 1 else g.label.x) %}
-      <text class="q-name{% if e.us %} us{% endif %}" x="{{ g.label.tx if g.label.anchor == 'middle' else nx }}" y="{{ ly }}" text-anchor="{{ g.label.anchor }}">{{ e.name }}</text>
+      <text class="q-name" x="{{ g.label.tx if g.label.anchor == 'middle' else nx }}" y="{{ ly }}" text-anchor="{{ g.label.anchor }}">{{ e.name }}</text>
       {%- endfor %}
       <text class="q-val" x="{{ g.label.tx }}" y="{{ g.label.y + (g.engines | length * q.lineH) + 11 }}" text-anchor="{{ g.label.anchor }}">{{ g.value }}</text>
       {%- endfor %}
+
+      {# Atomdrift: a curve, because -l moves the operating point #}
+      {%- if q.curve %}
+      <polyline class="q-curve" points="{{ q.curve.points }}" stroke="{{ q.curve.color }}"></polyline>
+      {%- for v in q.curve.verts %}
+      <circle class="q-cpt" cx="{{ v.x }}" cy="{{ v.y }}" r="{{ 8 if v.label else 5 }}" fill="{{ q.curve.color }}">
+        <title>atomscan -l {{ v.lLo }}{% if v.lHi != v.lLo %}–{{ v.lHi }}{% endif %} — {{ v.det }}% caught · {{ v.fp }}% false alarms</title>
+      </circle>
+      {%- if v.label %}
+      <text class="q-clab" x="{{ v.x + 12 }}" y="{{ v.y - 2 }}" fill="{{ q.curve.color }}">{{ v.label }}</text>
+      <text class="q-csub" x="{{ v.x + 12 }}" y="{{ v.y + 11 }}">{{ v.sub }}</text>
+      {%- endif %}
+      {%- endfor %}
+      <text class="q-cname" x="{{ q.curve.verts[0].x - 12 }}" y="{{ q.curve.verts[0].y + 4 }}" text-anchor="end" fill="{{ q.curve.color }}">{{ q.curve.name }}</text>
+      {%- endif %}
     </svg>
   </div>
-  <p class="fig-note">Fig. 4 — Catch rate on {{ battle.detection.sample_count }} known-malware samples against false alarms on {{ battle.false_positive.sample_count }} presumed-good packages, {{ battle.generated_at | dateDisplay }}. The false-alarm axis is inverted — 0% at the top — so up and to the right is better. Engines with identical results share one numbered marker. Quadrant boundaries are fixed at {{ q.xDivVal }}% catch and {{ q.yDivVal }}% false alarms.</p>
+  {%- if q.curve %}
+  <p class="fig-note">Those labels are the <code>-l</code> flag: a false-positive budget, in files flagged per
+    <b>100 million</b>, calibrated separately for every file type. Not “medium sensitivity” — a number you can plan a
+    pipeline around. <code>-l 0</code> for a release gate that must never block a real build, the default for CI,
+    higher for a queue an analyst works through.</p>
+  {%- endif %}
+  <p class="fig-note">Fig. 1 — Catch rate on {{ battle.detection.sample_count }} malware samples against false alarms
+    on {{ battle.false_positive.sample_count }} presumed-good packages, {{ battle.generated_at | dateDisplay }}. The
+    false-alarm axis is inverted — 0% at the top — so up and to the right is better.</p>
   {%- endif %}
 
-  <h2 id="by-ecosystem">Detection by ecosystem</h2>
-  <p class="sub">Catch rate within each ecosystem, over the samples each engine can scan there.</p>
-  <div class="eco-grid">
-    {%- for e in battle.detection.by_ecosystem | byEcoSize %}
-      <div class="eco-card">
-        <h4>{{ e.eco }} <span class="audit-note">{{ e.n }} sample{{ "s" if e.n != 1 }}</span></h4>
-        {{ benchRows(e.board, 'eco') }}
-      </div>
-    {%- endfor %}
-  </div>
-  <p class="fig-note">Fig. 5 — The same {{ battle.detection.sample_count }} samples split by ecosystem. Cohorts this small are indicative, not conclusive; the sample count is on each card.</p>
-
-  <h2 id="over-time">Zero-day detection over time</h2>
-  <p class="sub">Each engine's catch rate, run over run, on malware this fresh:{% if battle.malware_age %} {{ battle.malware_age.min_hours | round(0) }}h youngest, {{ battle.malware_age.mean_hours | round(0) }}h mean, {{ battle.malware_age.max_hours | round(0) }}h oldest{% else %} pulled straight from live threat feeds{% endif %}.</p>
+  <h2 id="over-time">Every run before this one <span class="note">each draws a fresh cohort from live feeds</span></h2>
+  <p class="sub">One run is one cohort, and most engines swing sixty points as the samples change. Judge us on the
+    worst night, not the best one.</p>
   {%- if history and history | length >= 2 %}
   <div class="trend-wrap"><canvas id="trendChart"></canvas></div>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
@@ -446,7 +341,7 @@ description: How malware scanners compare on real supply-chain attacks — detec
     // current engines. Non-destructive — history.json keeps every point.
     const CUTOFF = Date.parse('2026-07-09T10:00:00Z');
     const H = ({{ history | dump | safe }}).filter(p => Date.parse(p.at) >= CUTOFF);
-    const PROV = {{ providers | dump | safe }};
+    const PROV = {{ chartProviders | dump | safe }};
     // Engine colors and draw order come from providers.json — one declaration
     // shared with the quadrant, so an engine keeps its hue across the page and
     // no engine can be missing from this chart just by being absent from a map
@@ -464,7 +359,7 @@ description: How malware scanners compare on real supply-chain attacks — detec
     const datasets = order.map(e => {
       const us = e === US;
       return {
-        label: (PROV[e] && PROV[e].name) || e,
+        label: (PROV[e] && (PROV[e].chartName || PROV[e].name)) || e,
         data: H.map(p => (p.detection && p.detection[e] != null) ? Math.round(p.detection[e] * 100) : null),
         solidColor: COLOR[e],
         borderColor: COLOR[e],
@@ -525,7 +420,22 @@ description: How malware scanners compare on real supply-chain attacks — detec
           // circular swatches keep the whole field on one or two rows.
           legend: {
             position: 'bottom',
-            labels: { usePointStyle: true, pointStyle: 'circle', boxWidth: 8, boxHeight: 8, padding: 12, font: { size: 11 } }
+            labels: {
+              usePointStyle: true, pointStyle: 'circle', boxWidth: 8, boxHeight: 8, padding: 12, font: { size: 11 },
+              // VirusTotal's engine count earns its width on a full-size chart, but
+              // the eight entries only just fit one row — adding "[66 engines]" tips
+              // them onto a second row once the canvas drops below ~730px, which
+              // comes straight out of the plot's height. Under that, fall back to the
+              // bare name: the count is still on the quadrant and the bars. Chart.js
+              // regenerates labels on resize, so this re-evaluates as the page reflows.
+              generateLabels(chart) {
+                const items = Chart.defaults.plugins.legend.labels.generateLabels(chart);
+                if (chart.width < 730) {
+                  for (const it of items) it.text = it.text.replace(/ \[\d+ engines\]$/, '');
+                }
+                return items;
+              }
+            }
           },
           tooltip: {
             itemSort: (a, b) => b.parsed.y - a.parsed.y,
@@ -536,57 +446,106 @@ description: How malware scanners compare on real supply-chain attacks — detec
     });
   })();
   </script>
-  <p class="fig-note">Fig. 6 — Catch rate per recorded run, all {{ providers | bySlot | length }} engines. Each run draws a fresh cohort from the feeds, so movement between points is the cohort changing as much as the engines; the series starts at the 2026-07-09 pipeline overhaul, before which a materially different stack was measured.</p>
+  <p class="fig-note">Fig. 2 — Catch rate per recorded run. Each run draws a fresh cohort, so movement between points
+    is the cohort changing as much as the engines; the series starts at the 2026-07-09 pipeline overhaul, before which
+    a materially different stack was measured.</p>
   {%- else %}
-  <div class="note">Historical trend is collecting. Each recorded run appends a snapshot; the line chart appears once there are at least two.</div>
+  <div class="meth">Historical trend is collecting. Each recorded run appends a snapshot; the chart appears once there
+    are at least two.</div>
   {%- endif %}
 
-  <details class="method" id="methodology">
-    <summary>Methodology</summary>
-    <div class="method-body">
+  <h2 id="how">How it decides <span class="note">everyone else looks it up — this one works it out</span></h2>
+  <p class="sub">A hosted scanner hashes your file and asks a database what somebody else concluded. If nobody has
+    looked yet, you get <em>no record</em> — and your gate reads that as <em>clean</em>. <b>Atomdrift asks nobody.</b>
+    It takes the file apart and reasons about what the code can do, which is the only way to have an answer on day
+    zero.</p>
+  <div class="pipe">
+    <div class="step"><span class="n">01 · cleave</span><h4>Take it apart</h4>
+      <p>Unpack archives and UPX, disassemble binaries with <code>rizin</code>, parse source with
+        <code>tree-sitter</code>, run YARA. Every file becomes a tree of atoms.</p></div>
+    <div class="step"><span class="n">02 · 85k rules</span><h4>Name the capabilities</h4>
+      <p>An expert system of 85,000 hand-written rules maps those atoms to concrete behaviours, tagged to MBC and
+        MITRE ATT&amp;CK.</p></div>
+    <div class="step"><span class="n">03 · azoth</span><h4>Score the shape</h4>
+      <p>A LightGBM ensemble scores the capability vector — the combination, not any single trait. ONNX inference, on
+        CPU, in milliseconds.</p></div>
+    <div class="step"><span class="n">04 · verdict</span><h4>Show the work</h4>
+      <p>Hostile, suspicious or benign, with the ranked capabilities that drove it. Same input, same answer, every
+        time.</p></div>
+  </div>
+  <div class="det"><b>Deterministic</b> — a gate that passed yesterday won't fail today because a vendor re-scored
+    overnight. <b>Explainable</b> — you get the capabilities that drove the score, not a number out of a black box
+    you're renting. <b>Local</b> — your code never leaves the building.
+    <span style="color:var(--iron)">(<code>--interpret</code> blends in a self-hosted LLM. Off by default: it's the
+    one part that isn't deterministic.)</span></div>
+  <p class="fig-note"><b>5,027,887 rules</b> stand behind that: 4.9 M signatures for malware already named, plus
+    <b>~100,000 behavioural rules</b> (85 k capability + 14 k YARA) for the day-zero packages nothing has a signature
+    for. Rebuilt daily; the scanner pulls its own updates. <b>Every one of them is a YAML file you can read</b> — and
+    change.</p>
+
+  <h2 id="yours">It's yours <span class="note">Apache-2.0 — embed it, fork it, ship it in something you sell</span></h2>
+  <p class="sub">Socket, Aikido, SafeDep and VirusTotal are services you rent. That's not a licensing detail — it
+    decides what you're allowed to build.</p>
+  <div class="own">
+    <div class="col them">
+      <span class="lbl">A scanner you rent</span>
       <ul>
-        <li><strong>Known-bad</strong> packages are pulled from live threat feeds. Independent feeds are trusted as-is — a bogus listing just makes every engine miss it equally. But a listing from a feed that is <em>also a contestant</em> (Socket, Aikido Malware, GuardDog by Datadog, SafeDep, VT) is kept only when an <em>independent</em> engine corroborates it, so no one is credited for its own possibly-spurious self-report. Atomdrift's own verdicts are held to the same bar and never seed the cohort.</li>
-        <li><strong>Freshness</strong> is the point: every sample is drawn from the last 48 hours of feed activity, keeping the cohort zero-day. The malware age quoted up top is measured per sample from its first sighting in a public feed to scan time{% if battle.malware_age %} — this run: {{ battle.malware_age.mean_hours | round(0) }}h mean, {{ battle.malware_age.median_hours | round(0) }}h median, {{ battle.malware_age.max_hours | round(0) }}h max across {{ battle.malware_age.n }} samples{% endif %}.</li>
-        <li><strong>Presumed-good</strong> packages are drawn from the freshest 48 hours of the open-source firehose: curated good feeds, newly-published packages nobody has reported, and packages a contestant's own feed has flagged <em>solo</em> (kept in so that vendor's false positives stay measurable — a corroborated report relabels the sample bad and removes it). Samples from independent malware registries never enter this pool. Any flag against a presumed-good package, <em>hostile or suspicious</em>, is a false positive.</li>
-        <li><strong>Adjudication:</strong> presumed-good is provisional — threat feeds corroborate malware days after publication. Every pick is re-checked against the label database on later runs: one that turns out to be malware is retroactively removed from that run's false-positive rates, and any engine that flagged it at scan time is credited with an <em>early detection</em> — it beat the feed consensus, and isn't scored as a false alarm for it.</li>
-        <li>Each engine's native severity is normalised to five tiers — <em>hostile</em>, <em>suspicious</em>, <em>benign</em> (analyzed, nothing found), <em>no data</em> (the engine has no record of the sample — clean only by absence), <em>unsupported</em>. A sample is <strong>caught</strong> (on known-bad) or a <strong>false alarm</strong> (on presumed-good) when it's flagged <em>hostile or suspicious</em>; the bars stack the two shades, darker for hostile. Anchored to the right of every bar: a red share for samples the engine <em>errored</em> on (hover it for the failures), then a light-grey share for what it can't scan.</li>
-        <li><strong>The denominator is the whole cohort</strong>, identical for every engine: once a sample is in, everyone got a shot at it, so a skip (unsupported ecosystem or file type), an error, or "no record of this package" all count the same as a miss. Rates are therefore comparable across engines but understate a narrow engine <em>within its own scope</em> — read them next to the coverage panel, which is exactly where that scope is measured.</li>
-        <li>This is <strong>preliminary</strong>: the corpus is small and refreshed continuously, and the known-bad set is still being widened. Numbers will move.</li>
+        <li>Priced per seat or per scan, forever</li>
+        <li>Needs the network — no air-gap, no offline CI</li>
+        <li>Can't go inside a product you sell</li>
+        <li>Can't see the rule that flagged your build</li>
+        <li>A false positive gets fixed when the vendor feels like it</li>
+        <li>Your code goes to their servers</li>
       </ul>
-      {%- if battle.versions %}
-      <p class="method-versions"><strong>Engine versions:</strong> {% for k, v in battle.versions %}{% if not loop.first %} · {% endif %}{{ providers[k].name or k }} {{ v }}{% endfor %} <span class="audit-note">(locally-run engines; {% for p in providers | bySlot | selectattr("hosted") %}{{ p.name }}{% if not loop.last %}, {% endif %}{% endfor %} are hosted services queried live, so they carry no pinned version; OSV/OSM are live feeds)</span></p>
-      {%- endif %}
     </div>
-  </details>
+    <div class="col us">
+      <span class="lbl">A scanner you own</span>
+      <ul>
+        <li>Apache-2.0. Free at any volume, forever</li>
+        <li>One static binary. Runs air-gapped, on five operating systems</li>
+        <li>Embed it in your own product and sell that</li>
+        <li>Every rule is a YAML file in a public repo</li>
+        <li>Fix it yourself this afternoon, or fork it</li>
+        <li>Nothing leaves your network. Ever</li>
+      </ul>
+    </div>
+  </div>
+  <p class="sub" style="margin-top:14px">And it goes wherever it has to live — <b>the same JSON comes out of all
+    four</b>, so the integration you write once survives the jump from a pre-commit hook to a registry's ingest path.</p>
+  <div class="ship">
+    <div><span class="w">CLI</span><p>Gate on the exit code. One line in a hook or a CI job.</p></div>
+    <div><span class="w">HTTP server</span><p>A long-lived process, once you're past a few scans a minute.</p></div>
+    <div><span class="w">Worker fleet</span><p>Workers pull from a queue — a registry's ingest path.</p></div>
+    <div><span class="w">Rust library</span><p>In-process calls, when it's going inside your product.</p></div>
+  </div>
 
   {%- set badSamples = battle.samples | where("label", "bad") -%}
-  {%- set goodSamples = battle.samples | where("label", "good") -%}
   {%- set cohortBad = badSamples | whereUnset("excluded") -%}
-  <details class="audit">
-    <summary>Reference data — {{ cohortBad | length }} known-malware + {{ goodSamples | length }} known-good files, scanned {{ battle.generated_at | dateDisplay }}</summary>
+  <h2 id="samples">The samples <span class="note">all {{ cohortBad | length }}, every one linked</span></h2>
+  <div class="samples">
+    {%- for sm in cohortBad | sort(false, false, "filename") %}
+    <a href="https://lab.atomdrift.org/file/{{ sm.sha256 }}" title="{{ sm.filename }}{% if sm.ecosystem %} · {{ sm.ecosystem }}{% endif %} — view in Atomdrift Lab">{{ sm.purl or sm.filename }}</a>
+    {%- endfor %}
+  </div>
+  <div class="meth"><b>How this is scored.</b> Samples come from live public malware feeds, none older than 48 hours.
+    Every engine gets the identical cohort, and a skip counts as a miss for all of them — a file nobody scanned is a
+    file that got through. A listing from a feed belonging to one of the contestants only counts once an independent
+    engine corroborates it, so nobody is credited for their own report. Presumed-good packages are drawn from the
+    freshest 48 hours of the open-source firehose and re-checked on later runs: one that turns out to be malware is
+    removed from that run's false-positive rates, and any engine that flagged it is credited with an early detection.
+    <b>We run this benchmark and we're one of the engines in it</b>, so every sample, verdict and rate is published.
+    {%- if battle.versions %}
+    <br><br><b>Engine versions:</b> {% for k, v in battle.versions %}{% if not loop.first %} · {% endif %}{{ providers[k].name or k }} {{ v }}{% endfor %}
+    <span style="color:var(--slate)">(locally-run engines; {% for p in providers | bySlot | selectattr("hosted") %}{{ p.name }}{% if not loop.last %}, {% endif %}{% endfor %} are hosted services queried live, so they carry no pinned version).</span>
+    {%- endif %}
+  </div>
 
-    <h4 class="audit-h"><span class="lab-bad">●</span> Known malware <span class="audit-note">— pulled from threat feeds and corroborated; every detection benchmark number comes from these</span></h4>
-    {{ auditTable(cohortBad, battle.detection.leaderboard) }}
-
-    <h4 class="audit-h"><span class="lab-good">●</span> Presumed good <span class="audit-note">— fresh releases with no corroborated malware report; any flag here is a provisional false positive, re-adjudicated as labels catch up</span></h4>
-    {{ auditTable(goodSamples, battle.detection.leaderboard) }}
-
-    <h4 class="audit-h">Coverage gaps <span class="audit-note">— what each engine couldn't analyze: whole packages skipped for an unsupported ecosystem, or file types it can't read within a supported one</span></h4>
-    <div class="audit-wrap">
-      <table class="audit-table">
-        <thead><tr><th>Provider</th><th>Skipped ecosystems</th><th>Unscannable file types</th></tr></thead>
-        <tbody>
-        {%- for c in battle.samples | coverageBoard(providers, battle.ascan_types, battle.detection.leaderboard) %}
-          {%- set g = battle.samples | coverageGaps(c.scanner, battle.ascan_types) %}
-          <tr>
-            <td class="prov{% if c.scanner == 'ascan' %} us{% endif %}">{{ c.name }}</td>
-            <td>{% if g.ecoMissed | length %}{% for pair in g.ecoMissed %}{{ pair[0] }} ({{ pair[1] }} file{{ "s" if pair[1] != 1 }}){% if not loop.last %}, {% endif %}{% endfor %}{% else %}<span class="tier-na">-</span>{% endif %}</td>
-            <td>{% if g.typeMissed | length %}{% for pair in g.typeMissed %}{{ pair[0] }} ({{ pair[1] }} file{{ "s" if pair[1] != 1 }}){% if not loop.last %}, {% endif %}{% endfor %}{% else %}<span class="tier-na">-</span>{% endif %}</td>
-          </tr>
-        {%- endfor %}
-        </tbody>
-      </table>
+  <div class="closer">
+    <div>
+      <h4>Point it at your dependencies.</h4>
+      <p>Apache-2.0 · runs offline · twenty seconds to first scan</p>
     </div>
-  </details>
+    <div class="inst">brew install atomdrift/tap/scan</div>
+  </div>
 
 </div>
