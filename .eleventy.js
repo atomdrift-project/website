@@ -254,44 +254,32 @@ module.exports = function(eleventyConfig) {
   // --- Atomdrift's operating curve ------------------------------------------
   //
   // `-l N` is a false-positive budget: N flagged benign files per 100 million,
-  // calibrated per file type. gauntlet records, per sample, the STRICTEST level at
-  // which atomscan fires ("level 25 (p=0.8500)"; -1 = never fires), and scores a
-  // fire at any level as a flag — so the published rate is the top of the dial.
-  // The rest of the curve is already in battle.json, one level per sample, so it
-  // costs a parse rather than a re-scan.
-  const DIAL_STOPS = [0, 1, 5, 25, 50, 500, 1000, 3000, 25000];
-  const DIAL_DEFAULT = 50;
-
-  function ascanLevels(samples, label) {
-    const out = [];
-    for (const s of samples || []) {
-      if (s.label !== label) continue;
-      if (label === "bad" && s.excluded) continue;   // same cohort the bars score
-      const v = (s.verdicts || []).find((x) => x.scanner === "ascan");
-      if (!v || !v.detail) continue;
-      const m = /level\s+(-?[\d.]+)/.exec(v.detail);
-      if (m) out.push(parseFloat(m[1]));
-    }
-    return out;
-  }
-
-  // Share of `levels` that fire at or below budget L. A level of -1 never fires.
-  function firesAt(levels, L) {
-    if (!levels.length) return null;
-    let n = 0;
-    for (const x of levels) if (x >= 0 && x <= L) n++;
-    return (n / levels.length) * 100;
-  }
+  // calibrated per file type. Because atomscan's `lvl` is swept over the whole grid
+  // regardless of the -l it ran with, one scan describes a sample at every level —
+  // so gauntlet replays the cohort across the grid and publishes the result as
+  // `ascan_curve`.
+  //
+  // We read that verbatim and never recompute it here. Deriving the tier needs
+  // atomscan's caps (hostile at lvl<=N, suspicious to min(gridMax, 4N)); a second
+  // implementation in JS is a second thing to get wrong, and it already was — an
+  // earlier version of this filter tested only `lvl <= N`, which silently dropped
+  // the suspicious band and understated the curve at every stop where 4N reaches
+  // past the next grid level. gauntlet owns the semantics; this reads the answer.
+  const DIAL_DEFAULT = 50; // mirrors atomscan's own default, for prose that names it
 
   function ascanCurve(battle) {
-    const bad = ascanLevels(battle && battle.samples, "bad");
-    const good = ascanLevels(battle && battle.samples, "good");
-    if (bad.length < 5 || !good.length) return null;   // too thin to plot honestly
-    const curve = DIAL_STOPS.map((L) => ({
-      l: L, det: Math.round(firesAt(bad, L)), fp: Math.round(firesAt(good, L)),
+    const raw = battle && battle.ascan_curve;
+    if (!Array.isArray(raw) || raw.length < 2) return null;
+    const pct = (n, d) => (d ? Math.round((100 * n) / d) : 0);
+    const out = raw.map((p) => ({
+      l: p.level,
+      det: pct(p.caught, p.cohort_n),
+      fp: pct(p.fp_flagged, p.fp_cohort_n),
+      hostile: p.hostile, suspicious: p.suspicious,
+      fpHostile: p.fp_hostile, fpSuspicious: p.fp_suspicious,
     }));
-    // A flat curve means every sample fired at one stop — nothing to show.
-    return curve.some((c) => c.det !== curve[0].det) ? curve : null;
+    // A flat curve is one operating point wearing nine labels — draw the dot instead.
+    return out.some((c) => c.det !== out[0].det || c.fp !== out[0].fp) ? out : null;
   }
 
   eleventyConfig.addFilter("ascanCurve", ascanCurve);
@@ -395,10 +383,11 @@ module.exports = function(eleventyConfig) {
       }
       // Label the ends and the shipped default; the rest are drawn but unlabelled,
       // so the curve reads as a range rather than a table of nine numbers.
+      const topLevel = curve[curve.length - 1].l;
       for (const v of verts) {
         v.label = v.lLo === 0 ? "-l 0"
           : (v.lLo <= DIAL_DEFAULT && v.lHi >= DIAL_DEFAULT ? "-l " + DIAL_DEFAULT + " · default"
-          : (v.lHi === DIAL_STOPS[DIAL_STOPS.length - 1] ? "-l " + v.lHi : null));
+          : (v.lHi === topLevel ? "-l " + v.lHi : null));
         v.sub = v.det + "% caught" + (v.fp === 0 ? " · no false alarms" : "");
       }
       curveGeo = {
