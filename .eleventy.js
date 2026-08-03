@@ -381,13 +381,15 @@ module.exports = function(eleventyConfig) {
         if (prev && prev.det === c.det && prev.fp === c.fp) { prev.lHi = c.l; continue; }
         verts.push({ det: c.det, fp: c.fp, lLo: c.l, lHi: c.l, x: xOf(c.det), y: yOf(c.fp) });
       }
-      // Label the ends and the shipped default; the rest are drawn but unlabelled,
-      // so the curve reads as a range rather than a table of nine numbers.
+      // Label the shipped default and the top of the grid only. The strictest end
+      // is drawn but left bare: its catch rate is the weakest number on the chart and
+      // it swings hardest between cohorts, while the argument here is that a curve
+      // exists at all — not what its most conservative point scored last night. The
+      // marker keeps its tooltip, and the series name anchors that end regardless.
       const topLevel = curve[curve.length - 1].l;
       for (const v of verts) {
-        v.label = v.lLo === 0 ? "-l 0"
-          : (v.lLo <= DIAL_DEFAULT && v.lHi >= DIAL_DEFAULT ? "-l " + DIAL_DEFAULT + " · default"
-          : (v.lHi === topLevel ? "-l " + v.lHi : null));
+        v.label = (v.lLo <= DIAL_DEFAULT && v.lHi >= DIAL_DEFAULT) ? "-l " + DIAL_DEFAULT + " · default"
+          : (v.lHi === topLevel ? "-l " + v.lHi : null);
         v.sub = v.det + "% caught" + (v.fp === 0 ? " · no false alarms" : "");
       }
       curveGeo = {
