@@ -16,11 +16,13 @@ description: How Atomdrift Scan compares to Socket, Aikido, VirusTotal, ClamAV a
   }
 
   /* ---------- hero ---------- */
-  .cmp-hero { display: grid; grid-template-columns: 1.08fr 1fr; gap: 28px; align-items: start; padding: 18px 0 4px; }
+  .cmp-hero { display: grid; grid-template-columns: 1.45fr 1fr; gap: 28px; align-items: start; padding: 18px 0 4px; }
   .cmp-hero .kick { font-family: 'Oxanium', sans-serif; font-size: .66rem; font-weight: 800; letter-spacing: .15em;
                     text-transform: uppercase; color: var(--slate); margin-bottom: 9px; }
+  /* No hard break: a <br> splits at the same word whatever the column width, which
+     is why it read as arbitrary. balance lets the browser even out the lines itself. */
   .cmp-hero h1 { font-family: 'Oxanium', sans-serif; font-size: 2.15rem; font-weight: 800; color: var(--carbon);
-                 letter-spacing: -1.1px; line-height: 1.03; margin: 0; }
+                 letter-spacing: -1.1px; line-height: 1.03; margin: 0; text-wrap: balance; }
   .cmp-hero h1 em { font-style: normal; color: var(--atomdrift-blue); }
   .cmp-hero .say { margin: 12px 0 0; color: var(--iron); line-height: 1.6; font-size: .95rem; }
   .cmp-hero .say b { color: var(--carbon); font-weight: 600; }
@@ -41,29 +43,45 @@ description: How Atomdrift Scan compares to Socket, Aikido, VirusTotal, ClamAV a
          color: var(--iron); white-space: nowrap; }  /* or 'illumos' orphans onto its own line */
   .bdg.hot { border-color: var(--toxic-dark); color: var(--toxic-dark); background: var(--toxic-dim); }
 
-  .proof { background: var(--carbon); border-radius: 12px; padding: 19px 21px; color: #fff;
-           display: flex; flex-direction: column; gap: 11px; }
-  .proof .vs { display: flex; align-items: flex-end; gap: 16px; }
-  .proof .big { font-family: 'Oxanium', sans-serif; font-size: 3.2rem; font-weight: 800; line-height: .82;
-                letter-spacing: -2.5px; color: var(--toxic); }
-  .proof .big small { display: block; font-size: .62rem; font-weight: 800; letter-spacing: .08em; color: #b9bfc9;
-                      margin-top: 8px; text-transform: uppercase; }
-  .proof .them { font-family: 'Oxanium', sans-serif; font-size: 1.7rem; font-weight: 800; line-height: .9;
-                 letter-spacing: -1.2px; color: #8f96a0; padding-bottom: 4px; }
-  .proof .them small { display: block; font-size: .6rem; font-weight: 700; letter-spacing: .06em; color: #71787f;
-                       margin-top: 7px; text-transform: uppercase; }
-  .proof p { margin: 0; font-size: .78rem; line-height: 1.55; color: #d5d9d2; }
-  .proof p b { color: var(--toxic); }
-  .proof .terms { border-top: 1px solid #2a2e28; padding-top: 10px; font-size: .68rem; color: #9aa196; line-height: 1.5; }
+  /* Our own two numbers, not a face-off. The comparison lives in the leaderboard
+     directly below; repeating it here cost width the headline column needed. */
+  .proof { background: var(--carbon); border-radius: 12px; padding: 18px 20px; color: #fff;
+           display: flex; flex-direction: column; gap: 12px; }
+  .proof .scores { display: flex; gap: 26px; }
+  .proof .n { font-family: 'Oxanium', sans-serif; font-size: 2.7rem; font-weight: 800; line-height: .85;
+              letter-spacing: -2px; color: var(--toxic); font-variant-numeric: tabular-nums; }
+  .proof .n.fp { color: #fff; }
+  .proof .l { font-size: .6rem; font-weight: 800; letter-spacing: .09em; color: #b9bfc9; margin-top: 8px;
+              text-transform: uppercase; font-family: 'Oxanium', sans-serif; }
+  .proof .at { font-family: 'SF Mono', Consolas, monospace; font-size: .72rem; color: #d5d9d2;
+               border-top: 1px solid #2a2e28; padding-top: 11px; }
+  .proof .at b { color: var(--toxic); font-weight: 700; }
+  .proof .dial { display: flex; flex-direction: column; gap: 7px; }
+  .proof input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; background: transparent;
+                             margin: 0; cursor: ew-resize; }
+  .proof input[type=range]::-webkit-slider-runnable-track { height: 3px; border-radius: 2px; background: #33382f; }
+  .proof input[type=range]::-moz-range-track { height: 3px; border-radius: 2px; background: #33382f; }
+  .proof input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 13px; height: 13px;
+    border-radius: 50%; background: var(--toxic); margin-top: -5px; transition: transform .12s ease; }
+  .proof input[type=range]::-moz-range-thumb { width: 13px; height: 13px; border: 0; border-radius: 50%;
+    background: var(--toxic); transition: transform .12s ease; }
+  .proof input[type=range]:hover::-webkit-slider-thumb { transform: scale(1.25); }
+  .proof input[type=range]:hover::-moz-range-thumb { transform: scale(1.25); }
+  .proof input[type=range]:focus-visible { outline: 2px solid var(--toxic); outline-offset: 5px; border-radius: 4px; }
+  .proof .ends { display: flex; justify-content: space-between; font-family: 'SF Mono', Consolas, monospace;
+                 font-size: .58rem; color: #71787f; }
+  .proof p { margin: 0; font-size: .74rem; line-height: 1.55; color: #b9bfc9; }
+  .proof p b { color: #eef0f3; font-weight: 600; }
 
   /* ---------- sections ---------- */
   .compare h2 { font-family: 'Oxanium', sans-serif; font-size: 1.05rem; font-weight: 800; color: var(--carbon);
                 border-bottom: 1px solid var(--border); padding-bottom: 6px; margin: 40px 0 4px; letter-spacing: -.3px;
                 display: flex; align-items: baseline; gap: 9px; flex-wrap: wrap; }
   .compare h2 .note { font-family: 'Inter', sans-serif; font-size: .72rem; font-weight: 400; color: var(--slate); }
-  /* One measure for every paragraph on the page. Mixed max-widths were why some
-     paragraphs wrapped at 64ch and others ran the full 1000px column. */
-  .compare .sub, .compare .fig-note, .cmp-hero .say, .replaces { max-width: 68ch; }
+  /* One measure for every paragraph, expressed in rem rather than ch: these blocks
+     run at different font sizes, so a shared ch value gives them different physical
+     widths and the column edge goes ragged where they stack. */
+  .compare .sub, .compare .fig-note, .cmp-hero .say, .replaces { max-width: 34rem; }
   .compare .sub { color: var(--iron); font-size: .88rem; margin: 10px 0 14px; }
   .compare .sub b { color: var(--carbon); font-weight: 600; }
 
@@ -195,7 +213,7 @@ description: How Atomdrift Scan compares to Socket, Aikido, VirusTotal, ClamAV a
   <div class="cmp-hero">
     <div>
       <div class="kick">Atomdrift Scan · zero-day supply-chain detection · Apache-2.0</div>
-      <h1>The open-source malware scanner<br>that <em>doesn't suck</em>.</h1>
+      <h1>The open-source malware scanner that <em>doesn't suck</em>.</h1>
       <p class="say"><b>Probably the best malware scanner in the world</b> — an odd thing to say about something you
         can install in twenty seconds and read the source of. No cloud, no API key, no queue: it decides the first time
         it sees a file, which is the only way to catch a supply-chain attack on day zero.</p>
@@ -213,27 +231,34 @@ description: How Atomdrift Scan compares to Socket, Aikido, VirusTotal, ClamAV a
         <span class="bdg hot">Apache-2.0</span>
         <span class="bdg">{{ providers.ascan.registries | length }} registries</span>
         <span class="bdg">95 file types</span>
-        <span class="bdg">Linux · macOS · BSD · illumos</span>
         <span class="bdg">no telemetry</span>
+        {# Longest badge last: it is ~3x the width of the others, so anything after it
+           gets stranded alone on the next row. #}
+        <span class="bdg">Linux · macOS · BSD · illumos</span>
       </div>
     </div>
 
     {%- if h %}
     <div class="proof">
-      <div class="vs">
-        <div class="big">{{ h.detRate }}%<small>Atomdrift, offline</small></div>
-        {%- if h.bestName %}
-        {# Deliberately unnamed. Which engine comes second changes with the cohort,
-           and headlining whoever it happens to be turns a standing into a feud —
-           the leaderboard immediately below names all eight anyway. #}
-        <div class="them">{{ h.bestDet }}%<small>next best of {{ (battle.detection.leaderboard | length) - 1 }}</small></div>
+      <div class="scores">
+        <div><div class="n">{{ h.detRate }}%</div><div class="l">malware caught</div></div>
+        {%- if h.fpRate != null %}
+        <div><div class="n fp">{{ h.fpRate }}%</div><div class="l">false alarms</div></div>
         {%- endif %}
       </div>
-      <p><b>{{ battle.detection.sample_count }} live malware samples, none older than 48 hours.</b> One offline binary,
-        no network access, no subscription — ahead of <b>all {{ (battle.detection.leaderboard | length) - 1 }}</b>
-        engines it was measured against, commercial ones included.</p>
-      <div class="terms">Same cohort for every engine; a file an engine can't open counts as a miss, ours included.
-        Rebuilt daily, every sample and verdict published below.</div>
+      {%- if curve %}
+      {# Server-rendered at the shipped default, so the numbers above are right with
+         JS off; the slider only ever re-reads values already in the page. #}
+      <div class="dial">
+        <input type="range" id="dial" min="0" max="{{ (curve | length) - 1 }}"
+               value="{{ curve | curveIndex(dialDefault) }}" step="1"
+               aria-label="False-positive budget, -l 0 to -l {{ (curve | last).l }}">
+        <div class="ends"><span>-l 0</span><span>-l {{ (curve | last).l }}</span></div>
+      </div>
+      {%- endif %}
+      <div class="at">at <b id="dial-l">-l {{ dialDefault }}</b> <span id="dial-say">— the shipped default, untuned</span></div>
+      <p><b>{{ battle.detection.sample_count }} live malware samples</b>, none older than 48 hours, against
+        {{ battle.false_positive.sample_count }} known-good packages. Rebuilt daily; every sample published below.</p>
     </div>
     {%- endif %}
   </div>
@@ -248,9 +273,11 @@ description: How Atomdrift Scan compares to Socket, Aikido, VirusTotal, ClamAV a
   {%- if curve %}
   {%- set curveTop = curve | last %}
   {%- set curveDef = curve | curveStop(dialDefault) %}
-  <p class="fig-note">Every engine is scored at its most sensitive setting, ours included: <b>{{ curveTop.det }}% is
-    the top of our dial, {{ curveDef.det }}% is the shipped default</b> — and both beat the field. <b>Grey is
-    scope</b> — engines that only read packages from registries they support can't open the rest of the cohort.</p>
+  <p class="fig-note">Every engine is scored at its most sensitive setting, ours included.
+    <b>{{ curveTop.det }}%</b> is the top of our dial; <b>{{ curveDef.det }}%</b> is the shipped default. Both beat
+    the field.</p>
+  <p class="fig-note">Grey is scope: engines that only read packages from registries they support can't open the rest
+    of the cohort.</p>
   {%- else %}
   <p class="fig-note"><b>Grey is scope</b> — engines that only read packages from registries they support can't open the rest of the cohort.</p>
   {%- endif %}
@@ -493,6 +520,31 @@ description: How Atomdrift Scan compares to Socket, Aikido, VirusTotal, ClamAV a
 
   {%- set badSamples = battle.samples | where("label", "bad") -%}
   {%- set cohortBad = badSamples | whereUnset("excluded") -%}
+  {%- if curve %}
+  <script>
+  (function () {
+    // Every point is a measurement from this run — atomscan's lvl is swept across the
+    // whole grid on each scan, so one pass describes the cohort at every deploy level.
+    const C = {{ curve | dump | safe }}, DEF = {{ dialDefault }};
+    const el = document.getElementById('dial');
+    if (!el || !C.length) return;
+    const det = document.querySelector('.proof .n'), fp = document.querySelector('.proof .n.fp');
+    const lab = document.getElementById('dial-l'), say = document.getElementById('dial-say');
+    const stance = (l) => l === DEF ? '— the shipped default, untuned'
+      : (l === 0 ? '— zero false-positive budget' : (l < DEF ? '— stricter than the default' : '— tuned for recall'));
+    function render() {
+      const c = C[+el.value];
+      if (det) det.textContent = c.det + '%';
+      if (fp) fp.textContent = c.fp + '%';
+      lab.textContent = '-l ' + c.l.toLocaleString('en-US');
+      say.textContent = stance(c.l);
+    }
+    el.addEventListener('input', render);
+    render();
+  })();
+  </script>
+  {%- endif %}
+
   <details class="appendix" id="samples">
     <summary>Appendix — samples and methodology <span class="note">all {{ cohortBad | length }}, every one linked</span></summary>
   <div class="samples">

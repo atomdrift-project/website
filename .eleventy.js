@@ -294,6 +294,15 @@ module.exports = function(eleventyConfig) {
   });
   eleventyConfig.addGlobalData("dialDefault", () => DIAL_DEFAULT);
 
+  // Index of the stop a budget lands on, so the hero's slider can be server-rendered
+  // at the shipped default instead of jumping there once JS runs.
+  eleventyConfig.addFilter("curveIndex", function(curve, l) {
+    if (!curve || !curve.length) return 0;
+    let i = 0;
+    for (let k = 0; k < curve.length; k++) if (curve[k].l <= l) i = k;
+    return i;
+  });
+
   eleventyConfig.addFilter("quadrant", function(battle, providers) {
     const provs = providers || {};
     const det = (battle && battle.detection && battle.detection.leaderboard) || [];
