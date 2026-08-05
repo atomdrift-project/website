@@ -677,6 +677,178 @@ module.exports = function(eleventyConfig) {
     return { ecoMissed: sorted(ecoMissed), typeMissed: sorted(typeMissed) };
   });
 
+  // ---------------------------------------------------------------------------
+  // evidence: the run as a raw sample × engine grid.
+  //
+  // The bars on /compare/ are aggregates, and an aggregate is exactly what a
+  // sceptical reader can't check. This hands back the grid they're computed
+  // from — one row per malware sample, one cell per engine, every cell carrying
+  // the verdict text the engine actually returned — so the claim can be audited
+  // sample by sample instead of taken on trust.
+  //
+  // A cell's tier is the engine's own word for what happened, and the three
+  // ways of not catching something stay separate because they are different
+  // failures: `benign` means it read the file and called it clean, `nodata`
+  // means it looked the package up and had no record (the day-zero case), and
+  // `unsupported` means it never read the bytes at all.
+  //
+  // Rows sort hardest-first: the fewer engines that flagged a sample, the
+  // further up it sits, so the top of the grid is precisely the set the rest of
+  // the field missed rather than a flattering hand-picked selection.
+  // ---------------------------------------------------------------------------
+  eleventyConfig.addFilter("evidence", function(battle, providers, label) {
+    const provs = providers || {};
+    const cohort = label || "bad";
+    // Only engines that actually competed this run get a column — a hosted
+    // engine can drop out (quota, outage) and an empty column would read as a
+    // total miss rather than an absence.
+    const ran = new Set((((battle || {}).detection || {}).leaderboard || []).map(function(s) { return s.scanner; }));
+    const engines = Object.entries(provs)
+      .filter(function([key, p]) { return !p.hidden && ran.has(key); })
+      .sort(function(a, b) { return (a[1].slot || 99) - (b[1].slot || 99); })
+      .map(function([key, p]) { return { key: key, name: p.name || key, hosted: !!p.hosted }; });
+
+    const flagged = (t) => t === "hostile" || t === "suspicious";
+    // How old the package was when the run scanned it. This is the whole point
+    // of the exercise — a verdict on a two-day-old file is a lookup, a verdict
+    // on a six-hour-old one isn't — so it travels with the sample.
+    const generated = Date.parse((battle && battle.generated_at) || "");
+    const rows = [];
+    for (const s of (battle && battle.samples) || []) {
+      if (s.excluded || s.label !== cohort) continue;
+      const cells = engines.map(function(e) {
+        const v = (s.verdicts || []).find(function(x) { return x && x.scanner === e.key; });
+        return {
+          key: e.key,
+          name: e.name,
+          tier: (v && v.tier) || "nodata",
+          detail: (v && v.detail) || "",
+        };
+      });
+      const us = cells.find(function(c) { return c.key === "ascan"; });
+      const created = Date.parse(s.created_at || "");
+      rows.push({
+        sha256: s.sha256,
+        ageHours: (generated && created) ? Math.max(0, Math.round((generated - created) / 3600000)) : null,
+        // purl when the sample came from a registry, filename otherwise — never
+        // `package`, which for feed samples is just the sha256 again.
+        name: s.purl || s.filename || s.sha256,
+        filename: s.filename,
+        ecosystem: s.ecosystem || s.filetype || "file",
+        cells: cells,
+        caught: cells.filter(function(c) { return flagged(c.tier); }).length,
+        usCaught: !!(us && flagged(us.tier)),
+        // Engines that never returned a verdict on this sample — couldn't open
+        // it, or had no record of it.
+        blind: cells.filter(function(c) { return c.tier === "unsupported" || c.tier === "nodata"; }).length,
+      });
+    }
+    rows.sort(function(a, b) { return a.caught - b.caught || String(a.name).localeCompare(String(b.name)); });
+
+    return {
+      engines: engines,
+      rows: rows,
+      total: rows.length,
+      // Samples this run that no other engine flagged, and we did — the column
+      // of the grid that is the whole argument for running it locally.
+      onlyUs: rows.filter(function(r) { return r.usCaught && r.caught === 1; }).length,
+      // The same set as a list, ordered for a page that shows one sample in
+      // full. Fewest excuses first: a sample every other engine was able to
+      // look at and still didn't flag is a stronger case than one they were
+      // never built to open, and it can't be waved away as an unfair file.
+      // Freshest breaks the tie, because age is the rest of the argument.
+      solo: rows.filter(function(r) { return r.usCaught && r.caught === 1; })
+        .sort(function(a, b) {
+          return a.blind - b.blind ||
+            (a.ageHours == null ? 1e9 : a.ageHours) - (b.ageHours == null ? 1e9 : b.ageHours);
+        }),
+      // Samples nobody flagged at all: published, not buried. A benchmark its
+      // own author runs is only worth reading if the losses are on the page too.
+      nobody: rows.filter(function(r) { return r.caught === 0; }).length,
+    };
+  });
+
+  // blindRate: the share of a cohort an engine never returned a verdict on —
+  // files it couldn't open plus packages it had no record of. Detection rates
+  // are quoted over the whole cohort, so this is the part of the score that is
+  // scope rather than skill, and it deserves to be nameable in prose.
+  eleventyConfig.addFilter("blindRate", function(board, scanner) {
+    const s = (board || []).find(function(x) { return x && x.scanner === scanner; });
+    if (!s || !s.supported) return null;
+    const blind = (s.unsupported || 0) + (s.nodata || 0);
+    return { n: blind, of: s.supported, pct: Math.round((100 * blind) / s.supported) };
+  });
+
+  // blindBoard: every engine's blind share of a cohort, worst first — so prose can
+  // name the gap ("four engines never opened half the cohort") from the run rather
+  // than from a number typed into the copy once and left to rot.
+  eleventyConfig.addFilter("blindBoard", function(board, providers) {
+    const provs = providers || {};
+    return (board || [])
+      .filter(function(s) { return s && s.supported; })
+      .map(function(s) {
+        const blind = (s.unsupported || 0) + (s.nodata || 0);
+        return {
+          scanner: s.scanner,
+          name: (provs[s.scanner] || {}).name || s.scanner,
+          n: blind,
+          of: s.supported,
+          pct: Math.round((100 * blind) / s.supported),
+          unsupported: s.unsupported || 0,
+          nodata: s.nodata || 0,
+        };
+      })
+      .sort(function(a, b) { return b.pct - a.pct; });
+  });
+
+  // ---------------------------------------------------------------------------
+  // classBoard: the field grouped the way a buyer groups it — services you rent
+  // vs open-source scanners you run vs us — with each group's measured range.
+  //
+  // A three-column decision table needs one honest cell per group, and a range
+  // is the honest cell: quoting the weakest rented service as "what SaaS
+  // scores" would be a strawman, and quoting the strongest would understate the
+  // spread a reader will see in the bars two sections down. The membership test
+  // is providers.json's own `hosted` flag, so nothing is sorted by hand.
+  // ---------------------------------------------------------------------------
+  eleventyConfig.addFilter("classBoard", function(board, providers) {
+    const provs = providers || {};
+    const stat = (s) => {
+      const rate = flaggedRate(s);
+      const blind = (s.unsupported || 0) + (s.nodata || 0);
+      return {
+        key: s.scanner,
+        name: (provs[s.scanner] || {}).name || s.scanner,
+        rate: rate === null ? null : Math.round(rate),
+        blind: blind,
+        unsupported: s.unsupported || 0,
+        of: s.supported || 0,
+      };
+    };
+    const group = (rows) => {
+      const rates = rows.map(function(r) { return r.rate; }).filter(function(v) { return v !== null; });
+      const unsup = rows.map(function(r) { return r.unsupported; });
+      const blind = rows.map(function(r) { return r.blind; });
+      return {
+        blindLo: blind.length ? Math.min.apply(null, blind) : null,
+        blindHi: blind.length ? Math.max.apply(null, blind) : null,
+        rows: rows.sort(function(a, b) { return (b.rate || 0) - (a.rate || 0); }),
+        names: rows.map(function(r) { return r.name; }),
+        lo: rates.length ? Math.min.apply(null, rates) : null,
+        hi: rates.length ? Math.max.apply(null, rates) : null,
+        unsupLo: unsup.length ? Math.min.apply(null, unsup) : null,
+        unsupHi: unsup.length ? Math.max.apply(null, unsup) : null,
+        of: rows.length ? rows[0].of : 0,
+      };
+    };
+    const all = (board || []).filter(function(s) { return s && !((provs[s.scanner] || {}).hidden); }).map(stat);
+    return {
+      rented: group(all.filter(function(r) { return (provs[r.key] || {}).hosted && r.key !== "ascan"; })),
+      oss: group(all.filter(function(r) { return !(provs[r.key] || {}).hosted && r.key !== "ascan"; })),
+      us: all.find(function(r) { return r.key === "ascan"; }) || null,
+    };
+  });
+
   // errorLines: one "package — detail" line per scanner error within a cohort
   // (label bad/good, excluded samples omitted) — the errored bar segment's
   // mouseover on the /compare/ benchmark charts.
