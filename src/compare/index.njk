@@ -212,25 +212,22 @@ description: How Atomdrift Scan compares to Socket, Aikido, VirusTotal, ClamAV a
 
   <div class="cmp-hero">
     <div>
-      <div class="kick">Atomdrift Scan · zero-day supply-chain detection · Apache-2.0</div>
-      <h1>The open-source malware scanner that <em>doesn't suck</em>.</h1>
-      <p class="say"><b>Probably the best malware scanner in the world</b> — an odd thing to say about something you
-        can install in twenty seconds and read the source of. No cloud, no API key, no queue: it decides the first time
-        it sees a file, which is the only way to catch a supply-chain attack on day zero.</p>
-      {# The durable claim. A rival can out-detect us next week — detection leads are
-         temporary. None of them can become something you embed, air-gap, or fork. #}
-      <p class="replaces">Replaces <b>Socket</b>, <b>Aikido</b>, <b>ReversingLabs</b>. A rival might out-detect us
-        next week — none of them can be air-gapped, embedded in a product you sell, or forked.</p>
+      <div class="kick">Atomdrift Scan · supply-chain malware detection · Apache-2.0</div>
+      <h1>Open-source malware scanning on <em>your</em> infrastructure.</h1>
+      <p class="say">Scan source, binaries, packages, archives, URLs, and running processes with local static analysis
+        and ONNX models. No cloud scanner or API key is required, and every verdict includes the capabilities that drove it.</p>
+      <p class="replaces">Built for security teams that need an inspectable CLI, an air-gap mode, CI-friendly exit codes,
+        or an engine they can embed and self-host.</p>
       <div class="cta-row">
         <a class="cta cta-primary" href="/scan/">Install it →</a>
         <a class="cta" href="#how">How it decides</a>
         <a class="cta" href="#samples">See every sample</a>
       </div>
-      <div class="instl">brew install atomdrift/tap/scan</div>
+      <div class="instl">brew tap atomdrift/tap https://github.com/atomdrift-project/homebrew-tap.git<br>brew install atomdrift/tap/scan</div>
       <div class="badges">
         <span class="bdg hot">Apache-2.0</span>
         <span class="bdg">{{ providers.ascan.registries | length }} registries</span>
-        <span class="bdg">95 file types</span>
+        <span class="bdg">100+ file types</span>
         <span class="bdg">no telemetry</span>
         {# Longest badge last: it is ~3x the width of the others, so anything after it
            gets stranded alone on the next row. #}
@@ -480,11 +477,10 @@ description: How Atomdrift Scan compares to Socket, Aikido, VirusTotal, ClamAV a
     are at least two.</div>
   {%- endif %}
 
-  <h2 id="how">Why it wins <span class="note">everyone else looks it up — this one works it out</span></h2>
-  <p class="sub">A hosted scanner asks a database what somebody else concluded. Nobody has looked at a day-zero
-    package, so the answer is <em>no record</em> — and your gate reads that as <em>clean</em>. <b>Atomdrift asks
-    nobody.</b> It disassembles the file, names what the code can <em>do</em> against 85,000 capability rules, and
-    scores the combination locally. <a class="lnk" href="/scan/how-it-works/">How it works →</a></p>
+  <h2 id="how">How it differs <span class="note">static analysis in addition to reputation</span></h2>
+  <p class="sub">Reputation is useful for known files, but a newly published package may have no record. Atomdrift
+    checks known-good and known-bad hashes first, then unpacks the artifact, extracts capabilities from its code and
+    structure, and scores that evidence locally. <a class="lnk" href="/scan/how-it-works/">How it works →</a></p>
 
   <h2 id="yours">It's yours <span class="note">Apache-2.0 — embed it, fork it, ship it in something you sell</span></h2>
   <p class="sub">Socket, Aikido, SafeDep and VirusTotal are services you rent. That's not a licensing detail — it
@@ -505,17 +501,17 @@ description: How Atomdrift Scan compares to Socket, Aikido, VirusTotal, ClamAV a
       <span class="lbl">A scanner you own</span>
       <ul>
         <li>Apache-2.0. Free at any volume, forever</li>
-        <li>One static binary. Runs air-gapped, on five operating systems</li>
+        <li>Runs air-gapped after bundles are installed</li>
         <li>Embed it in your own product and sell that</li>
-        <li>Every rule is a YAML file in a public repo</li>
+        <li>Engine, traits, and model bundles are inspectable</li>
         <li>Fix it yourself this afternoon, or fork it</li>
-        <li>Nothing leaves your network. Ever</li>
+        <li>Files are analyzed locally; update and reference fetching are controllable</li>
       </ul>
     </div>
   </div>
-  <p class="sub" style="margin-top:14px"><b>5,027,887 rules</b> ship with it, and <b>every one is a YAML file in a
-    public repo</b> — nobody else lets you read the rule that flagged your build, let alone change it. It runs four
-    ways, all returning the same JSON, so the integration you write once scales from a git hook to a registry.</p>
+  <p class="sub" style="margin-top:14px">Run <code>atomscan version</code> to inspect the exact traits, YARA rules,
+    bloom filters, and ONNX models installed on a machine. The same engine is available as a CLI, library, HTTP service,
+    or distributed worker, so teams can move from a workstation to a scan fleet without changing the analysis model.</p>
   </div>
 
   {%- set badSamples = battle.samples | where("label", "bad") -%}
@@ -569,9 +565,9 @@ description: How Atomdrift Scan compares to Socket, Aikido, VirusTotal, ClamAV a
   <div class="closer">
     <div>
       <h4>Point it at your dependencies.</h4>
-      <p>Apache-2.0 · runs offline · twenty seconds to first scan</p>
+      <p>Apache-2.0 · local analysis · explicit offline mode</p>
     </div>
-    <div class="inst">brew install atomdrift/tap/scan</div>
+    <div class="inst">brew tap atomdrift/tap https://github.com/atomdrift-project/homebrew-tap.git<br>brew install atomdrift/tap/scan</div>
   </div>
 
 </div>

@@ -12,38 +12,42 @@ title: "azoth — Open-Source AI Model for General Malware Detection"
       <h1 class="visually-hidden">azoth</h1>
     </div>
 
-    <p>Azoth answers one question: is this file malicious? It reads
+    <p>Azoth is the open model bundle behind
+    <a href="/scan/">Atomdrift Scan</a>. It reads
     <a href="/cleave/">cleave</a>'s output —
     <a href="https://attack.mitre.org/" target="_blank">MITRE ATT&amp;CK</a>
     techniques and
     <a href="https://github.com/MBCProject/mbc-markdown" target="_blank">MBC</a>
-    behaviors extracted from the sample — and returns a label
-    (<code>benign</code>, <code>suspicious</code>, <code>hostile</code>),
-    a calibrated probability, and the specific capabilities that drove
-    the call.</p>
+    behaviors extracted from the sample — and produces route-specific model
+    scores and hostile operating points. Scan applies the selected
+    false-positive budget and derives its user-facing benign, suspicious, or
+    hostile verdict.</p>
 
-    <p>Anything cleave can decompose, azoth can classify: binaries
-    in six formats (ELF, PE, Mach-O, Java <code>.class</code>,
-    Python <code>.pyc</code>, compiled AppleScript), source in 20+
-    languages, and packaged forms (Python wheels, npm modules, VS
-    Code extensions).</p>
+    <p>Anything cleave can decompose can be represented for Azoth: more than
+    100 source, binary, bytecode, package, archive, document, and configuration
+    formats. A general model covers every recognized input; file-group and
+    file-type specialists handle formats with enough training data.</p>
 
-    <p>Everything runs locally. CPU only, no network, no telemetry,
-    no per-call cost. Weights, the training pipeline, and the
-    capability schema are Apache 2.0;
-    <a href="/scan/">Atomdrift Scan</a> is the reference scanner.</p>
+    <p>Inference runs locally on CPU with no cloud scoring, telemetry, or
+    per-call cost. Weights, the training pipeline, and the capability schema
+    are Apache 2.0. Install Atomdrift Scan if you want a scanner; Azoth itself
+    is model data and documentation, not a standalone end-user CLI.</p>
 
     <h2>What azoth does not do</h2>
     <p>It does not execute samples. It does not read bytes. If cleave
     cannot decompose a sample — unrecognized packer, dynamic loader
     it cannot follow, control flow it cannot reconstruct — azoth
-    returns clean. The classifier is bounded by the feature pipeline
-    beneath it: the failure modes are inspectable, and what fools
-    azoth would fool a human reading cleave's output.</p>
+    cannot recover — for example an unsupported packer or behavior visible only
+    at runtime — the model cannot score that missing evidence. Treat a benign
+    verdict as one static-analysis signal, not proof that a file is safe.</p>
 
-    <p>The reverse holds too. Recompiling, repacking, or shuffling
-    strings does not change the input — azoth scores capabilities,
-    not surface.</p>
+    <h2>Use the bundle</h2>
+    <pre class="install-block">atomscan --model-dir /path/to/azoth suspect.bin</pre>
+    <p>The bundle contains <code>config.json</code>, route-specific
+    <code>feature_spec.json</code> files, and ONNX models. Routes may ship one
+    <code>model.onnx</code> or a <code>models/seed_*.onnx</code> ensemble. The
+    current deployed bundle defaults to L25 (0.25 expected false positives per
+    million benign files).</p>
 
     <h2>Design</h2>
     <p><strong>No prompt injection.</strong> There is no instruction

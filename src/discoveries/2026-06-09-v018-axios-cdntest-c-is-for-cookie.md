@@ -195,4 +195,3 @@ The miner is dead on arrival, but the cookie grab fires on every page load from 
 | Exfil webhook | `https://webhook.site/ef6e7978-f936-4664-b3ff-296a250e1735` |
 | Mining pool | `pool.supportxmr.com:4444` |
 | Monero wallet | `44AFFq5kSiGBoZ4NMDwYtN18obc8AemS33DBLWs3H7otXft3XjrpDtQGv7SqSsaBYBb98uNbr2VBBEt7f2wfn3RVGQBEP3A` |
-</content>

@@ -109,4 +109,3 @@ This is North Korea's Contagious Interview operation — the BeaverTail loader d
 | Exfil endpoint | `http://216.126.225.83/api/service/makelog` |
 | Campaign UID | `55dfb627190b5091e5164c010d6c5c52` (telemetry `t='104'`) |
 | Facade dependency | `execp` (Nickel Alley / BeaverTail IOC) |
-</content>

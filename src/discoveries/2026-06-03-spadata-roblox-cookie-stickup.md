@@ -63,4 +63,3 @@ There's no persistence, no second stage, and no obfuscation past the try/except 
 | `__init__.py` SHA-256 | [`44788ac7ba1cb54093f6edf2382da25047564417ef4223ff94c110116c83c90c`](https://lab.atomdrift.org/file/44788ac7ba1cb54093f6edf2382da25047564417ef4223ff94c110116c83c90c) |
 | Discord webhook | `https://discord.com/api/webhooks/1501511921185325186/0-lN4d-dYtJXAI0Wzf_ay225eK_DzM3Prp8-uTh4CVVt-1gDPJHG0SEZL7Pe9GCAQcOT` |
 | Cookie file read | `%USERPROFILE%\AppData\Local\Roblox\LocalStorage\robloxcookies.dat` |
-</content>

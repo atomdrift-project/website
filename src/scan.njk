@@ -18,20 +18,18 @@ tool: scan
     malware behavior is captured, labeled, and folded back through
     cyclotron, Atomdrift's live training loop.
     <em>(Scan was previously released as litmus.)</em></p>
-    <p>Hand it a path; it scans, classifies, and exits with a
-    status code your CI can act on. Whatever
-    <a href="/cleave/">cleave</a> decomposes, Scan classifies —
-    across 20+ languages and six binary formats. Everything runs
-    locally and deterministically: the same input always yields the same
-    verdict — no network, no API keys, no telemetry, no probabilistic
-    LLM output.</p>
+    <p>Hand it a path; it scans, classifies, and exits with a status code
+    your CI can act on. Whatever <a href="/cleave/">cleave</a> decomposes,
+    Scan classifies — more than 100 source, binary, package, archive,
+    document, and configuration formats. Files and model inference stay on
+    your machine; no cloud scanner, API key, or GPU is required.</p>
     <p>Today it scores capabilities with <a href="/azoth/">azoth</a>,
     our weighted-ensemble model for context-free malware detection — now
     the default. Every verdict ships with a list of the
     capabilities that drove the score, computed on the live model rather
     than a post-hoc story. Severity is a false-positive budget, not a
     fixed scale: tell Scan how many false positives per 100M benign
-    files you'll tolerate (<code>-l</code>, default L50) and that's the
+    files you'll tolerate (<code>-l</code>, default L25) and that's the
     gate. Use <code>-l 0</code> when a single false positive is
     unacceptable, higher when you'd rather not miss anything.</p>
 
@@ -40,14 +38,15 @@ tool: scan
       <li><strong>File scanning</strong> — files, directories, and archives, classified against <a href="/azoth/">azoth</a> by default</li>
       <li><strong>Process scanning</strong> — running processes, via the on-disk image (memory-resident analysis is not yet implemented)</li>
       <li><strong>Explainable verdicts</strong> — every score ships with a ranked list of the capabilities that drove it</li>
-      <li><strong>Local-LLM second opinion</strong> — <code>--interpret</code> sends tricky samples to a local LLM for a verdict and one-line reason, blended with the ML score</li>
+      <li><strong>Optional LLM second opinion</strong> — <code>--llm</code> sends extracted evidence to an OpenAI-compatible endpoint and blends the response with the ML verdict</li>
       <li><strong>Pluggable models</strong> — runs any model trained on cleave's capability schema; <code>--model-dir</code> swaps in a custom bundle</li>
     </ul>
 
-    <p>Differential analysis — comparing two versions of a package to
-    surface newly-introduced malicious capabilities — is in development.
-    It's aimed at catching compromised dependency updates, where the
-    signal is the diff, not the artifact.</p>
+    <p><strong>Network behavior:</strong> analysis is local, but the CLI
+    downloads bundles on first use, refreshes stale bundles, and follows
+    referenced packages and URLs by default. After setup, use
+    <code>SCAN_NO_UPDATE_CHECK=1 atomscan --no-update --fetch=none …</code>
+    for a fully offline run.</p>
 
     <h2>Install</h2>
 
@@ -61,11 +60,17 @@ brew install atomdrift/tap/scan
     <p>From source:</p>
     <pre class="install-block">
 git clone --depth 1 https://github.com/atomdrift-project/scan.git
+cd scan
 make install
 </pre>
 
     <h2>Usage</h2>
-    <pre class="install-block">$ atomscan path &lt;path&gt;</pre>
+    <pre class="install-block">$ atomscan &lt;path&gt;
+$ atomscan -f json &lt;path&gt;    # machine-readable output</pre>
+
+    <p>The first scan downloads the open model, rule, and bloom-filter
+    bundles. Run <code>atomscan version</code> to see the exact inventory
+    installed on your machine.</p>
 
     <p style="margin-top: 12px; font-size: 0.8125rem;">For more thorough results, install
     <a href="https://github.com/rizinorg/rizin" target="_blank">Rizin</a> (binary reverse-engineering) and
@@ -90,8 +95,8 @@ make install
 
     <h3>Project Info</h3>
     <dl class="stats">
-      <dt>Version</dt><dd>2.3.0</dd>
-      <dt>Release Date</dt><dd>2026-07-11</dd>
+      <dt>Version</dt><dd>2.5.0</dd>
+      <dt>Release Date</dt><dd>2026-08-04</dd>
       <dt>License</dt><dd>Apache 2.0</dd>
       <dt>Language</dt><dd>Rust</dd>
     </dl>

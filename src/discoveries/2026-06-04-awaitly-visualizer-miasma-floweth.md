@@ -99,4 +99,3 @@ Strip the costume and it's an ordinary credential stealer; the worm part is the 
 | Republished artifact | `package-updated.tgz` |
 | Exfil artifact | `results/results-<timestamp>.json` |
 | IDE backdoors injected | `.claude/setup.mjs`, `.cursor/rules/setup.mdc`, `.vscode/tasks.json` |
-</content>

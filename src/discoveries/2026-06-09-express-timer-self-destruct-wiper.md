@@ -88,5 +88,3 @@ Every archive also carries a file no code loads: a 570-line scraper for the Isla
 | `ibbl_statment.php` SHA-256 (all three versions) | [`1a29874be6538470d99c55ea6de2cc95e44d1c8187fde1eba75dcd01cde728f0`](https://lab.atomdrift.org/file/1a29874be6538470d99c55ea6de2cc95e44d1c8187fde1eba75dcd01cde728f0) |
 | Injected host-file marker | `SELF-DESTRUCT-ARMED` |
 | Hardcoded email | `mohiuddin767272@gmail.com` |
-</content>
-</invoke>

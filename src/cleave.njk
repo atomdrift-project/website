@@ -14,8 +14,10 @@ tool: cleave
     </div>
     {% include "docs-nav.njk" %}
     <p>cleave answers one question — <em>what can this program do?</em>
-    It extracts capabilities from binaries, source, and archives, scoring
-    each against <strong>60,000+ behavior rules</strong> aligned to
+    It extracts capabilities from binaries, source, documents, packages, and
+    archives, matching them against the public
+    <a href="https://github.com/atomdrift-project/traits" target="_blank">Atomdrift traits</a>
+    rule set aligned broadly to
     <a href="https://github.com/MBCProject/mbc-markdown" target="_blank">MBC</a> and
     <a href="https://attack.mitre.org/" target="_blank">MITRE ATT&amp;CK</a>.
     Apache-2.0, no telemetry.</p>
@@ -30,28 +32,36 @@ tool: cleave
 
     <h2>What cleave analyzes</h2>
     <ul class="feature-list">
-      <li><strong>Binaries</strong> — Mach-O, ELF, PE, MSI, CHM, PyInstaller, Java <code>.class</code>, Python <code>.pyc</code>, Python pickle, compiled AppleScript</li>
-      <li><strong>Source</strong> (~22 langs, tree-sitter) — Python, JS/TS, Go, Rust, C/C++, Java, Kotlin, C#, Swift, ObjC, Ruby, PHP, Perl, Lua, Shell, PowerShell, Groovy, Scala, Zig, Elixir, Batch, VBScript, Makefile</li>
+      <li><strong>Binaries and bytecode</strong> — Mach-O, ELF, PE, WebAssembly, Android DEX, BEAM, MSI, CHM, PyInstaller, Java <code>.class</code>, Python <code>.pyc</code>, static libraries</li>
+      <li><strong>Source</strong> (24+ languages, tree-sitter) — Python, JS/TS, Go, Rust, C/C++, Java, Kotlin, C#, Swift, ObjC, Ruby, PHP, Perl, Lua, Shell, PowerShell, Groovy, Scala, Zig, Elixir, Clojure, Batch, VBScript</li>
       <li><strong>Archives</strong> (recursive) — zip, tar (gz/bz2/xz/zst), 7z, rar, cab, jar/war, deb, rpm, pkg, apk, gem, crate, whl, nupkg, phar, vsix, xpi, crx, ipa, epub</li>
       <li><strong>Documents &amp; data</strong> — PDF structure, RTF, LNK shortcut metadata, Office (OLE2 + OOXML), OpenDocument, plist, HTML, XML, Markdown, PNG/JPEG, package manifests, GitHub Actions, systemd units, XDG <code>.desktop</code></li>
     </ul>
 
-    <h2>AI-derived rulesets</h2>
-    <p>The 60,000+ rules are a mix. The hand-written ones are precise for
+    <h2>Open, inspectable rules</h2>
+    <p>The rule set is a mix. The hand-written rules are precise for
     patterns humans understand well. The AI-derived ones come from a
     training corpus of about a million samples and cover the long tail
     across 20+ languages — territory no team is going to keep up with by
     hand.</p>
     <p>The AI runs at build time, not at runtime. The cleave you ship is
-    deterministic: same input, same output, every run. No model weights
-    loaded, no GPU, no network, no telemetry. If you don't trust that,
-    the rules are in the source tree.</p>
+    deterministic given the same input, traits, options, and analysis tools.
+    No runtime AI model, GPU, or sample upload is required. Reports include an
+    analysis timestamp, so serialized bytes differ between runs.</p>
+
+    <p>The first analysis downloads the compatible traits bundle if it is not
+    installed. cleave also performs a best-effort release notice check at most
+    once every 24 hours. Set <code>CLEAVE_NO_UPDATE_CHECK=1</code> after setup
+    to suppress that check.</p>
 
     <h2>Install</h2>
-<pre class="install-block">
-brew install atomdrift/tap/cleave             # macOS / Linux
-make install                                  # via cargo
-</pre>
+<pre class="install-block">brew tap atomdrift/tap https://github.com/atomdrift-project/homebrew-tap.git
+brew install atomdrift/tap/cleave             # macOS / Linux</pre>
+
+    <p>From source (Rust 1.94+):</p>
+<pre class="install-block">git clone https://github.com/atomdrift-project/cleave.git
+cd cleave
+make install</pre>
 
     <h2>Usage</h2>
 <pre class="install-block">cleave suspect.bin                            # single sample
@@ -82,8 +92,8 @@ cleave --format jsonl --min-crit suspicious   # streaming JSON for pipelines</pr
 
     <h3>Project Info</h3>
     <dl class="stats">
-      <dt>Version</dt><dd>2.3.0</dd>
-      <dt>Release Date</dt><dd>2026-07-11</dd>
+      <dt>Version</dt><dd>2.5.0</dd>
+      <dt>Release Date</dt><dd>2026-08-04</dd>
       <dt>License</dt><dd>Apache 2.0</dd>
       <dt>Language</dt><dd>Rust</dd>
     </dl>

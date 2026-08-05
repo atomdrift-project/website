@@ -75,5 +75,3 @@ Strip the costume and this is the [shop-minis](/discoveries/2026/05/shop-minis-b
 | Stage-2 index.js SHA-256 | [`e9105cfb50a1d8d3d8cabbc1a8dfd0a04966d00bbdd8707d65001e930f842bf5`](https://lab.atomdrift.org/file/e9105cfb50a1d8d3d8cabbc1a8dfd0a04966d00bbdd8707d65001e930f842bf5) |
 | Stage-2 test.js SHA-256 | [`6470d87928dbb2ee3950ec33cbc30d1809bf395fadb98cf0d91d6f6e8115d4b0`](https://lab.atomdrift.org/file/6470d87928dbb2ee3950ec33cbc30d1809bf395fadb98cf0d91d6f6e8115d4b0) |
 | OOB callback | `http://<data>.ux-foundry.wwwz15e554m201wwajfl7m1ey54z1nq.oastify.com` |
-</content>
-</invoke>
