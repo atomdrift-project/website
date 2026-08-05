@@ -2,3 +2,10 @@
 # litmus was renamed to Atomdrift Scan (scan) in v2.0.0.
 /litmus     /scan/   301
 /litmus/    /scan/   301
+
+# Discoveries were folded into News (one page, one feed) on 2026-08-04. Only the
+# index and its feed move; individual post-mortems keep their /discoveries/YYYY/MM/
+# URLs, which these exact-path rules do not touch.
+/discoveries            /news/      301
+/discoveries/           /news/      301
+/discoveries/feed.xml   /feed.xml   301

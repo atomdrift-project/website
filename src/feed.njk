@@ -8,9 +8,9 @@ eleventyExcludeFromCollections: true
   <link href="https://atomdrift.org/feed.xml" rel="self"/>
   <link href="https://atomdrift.org/"/>
   <id>https://atomdrift.org/</id>
-  {%- set latestPost = collections.news | reverse | first %}
+  {%- set latestPost = collections.posts | first %}
   <updated>{{ latestPost.date | dateDisplay }}T00:00:00Z</updated>
-  {%- for post in collections.news | reverse %}
+  {%- for post in collections.posts %}
   <entry>
     <title>{{ post.data.title }}</title>
     <link href="https://atomdrift.org{{ post.url }}"/>

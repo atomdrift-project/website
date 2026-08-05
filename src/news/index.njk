@@ -7,12 +7,20 @@ eleventyExcludeFromCollections: true
 
 <div class="main-full">
   <h2 class="content" style="margin-top: 0;">News <a href="/feed.xml" class="rss-link" title="RSS Feed"><svg class="rss-icon" viewBox="0 0 24 24" fill="currentColor"><circle cx="6.18" cy="17.82" r="2.18"/><path d="M4 4.44v2.83c7.03 0 12.73 5.7 12.73 12.73h2.83c0-8.59-6.97-15.56-15.56-15.56zm0 5.66v2.83c3.9 0 7.07 3.17 7.07 7.07h2.83c0-5.47-4.43-9.9-9.9-9.9z"/></svg></a></h2>
+  <p class="post-summary" style="margin-bottom: 22px;">Releases and project news, plus short malware post-mortems from packages and binaries seen by Atomdrift tooling.</p>
   <ul class="post-list news-list">
-    {%- for post in collections.news | reverse %}
+    {%- for post in collections.posts %}
+    {%- set thumb = post.templateContent | firstImage %}
     <li class="post-item">
-      <span class="post-date">{{ post.date | dateDisplay }}</span>
-      <a href="{{ post.url }}" class="post-title">{{ post.data.title }}</a>
-      {% if post.data.summary %}<p class="post-summary">{{ post.data.summary }}</p>{% endif %}
+      <a href="{{ post.url }}" class="post-thumb" aria-hidden="true" tabindex="-1">
+        {% if thumb %}<img src="{{ thumb }}" alt="" loading="lazy" width="56" height="56">
+        {% else %}<span class="post-thumb-empty">◆</span>{% endif %}
+      </a>
+      <div class="post-body">
+        <span class="post-date">{{ post.date | dateDisplay }}{% if post.data.ecosystem %} &middot; {{ post.data.ecosystem }}{% endif %}{% if post.data.packageName %} &middot; {{ post.data.packageName }}{% endif %}</span>
+        <a href="{{ post.url }}" class="post-title">{{ post.data.title }}</a>
+        {% if post.data.summary %}<p class="post-summary">{{ post.data.summary }}</p>{% endif %}
+      </div>
     </li>
     {%- endfor %}
   </ul>

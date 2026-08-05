@@ -47,6 +47,18 @@ module.exports = function(eleventyConfig) {
     };
   });
 
+  // Everything we publish, newest first: release notes and project news from
+  // src/news, malware post-mortems from src/discoveries. They share one page and
+  // one feed — a reader following the project wants both, and splitting them
+  // meant a discovery could only be found by someone who already knew to look.
+  // Each post keeps its own tag (and so its own permalink shape), so a template
+  // can still tell the two apart; see the listing's per-type meta line.
+  eleventyConfig.addCollection("posts", function(api) {
+    return api.getFilteredByTag("news")
+      .concat(api.getFilteredByTag("discoveries"))
+      .sort(function(a, b) { return b.date - a.date; });
+  });
+
   eleventyConfig.addFilter("dateDisplay", function(date) {
     if (!date) return "";
     const d = new Date(date);
