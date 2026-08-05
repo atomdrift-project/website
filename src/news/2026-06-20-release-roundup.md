@@ -13,5 +13,5 @@ Three tools, one theme: the stack got a lot better at reading what packages actu
 **[filefacts](https://github.com/atomdrift-project/filefacts) v1.1.0 & v1.1.1** turn it into a proper supply-chain reader: external reference extraction (PURLs, URLs, evidence, offsets, hashes) and real package/lockfile parsing for npm, PyPI, Cargo, Go, Ruby, Composer, and Arch. New file types land too — lockfiles, `go.mod`, `go.sum`, `.SRCINFO`, and DMG — alongside source call-target metrics that flag obfuscated command targets. v1.1.1 follows with a hermetic open for cache-less testing and a missing DMG support file. [Release notes](https://github.com/atomdrift-project/filefacts/releases/tag/v1.1.0).
 
 ```
-brew upgrade atomdrift/tap/cleave atomdrift/tap/stng atomdrift/tap/filefacts
+brew upgrade atomdrift-project/tap/cleave atomdrift-project/tap/stng atomdrift-project/tap/filefacts
 ```

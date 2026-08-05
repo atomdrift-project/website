@@ -7,8 +7,7 @@ title: "Getting started"
 On macOS or Linux:
 
 ```bash
-brew tap atomdrift/tap https://github.com/atomdrift-project/homebrew-tap.git
-brew install atomdrift/tap/cleave
+brew install atomdrift-project/tap/cleave
 ```
 
 Or build with Rust 1.94 or newer:

@@ -23,8 +23,7 @@ Views are lazy: reading metrics does not force every other extractor to run.
 On macOS or Linux:
 
 ```bash
-brew tap atomdrift/tap https://github.com/atomdrift-project/homebrew-tap.git
-brew install atomdrift/tap/filefacts
+brew install atomdrift-project/tap/filefacts
 ```
 
 Or build with Rust 1.85 or newer:

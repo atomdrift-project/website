@@ -34,8 +34,7 @@ filefacts = "1.3"
 As a CLI on macOS or Linux:
 
 ```bash
-brew tap atomdrift/tap https://github.com/atomdrift-project/homebrew-tap.git
-brew install atomdrift/tap/filefacts
+brew install atomdrift-project/tap/filefacts
 ```
 
 ## Quick start

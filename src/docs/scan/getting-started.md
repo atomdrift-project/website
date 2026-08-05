@@ -4,12 +4,25 @@ title: "Getting started"
 
 ## Install
 
-On macOS or Linux:
+On macOS, Linux, BSD, Solaris, illumos, or Android:
 
 ```bash
-brew tap atomdrift/tap https://github.com/atomdrift-project/homebrew-tap.git
-brew install atomdrift/tap/scan
+curl -fsSL https://install.atomdrift.org/scan.sh | sh
 ```
+
+On Windows:
+
+```powershell
+irm https://install.atomdrift.org/scan.ps1 | iex
+```
+
+The installer detects the platform, verifies the release checksum, checks build
+provenance when the GitHub CLI is available, and falls back to a source build
+when no binary is published. On macOS and Linux, it delegates to Homebrew when
+Homebrew is available so the package manager owns upgrades, PATH, and
+dependencies; pass `--method binary` to use the prebuilt release directly. See the
+[install page](https://install.atomdrift.org/) for supported platforms,
+requirements, downloads, and installer options.
 
 Or build with Rust 1.94 or newer:
 

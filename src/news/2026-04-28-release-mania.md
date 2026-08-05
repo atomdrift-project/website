@@ -27,5 +27,5 @@ The default model (`scan-v16`) is beta. See the README for the caveat. [v1.1.0](
 ---
 
 ```
-brew upgrade atomdrift/tap/stng atomdrift/tap/cleave atomdrift/tap/litmus
+brew upgrade atomdrift-project/tap/stng atomdrift-project/tap/cleave atomdrift-project/tap/litmus
 ```

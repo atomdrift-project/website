@@ -17,5 +17,5 @@ cleave still does what it always did — it now does it through filefacts. Authe
 These are release candidates. Pin if you need stability; otherwise:
 
 ```
-brew upgrade atomdrift/tap/cleave atomdrift/tap/litmus atomdrift/tap/stng
+brew upgrade atomdrift-project/tap/cleave atomdrift-project/tap/litmus atomdrift-project/tap/stng
 ```

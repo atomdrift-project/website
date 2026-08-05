@@ -48,5 +48,5 @@ v2.3.0](https://github.com/atomdrift-project/cleave/releases/tag/v2.3.0) ·
 [scan v2.3.0](https://github.com/atomdrift-project/scan/releases/tag/v2.3.0).
 
 ```
-brew upgrade atomdrift/tap/cleave atomdrift/tap/scan
+brew upgrade atomdrift-project/tap/cleave atomdrift-project/tap/scan
 ```

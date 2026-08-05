@@ -53,7 +53,7 @@ Release notes:
 [scan v2.5.0](https://github.com/atomdrift-project/scan/releases/tag/v2.5.0).
 
 ```
-brew upgrade atomdrift/tap/cleave atomdrift/tap/scan
+brew upgrade atomdrift-project/tap/cleave atomdrift-project/tap/scan
 ```
 
 ::: note One housekeeping note

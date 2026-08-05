@@ -50,12 +50,18 @@ tool: scan
 
     <h2>Install</h2>
 
-    <p>Homebrew (macOS or Linux):</p>
-    <pre class="install-block">
-brew tap atomdrift/tap https://github.com/atomdrift-project/homebrew-tap.git
+    <p>Installer (macOS, Linux, BSD, Solaris, illumos, and Android):</p>
+    <pre class="install-block">curl -fsSL https://install.atomdrift.org/scan.sh | sh</pre>
 
-brew install atomdrift/tap/scan
-</pre>
+    <p>On macOS and Linux, the installer delegates to Homebrew when it is
+    available so Homebrew can manage upgrades, PATH, and dependencies. Pass
+    <code>--method binary</code> to use the prebuilt release directly.</p>
+
+    <p>Windows PowerShell:</p>
+    <pre class="install-block">irm https://install.atomdrift.org/scan.ps1 | iex</pre>
+
+    <p>See all supported platforms, requirements, and release downloads on the
+    <a href="https://install.atomdrift.org/">Atomdrift Scan install page</a>.</p>
 
     <p>From source:</p>
     <pre class="install-block">

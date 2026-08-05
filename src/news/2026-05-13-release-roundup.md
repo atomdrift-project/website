@@ -13,5 +13,5 @@ Three small-to-medium releases landed today.
 **[cleave](/cleave/) v1.4.0** expands document and shortcut analysis. PDF reports now include richer structure for objects, object streams, streams, signatures, forms, actions, embedded files, and malformed stream cases. LNK analysis extracts more shortcut metadata, including relative paths, volume and network info, environment targets, and shim/Darwin data. illumos and Solaris support improved around jemalloc and memory reporting; diff formula rendering also handles absent formulas cleanly. [v1.4.0](https://github.com/atomdrift-project/cleave/releases/tag/v1.4.0).
 
 ```
-brew upgrade atomdrift/tap/stng atomdrift/tap/litmus atomdrift/tap/cleave
+brew upgrade atomdrift-project/tap/stng atomdrift-project/tap/litmus atomdrift-project/tap/cleave
 ```

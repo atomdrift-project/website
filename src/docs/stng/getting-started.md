@@ -7,8 +7,7 @@ title: "Getting started"
 On macOS or Linux:
 
 ```bash
-brew tap atomdrift/tap https://github.com/atomdrift-project/homebrew-tap.git
-brew install atomdrift/tap/stng
+brew install atomdrift-project/tap/stng
 ```
 
 Or install with Rust 1.94 or newer:

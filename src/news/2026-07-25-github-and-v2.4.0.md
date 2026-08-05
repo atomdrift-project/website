@@ -39,5 +39,5 @@ Release notes:
 [stng v1.8.0](https://github.com/atomdrift-project/stng/releases/tag/v1.8.0).
 
 ```
-brew upgrade atomdrift/tap/scan atomdrift/tap/cleave atomdrift/tap/filefacts atomdrift/tap/stng
+brew upgrade atomdrift-project/tap/scan atomdrift-project/tap/cleave atomdrift-project/tap/filefacts atomdrift-project/tap/stng
 ```

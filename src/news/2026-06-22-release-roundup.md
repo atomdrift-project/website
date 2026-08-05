@@ -11,5 +11,5 @@ The first point releases on the 2.x line are about reach and speed.
 **[cleave](/cleave/) v2.1.1** makes YARA fast. A new `yara-precompile` tool loads prebuilt rules, tiers load dynamically on demand instead of all upfront, and tier preheating warms the right tiers based on incoming file type — lower latency where it counts. `validate --soft` skips directory caps and other taxonomy-cleanliness rules for quick local checks, plus a round of dependency updates. [Release notes](https://github.com/atomdrift-project/cleave/releases/tag/v2.1.1).
 
 ```
-brew upgrade atomdrift/tap/scan atomdrift/tap/cleave
+brew upgrade atomdrift-project/tap/scan atomdrift-project/tap/cleave
 ```

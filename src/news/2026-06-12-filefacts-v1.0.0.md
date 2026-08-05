@@ -21,6 +21,6 @@ For supply-chain models, the point is not prettier names. It is fewer collapsed 
 [Release notes](https://github.com/atomdrift-project/filefacts/releases/tag/v1.0.0).
 
 ```
-brew install atomdrift/tap/filefacts
+brew install atomdrift-project/tap/filefacts
 cargo add filefacts
 ```
