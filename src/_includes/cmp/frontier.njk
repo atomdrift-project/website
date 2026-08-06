@@ -25,7 +25,7 @@
   .cmp-frontier .q-val { fill: var(--slate); font-size: 10.5px; font-weight: 500; font-family: system-ui, sans-serif; }
   .cmp-frontier .q-curve { fill: none; stroke: #a8cbf0; stroke-width: 3; stroke-linecap: round;
     stroke-linejoin: round; stroke-dasharray: 1 7; }
-  .cmp-frontier .q-cpt { stroke: #fff; stroke-width: 2.5; }
+  .cmp-frontier .q-cpt { fill: none; stroke-width: 2.5; }
   .cmp-frontier .q-clab { font-family: 'SF Mono', Consolas, monospace; font-size: 11px; font-weight: 700; }
   .cmp-frontier .q-csub { fill: var(--slate); font-size: 10px; font-family: system-ui, sans-serif; }
   .cmp-frontier .q-cname { font-family: 'Oxanium', sans-serif; font-size: 12px; font-weight: 800; }
@@ -77,15 +77,15 @@
 
     {%- if q.curve %}
     {%- for v in q.curve.verts %}
-    <circle class="q-cpt" cx="{{ v.x }}" cy="{{ v.y }}" r="{{ 8 if v.label else 5 }}" fill="{{ q.curve.color }}">
+    <circle class="q-cpt" cx="{{ v.x }}" cy="{{ v.y }}" r="6" stroke="{{ q.curve.color }}">
       <title>atomscan -l {{ v.lLo }}{% if v.lHi != v.lLo %}–{{ v.lHi }}{% endif %} — {{ v.det }}% caught · {{ v.fp }}% false alarms</title>
     </circle>
     {%- if v.label %}
-    <text class="q-clab" x="{{ v.x + 12 }}" y="{{ v.y - 2 }}" fill="{{ q.curve.color }}">{{ v.label }}</text>
-    <text class="q-csub" x="{{ v.x + 12 }}" y="{{ v.y + 11 }}">{{ v.sub }}</text>
+    <line class="q-leader q-cleader" x1="{{ v.leader.x1 }}" y1="{{ v.leader.y1 }}" x2="{{ v.leader.x2 }}" y2="{{ v.leader.y2 }}"></line>
+    <text class="q-clab" x="{{ v.labelX }}" y="{{ v.labelY }}" text-anchor="{{ v.labelAnchor }}" fill="{{ q.curve.color }}">{{ v.label }}</text>
+    <text class="q-csub" x="{{ v.labelX }}" y="{{ v.labelY + 13 }}" text-anchor="{{ v.labelAnchor }}">{{ v.sub }}</text>
     {%- endif %}
     {%- endfor %}
-    <text class="q-cname" x="{{ q.curve.verts[0].x - 12 }}" y="{{ q.curve.verts[0].y + 4 }}" text-anchor="end" fill="{{ q.curve.color }}">{{ q.curve.name }}</text>
     {%- endif %}
   </svg>
 </div>

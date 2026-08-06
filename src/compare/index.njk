@@ -16,7 +16,10 @@ description: How Atomdrift Scan compares to Socket, Aikido, VirusTotal, ClamAV a
   }
 
   /* ---------- hero ---------- */
-  .cmp-hero { display: grid; grid-template-columns: 1.45fr 1fr; gap: 28px; align-items: start; padding: 18px 0 4px; }
+  /* Keep the proof card compact: at the full page width this makes it about 30%
+     narrower than the old 1.45fr/1fr split and gives the badge row one clean line. */
+  .cmp-hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(240px, 28.5%); gap: 28px;
+              align-items: start; padding: 18px 0 4px; }
   .cmp-hero .kick { font-family: 'Oxanium', sans-serif; font-size: .66rem; font-weight: 800; letter-spacing: .15em;
                     text-transform: uppercase; color: var(--slate); margin-bottom: 9px; }
   /* No hard break: a <br> splits at the same word whatever the column width, which
@@ -124,7 +127,8 @@ description: How Atomdrift Scan compares to Socket, Aikido, VirusTotal, ClamAV a
      'anywhere along here' rather than as another engine's series. */
   .q-curve { fill: none; stroke: #a8cbf0; stroke-width: 3; stroke-linecap: round;
              stroke-linejoin: round; stroke-dasharray: 1 7; }
-  .q-cpt { stroke: #fff; stroke-width: 2.5; }
+  /* Outline markers keep coincident rival dots visible in their centers. */
+  .q-cpt { fill: none; stroke-width: 2.5; }
   .q-clab { font-family: 'SF Mono', Consolas, monospace; font-size: 11px; font-weight: 700; }
   .q-csub { fill: var(--slate); font-size: 10px; font-family: system-ui, sans-serif; }
   .q-cname { font-family: 'Oxanium', sans-serif; font-size: 12px; font-weight: 800; }
@@ -253,8 +257,7 @@ description: How Atomdrift Scan compares to Socket, Aikido, VirusTotal, ClamAV a
       </div>
       {%- endif %}
       <div class="at">at <b id="dial-l">-l {{ dialDefault }}</b> <span id="dial-say">— the shipped default, untuned</span></div>
-      <p><b>{{ battle.detection.sample_count }} live malware samples</b>, none older than 48 hours, against
-        {{ battle.false_positive.sample_count }} known-good packages. Rebuilt daily; every sample published below.</p>
+      <p>As of <b>{{ battle.generated_at | dateDisplay }}</b>.</p>
     </div>
     {%- endif %}
   </div>
@@ -331,7 +334,7 @@ description: How Atomdrift Scan compares to Socket, Aikido, VirusTotal, ClamAV a
 
       {%- if q.curve %}
       {%- for v in q.curve.verts %}
-      <circle class="q-cpt" cx="{{ v.x }}" cy="{{ v.y }}" r="{{ 8 if v.label else 5 }}" fill="{{ q.curve.color }}">
+      <circle class="q-cpt" cx="{{ v.x }}" cy="{{ v.y }}" r="6" stroke="{{ q.curve.color }}">
         <title>atomscan -l {{ v.lLo }}{% if v.lHi != v.lLo %}–{{ v.lHi }}{% endif %} — {{ v.det }}% caught · {{ v.fp }}% false alarms</title>
       </circle>
       {%- if v.label %}
@@ -340,7 +343,6 @@ description: How Atomdrift Scan compares to Socket, Aikido, VirusTotal, ClamAV a
       <text class="q-csub" x="{{ v.labelX }}" y="{{ v.labelY + 13 }}" text-anchor="{{ v.labelAnchor }}">{{ v.sub }}</text>
       {%- endif %}
       {%- endfor %}
-      <text class="q-cname" x="{{ q.curve.verts[0].x - 12 }}" y="{{ q.curve.verts[0].y + 4 }}" text-anchor="end" fill="{{ q.curve.color }}">{{ q.curve.name }}</text>
       {%- endif %}
     </svg>
   </div>

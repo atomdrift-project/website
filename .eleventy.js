@@ -402,39 +402,46 @@ module.exports = function(eleventyConfig) {
         if (prev && prev.det === c.det && prev.fp === c.fp) { prev.lHi = c.l; continue; }
         verts.push({ det: c.det, fp: c.fp, lLo: c.l, lHi: c.l, x: xOf(c.det), y: yOf(c.fp) });
       }
-      // Label the shipped default and the top of the grid only. The strictest end
-      // is drawn but left bare: its catch rate is the weakest number on the chart and
-      // it swings hardest between cohorts, while the argument here is that a curve
-      // exists at all — not what its most conservative point scored last night. The
-      // marker keeps its tooltip, and the series name anchors that end regardless.
+      // Label the strictest stop, the shipped default, and the top of the grid.
+      // The strictest label also names the series: it can coincide exactly with a
+      // rival (as VirusTotal does in the current run), so a bare ring with only a
+      // nearby standalone series name leaves the shared point needlessly cryptic.
       const topLevel = curve[curve.length - 1].l;
+      const curveName = (provs.ascan && provs.ascan.name) || "Atomdrift";
       for (const v of verts) {
-        v.label = (v.lLo <= DIAL_DEFAULT && v.lHi >= DIAL_DEFAULT) ? "-l " + DIAL_DEFAULT + " · default"
-          : (v.lHi === topLevel ? "-l " + v.lHi.toLocaleString("en-US") : null);
+        v.labelKind = v === verts[0] ? "first"
+          : ((v.lLo <= DIAL_DEFAULT && v.lHi >= DIAL_DEFAULT) ? "default"
+          : (v.lHi === topLevel ? "top" : null));
+        v.label = v.labelKind === "first" ? curveName + " · L:" + v.lLo.toLocaleString("en-US")
+          : (v.labelKind === "default" ? "L:" + DIAL_DEFAULT.toLocaleString("en-US") + " (DEFAULT)"
+          : (v.labelKind === "top" ? "L:" + v.lHi.toLocaleString("en-US") : null));
         v.sub = v.det + "% caught" + (v.fp === 0 ? " · no false alarms" : "");
       }
-      // Keep the two annotated stops on opposite sides of the curve. In a strong
+      // Keep the final two annotated stops on opposite sides of the curve. In a strong
       // run they often differ by only one caught sample and can land a few pixels
       // apart at the same false-alarm rate; giving both labels the old fixed
       // rightward offset made the text overwrite itself. Short leaders preserve
-      // the point-to-label association, and putting both callouts below the dots
-      // keeps the incoming curve from running through the default label.
+      // the point-to-label association. The strictest label goes above its point,
+      // leaving the area below free for a coincident rival's label.
       const labeled = verts.filter((v) => v.label);
       for (let i = 0; i < labeled.length; i++) {
         const v = labeled[i];
-        const isLast = i === labeled.length - 1 && labeled.length > 1;
-        v.labelAnchor = isLast ? "start" : "end";
-        v.labelX = v.x + (isLast ? 15 : -15);
-        v.labelY = v.y + 19;
-        v.leader = isLast
+        const isFirst = v.labelKind === "first";
+        const isLast = v.labelKind === "top";
+        v.labelAnchor = (isFirst || isLast) ? "start" : "end";
+        v.labelX = v.x + ((isFirst || isLast) ? 15 : -15);
+        v.labelY = v.y + (isFirst ? -18 : 19);
+        v.leader = isFirst
+          ? { x1: v.x + 7, y1: v.y - 5, x2: v.labelX - 4, y2: v.labelY + 5 }
+          : (isLast
           ? { x1: v.x + 7, y1: v.y + 5, x2: v.labelX - 4, y2: v.labelY - 5 }
-          : { x1: v.x - 7, y1: v.y + 5, x2: v.labelX + 4, y2: v.labelY - 5 };
+          : { x1: v.x - 7, y1: v.y + 5, x2: v.labelX + 4, y2: v.labelY - 5 });
       }
       curveGeo = {
         verts: verts,
         points: verts.map((v) => v.x.toFixed(1) + "," + v.y.toFixed(1)).join(" "),
         color: (provs.ascan && provs.ascan.color) || "#2a78d6",
-        name: (provs.ascan && provs.ascan.name) || "Atomdrift",
+        name: curveName,
       };
     }
 
