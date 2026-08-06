@@ -1,0 +1,121 @@
+{# ---------------------------------------------------------------------------
+   Shared trend chart for the /compare/ design candidates.
+
+   Every candidate shows the same history from the same data: whatever the page
+   around it argues, the record of previous runs is identical, so a reader
+   comparing two layouts is comparing layouts and not two versions of the truth.
+--------------------------------------------------------------------------- #}
+<style>
+  .cmp-trend { position: relative; height: 320px; margin-top: 10px; }
+  .cmp-trend-note { color: var(--slate); font-size: .74rem; line-height: 1.55; margin: 8px 0 0; max-width: 34rem; }
+</style>
+
+{%- if history and history | length >= 2 %}
+<div class="cmp-trend"><canvas id="trendChart"></canvas></div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
+(function () {
+  // Truncate to the 2026-07-09 10:00 UTC pipeline overhaul: earlier runs measured a
+  // materially different detection stack, so plotting them would misrepresent the
+  // current engines. Non-destructive — history.json keeps every point.
+  const CUTOFF = Date.parse('2026-07-09T10:00:00Z');
+  const H = ({{ history | dump | safe }}).filter(p => Date.parse(p.at) >= CUTOFF);
+  const PROV = {{ chartProviders | dump | safe }};
+  const ENGINES = Object.keys(PROV).filter(e => !PROV[e].hidden)
+    .sort((a, b) => (PROV[a].slot || 99) - (PROV[b].slot || 99));
+  const COLOR = Object.fromEntries(ENGINES.map(e => [e, PROV[e].color || '#6b7280']));
+  const US = 'ascan';
+  const labels = H.map(p => new Date(p.at).toLocaleString(undefined, { month: 'short', day: 'numeric', hour: 'numeric' }));
+  // Atomdrift is the subject: drawn last (on top) and heavier than the field.
+  // Emphasis is weight only — every line keeps its own hue, because fading the
+  // others toward the surface collapses them into each other.
+  const order = ENGINES.filter(e => e !== US).concat(US);
+  const datasets = order.map(e => {
+    const us = e === US;
+    return {
+      label: (PROV[e] && (PROV[e].chartName || PROV[e].name)) || e,
+      data: H.map(p => (p.detection && p.detection[e] != null) ? Math.round(p.detection[e] * 100) : null),
+      solidColor: COLOR[e],
+      borderColor: COLOR[e],
+      backgroundColor: COLOR[e],
+      borderWidth: us ? 4 : 2,
+      pointRadius: us ? 4 : 2.5,
+      pointHoverRadius: us ? 6 : 4,
+      tension: 0.25, spanGaps: true
+    };
+  }).filter(d => d.data.some(v => v != null));
+
+  // Each line's latest value, labelled at its right end so current standings read
+  // without hovering; labels are nudged apart vertically when they'd collide.
+  const endLabels = {
+    id: 'endLabels',
+    afterDatasetsDraw(chart) {
+      const ctx = chart.ctx;
+      const items = [];
+      chart.data.datasets.forEach((ds, i) => {
+        const meta = chart.getDatasetMeta(i);
+        if (meta.hidden || !meta.data.length) return;
+        for (let j = ds.data.length - 1; j >= 0; j--) {
+          if (ds.data[j] != null) {
+            items.push({ x: meta.data[j].x, y: meta.data[j].y, val: ds.data[j], color: ds.solidColor, bold: ds.borderWidth >= 3 });
+            break;
+          }
+        }
+      });
+      items.sort((a, b) => a.y - b.y);
+      for (let i = 1; i < items.length; i++) {
+        if (items[i].y - items[i - 1].y < 13) items[i].y = items[i - 1].y + 13;
+      }
+      ctx.save();
+      ctx.textBaseline = 'middle';
+      items.forEach(it => {
+        ctx.font = (it.bold ? '700 ' : '600 ') + '11px system-ui, sans-serif';
+        ctx.fillStyle = it.color;
+        ctx.fillText(it.val + '%', it.x + 7, it.y);
+      });
+      ctx.restore();
+    }
+  };
+
+  new Chart(document.getElementById('trendChart'), {
+    type: 'line',
+    data: { labels, datasets },
+    plugins: [endLabels],
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      layout: { padding: { right: 46, left: 6 } },
+      scales: {
+        y: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%' }, title: { display: true, text: 'Catch rate' } }
+      },
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: {
+            usePointStyle: true, pointStyle: 'circle', boxWidth: 8, boxHeight: 8, padding: 12, font: { size: 11 },
+            // "[66 engines]" earns its width on a full-size chart, but tips the
+            // legend onto a second row below ~730px — which comes straight out
+            // of the plot's height. Under that, fall back to the bare name.
+            generateLabels(chart) {
+              const items = Chart.defaults.plugins.legend.labels.generateLabels(chart);
+              if (chart.width < 730) {
+                for (const it of items) it.text = it.text.replace(/ \[\d+ engines\]$/, '');
+              }
+              return items;
+            }
+          }
+        },
+        tooltip: {
+          itemSort: (a, b) => b.parsed.y - a.parsed.y,
+          callbacks: { label: c => `${c.dataset.label}: ${c.parsed.y}%` }
+        }
+      }
+    }
+  });
+})();
+</script>
+<p class="cmp-trend-note">Each run draws a fresh cohort from live feeds, so movement is the samples changing as much as
+  the engines. Judge us on the worst night, not the best.</p>
+{%- else %}
+<p class="cmp-trend-note">Historical trend is collecting — the chart appears once there are at least two recorded runs.</p>
+{%- endif %}

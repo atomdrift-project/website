@@ -1,0 +1,92 @@
+{# ---------------------------------------------------------------------------
+   Shared catch-rate / false-alarm plot for the /compare/ design candidates.
+
+   Every rival is one dot — one operating point, chosen for you. Atomdrift is a
+   curve, because `-l` is a false-positive budget you set, so the honest way to
+   draw it is the whole range rather than the flattering end of it.
+--------------------------------------------------------------------------- #}
+<style>
+  .cmp-frontier { margin: 14px 0 4px; overflow-x: auto; }
+  .cmp-frontier svg { width: 100%; min-width: 520px; height: auto; display: block; }
+  .cmp-frontier .q-grid { stroke: var(--border); stroke-width: 1; }
+  .cmp-frontier .q-axis { stroke: var(--slate); stroke-width: 1.25; }
+  .cmp-frontier .q-div { stroke: var(--slate); stroke-width: 1; stroke-dasharray: 5 5; opacity: .45; }
+  .cmp-frontier .q-tick { fill: var(--slate); font-size: 11px; font-family: system-ui, sans-serif; }
+  .cmp-frontier .q-alab { fill: var(--iron); font-size: 12.5px; font-weight: 600; font-family: 'Oxanium', sans-serif; }
+  .cmp-frontier .q-target { fill: var(--toxic); opacity: .11; }
+  .cmp-frontier .q-quad { fill: var(--slate); opacity: .6; font-size: 11px; font-weight: 700; letter-spacing: .09em;
+    text-transform: uppercase; font-family: 'Oxanium', sans-serif; }
+  .cmp-frontier .q-quad.on-target { fill: var(--toxic-dark); opacity: .95; }
+  .cmp-frontier .q-leader { stroke: var(--slate); stroke-width: 1; opacity: .45; }
+  .cmp-frontier .q-pt { stroke: #fff; stroke-width: 2; }
+  .cmp-frontier .q-count { fill: #fff; font-size: 11.5px; font-weight: 800; font-family: 'Oxanium', sans-serif; }
+  .cmp-frontier .q-swatch { rx: 1.5; }
+  .cmp-frontier .q-name { fill: var(--carbon); font-size: 12.5px; font-weight: 600; font-family: 'Oxanium', sans-serif; }
+  .cmp-frontier .q-val { fill: var(--slate); font-size: 10.5px; font-weight: 500; font-family: system-ui, sans-serif; }
+  .cmp-frontier .q-curve { fill: none; stroke: #a8cbf0; stroke-width: 3; stroke-linecap: round;
+    stroke-linejoin: round; stroke-dasharray: 1 7; }
+  .cmp-frontier .q-cpt { stroke: #fff; stroke-width: 2.5; }
+  .cmp-frontier .q-clab { font-family: 'SF Mono', Consolas, monospace; font-size: 11px; font-weight: 700; }
+  .cmp-frontier .q-csub { fill: var(--slate); font-size: 10px; font-family: system-ui, sans-serif; }
+  .cmp-frontier .q-cname { font-family: 'Oxanium', sans-serif; font-size: 12px; font-weight: 800; }
+</style>
+
+{%- set q = battle | quadrant(chartProviders) %}
+{%- if q %}
+<div class="cmp-frontier">
+  <svg viewBox="0 0 {{ q.w }} {{ q.h }}" role="img" aria-label="Catch rate against false-alarm rate for every engine measured this run. The horizontal axis is catch rate, higher to the right; the vertical axis is false-alarm rate, inverted so fewer false alarms is higher. Atomdrift is drawn as a curve across its false-positive budget settings rather than a single point.">
+    <rect class="q-target" x="{{ q.xDiv }}" y="{{ q.pt }}" width="{{ q.pr - q.xDiv }}" height="{{ q.yDiv - q.pt }}"></rect>
+    {%- for t in q.xTicks %}
+    <line class="q-grid" x1="{{ t.x }}" y1="{{ q.pt }}" x2="{{ t.x }}" y2="{{ q.pb }}"></line>
+    <text class="q-tick" x="{{ t.x }}" y="{{ q.pb + 19 }}" text-anchor="middle">{{ t.v }}%</text>
+    {%- endfor %}
+    {%- for t in q.yTicks %}
+    <line class="q-grid" x1="{{ q.pl }}" y1="{{ t.y }}" x2="{{ q.pr }}" y2="{{ t.y }}"></line>
+    <text class="q-tick" x="{{ q.pl - 10 }}" y="{{ t.y + 4 }}" text-anchor="end">{{ t.v }}%</text>
+    {%- endfor %}
+    <line class="q-div" x1="{{ q.xDiv }}" y1="{{ q.pt }}" x2="{{ q.xDiv }}" y2="{{ q.pb }}"></line>
+    <line class="q-div" x1="{{ q.pl }}" y1="{{ q.yDiv }}" x2="{{ q.pr }}" y2="{{ q.yDiv }}"></line>
+    <text class="q-quad" x="{{ q.pl + 10 }}" y="{{ q.pt + 20 }}">Conservative</text>
+    <text class="q-quad on-target" x="{{ q.pr - 10 }}" y="{{ q.pt + 20 }}" text-anchor="end">The corner that matters</text>
+    <text class="q-quad" x="{{ q.pl + 10 }}" y="{{ q.pb - 10 }}">Trailing</text>
+    <text class="q-quad" x="{{ q.pr - 10 }}" y="{{ q.pb - 10 }}" text-anchor="end">Aggressive</text>
+    <line class="q-axis" x1="{{ q.pl }}" y1="{{ q.pt }}" x2="{{ q.pl }}" y2="{{ q.pb }}"></line>
+    <line class="q-axis" x1="{{ q.pl }}" y1="{{ q.pb }}" x2="{{ q.pr }}" y2="{{ q.pb }}"></line>
+    <text class="q-alab" x="{{ (q.pl + q.pr) / 2 }}" y="{{ q.pb + 46 }}" text-anchor="middle">Malware caught  ·  higher is better →</text>
+    <text class="q-alab" transform="translate(18,{{ (q.pt + q.pb) / 2 }}) rotate(-90)" text-anchor="middle">False alarms  ·  fewer is better ↑</text>
+
+    {%- if q.curve %}<polyline class="q-curve" points="{{ q.curve.points }}"></polyline>{% endif %}
+
+    {%- for g in q.groups %}
+    {%- if g.leader %}<line class="q-leader" x1="{{ g.leader.x1 }}" y1="{{ g.leader.y1 }}" x2="{{ g.leader.x2 }}" y2="{{ g.leader.y2 }}"></line>{% endif %}
+    <circle class="q-pt" cx="{{ g.x }}" cy="{{ g.y }}" r="{{ g.r }}" fill="{{ g.color }}">
+      <title>{% for e in g.engines %}{{ e.name }}{% if not loop.last %}, {% endif %}{% endfor %} — {{ g.value }}</title>
+    </circle>
+    {%- if g.n > 1 %}<text class="q-count" x="{{ g.x }}" y="{{ g.y + 4 }}" text-anchor="middle">{{ g.n }}</text>{% endif %}
+    {%- for e in g.engines %}
+    {%- set ly = g.label.y + (loop.index0 * q.lineH) + 11 %}
+    {%- if g.n > 1 %}
+    {%- set sx = (g.label.tx - 9) if g.label.anchor == 'end' else (g.label.x if g.label.anchor == 'start' else g.label.tx - (e.name | length * 3.7) - 13) %}
+    <rect class="q-swatch" x="{{ sx }}" y="{{ ly - 8 }}" width="8" height="8" fill="{{ e.color }}"></rect>
+    {%- endif %}
+    {%- set nx = (g.label.tx - 15 if g.n > 1 else g.label.tx) if g.label.anchor == 'end' else (g.label.x + 14 if g.n > 1 else g.label.x) %}
+    <text class="q-name" x="{{ g.label.tx if g.label.anchor == 'middle' else nx }}" y="{{ ly }}" text-anchor="{{ g.label.anchor }}">{{ e.name }}</text>
+    {%- endfor %}
+    <text class="q-val" x="{{ g.label.tx }}" y="{{ g.label.y + (g.engines | length * q.lineH) + 11 }}" text-anchor="{{ g.label.anchor }}">{{ g.value }}</text>
+    {%- endfor %}
+
+    {%- if q.curve %}
+    {%- for v in q.curve.verts %}
+    <circle class="q-cpt" cx="{{ v.x }}" cy="{{ v.y }}" r="{{ 8 if v.label else 5 }}" fill="{{ q.curve.color }}">
+      <title>atomscan -l {{ v.lLo }}{% if v.lHi != v.lLo %}–{{ v.lHi }}{% endif %} — {{ v.det }}% caught · {{ v.fp }}% false alarms</title>
+    </circle>
+    {%- if v.label %}
+    <text class="q-clab" x="{{ v.x + 12 }}" y="{{ v.y - 2 }}" fill="{{ q.curve.color }}">{{ v.label }}</text>
+    <text class="q-csub" x="{{ v.x + 12 }}" y="{{ v.y + 11 }}">{{ v.sub }}</text>
+    {%- endif %}
+    {%- endfor %}
+    <text class="q-cname" x="{{ q.curve.verts[0].x - 12 }}" y="{{ q.curve.verts[0].y + 4 }}" text-anchor="end" fill="{{ q.curve.color }}">{{ q.curve.name }}</text>
+    {%- endif %}
+  </svg>
+</div>
+{%- endif %}

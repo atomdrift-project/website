@@ -410,8 +410,25 @@ module.exports = function(eleventyConfig) {
       const topLevel = curve[curve.length - 1].l;
       for (const v of verts) {
         v.label = (v.lLo <= DIAL_DEFAULT && v.lHi >= DIAL_DEFAULT) ? "-l " + DIAL_DEFAULT + " · default"
-          : (v.lHi === topLevel ? "-l " + v.lHi : null);
+          : (v.lHi === topLevel ? "-l " + v.lHi.toLocaleString("en-US") : null);
         v.sub = v.det + "% caught" + (v.fp === 0 ? " · no false alarms" : "");
+      }
+      // Keep the two annotated stops on opposite sides of the curve. In a strong
+      // run they often differ by only one caught sample and can land a few pixels
+      // apart at the same false-alarm rate; giving both labels the old fixed
+      // rightward offset made the text overwrite itself. Short leaders preserve
+      // the point-to-label association, and putting both callouts below the dots
+      // keeps the incoming curve from running through the default label.
+      const labeled = verts.filter((v) => v.label);
+      for (let i = 0; i < labeled.length; i++) {
+        const v = labeled[i];
+        const isLast = i === labeled.length - 1 && labeled.length > 1;
+        v.labelAnchor = isLast ? "start" : "end";
+        v.labelX = v.x + (isLast ? 15 : -15);
+        v.labelY = v.y + 19;
+        v.leader = isLast
+          ? { x1: v.x + 7, y1: v.y + 5, x2: v.labelX - 4, y2: v.labelY - 5 }
+          : { x1: v.x - 7, y1: v.y + 5, x2: v.labelX + 4, y2: v.labelY - 5 };
       }
       curveGeo = {
         verts: verts,

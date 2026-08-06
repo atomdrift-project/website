@@ -78,10 +78,9 @@ description: How Atomdrift Scan compares to Socket, Aikido, VirusTotal, ClamAV a
                 border-bottom: 1px solid var(--border); padding-bottom: 6px; margin: 40px 0 4px; letter-spacing: -.3px;
                 display: flex; align-items: baseline; gap: 9px; flex-wrap: wrap; }
   .compare h2 .note { font-family: 'Inter', sans-serif; font-size: .72rem; font-weight: 400; color: var(--slate); }
-  /* One measure for every paragraph, expressed in rem rather than ch: these blocks
-     run at different font sizes, so a shared ch value gives them different physical
-     widths and the column edge goes ragged where they stack. */
-  .compare .sub, .compare .fig-note, .cmp-hero .say, .replaces { max-width: 34rem; }
+  /* Page-level copy should use the content width. The hero's grid already gives
+     its copy a readable measure; another max-width here only creates a ragged,
+     half-empty column below full-width charts. */
   .compare .sub { color: var(--iron); font-size: .88rem; margin: 10px 0 14px; }
   .compare .sub b { color: var(--carbon); font-weight: 600; }
 
@@ -181,7 +180,7 @@ description: How Atomdrift Scan compares to Socket, Aikido, VirusTotal, ClamAV a
 </style>
 
 {# One palette for every engine — hostile solid, suspicious pale, both anchored left;
-   a grey tail on the right for files the engine could not open, which the methodology
+   a grey tail on the right for unsupported file formats, which the methodology
    scores as a miss. Atomdrift is identified by its label, not by a colour of its own. #}
 {%- macro rows(board) -%}
   <div class="rows">
@@ -189,7 +188,7 @@ description: How Atomdrift Scan compares to Socket, Aikido, VirusTotal, ClamAV a
     {%- set p = providers[s.scanner] %}
     {%- set unsup = s.unsupported or 0 %}
     <div class="rn{% if s.scanner == 'ascan' %} us{% endif %}">{{ p.name or s.scanner }}</div>
-    <div class="tr" title="{{ s.hostile }} hostile · {{ s.suspicious }} suspicious · {{ s.benign }} analyzed clean{% if s.nodata %} · {{ s.nodata }} no record{% endif %}{% if s.errored %} · {{ s.errored }} errored{% endif %}{% if unsup %} · {{ unsup }} couldn't open{% endif %}">
+    <div class="tr" title="{{ s.hostile }} hostile · {{ s.suspicious }} suspicious · {{ s.benign }} analyzed clean{% if s.nodata %} · {{ s.nodata }} no record{% endif %}{% if s.errored %} · {{ s.errored }} errored{% endif %}{% if unsup %} · {{ unsup }} unsupported file format{% endif %}">
       {%- if s.supported > 0 -%}
         {%- if s.hostile > 0 %}<span class="hb" style="width:{{ s.hostile / s.supported * 100 }}%"></span>{% endif -%}
         {%- if s.suspicious > 0 %}<span class="sb" style="width:{{ s.suspicious / s.supported * 100 }}%"></span>{% endif -%}
@@ -265,7 +264,7 @@ description: How Atomdrift Scan compares to Socket, Aikido, VirusTotal, ClamAV a
   <div class="legend">
     <span><i style="background:var(--h)"></i>flagged hostile</span>
     <span><i style="background:var(--s)"></i>flagged suspicious</span>
-    <span><i style="background:var(--na)"></i>couldn't open the file</span>
+    <span><i style="background:var(--na)"></i>unsupported file format</span>
   </div>
   {%- if curve %}
   {%- set curveTop = curve | last %}
@@ -336,8 +335,9 @@ description: How Atomdrift Scan compares to Socket, Aikido, VirusTotal, ClamAV a
         <title>atomscan -l {{ v.lLo }}{% if v.lHi != v.lLo %}–{{ v.lHi }}{% endif %} — {{ v.det }}% caught · {{ v.fp }}% false alarms</title>
       </circle>
       {%- if v.label %}
-      <text class="q-clab" x="{{ v.x + 12 }}" y="{{ v.y - 2 }}" fill="{{ q.curve.color }}">{{ v.label }}</text>
-      <text class="q-csub" x="{{ v.x + 12 }}" y="{{ v.y + 11 }}">{{ v.sub }}</text>
+      <line class="q-leader q-cleader" x1="{{ v.leader.x1 }}" y1="{{ v.leader.y1 }}" x2="{{ v.leader.x2 }}" y2="{{ v.leader.y2 }}"></line>
+      <text class="q-clab" x="{{ v.labelX }}" y="{{ v.labelY }}" text-anchor="{{ v.labelAnchor }}" fill="{{ q.curve.color }}">{{ v.label }}</text>
+      <text class="q-csub" x="{{ v.labelX }}" y="{{ v.labelY + 13 }}" text-anchor="{{ v.labelAnchor }}">{{ v.sub }}</text>
       {%- endif %}
       {%- endfor %}
       <text class="q-cname" x="{{ q.curve.verts[0].x - 12 }}" y="{{ q.curve.verts[0].y + 4 }}" text-anchor="end" fill="{{ q.curve.color }}">{{ q.curve.name }}</text>

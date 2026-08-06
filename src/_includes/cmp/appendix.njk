@@ -1,0 +1,53 @@
+{# ---------------------------------------------------------------------------
+   Shared appendix for the /compare/ design candidates: every sample in the run,
+   linked, plus how the run is scored.
+
+   Folded by default because it is the evidence, not the argument — anyone who
+   wants to check the work opens it, nobody else scrolls past forty filenames.
+   Identical in every candidate on purpose: the honesty disclosure is not a
+   design variable.
+--------------------------------------------------------------------------- #}
+<style>
+  details.cmp-appendix { margin-top: 40px; border-top: 1px solid var(--border); padding-top: 6px; }
+  details.cmp-appendix > summary { cursor: pointer; list-style: none; display: flex; align-items: baseline; gap: 9px;
+    flex-wrap: wrap; font-family: 'Oxanium', sans-serif; font-weight: 800; font-size: 1.05rem; color: var(--carbon);
+    padding: 8px 0; letter-spacing: -.3px; }
+  details.cmp-appendix > summary::-webkit-details-marker { display: none; }
+  details.cmp-appendix > summary::before { content: "▸"; color: var(--toxic-dark); font-size: .8rem; transition: transform .15s ease; }
+  details.cmp-appendix[open] > summary::before { transform: rotate(90deg); }
+  details.cmp-appendix > summary:hover { color: var(--atomdrift-blue); }
+  details.cmp-appendix > summary .note { font-family: 'Inter', sans-serif; font-size: .72rem; font-weight: 400; color: var(--slate); }
+  .cmp-samples { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 22px; font-family: 'SF Mono', Consolas, monospace;
+    font-size: .74rem; margin-top: 10px; }
+  .cmp-samples a { color: var(--atomdrift-blue); text-decoration: none; white-space: nowrap; overflow: hidden;
+    text-overflow: ellipsis; display: block; }
+  .cmp-samples a::before { content: "▪ "; color: var(--toxic-muted); }
+  .cmp-samples a:hover { text-decoration: underline; }
+  .cmp-meth { background: var(--cream); border: 1px solid var(--border); border-radius: 8px; padding: 12px 15px;
+    font-size: .78rem; color: var(--graphite); line-height: 1.65; margin-top: 14px; }
+  .cmp-meth b { color: var(--carbon); font-family: 'Oxanium', sans-serif; }
+  @media (max-width: 720px) { .cmp-samples { grid-template-columns: 1fr; } }
+</style>
+
+{%- set appendixBad = battle.samples | where("label", "bad") | whereUnset("excluded") -%}
+<details class="cmp-appendix" id="samples">
+  <summary>Appendix — every sample, and how it was scored <span class="note">all {{ appendixBad | length }}, each one linked</span></summary>
+  <div class="cmp-samples">
+    {%- for sm in appendixBad | sort(false, false, "filename") %}
+    <a href="https://lab.atomdrift.org/file/{{ sm.sha256 }}" title="{{ sm.filename }}{% if sm.ecosystem %} · {{ sm.ecosystem }}{% endif %} — view in Atomdrift Lab">{{ sm.purl or sm.filename }}</a>
+    {%- endfor %}
+  </div>
+  <div class="cmp-meth"><b>How this is scored.</b> Samples come from live public malware feeds, none older than 48 hours.
+    Every engine gets the identical cohort, and a skip counts as a miss for all of them — a file nobody scanned is a
+    file that got through. A listing from a feed belonging to one of the contestants only counts once an independent
+    engine corroborates it, so nobody is credited for their own report. Presumed-good packages are drawn from the
+    freshest 48 hours of the open-source firehose and re-checked on later runs: one that turns out to be malware is
+    removed from that run's false-positive rates, and any engine that flagged it is credited with an early detection.
+    <b>We run this benchmark and we're one of the engines in it</b>, so every sample, verdict and rate is published —
+    including the ones we lose.
+    {%- if battle.versions %}
+    <br><br><b>Engine versions:</b> {% for k, v in battle.versions %}{% if not loop.first %} · {% endif %}{{ providers[k].name or k }} {{ v }}{% endfor %}
+    <span style="color:var(--slate)">(locally-run engines; {% for p in providers | bySlot | selectattr("hosted") %}{{ p.name }}{% if not loop.last %}, {% endif %}{% endfor %} are hosted services queried live, so they carry no pinned version).</span>
+    {%- endif %}
+  </div>
+</details>
