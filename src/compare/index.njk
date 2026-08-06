@@ -514,7 +514,6 @@ description: How Atomdrift Scan compares to Socket, Aikido, VirusTotal, ClamAV a
   <p class="sub" style="margin-top:14px">Run <code>atomscan version</code> to inspect the exact traits, YARA rules,
     bloom filters, and ONNX models installed on a machine. The same engine is available as a CLI, library, HTTP service,
     or distributed worker, so teams can move from a workstation to a scan fleet without changing the analysis model.</p>
-  </div>
 
   {%- set badSamples = battle.samples | where("label", "bad") -%}
   {%- set cohortBad = badSamples | whereUnset("excluded") -%}
