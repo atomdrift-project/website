@@ -20,7 +20,7 @@ description: How Atomdrift Scan compares to Socket, Aikido, VirusTotal, ClamAV a
      narrower than the old 1.45fr/1fr split and gives the badge row one clean line. */
   .cmp-hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(240px, 28.5%); gap: 28px;
               align-items: start; padding: 18px 0 4px; }
-  .cmp-hero .kick { font-family: 'Oxanium', sans-serif; font-size: .66rem; font-weight: 800; letter-spacing: .15em;
+  .cmp-hero .kick { font-family: 'Oxanium', sans-serif; font-size: .7rem; font-weight: 800; letter-spacing: .15em;
                     text-transform: uppercase; color: var(--slate); margin-bottom: 9px; }
   /* No hard break: a <br> splits at the same word whatever the column width, which
      is why it read as arbitrary. balance lets the browser even out the lines itself. */
@@ -34,14 +34,15 @@ description: How Atomdrift Scan compares to Socket, Aikido, VirusTotal, ClamAV a
   .cta-row { display: flex; gap: 9px; flex-wrap: wrap; margin: 15px 0 0; }
   .cta { display: inline-flex; align-items: center; font-family: 'Oxanium', sans-serif; font-weight: 700;
          font-size: .82rem; padding: 8px 15px; border-radius: 7px; text-decoration: none;
-         border: 1.5px solid var(--border); color: var(--carbon); transition: border-color .15s, color .15s, background .15s; }
+         min-height: 44px; border: 1.5px solid var(--border); color: var(--carbon);
+         transition: border-color .15s, color .15s, background .15s; }
   .cta:hover { border-color: var(--atomdrift-blue); color: var(--atomdrift-blue); }
   .cta-primary { background: var(--toxic); border-color: var(--toxic); color: var(--carbon); font-weight: 800; }
   .cta-primary:hover { background: var(--toxic-dark); border-color: var(--toxic-dark); color: #fff; }
   .instl { margin-top: 11px; font-family: 'SF Mono', Consolas, monospace; font-size: .78rem; background: var(--mist);
            border-radius: 6px; padding: 8px 12px; color: var(--carbon); overflow-x: auto; }
   .badges { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 12px; }
-  .bdg { font-family: 'Oxanium', sans-serif; font-size: .62rem; font-weight: 800; letter-spacing: .05em;
+  .bdg { font-family: 'Oxanium', sans-serif; font-size: .68rem; font-weight: 800; letter-spacing: .05em;
          text-transform: uppercase; border: 1px solid var(--border); border-radius: 5px; padding: 3px 8px;
          color: var(--iron); white-space: nowrap; }  /* or 'illumos' orphans onto its own line */
   .bdg.hot { border-color: var(--toxic-dark); color: var(--toxic-dark); background: var(--toxic-dim); }
@@ -54,25 +55,27 @@ description: How Atomdrift Scan compares to Socket, Aikido, VirusTotal, ClamAV a
   .proof .n { font-family: 'Oxanium', sans-serif; font-size: 2.7rem; font-weight: 800; line-height: .85;
               letter-spacing: -2px; color: var(--toxic); font-variant-numeric: tabular-nums; }
   .proof .n.fp { color: #fff; }
-  .proof .l { font-size: .6rem; font-weight: 800; letter-spacing: .09em; color: #b9bfc9; margin-top: 8px;
+  .proof .l { font-size: .68rem; font-weight: 800; letter-spacing: .09em; color: #b9bfc9; margin-top: 8px;
               text-transform: uppercase; font-family: 'Oxanium', sans-serif; }
   .proof .at { font-family: 'SF Mono', Consolas, monospace; font-size: .72rem; color: #d5d9d2;
                border-top: 1px solid #2a2e28; padding-top: 11px; }
   .proof .at b { color: var(--toxic); font-weight: 700; }
   .proof .dial { display: flex; flex-direction: column; gap: 7px; }
+  .proof .dial-label { color: #d5d9d2; font-family: 'Oxanium', sans-serif; font-size: .7rem;
+                       font-weight: 700; letter-spacing: .04em; }
   .proof input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; background: transparent;
-                             margin: 0; cursor: ew-resize; }
-  .proof input[type=range]::-webkit-slider-runnable-track { height: 3px; border-radius: 2px; background: #33382f; }
-  .proof input[type=range]::-moz-range-track { height: 3px; border-radius: 2px; background: #33382f; }
-  .proof input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 13px; height: 13px;
-    border-radius: 50%; background: var(--toxic); margin-top: -5px; transition: transform .12s ease; }
-  .proof input[type=range]::-moz-range-thumb { width: 13px; height: 13px; border: 0; border-radius: 50%;
+                             height: 44px; margin: 0; cursor: ew-resize; }
+  .proof input[type=range]::-webkit-slider-runnable-track { height: 3px; border-radius: 2px; background: #71787f; }
+  .proof input[type=range]::-moz-range-track { height: 3px; border-radius: 2px; background: #71787f; }
+  .proof input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px;
+    border-radius: 50%; background: var(--toxic); margin-top: -8.5px; transition: transform .12s ease; }
+  .proof input[type=range]::-moz-range-thumb { width: 20px; height: 20px; border: 0; border-radius: 50%;
     background: var(--toxic); transition: transform .12s ease; }
   .proof input[type=range]:hover::-webkit-slider-thumb { transform: scale(1.25); }
   .proof input[type=range]:hover::-moz-range-thumb { transform: scale(1.25); }
   .proof input[type=range]:focus-visible { outline: 2px solid var(--toxic); outline-offset: 5px; border-radius: 4px; }
   .proof .ends { display: flex; justify-content: space-between; font-family: 'SF Mono', Consolas, monospace;
-                 font-size: .58rem; color: #71787f; }
+                 font-size: .68rem; color: #b9bfc9; }
   .proof p { margin: 0; font-size: .74rem; line-height: 1.55; color: #b9bfc9; }
   .proof p b { color: #eef0f3; font-weight: 600; }
 
@@ -93,9 +96,13 @@ description: How Atomdrift Scan compares to Socket, Aikido, VirusTotal, ClamAV a
   .rows .rn.us { color: var(--atomdrift-blue); font-weight: 800; }
   .rows .tr { height: 17px; background: var(--mist); border-radius: 4px; overflow: hidden; display: flex;
               box-shadow: inset 0 0 0 1px rgba(0,0,0,.05); }
-  .rows .hb { height: 100%; background: var(--h); }
-  .rows .sb { height: 100%; background: var(--s); }
-  .rows .un { height: 100%; background: var(--na); margin-left: auto; }
+  .rows .hb, .legend .hostile-key { background: var(--h); }
+  .rows .hb, .rows .sb, .rows .un { height: 100%; }
+  .rows .sb, .legend .suspicious-key { background-color: var(--s);
+    background-image: repeating-linear-gradient(135deg, rgba(0,0,0,.18) 0 2px, transparent 2px 5px); }
+  .rows .un, .legend .unsupported-key { background-color: var(--na);
+    background-image: repeating-linear-gradient(90deg, rgba(0,0,0,.2) 0 1px, transparent 1px 4px); }
+  .rows .un { margin-left: auto; }
   .rows .rv { font-family: 'Oxanium', sans-serif; font-weight: 800; font-size: .8rem; font-variant-numeric: tabular-nums;
               text-align: right; min-width: 36px; color: var(--carbon); }
   .legend { display: flex; gap: 8px 16px; flex-wrap: wrap; align-items: center; font-size: .72rem; color: var(--iron); }
@@ -120,16 +127,15 @@ description: How Atomdrift Scan compares to Socket, Aikido, VirusTotal, ClamAV a
   .q-leader { stroke: var(--slate); stroke-width: 1; opacity: .45; }
   .q-pt { stroke: #fff; stroke-width: 2; }
   .q-count { fill: #fff; font-size: 11.5px; font-weight: 800; font-family: 'Oxanium', sans-serif; }
-  .q-swatch { rx: 1.5; }
   .q-name { fill: var(--carbon); font-size: 12.5px; font-weight: 600; font-family: 'Oxanium', sans-serif; }
   .q-val { fill: var(--slate); font-size: 10.5px; font-weight: 500; font-family: system-ui, sans-serif; }
   /* Drawn first so it sits behind every dot and label, and dotted so it reads as
      'anywhere along here' rather than as another engine's series. */
-  .q-curve { fill: none; stroke: #a8cbf0; stroke-width: 3; stroke-linecap: round;
+  .q-curve { fill: none; stroke: #4f86c6; stroke-width: 3; stroke-linecap: round;
              stroke-linejoin: round; stroke-dasharray: 1 7; }
   /* Outline markers keep coincident rival dots visible in their centers. */
   .q-cpt { fill: none; stroke-width: 2.5; }
-  .q-clab { font-family: 'SF Mono', Consolas, monospace; font-size: 11px; font-weight: 700; }
+  .q-clab { fill: #1d64b5; font-family: 'SF Mono', Consolas, monospace; font-size: 11px; font-weight: 700; }
   .q-csub { fill: var(--slate); font-size: 10px; font-family: system-ui, sans-serif; }
   .q-cname { font-family: 'Oxanium', sans-serif; font-size: 12px; font-weight: 800; }
 
@@ -155,15 +161,16 @@ description: How Atomdrift Scan compares to Socket, Aikido, VirusTotal, ClamAV a
   details.appendix { margin-top: 40px; border-top: 1px solid var(--border); padding-top: 6px; }
   details.appendix > summary { cursor: pointer; list-style: none; display: flex; align-items: baseline; gap: 9px;
     flex-wrap: wrap; font-family: 'Oxanium', sans-serif; font-weight: 800; font-size: 1.05rem; color: var(--carbon);
-    padding: 8px 0; letter-spacing: -.3px; }
+    min-height: 44px; padding: 8px 0; letter-spacing: -.3px; }
   details.appendix > summary::-webkit-details-marker { display: none; }
   details.appendix > summary::before { content: "▸"; color: var(--toxic-dark); font-size: .8rem; transition: transform .15s ease; }
   details.appendix[open] > summary::before { transform: rotate(90deg); }
   details.appendix > summary:hover { color: var(--atomdrift-blue); }
+  details.appendix > summary:focus-visible { outline: 3px solid var(--atomdrift-blue); outline-offset: 3px; border-radius: 3px; }
   .samples { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 22px; font-family: 'SF Mono', Consolas, monospace;
              font-size: .74rem; margin-top: 10px; }
   .samples a { color: var(--atomdrift-blue); text-decoration: none; white-space: nowrap; overflow: hidden;
-               text-overflow: ellipsis; display: block; }
+               text-overflow: ellipsis; display: flex; align-items: center; min-height: 28px; }
   .samples a::before { content: "▪ "; color: var(--h); }
   .samples a:hover { text-decoration: underline; }
   .meth { background: var(--cream); border: 1px solid var(--border); border-radius: 8px; padding: 12px 15px;
@@ -171,7 +178,7 @@ description: How Atomdrift Scan compares to Socket, Aikido, VirusTotal, ClamAV a
   .meth b { color: var(--carbon); font-family: 'Oxanium', sans-serif; }
   .closer { margin-top: 34px; background: var(--carbon); border-radius: 12px; padding: 20px 24px; display: flex;
             justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
-  .closer h4 { color: #fff; font-size: 1.05rem; letter-spacing: -.5px; margin: 0; font-family: 'Oxanium', sans-serif; font-weight: 800; }
+  .closer h3 { color: #fff; font-size: 1.05rem; letter-spacing: -.5px; margin: 0; font-family: 'Oxanium', sans-serif; font-weight: 800; }
   .closer p { margin: 5px 0 0; color: #b9bfc9; font-size: .78rem; }
   .closer .inst { font-family: 'SF Mono', Consolas, monospace; font-size: .78rem; background: #1c1f1a; color: var(--toxic);
                   border-radius: 7px; padding: 10px 15px; }
@@ -180,6 +187,7 @@ description: How Atomdrift Scan compares to Socket, Aikido, VirusTotal, ClamAV a
     .cmp-hero { grid-template-columns: 1fr; gap: 20px; }
     .own, .samples { grid-template-columns: 1fr; }
     .cmp-hero h1 { font-size: 1.7rem; }
+    .samples a { min-height: 44px; }
   }
 </style>
 
@@ -192,7 +200,7 @@ description: How Atomdrift Scan compares to Socket, Aikido, VirusTotal, ClamAV a
     {%- set p = providers[s.scanner] %}
     {%- set unsup = s.unsupported or 0 %}
     <div class="rn{% if s.scanner == 'ascan' %} us{% endif %}">{{ p.name or s.scanner }}</div>
-    <div class="tr" title="{{ s.hostile }} hostile · {{ s.suspicious }} suspicious · {{ s.benign }} analyzed clean{% if s.nodata %} · {{ s.nodata }} no record{% endif %}{% if s.errored %} · {{ s.errored }} errored{% endif %}{% if unsup %} · {{ unsup }} unsupported file format{% endif %}">
+    <div class="tr" role="img" aria-label="{{ p.name or s.scanner }}: {{ s.hostile }} hostile, {{ s.suspicious }} suspicious, {{ s.benign }} analyzed clean{% if s.nodata %}, {{ s.nodata }} no record{% endif %}{% if s.errored %}, {{ s.errored }} errored{% endif %}{% if unsup %}, {{ unsup }} unsupported file format{% endif %}" title="{{ s.hostile }} hostile · {{ s.suspicious }} suspicious · {{ s.benign }} analyzed clean{% if s.nodata %} · {{ s.nodata }} no record{% endif %}{% if s.errored %} · {{ s.errored }} errored{% endif %}{% if unsup %} · {{ unsup }} unsupported file format{% endif %}">
       {%- if s.supported > 0 -%}
         {%- if s.hostile > 0 %}<span class="hb" style="width:{{ s.hostile / s.supported * 100 }}%"></span>{% endif -%}
         {%- if s.suspicious > 0 %}<span class="sb" style="width:{{ s.suspicious / s.supported * 100 }}%"></span>{% endif -%}
@@ -247,16 +255,20 @@ description: How Atomdrift Scan compares to Socket, Aikido, VirusTotal, ClamAV a
         {%- endif %}
       </div>
       {%- if curve %}
+      {%- set dialStop = curve | curveStop(dialDefault) %}
       {# Server-rendered at the shipped default, so the numbers above are right with
          JS off; the slider only ever re-reads values already in the page. #}
       <div class="dial">
+        <label class="dial-label" for="dial">False-positive budget</label>
         <input type="range" id="dial" min="0" max="{{ (curve | length) - 1 }}"
                value="{{ curve | curveIndex(dialDefault) }}" step="1"
-               aria-label="False-positive budget, -l 0 to -l {{ (curve | last).l }}">
+               aria-valuetext="L {{ dialStop.l }}: {{ dialStop.det }}% caught, {{ dialStop.fp }}% false alarms"
+               aria-describedby="dial-help">
         <div class="ends"><span>-l 0</span><span>-l {{ (curve | last).l }}</span></div>
       </div>
       {%- endif %}
-      <div class="at">at <b id="dial-l">-l {{ dialDefault }}</b> <span id="dial-say">— the shipped default, untuned</span></div>
+      <div class="at" id="dial-help">at <b id="dial-l">-l {{ dialDefault }}</b> <span id="dial-say">— the shipped default, untuned</span></div>
+      <span id="dial-status" class="visually-hidden" aria-live="polite" aria-atomic="true"></span>
       <p>As of <b>{{ battle.generated_at | dateDisplay }}</b>.</p>
     </div>
     {%- endif %}
@@ -265,9 +277,9 @@ description: How Atomdrift Scan compares to Socket, Aikido, VirusTotal, ClamAV a
   <h2 id="results">Latest results <span class="note">{{ battle.detection.sample_count }} malware samples, none older than 48 hours · {{ battle.generated_at | dateDisplay }}</span></h2>
   {{ rows(battle.detection.leaderboard) }}
   <div class="legend">
-    <span><i style="background:var(--h)"></i>flagged hostile</span>
-    <span><i style="background:var(--s)"></i>flagged suspicious</span>
-    <span><i style="background:var(--na)"></i>unsupported file format</span>
+    <span><i class="hostile-key"></i>flagged hostile</span>
+    <span><i class="suspicious-key"></i>flagged suspicious</span>
+    <span><i class="unsupported-key"></i>unsupported file format</span>
   </div>
   {%- if curve %}
   {%- set curveTop = curve | last %}
@@ -275,10 +287,10 @@ description: How Atomdrift Scan compares to Socket, Aikido, VirusTotal, ClamAV a
   <p class="fig-note">Every engine is scored at its most sensitive setting, ours included.
     <b>{{ curveTop.det }}%</b> is the top of our dial; <b>{{ curveDef.det }}%</b> is the shipped default. Both beat
     the field.</p>
-  <p class="fig-note">Grey is scope: engines that only read packages from registries they support can't open the rest
-    of the cohort.</p>
+  <p class="fig-note">Grey is scope: engines that only read packages from registries they support mark the rest of the
+    cohort as an unsupported file format.</p>
   {%- else %}
-  <p class="fig-note"><b>Grey is scope</b> — engines that only read packages from registries they support can't open the rest of the cohort.</p>
+  <p class="fig-note"><b>Grey is scope</b> — engines that only read packages from registries they support mark the rest of the cohort as an unsupported file format.</p>
   {%- endif %}
 
   {%- set q = battle | quadrant(chartProviders) %}
@@ -287,7 +299,7 @@ description: How Atomdrift Scan compares to Socket, Aikido, VirusTotal, ClamAV a
   <p class="sub">Only the top-right corner counts: catch the malware, spare the clean code.
     <b>Every rival is one dot — one setting, chosen for you. We're the curve.</b></p>
   <div class="frontier-wrap">
-    <svg viewBox="0 0 {{ q.w }} {{ q.h }}" role="img" aria-label="Catch rate against false-alarm rate for every engine measured this run. The horizontal axis is catch rate, higher to the right; the vertical axis is false-alarm rate, inverted so fewer false alarms is higher. Atomdrift is drawn as a curve across its false-positive budget settings rather than a single point. Per-engine figures are listed in the tables below.">
+    <svg viewBox="0 0 {{ q.w }} {{ q.h }}" role="img" aria-label="Catch rate against false-alarm rate for every engine measured this run. The horizontal axis is catch rate, higher to the right; the vertical axis is false-alarm rate, inverted so fewer false alarms is higher. Atomdrift is drawn as a curve across its false-positive budget settings rather than a single point. Equivalent values follow the chart.">
       <rect class="q-target" x="{{ q.xDiv }}" y="{{ q.pt }}" width="{{ q.pr - q.xDiv }}" height="{{ q.yDiv - q.pt }}"></rect>
       {%- for t in q.xTicks %}
       <line class="q-grid" x1="{{ t.x }}" y1="{{ q.pt }}" x2="{{ t.x }}" y2="{{ q.pb }}"></line>
@@ -324,7 +336,7 @@ description: How Atomdrift Scan compares to Socket, Aikido, VirusTotal, ClamAV a
       {%- set ly = g.label.y + (loop.index0 * q.lineH) + 11 %}
       {%- if g.n > 1 %}
       {%- set sx = (g.label.tx - 9) if g.label.anchor == 'end' else (g.label.x if g.label.anchor == 'start' else g.label.tx - (e.name | length * 3.7) - 13) %}
-      <rect class="q-swatch" x="{{ sx }}" y="{{ ly - 8 }}" width="8" height="8" fill="{{ e.color }}"></rect>
+      <rect class="q-swatch" x="{{ sx }}" y="{{ ly - 8 }}" width="8" height="8" rx="1.5" fill="{{ e.color }}"></rect>
       {%- endif %}
       {%- set nx = (g.label.tx - 15 if g.n > 1 else g.label.tx) if g.label.anchor == 'end' else (g.label.x + 14 if g.n > 1 else g.label.x) %}
       <text class="q-name" x="{{ g.label.tx if g.label.anchor == 'middle' else nx }}" y="{{ ly }}" text-anchor="{{ g.label.anchor }}">{{ e.name }}</text>
@@ -346,6 +358,17 @@ description: How Atomdrift Scan compares to Socket, Aikido, VirusTotal, ClamAV a
       {%- endif %}
     </svg>
   </div>
+  <div class="visually-hidden">
+    <h3>Catch rate and false-alarm chart data</h3>
+    <ul>
+      {%- for g in q.groups %}
+        {%- for e in g.engines %}<li>{{ e.name }}: {{ g.value }}.</li>{% endfor %}
+      {%- endfor %}
+      {%- if q.curve %}
+        {%- for v in q.curve.verts %}<li>Atomdrift L {{ v.lLo }}{% if v.lHi != v.lLo %} through {{ v.lHi }}{% endif %}: {{ v.det }}% caught, {{ v.fp }}% false alarms.</li>{% endfor %}
+      {%- endif %}
+    </ul>
+  </div>
   {%- if q.curve %}
   <p class="fig-note"><code>-l</code> is a false-positive budget — files flagged per <b>100 million</b>, calibrated
     per file type. Not “medium sensitivity”; a number you can plan a pipeline around.</p>
@@ -359,7 +382,7 @@ description: How Atomdrift Scan compares to Socket, Aikido, VirusTotal, ClamAV a
   <p class="sub">Most engines swing sixty points as the cohort changes. <b>Judge us on the worst night, not the
     best.</b></p>
   {%- if history and history | length >= 2 %}
-  <div class="trend-wrap"><canvas id="trendChart"></canvas></div>
+  <div class="trend-wrap"><canvas id="trendChart" role="img" aria-label="Historical catch-rate line chart for every measured engine across fresh live-malware cohorts. Current-run values are provided in Latest results above."></canvas></div>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script>
   (function () {
@@ -423,7 +446,7 @@ description: How Atomdrift Scan compares to Socket, Aikido, VirusTotal, ClamAV a
         ctx.textBaseline = 'middle';
         items.forEach(it => {
           ctx.font = (it.bold ? '700 ' : '600 ') + '11px system-ui, sans-serif';
-          ctx.fillStyle = it.color;
+          ctx.fillStyle = '#404040';
           ctx.fillText(it.val + '%', it.x + 7, it.y);
         });
         ctx.restore();
@@ -527,6 +550,7 @@ description: How Atomdrift Scan compares to Socket, Aikido, VirusTotal, ClamAV a
     if (!el || !C.length) return;
     const det = document.querySelector('.proof .n'), fp = document.querySelector('.proof .n.fp');
     const lab = document.getElementById('dial-l'), say = document.getElementById('dial-say');
+    const status = document.getElementById('dial-status');
     const stance = (l) => l === DEF ? '— the shipped default, untuned'
       : (l === 0 ? '— zero false-positive budget' : (l < DEF ? '— stricter than the default' : '— tuned for recall'));
     function render() {
@@ -535,8 +559,13 @@ description: How Atomdrift Scan compares to Socket, Aikido, VirusTotal, ClamAV a
       if (fp) fp.textContent = c.fp + '%';
       lab.textContent = '-l ' + c.l.toLocaleString('en-US');
       say.textContent = stance(c.l);
+      el.setAttribute('aria-valuetext', 'L ' + c.l.toLocaleString('en-US') + ': ' + c.det + '% caught, ' + c.fp + '% false alarms');
     }
     el.addEventListener('input', render);
+    el.addEventListener('change', function () {
+      const c = C[+el.value];
+      if (status) status.textContent = 'L ' + c.l.toLocaleString('en-US') + ': ' + c.det + '% caught, ' + c.fp + '% false alarms';
+    });
     render();
   })();
   </script>
@@ -565,7 +594,7 @@ description: How Atomdrift Scan compares to Socket, Aikido, VirusTotal, ClamAV a
 
   <div class="closer">
     <div>
-      <h4>Point it at your dependencies.</h4>
+      <h3>Point it at your dependencies.</h3>
       <p>Apache-2.0 · local analysis · explicit offline mode</p>
     </div>
     <div class="inst">curl -fsSL https://install.atomdrift.org/scan.sh | sh</div>

@@ -10,18 +10,19 @@
   <meta property="og:title" content="{{ title }} - The Atomdrift Project">
   <meta property="og:description" content="{{ description or 'Open-source, local-first supply-chain attack detection across binaries, packages, scripts, and source — Apache 2.0.' }}">
 
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>%E2%9A%9B</text></svg>">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20100%20100'%3E%3Ctext%20y='.9em'%20font-size='90'%3E%E2%9A%9B%3C/text%3E%3C/svg%3E">
 
   <link rel="alternate" type="application/atom+xml" title="Atomdrift News" href="/feed.xml">
   <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
 
-  <div class="site-header">
+  <header class="site-header">
     <div class="header-inner">
       <div class="logo-block">
         <a href="/">
-          <svg class="atom-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <svg class="atom-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
             <circle cx="50" cy="50" r="6" fill="#3b82f6"/>
             <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(-30 50 50)"/>
             <ellipse cx="50" cy="50" rx="38" ry="14" fill="none" stroke="#0a0a0a" stroke-width="1.5" transform="rotate(30 50 50)"/>
@@ -37,35 +38,35 @@
         </a>
       </div>
       <div class="header-links">
-        <a href="https://github.com/atomdrift-project" target="_blank">GitHub</a>
+        <a href="https://github.com/atomdrift-project" target="_blank" rel="noopener">GitHub<span class="visually-hidden"> (opens in a new tab)</span></a>
         <a href="https://install.atomdrift.org/" class="install-link">Install <span aria-hidden="true">&darr;</span></a>
-        <a href="https://lab.atomdrift.org/" class="hl" target="_blank">Lab</a>
+        <a href="https://lab.atomdrift.org/" class="hl" target="_blank" rel="noopener">Lab<span class="visually-hidden"> (opens in a new tab)</span></a>
       </div>
     </div>
-  </div>
+  </header>
 
   <div class="toxic-stripe"></div>
 
-  <div class="nav">
+  <nav class="nav" aria-label="Primary">
     <div class="nav-inner">
-      <a href="/"{% if page.url == "/" %} class="active"{% endif %}>Home</a>
+      <a href="/"{% if page.url == "/" %} class="active" aria-current="page"{% endif %}>Home</a>
       {# Discovery posts keep their /discoveries/ URLs, but they are listed under News now. #}
-      <a href="/news/"{% if page.url and (page.url.startsWith("/news") or page.url.startsWith("/discoveries")) %} class="active"{% endif %}>News</a>
-      <a href="/compare/"{% if page.url and page.url.startsWith("/compare") %} class="active"{% endif %}>Compare</a>
-      <a href="/projects/"{% if page.url == "/projects/" or page.url == "/cleave/" or page.url == "/stng/" or page.url == "/scan/" or page.url == "/azoth/" %} class="active"{% endif %}>Projects</a>
-      <a href="/support/"{% if page.url == "/support/" %} class="active"{% endif %}>Support</a>
+      <a href="/news/"{% if page.url and (page.url.startsWith("/news") or page.url.startsWith("/discoveries")) %} class="active" aria-current="page"{% endif %}>News</a>
+      <a href="/compare/"{% if page.url and page.url.startsWith("/compare") %} class="active" aria-current="page"{% endif %}>Compare</a>
+      <a href="/projects/"{% if page.url == "/projects/" or page.url == "/cleave/" or page.url == "/stng/" or page.url == "/scan/" or page.url == "/azoth/" %} class="active" aria-current="page"{% endif %}>Projects</a>
+      <a href="/support/"{% if page.url == "/support/" %} class="active" aria-current="page"{% endif %}>Support</a>
     </div>
-  </div>
+  </nav>
 
-  <main>
+  <main id="main-content" tabindex="-1">
     {{ content | safe }}
   </main>
 
-  <div class="site-footer">
+  <footer class="site-footer">
     <div class="footer-inner">
       <span>&copy; 2026 The Atomdrift Project</span>
     </div>
-  </div>
+  </footer>
 
 </body>
 </html>
