@@ -1098,26 +1098,28 @@
     }
   },
   {
-    "at": "2026-08-09T07:01:11.38038402Z",
-    "bad": 28,
-    "good": 50,
+    "at": "2026-08-09T12:48:52.753800162Z",
+    "bad": 36,
+    "good": 49,
     "detection": {
-      "aikido": 0.17857142857142858,
-      "ascan": 0.6428571428571429,
-      "clamav": 0.21428571428571427,
-      "guarddog": 0,
-      "malcontent": 0,
+      "aikido": 0.16666666666666666,
+      "ascan": 0.5277777777777778,
+      "clamav": 0.25,
+      "guarddog": 0.1111111111111111,
+      "malcontent": 0.5,
       "safedep": 0.25,
-      "socket": 0.32142857142857145
+      "socket": 0.2777777777777778,
+      "virustotal": 0.5
     },
     "false_positive": {
       "aikido": 0,
-      "ascan": 0.1,
+      "ascan": 0.02040816326530612,
       "clamav": 0,
       "guarddog": 0,
-      "malcontent": 0,
+      "malcontent": 0.1836734693877551,
       "safedep": 0,
-      "socket": 0
+      "socket": 0,
+      "virustotal": 0
     }
   }
 ]
