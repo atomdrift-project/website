@@ -233,6 +233,58 @@ module.exports = function(eleventyConfig) {
   });
 
   // ---------------------------------------------------------------------------
+  // blindSpots: the two gaps a hosted scanner has that a local engine does not.
+  // (Named for the claim, not the mechanic — `coverage` is already this file's
+  // filter for per-engine file-type capability, and the two would silently collide.)
+  //
+  //   unreadable — the artifact isn't a package in a registry they index, so
+  //                there is nothing to look up. This is the same shape as a
+  //                company's own code and its private dependencies: no purl, no
+  //                registry, no vendor coverage, ever.
+  //   noRecord   — the artifact IS a package they index, and they had no entry
+  //                for it at the moment we asked. That is the detection gap:
+  //                the window between a package going live and a vendor listing
+  //                it, which is the entire window an attack operates in.
+  //
+  // Both are read straight off the same leaderboard the bars use, so this table
+  // can never disagree with the chart above it.
+  // ---------------------------------------------------------------------------
+  eleventyConfig.addFilter("blindSpots", function(battle, providers) {
+    const provs = providers || {};
+    const board = (battle && battle.detection && battle.detection.leaderboard) || [];
+    if (!board.length) return null;
+    const rows = [];
+    for (const s of board) {
+      if (isHidden(provs, s.scanner)) continue;
+      const unreadable = s.unsupported || 0, noRecord = s.nodata || 0;
+      const p = provs[s.scanner] || {};
+      rows.push({
+        key: s.scanner, name: p.name || s.scanner, color: p.color || "#6b7280",
+        hosted: !!p.hosted, us: s.scanner === "ascan",
+        unreadable: unreadable, lookups: s.supported - unreadable, noRecord: noRecord,
+        caught: s.hostile + s.suspicious, n: s.supported,
+      });
+    }
+    // Only the engines with a gap to show, worst first; the rest are named in prose.
+    const gapped = rows.filter((r) => r.unreadable > 0 || r.noRecord > 0)
+      .sort((a, b) => (b.unreadable - a.unreadable) || (b.noRecord - a.noRecord));
+    if (!gapped.length) return null;
+    // A sample with no purl is not a registry package at all — the population the
+    // "unreadable" column is counting, verified from the samples rather than
+    // inferred from the leaderboard.
+    const cohort = ((battle && battle.samples) || [])
+      .filter((s) => s.label === "bad" && !s.excluded);
+    const nonPackage = cohort.filter((s) => !(s.purl || s.purl_base)).length;
+    return {
+      rows: gapped,
+      clean: rows.filter((r) => r.unreadable === 0 && r.noRecord === 0),
+      n: rows.length ? rows[0].n : 0,
+      nonPackage: nonPackage,
+      cohort: cohort.length,
+    };
+  });
+
+  // ---------------------------------------------------------------------------
   // quadrant: the zero-day detection / false-positive plot.
   //
   // Everything the SVG needs is computed here — axes, the target quadrant, the
