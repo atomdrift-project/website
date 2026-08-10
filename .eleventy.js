@@ -233,87 +233,213 @@ module.exports = function(eleventyConfig) {
   });
 
   // ---------------------------------------------------------------------------
-  // quadrant: the catch-rate / false-alarm trade-off plot.
+  // quadrant: the zero-day detection / false-positive plot.
   //
-  // Everything the SVG needs is computed here — axes, quadrant dividers, marker
-  // positions and, the hard part, label placement. Labels are laid out against
-  // real bounding boxes: engines that scored identically collapse into one
-  // marker with a stacked label, and every remaining box is placed by trying
-  // candidate sides and nudging until it clears the markers and the boxes
-  // already placed. Doing this in the template is what produced the pile-up of
-  // overlapping text and labels stranded from their circles.
+  // Everything the SVG needs is computed here — axes, the target quadrant, the
+  // operating curve, and the hard part, label placement.
   //
-  // The y axis is *inverted* — 0% false alarms at the top — so that up and to
-  // the right is unambiguously better and the four quadrants read the way a
-  // reader expects: Precise top-right, Trailing bottom-left.
+  // Three decisions shape it:
+  //
+  //   1. The y axis is *cropped* at YMAX. On a typical run six of eight engines
+  //      sit between 0% and 2%, and one engine crying wolf at 32% would stretch
+  //      the scale until the entire decision is squashed into the top sixth of
+  //      the plot. Anything past the crop is drawn in a marked off-scale strip
+  //      below an axis break, at its true value, never silently clipped.
+  //
+  //   2. Each engine gets ONE line of text plus, only when it has any, a count of
+  //      false positives underneath. The marker's height already states the
+  //      false-positive rate, so repeating it beside the name is the redundant
+  //      ink that used to collide.
+  //
+  //   3. Atomdrift is the only emphasized mark. Every rival is drawn at the same
+  //      size and weight as every other rival — de-emphasis is size and weight
+  //      only, never hue, so an engine keeps the colour it has in the bars and
+  //      the trend chart.
+  //
+  // The y axis is inverted — 0% false positives at the top — so up and to the
+  // right is unambiguously better.
   // ---------------------------------------------------------------------------
-  const QW = 960, QH = 500;            // viewBox
-  const QPL = 66, QPR = 830, QPT = 54, QPB = 404; // plot rect (right gutter holds labels)
-  const NAME_PX = 7.4, VAL_PX = 5.9, SWATCH = 15, LINE_H = 15;
-  const XDIV = 50;                     // catch-rate divider (%)
-  const YDIV = 5;                      // false-alarm divider (%)
+  const QW = 960, QH = 512;
+  const QPL = 84, QPR = 904, QPT = 108, QPB = 426;
+  const QSTRIP = 46;                       // off-scale strip below the axis break
+  const QMB = QPB - QSTRIP;                // bottom of the in-scale band
+  const QZERO = QPT + 36;                  // the 0% row, low enough for a leader above it
+  const YMAX = 10;                         // false-positive crop
+  const XDIV = 50, YDIV = 5;               // quadrant dividers
+  const LINE_H = 14;
 
-  function overlaps(a, b, pad) {
-    const p = pad || 0;
-    return !(a.x + a.w + p <= b.x || b.x + b.w + p <= a.x || a.y + a.h + p <= b.y || b.y + b.h + p <= a.y);
-  }
   function overlapArea(a, b) {
     const dx = Math.min(a.x + a.w, b.x + b.w) - Math.max(a.x, b.x);
     const dy = Math.min(a.y + a.h, b.y + b.h) - Math.max(a.y, b.y);
     return dx > 0 && dy > 0 ? dx * dy : 0;
   }
 
-  // --- Atomdrift's operating curve ------------------------------------------
+  // --- Atomdrift's operating curve -------------------------------------------
   //
   // `-l N` is a false-positive budget: N flagged benign files per 100 million,
-  // calibrated per file type. Because atomscan's `lvl` is swept over the whole grid
-  // regardless of the -l it ran with, one scan describes a sample at every level —
-  // so gauntlet replays the cohort across the grid and publishes the result as
-  // `ascan_curve`.
+  // calibrated per file type. battle.json publishes `ascan_curve` at nine grid
+  // stops, but each sample's verdict detail records the level it was actually
+  // assigned ("level 25 (p=0.83)"), and the tier rule is atomscan's own —
+  // hostile at lvl <= N, suspicious out to min(gridMax, 4N). Replaying that over
+  // every budget rather than the nine we happen to publish is what lets the
+  // figure claim a curve instead of a scatter of grid stops.
   //
-  // We read that verbatim and never recompute it here. Deriving the tier needs
-  // atomscan's caps (hostile at lvl<=N, suspicious to min(gridMax, 4N)); a second
-  // implementation in JS is a second thing to get wrong, and it already was — an
-  // earlier version of this filter tested only `lvl <= N`, which silently dropped
-  // the suspicious band and understated the curve at every stop where 4N reaches
-  // past the next grid level. gauntlet owns the semantics; this reads the answer.
-  const DIAL_DEFAULT = 50; // mirrors atomscan's own default, for prose that names it
+  // We do not trust that replay blindly: it is checked against every published
+  // stop first, and a single disagreement falls back to the grid. A wrong curve
+  // drawn confidently is worse than a coarse one.
+  const DIAL_DEFAULT = 25;   // atomscan's shipped default
+  const DIAL_MAX = 2500;     // the top of the range this page quotes, dial included
+  const GRID_MAX = 25000;    // atomscan's own ceiling — a property of the engine
 
-  function ascanCurve(battle) {
-    const raw = battle && battle.ascan_curve;
-    if (!Array.isArray(raw) || raw.length < 2) return null;
-    const pct = (n, d) => (d ? Math.round((100 * n) / d) : 0);
-    const out = raw.map((p) => ({
-      l: p.level,
-      det: pct(p.caught, p.cohort_n),
-      fp: pct(p.fp_flagged, p.fp_cohort_n),
-      hostile: p.hostile, suspicious: p.suspicious,
-      fpHostile: p.fp_hostile, fpSuspicious: p.fp_suspicious,
-    }));
-    // A flat curve is one operating point wearing nine labels — draw the dot instead.
-    return out.some((c) => c.det !== out[0].det || c.fp !== out[0].fp) ? out : null;
+  function ascanLevels(battle) {
+    const out = { bad: [], good: [] };
+    for (const s of (battle && battle.samples) || []) {
+      for (const v of s.verdicts || []) {
+        if (v.scanner !== "ascan") continue;
+        const m = /^level (-?\d+)/.exec(v.detail || "");
+        if (m && out[s.label]) out[s.label].push(Number(m[1]));
+      }
+    }
+    return out;
   }
 
-  eleventyConfig.addFilter("ascanCurve", ascanCurve);
+  function tally(lvls, n) {
+    const cap = Math.min(GRID_MAX, 4 * n);
+    let hostile = 0, suspicious = 0;
+    for (const l of lvls) {
+      if (l < 0) continue;
+      if (l <= n) hostile++;
+      else if (l <= cap) suspicious++;
+    }
+    return { hostile: hostile, suspicious: suspicious };
+  }
 
-  // The stop a given -l budget lands on, for prose that has to name a number
-  // ("the shipped default catches N%") without hardcoding it.
+  // The precise curve, or null when the levels can't reproduce what we published.
+  function preciseCurve(battle) {
+    const raw = (battle && battle.ascan_curve) || [];
+    if (raw.length < 2) return null;
+    const lv = ascanLevels(battle);
+    if (!lv.bad.length || !lv.good.length) return null;
+    const nBad = raw[0].cohort_n, nGood = raw[0].fp_cohort_n;
+    if (!nBad || !nGood) return null;
+    for (const p of raw) {                       // the check that earns the sweep
+      const b = tally(lv.bad, p.level), g = tally(lv.good, p.level);
+      if (b.hostile !== p.hostile || b.suspicious !== p.suspicious ||
+          g.hostile !== p.fp_hostile || g.suspicious !== p.fp_suspicious) return null;
+    }
+    const out = [];
+    for (let n = 0; n <= DIAL_MAX; n++) {
+      const b = tally(lv.bad, n), g = tally(lv.good, n);
+      const caught = b.hostile + b.suspicious, flagged = g.hostile + g.suspicious;
+      const det = Math.round((100 * caught) / nBad), fp = Math.round((100 * flagged) / nGood);
+      const prev = out[out.length - 1];
+      if (prev && prev.det === det && prev.fp === fp) { prev.lHi = n; continue; }
+      out.push({ det: det, fp: fp, caught: caught, flagged: flagged, lLo: n, lHi: n });
+    }
+    return out.length >= 2 ? out : null;
+  }
+
+  // Fallback: the published grid stops, collapsed the same way.
+  function gridCurve(battle) {
+    const raw = (battle && battle.ascan_curve) || [];
+    if (raw.length < 2) return null;
+    const out = [];
+    for (const p of raw) {
+      if (p.level > DIAL_MAX) continue;
+      const det = Math.round((100 * p.caught) / p.cohort_n);
+      const fp = Math.round((100 * p.fp_flagged) / p.fp_cohort_n);
+      const prev = out[out.length - 1];
+      if (prev && prev.det === det && prev.fp === fp) { prev.lHi = p.level; continue; }
+      out.push({ det: det, fp: fp, caught: p.caught, flagged: p.fp_flagged,
+                 lLo: p.level, lHi: p.level });
+    }
+    return out.length >= 2 ? out : null;
+  }
+
+  function ascanCurve(battle) {
+    return preciseCurve(battle) || gridCurve(battle);
+  }
+  eleventyConfig.addFilter("ascanCurve", function(battle) {
+    // The hero slider walks the published grid, capped at the same ceiling the
+    // chart quotes so the two can never advertise different maximums. The grid's
+    // own stops jump 1000 -> 3000, straddling the cap, so the ceiling is appended
+    // as a stop of its own — otherwise the slider would end at -l 1000 while the
+    // figure beside it claims a range up to -l 2500.
+    const raw = (battle && battle.ascan_curve) || [];
+    if (!raw.length) return null;
+    const nBad = raw[0].cohort_n, nGood = raw[0].fp_cohort_n;
+    const out = raw.filter((p) => p.level <= DIAL_MAX).map((p) => ({
+      l: p.level,
+      det: nBad ? Math.round((100 * p.caught) / nBad) : 0,
+      fp: nGood ? Math.round((100 * p.fp_flagged) / nGood) : 0,
+      caught: p.caught, flagged: p.fp_flagged,
+    }));
+    if (!out.length) return null;
+    if (out[out.length - 1].l < DIAL_MAX) {
+      // Measured at the cap where the per-sample levels allow it; otherwise the
+      // last grid stop below the cap still describes it, since nothing on the
+      // grid changes in between.
+      const lv = ascanLevels(battle);
+      const last = out[out.length - 1];
+      let stop = { l: DIAL_MAX, det: last.det, fp: last.fp, caught: last.caught, flagged: last.flagged };
+      if (lv.bad.length && lv.good.length && nBad && nGood) {
+        const b = tally(lv.bad, DIAL_MAX), g = tally(lv.good, DIAL_MAX);
+        const caught = b.hostile + b.suspicious, flagged = g.hostile + g.suspicious;
+        stop = {
+          l: DIAL_MAX, caught: caught, flagged: flagged,
+          det: Math.round((100 * caught) / nBad), fp: Math.round((100 * flagged) / nGood),
+        };
+      }
+      out.push(stop);
+    }
+    if (out.length < 2) return null;
+    return out.some((c) => c.det !== out[0].det || c.fp !== out[0].fp) ? out : null;
+  });
+
   eleventyConfig.addFilter("curveStop", function(curve, l) {
     if (!curve || !curve.length) return null;
     let out = curve[0];
     for (const c of curve) if (c.l <= l) out = c;
     return out;
   });
-  eleventyConfig.addGlobalData("dialDefault", () => DIAL_DEFAULT);
-
-  // Index of the stop a budget lands on, so the hero's slider can be server-rendered
-  // at the shipped default instead of jumping there once JS runs.
   eleventyConfig.addFilter("curveIndex", function(curve, l) {
     if (!curve || !curve.length) return 0;
     let i = 0;
     for (let k = 0; k < curve.length; k++) if (curve[k].l <= l) i = k;
     return i;
   });
+  eleventyConfig.addGlobalData("dialDefault", () => DIAL_DEFAULT);
+  eleventyConfig.addGlobalData("dialMax", () => DIAL_MAX);
+  eleventyConfig.addGlobalData("dialMaxLabel", () => DIAL_MAX.toLocaleString("en-US"));
+
+  // Fritsch-Carlson monotone cubic: smooth, and it cannot overshoot into values
+  // the measurement never produced — no dipping below zero false positives on the
+  // way between two stops that both measured zero.
+  function monotoneSlopes(xs, ys) {
+    const n = xs.length, h = [], d = [], m = new Array(n).fill(0);
+    for (let i = 0; i < n - 1; i++) { h.push(xs[i + 1] - xs[i]); d.push((ys[i + 1] - ys[i]) / h[i]); }
+    m[0] = d[0]; m[n - 1] = d[n - 2];
+    for (let i = 1; i < n - 1; i++) {
+      if (d[i - 1] * d[i] <= 0) { m[i] = 0; continue; }
+      const w1 = 2 * h[i] + h[i - 1], w2 = h[i] + 2 * h[i - 1];
+      m[i] = (w1 + w2) / (w1 / d[i - 1] + w2 / d[i]);
+    }
+    return m;
+  }
+
+  function curvePath(verts, xOf, yOf) {
+    const xs = verts.map((v) => v.det), ys = verts.map((v) => v.fp);
+    const m = monotoneSlopes(xs, ys);
+    const at = (x, y) => xOf(x).toFixed(1) + "," + yOf(y).toFixed(1);
+    const parts = ["M " + at(xs[0], ys[0])];
+    for (let i = 0; i < xs.length - 1; i++) {
+      const h = xs[i + 1] - xs[i];
+      parts.push("C " + at(xs[i] + h / 3, ys[i] + (m[i] * h) / 3) + " " +
+                 at(xs[i + 1] - h / 3, ys[i + 1] - (m[i + 1] * h) / 3) + " " +
+                 at(xs[i + 1], ys[i + 1]));
+    }
+    return parts.join(" ");
+  }
 
   eleventyConfig.addFilter("quadrant", function(battle, providers) {
     const provs = providers || {};
@@ -322,216 +448,183 @@ module.exports = function(eleventyConfig) {
     const fpBy = {};
     for (const s of fp) fpBy[s.scanner] = s;
 
-    // Atomdrift is not a point on this chart, it is a curve: -l sets a
-    // false-positive budget, so every stop on the grid is a different operating
-    // point. When the curve is recoverable we draw it and drop ascan's single
-    // dot, which would otherwise sit on the curve claiming to be the whole story.
     const curve = ascanCurve(battle);
 
-    // One point per engine that has both measures this run.
+    // One point per engine that has both measures. Atomdrift is a curve, not a
+    // dot, whenever the curve is recoverable.
     const pts = [];
     for (const d of det) {
       if (isHidden(provs, d.scanner)) continue;
       if (curve && d.scanner === "ascan") continue;
-      const dr = flaggedRate(d), fr = flaggedRate(fpBy[d.scanner]);
+      const dr = flaggedRate(d), f = fpBy[d.scanner], fr = flaggedRate(f);
       if (dr === null || fr === null) continue;
       const p = provs[d.scanner] || {};
       pts.push({
-        key: d.scanner, name: p.chartName || p.name || d.scanner, color: p.color || "#6b7280",
-        det: Math.round(dr), fp: Math.round(fr), us: d.scanner === "ascan",
+        key: d.scanner, name: p.name || d.scanner, color: p.color || "#6b7280",
+        det: Math.round(dr), fp: Math.round(fr),
+        flagged: f.hostile + f.suspicious, nGood: f.supported,
+        caught: d.hostile + d.suspicious, nBad: d.supported,
       });
     }
     if (pts.length < 2) return null;
 
-    // y scale: enough headroom above the worst false-alarm rate to keep the
-    // divider on screen, so a run where nobody cries wolf still reads as a
-    // quadrant instead of a single line of dots pinned to the top edge.
-    const maxFp = Math.max(...pts.map((p) => p.fp), ...(curve ? curve.map((c) => c.fp) : []));
-    let yMax = Math.max(10, Math.ceil((maxFp * 1.35) / 5) * 5);
-    const yStep = yMax > 60 ? 20 : (yMax > 20 ? 10 : 5);
-    // The data band is inset from the plot frame: a run where every engine holds
-    // its fire puts the whole field on the 0% line, and without headroom those
-    // markers would straddle the frame edge. The band above 0% also gives the
-    // top quadrant captions somewhere to sit that data never reaches.
-    const dataTop = QPT + 34, dataBottom = QPB - 16;
-    const dataLeft = QPL + 14, dataRight = QPR - 14;
-    const xOf = (v) => dataLeft + (v / 100) * (dataRight - dataLeft);
-    const yOf = (v) => dataTop + (v / yMax) * (dataBottom - dataTop); // inverted: 0% at the top
+    const xOf = (v) => QPL + 18 + (v / 100) * (QPR - QPL - 40);
+    const yOf = (v) => QZERO + (Math.min(v, YMAX) / YMAX) * (QMB - QZERO);
 
-    // Engines that scored identically share a marker — four dots stacked on one
-    // pixel with four labels fighting over it is the overlap the reader sees.
-    const groups = [];
-    const byPos = {};
-    for (const p of pts) {
-      const k = p.det + "|" + p.fp;
-      if (!byPos[k]) {
-        byPos[k] = { det: p.det, fp: p.fp, x: xOf(p.det), y: yOf(p.fp), engines: [], us: false };
-        groups.push(byPos[k]);
-      }
-      byPos[k].engines.push(p);
-      if (p.us) byPos[k].us = true;
+    // Anything past the crop keeps its true value in a labelled strip rather than
+    // being clipped to the frame edge, which would understate it.
+    const offscale = pts.filter((p) => p.fp > YMAX).sort((a, b) => b.fp - a.fp);
+    const inScale = pts.filter((p) => p.fp <= YMAX);
+
+    // --- label boxes ---------------------------------------------------------
+    // Width is estimated from character count; close enough for collisions at
+    // these sizes, and it costs no layout pass.
+    const NAME_PX = 6.2, FP_PX = 5.3, US_PX = 7.3;
+    function box(head, sub, us) {
+      const cw = us ? US_PX : NAME_PX;
+      return {
+        head: head, sub: sub, us: us,
+        w: Math.max(head.length * cw, sub ? sub.length * FP_PX : 0),
+        h: sub ? 2 * LINE_H : LINE_H,
+      };
+    }
+    const fpText = (n) => (n ? n + " false positive" + (n === 1 ? "" : "s") : null);
+
+    const marks = [];
+    for (const p of inScale) {
+      marks.push(Object.assign({
+        x: xOf(p.det), y: yOf(p.fp), r: 5, kind: "engine",
+      }, box(p.name + "  " + p.det + "%", fpText(p.flagged), false), { engine: p }));
     }
 
-    // Label box for a group: one line per engine (swatch + name), then the
-    // shared value line. Sizes are estimated from character counts — close
-    // enough for collision purposes at these font sizes.
-    for (const g of groups) {
-      g.n = g.engines.length;
-      g.r = g.n > 1 ? 11 : (g.us ? 9 : 6.5);
-      // A shared marker is drawn neutral with its count inside — painting it one
-      // member's hue would credit that engine with the position alone.
-      g.color = g.n > 1 ? "#6b7280" : g.engines[0].color;
-      g.value = g.det + "% caught · " + g.fp + "% false";
-      // Swatches only on a shared marker: there the dot is neutral grey with a
-      // count in it, so the label has to carry each member's color. A lone
-      // engine's own dot sits right beside its name and already does that —
-      // a swatch there is the same color twice, a few pixels apart.
-      const nameW = Math.max(...g.engines.map((e) => e.name.length * NAME_PX)) + (g.n > 1 ? SWATCH : 0);
-      g.w = Math.max(nameW, g.value.length * VAL_PX);
-      g.h = (g.engines.length + 1) * LINE_H;
-    }
-
-    // Curve geometry. Consecutive stops that score identically collapse to one
-    // vertex — the grid has stops the model doesn't distinguish, and drawing them
-    // as separate points would imply precision the measurement doesn't have.
+    // --- the curve and the three stops worth naming --------------------------
     let curveGeo = null;
     if (curve) {
-      const verts = [];
-      for (const c of curve) {
-        const prev = verts[verts.length - 1];
-        if (prev && prev.det === c.det && prev.fp === c.fp) { prev.lHi = c.l; continue; }
-        verts.push({ det: c.det, fp: c.fp, lLo: c.l, lHi: c.l, x: xOf(c.det), y: yOf(c.fp) });
+      const verts = curve;
+      const first = verts[0], last = verts[verts.length - 1];
+      let dflt = null;
+      for (const v of verts) if (v.lLo <= DIAL_DEFAULT && DIAL_DEFAULT <= v.lHi) dflt = v;
+      const named = [];
+      const nameOf = (v) => v === last ? "Atomdrift@L" + DIAL_MAX.toLocaleString("en-US")
+        : (v === dflt ? "Atomdrift@L" + DIAL_DEFAULT + " (default)"
+        : "Atomdrift@L" + v.lLo.toLocaleString("en-US"));
+      for (const v of [first, dflt, last]) {
+        if (v && named.indexOf(v) === -1) named.push(v);
       }
-      // Label the strictest stop, the shipped default, and the top of the grid.
-      // The strictest label also names the series: it can coincide exactly with a
-      // rival (as VirusTotal does in the current run), so a bare ring with only a
-      // nearby standalone series name leaves the shared point needlessly cryptic.
-      const topLevel = curve[curve.length - 1].l;
-      const curveName = (provs.ascan && provs.ascan.name) || "Atomdrift";
-      for (const v of verts) {
-        v.labelKind = v === verts[0] ? "first"
-          : ((v.lLo <= DIAL_DEFAULT && v.lHi >= DIAL_DEFAULT) ? "default"
-          : (v.lHi === topLevel ? "top" : null));
-        v.label = v.labelKind === "first" ? curveName + " · L:" + v.lLo.toLocaleString("en-US")
-          : (v.labelKind === "default" ? "L:" + DIAL_DEFAULT.toLocaleString("en-US") + " (DEFAULT)"
-          : (v.labelKind === "top" ? "L:" + v.lHi.toLocaleString("en-US") : null));
-        v.sub = v.det + "% caught" + (v.fp === 0 ? " · no false alarms" : "");
-      }
-      // Keep the final two annotated stops on opposite sides of the curve. In a strong
-      // run they often differ by only one caught sample and can land a few pixels
-      // apart at the same false-alarm rate; giving both labels the old fixed
-      // rightward offset made the text overwrite itself. Short leaders preserve
-      // the point-to-label association. The strictest label goes above its point,
-      // leaving the area below free for a coincident rival's label.
-      const labeled = verts.filter((v) => v.label);
-      for (let i = 0; i < labeled.length; i++) {
-        const v = labeled[i];
-        const isFirst = v.labelKind === "first";
-        const isLast = v.labelKind === "top";
-        v.labelAnchor = (isFirst || isLast) ? "start" : "end";
-        v.labelX = v.x + ((isFirst || isLast) ? 15 : -15);
-        v.labelY = v.y + (isFirst ? -18 : 19);
-        v.leader = isFirst
-          ? { x1: v.x + 7, y1: v.y - 5, x2: v.labelX - 4, y2: v.labelY + 5 }
-          : (isLast
-          ? { x1: v.x + 7, y1: v.y + 5, x2: v.labelX - 4, y2: v.labelY - 5 }
-          : { x1: v.x - 7, y1: v.y + 5, x2: v.labelX + 4, y2: v.labelY - 5 });
+      for (const v of named) {
+        marks.push(Object.assign({
+          x: xOf(v.det), y: yOf(v.fp), r: 5.5, kind: "stop",
+        }, box(nameOf(v) + "  " + v.det + "%", fpText(v.flagged), true), { stop: v }));
       }
       curveGeo = {
-        verts: verts,
-        points: verts.map((v) => v.x.toFixed(1) + "," + v.y.toFixed(1)).join(" "),
+        path: curvePath(verts, xOf, yOf),
         color: (provs.ascan && provs.ascan.color) || "#2a78d6",
-        name: curveName,
+        x1: xOf(first.det), x2: xOf(last.det),
+        verts: verts, named: named,
       };
     }
 
-    const markerBoxes = groups.map((g) => ({ x: g.x - g.r - 3, y: g.y - g.r - 3, w: 2 * g.r + 6, h: 2 * g.r + 6 }))
-      // The curve is an obstacle too: a competitor label parked on top of it is
-      // worse than one nudged a few pixels.
-      .concat(curveGeo ? curveGeo.verts.map((v) => ({ x: v.x - 9, y: v.y - 9, w: 18, h: 18 })) : []);
-    // The four quadrant captions are drawn in the corners; seed them as
-    // obstacles so a data label never lands on top of one.
-    const CW = 140, CH = 22;
-    const placed = [
-      { x: QPL + 8, y: QPT + 4, w: CW, h: CH },             // conservative
-      { x: QPR - 8 - CW, y: QPT + 4, w: CW, h: CH },        // precise
-      { x: QPL + 8, y: QPB - 4 - CH, w: CW, h: CH },        // trailing
-      { x: QPR - 8 - CW, y: QPB - 4 - CH, w: CW, h: CH },   // aggressive
-    ];
-    const GAP = 13;   // marker-to-label clearance
-    const BOUND = { x: 6, y: 6, w: QW - 12, h: QH - 12 };
+    // --- placement -----------------------------------------------------------
+    // Candidate sides per mark, preferring open space, then nudged until the box
+    // clears the markers, the quadrant caption and everything already placed.
+    const markerBoxes = marks.map((m) => ({ x: m.x - m.r - 4, y: m.y - m.r - 4, w: 2 * m.r + 8, h: 2 * m.r + 8 }));
+    const capW = 250, capH = 20;
+    const placed = [{ x: QPR - 10 - capW, y: yOf(YDIV) - 10 - capH, w: capW, h: capH }];
+    const GAP = 14;
+    const BOUND = { x: 8, y: QPT - 2, w: QW - 16, h: QPB - QPT + 4 };
 
-    // Candidate sides, preferred order per point: away from the nearer edge
-    // first, so labels lean into open space instead of off the plot.
-    function candidates(g) {
-      const right = { x: g.x + GAP, y: g.y - g.h / 2, anchor: "start" };
-      const left = { x: g.x - GAP - g.w, y: g.y - g.h / 2, anchor: "end" };
-      const below = { x: g.x - g.w / 2, y: g.y + GAP, anchor: "middle" };
-      const above = { x: g.x - g.w / 2, y: g.y - GAP - g.h, anchor: "middle" };
-      const horizFirst = g.x > (QPL + QPR) / 2 ? [left, right] : [right, left];
-      const vertFirst = g.y < dataTop + 50 ? [below, above] : [above, below];
-      return horizFirst.concat(vertFirst);
+    function candidates(m) {
+      const right = { x: m.x + GAP, y: m.y - m.h / 2, anchor: "start" };
+      const left = { x: m.x - GAP - m.w, y: m.y - m.h / 2, anchor: "end" };
+      const below = { x: m.x - m.w / 2, y: m.y + GAP, anchor: "middle" };
+      const above = { x: m.x - m.w / 2, y: m.y - GAP - m.h, anchor: "middle" };
+      const vert = m.y < QZERO + 40 ? [above, below] : [below, above];
+      const horiz = m.x > (QPL + QPR) / 2 ? [left, right] : [right, left];
+      return vert.concat(horiz);
     }
-
-    // Cost of a placement: how much it collides with markers and already-placed
-    // labels, plus a penalty for leaving the frame.
-    function cost(box) {
+    function cost(b) {
       let c = 0;
-      for (const m of markerBoxes) c += overlapArea(box, m) * 3;
-      for (const p of placed) c += overlapArea(box, p);
-      const outX = Math.max(0, BOUND.x - box.x) + Math.max(0, (box.x + box.w) - (BOUND.x + BOUND.w));
-      const outY = Math.max(0, BOUND.y - box.y) + Math.max(0, (box.y + box.h) - (BOUND.y + BOUND.h));
+      for (const k of markerBoxes) c += overlapArea(b, k) * 3;
+      for (const p of placed) c += overlapArea(b, p);
+      const outX = Math.max(0, BOUND.x - b.x) + Math.max(0, b.x + b.w - (BOUND.x + BOUND.w));
+      const outY = Math.max(0, BOUND.y - b.y) + Math.max(0, b.y + b.h - (BOUND.y + BOUND.h));
       return c + (outX + outY) * 400;
     }
 
-    // Subject first, then the crowded groups, then by catch rate — the labels
-    // that matter most get the clean positions.
-    const order = groups.slice().sort((a, b) =>
-      (b.us - a.us) || (b.engines.length - a.engines.length) || (b.det - a.det));
-    for (const g of order) {
+    // Atomdrift's stops get the clean positions, then the rest by catch rate.
+    const order = marks.slice().sort((a, b) =>
+      (b.kind === "stop") - (a.kind === "stop") || b.x - a.x);
+    for (const m of order) {
       let best = null;
-      for (const c of candidates(g)) {
-        for (const dy of [0, 14, -14, 28, -28, 44, -44, 62, -62]) {
-          const box = { x: c.x, y: c.y + dy, w: g.w, h: g.h, anchor: c.anchor };
-          const sc = cost(box) + Math.abs(dy) * 2;
-          if (!best || sc < best.sc) best = { box: box, sc: sc };
+      for (const c of candidates(m)) {
+        for (const dy of [0, 14, -14, 28, -28, 44, -44]) {
+          const b = { x: c.x, y: c.y + dy, w: m.w, h: m.h, anchor: c.anchor };
+          const sc = cost(b) + Math.abs(dy) * 2;
+          if (!best || sc < best.sc) best = { b: b, sc: sc };
           if (sc === 0) break;
         }
         if (best && best.sc === 0) break;
       }
-      const box = best.box;
-      g.label = {
-        x: box.x, y: box.y, w: g.w, h: g.h, anchor: box.anchor,
-        // Text x per anchor: names run left-to-right from the swatch on a
-        // start-anchored box, right-to-left into it on an end-anchored one.
-        tx: box.anchor === "end" ? box.x + g.w : (box.anchor === "middle" ? box.x + g.w / 2 : box.x),
+      const b = best.b;
+      m.label = {
+        anchor: b.anchor,
+        tx: b.anchor === "end" ? b.x + m.w : (b.anchor === "middle" ? b.x + m.w / 2 : b.x),
+        y1: b.y + 11,
+        y2: b.y + 11 + LINE_H,
       };
-      // A leader line whenever the box ended up away from its marker, so no
-      // label is ever stranded from the circle it names.
-      const cx = box.x + g.w / 2, cy = box.y + g.h / 2;
-      const dist = Math.hypot(cx - g.x, cy - g.y);
-      if (dist > g.r + GAP + 12) {
-        const ex = Math.max(box.x, Math.min(g.x, box.x + g.w));
-        const ey = Math.max(box.y, Math.min(g.y, box.y + g.h));
-        const a = Math.atan2(ey - g.y, ex - g.x);
-        g.leader = { x1: g.x + Math.cos(a) * (g.r + 2), y1: g.y + Math.sin(a) * (g.r + 2), x2: ex, y2: ey };
-      }
-      placed.push(box);
+      // Every mark gets a leader: which ring a label names should never be
+      // something the reader works out from proximity, least of all on the 0% row
+      // where the curve runs horizontally through a crowd.
+      const ex = Math.max(b.x, Math.min(m.x, b.x + m.w));
+      const ey = Math.max(b.y, Math.min(m.y, b.y + m.h));
+      const a = Math.atan2(ey - m.y, ex - m.x);
+      const sx = m.x + Math.cos(a) * (m.r + 3), sy = m.y + Math.sin(a) * (m.r + 3);
+      if (Math.hypot(ex - sx, ey - sy) > 3) m.leader = { x1: sx, y1: sy, x2: ex, y2: ey };
+      placed.push(b);
+    }
+
+    // --- the headline, generated from the run so it cannot drift -------------
+    //
+    // Stated as a claim, so it has to survive the chart under it: on a run where
+    // a rival out-detects us, or where the default costs a false positive, the
+    // wording steps down rather than overclaiming.
+    const nBad = (battle.detection && battle.detection.sample_count) || 0;
+    const nGood = (battle.false_positive && battle.false_positive.sample_count) || 0;
+    let head = null;
+    if (curve) {
+      const dflt = curveGeo.named.filter((v) => v.lLo <= DIAL_DEFAULT && DIAL_DEFAULT <= v.lHi)[0]
+        || curveGeo.named[0];
+      const rivals = inScale.concat(offscale);
+      const best = rivals.slice().sort((a, b) => b.det - a.det)[0];
+      const beatsAll = rivals.every((p) => dflt.det >= p.det);
+      head = {
+        title: beatsAll && dflt.flagged === 0
+          ? "Highest detection rate, and nothing flagged that shouldn't be."
+          : (beatsAll ? "Highest detection rate on this run."
+          : "Where Atomdrift's dial sits against the field."),
+        sub: dflt.det + "% of " + nBad + " zero-day supply-chain samples caught, " +
+          dflt.flagged + " of " + nGood + " known-safe packages flagged." +
+          (best ? "  Next best: " + best.name + ", " + best.det + "% with " +
+            best.flagged + " false positive" + (best.flagged === 1 ? "" : "s") + "." : ""),
+      };
     }
 
     return {
-      w: QW, h: QH, pl: QPL, pr: QPR, pt: QPT, pb: QPB,
-      yMax: yMax,
+      w: QW, h: QH, pl: QPL, pr: QPR, pt: QPT, pb: QPB, mb: QMB, zero: QZERO,
+      yMax: YMAX,
       xTicks: [0, 25, 50, 75, 100].map((v) => ({ v: v, x: xOf(v) })),
-      yTicks: (function() {
-        const out = [];
-        for (let v = 0; v <= yMax; v += yStep) out.push({ v: v, y: yOf(v) });
-        return out;
-      })(),
+      yTicks: [0, 2, 4, 6, 8, 10].map((v) => ({ v: v, y: yOf(v) })),
       xDiv: xOf(XDIV), yDiv: yOf(YDIV), xDivVal: XDIV, yDivVal: YDIV,
-      groups: groups,
+      marks: marks,
       curve: curveGeo,
-      lineH: LINE_H, swatch: SWATCH,
+      head: head,
+      offscale: offscale.map((p, i) => ({
+        engine: p, x: xOf(p.det), y: QMB + 30 + i * 26,
+        fpText: fpText(p.flagged),
+      })),
+      breakY: QMB + 10,
+      lineH: LINE_H,
+      nBad: nBad, nGood: nGood,
     };
   });
 

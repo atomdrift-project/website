@@ -34,7 +34,7 @@
 {%- set q = battle | quadrant(chartProviders) %}
 {%- if q %}
 <div class="cmp-frontier">
-  <svg viewBox="0 0 {{ q.w }} {{ q.h }}" role="img" aria-label="Catch rate against false-alarm rate for every engine measured this run. The horizontal axis is catch rate, higher to the right; the vertical axis is false-alarm rate, inverted so fewer false alarms is higher. Atomdrift is drawn as a curve across its false-positive budget settings rather than a single point.">
+  <svg viewBox="0 0 {{ q.w }} {{ q.h }}" role="img" aria-label="Zero-day catch rate against false-alarm rate for every engine measured this run. The horizontal axis is catch rate, higher to the right; the vertical axis is false-alarm rate, inverted so fewer false alarms is higher. Atomdrift is drawn as a curve across its false-positive budget settings rather than a single point.">
     <rect class="q-target" x="{{ q.xDiv }}" y="{{ q.pt }}" width="{{ q.pr - q.xDiv }}" height="{{ q.yDiv - q.pt }}"></rect>
     {%- for t in q.xTicks %}
     <line class="q-grid" x1="{{ t.x }}" y1="{{ q.pt }}" x2="{{ t.x }}" y2="{{ q.pb }}"></line>
@@ -52,7 +52,7 @@
     <text class="q-quad" x="{{ q.pr - 10 }}" y="{{ q.pb - 10 }}" text-anchor="end">Aggressive</text>
     <line class="q-axis" x1="{{ q.pl }}" y1="{{ q.pt }}" x2="{{ q.pl }}" y2="{{ q.pb }}"></line>
     <line class="q-axis" x1="{{ q.pl }}" y1="{{ q.pb }}" x2="{{ q.pr }}" y2="{{ q.pb }}"></line>
-    <text class="q-alab" x="{{ (q.pl + q.pr) / 2 }}" y="{{ q.pb + 46 }}" text-anchor="middle">Malware caught  ·  higher is better →</text>
+    <text class="q-alab" x="{{ (q.pl + q.pr) / 2 }}" y="{{ q.pb + 46 }}" text-anchor="middle">0-day malware caught  ·  higher is better →</text>
     <text class="q-alab" transform="translate(18,{{ (q.pt + q.pb) / 2 }}) rotate(-90)" text-anchor="middle">False alarms  ·  fewer is better ↑</text>
 
     {%- if q.curve %}<polyline class="q-curve" points="{{ q.curve.points }}"></polyline>{% endif %}

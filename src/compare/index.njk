@@ -114,30 +114,40 @@ description: How Atomdrift Scan compares to Socket, Aikido, VirusTotal, ClamAV a
 
   /* ---------- frontier ---------- */
   .frontier-wrap { margin: 14px 0 4px; overflow-x: auto; }
-  .frontier-wrap svg { width: 100%; min-width: 520px; height: auto; display: block; }
+  .frontier-wrap svg { width: 100%; min-width: 720px; height: auto; display: block; }
   .q-grid { stroke: var(--border); stroke-width: 1; }
-  .q-axis { stroke: var(--slate); stroke-width: 1.25; }
-  .q-div { stroke: var(--slate); stroke-width: 1; stroke-dasharray: 5 5; opacity: .45; }
-  .q-tick { fill: var(--slate); font-size: 11px; font-family: system-ui, sans-serif; }
-  .q-alab { fill: var(--iron); font-size: 12.5px; font-weight: 600; font-family: 'Oxanium', sans-serif; }
-  .q-target { fill: var(--toxic); opacity: .11; }
-  .q-quad { fill: var(--slate); opacity: .6; font-size: 11px; font-weight: 700; letter-spacing: .09em;
-            text-transform: uppercase; font-family: 'Oxanium', sans-serif; }
-  .q-quad.on-target { fill: var(--toxic-dark); opacity: .95; }
-  .q-leader { stroke: var(--slate); stroke-width: 1; opacity: .45; }
+  /* Solid hairlines throughout: a dashed rule reads as "projection" or "threshold"
+     when it is only ever a grid or a divider. */
+  .q-axis, .q-div { stroke: #c9ccd1; stroke-width: 1; }
+  .q-tick { fill: var(--slate); font-size: 10.5px; font-family: system-ui, sans-serif; }
+  .q-head { fill: var(--carbon); font-size: 20px; font-weight: 800; font-family: 'Oxanium', sans-serif;
+            letter-spacing: -.4px; }
+  .q-headsub { fill: var(--iron); font-size: 13px; font-family: 'Inter', system-ui, sans-serif; }
+  .q-alab { fill: var(--carbon); font-size: 13px; font-weight: 700; font-family: 'Oxanium', sans-serif; }
+  .q-asub { fill: var(--slate); font-size: 10.5px; font-family: system-ui, sans-serif; }
+  .q-target { fill: #2a78d6; opacity: .07; }
+  .q-target-edge { fill: none; stroke: #bcd8f2; stroke-width: 1; }
+  .q-quad { fill: #1e6bb8; font-size: 10px; font-weight: 800; letter-spacing: .08em;
+            font-family: 'Oxanium', sans-serif; }
+  .q-leader { stroke: #c9ccd1; stroke-width: 1; }
   .q-pt { stroke: #fff; stroke-width: 2; }
-  .q-count { fill: #fff; font-size: 11.5px; font-weight: 800; font-family: 'Oxanium', sans-serif; }
-  .q-name { fill: var(--carbon); font-size: 12.5px; font-weight: 600; font-family: 'Oxanium', sans-serif; }
-  .q-val { fill: var(--slate); font-size: 10.5px; font-weight: 500; font-family: system-ui, sans-serif; }
-  /* Drawn first so it sits behind every dot and label, and dotted so it reads as
-     'anywhere along here' rather than as another engine's series. */
-  .q-curve { fill: none; stroke: #4f86c6; stroke-width: 3; stroke-linecap: round;
-             stroke-linejoin: round; stroke-dasharray: 1 7; }
-  /* Outline markers keep coincident rival dots visible in their centers. */
-  .q-cpt { fill: none; stroke-width: 2.5; }
-  .q-clab { fill: #1d64b5; font-family: 'SF Mono', Consolas, monospace; font-size: 11px; font-weight: 700; }
-  .q-csub { fill: var(--slate); font-size: 10px; font-family: system-ui, sans-serif; }
-  .q-cname { font-family: 'Oxanium', sans-serif; font-size: 12px; font-weight: 800; }
+  /* Every rival is drawn the same: Atomdrift is the only emphasized mark, and the
+     emphasis is size and weight, never hue — an engine keeps the colour it has in
+     the bars and the trend chart. */
+  .q-name { fill: var(--slate); font-size: 11px; font-weight: 500; font-family: 'Oxanium', sans-serif; }
+  .q-usname { fill: var(--carbon); font-size: 13px; font-weight: 800; font-family: 'Oxanium', sans-serif; }
+  /* The cost line under a label, in one desaturated status red wherever it appears. */
+  .q-fp { fill: #b0473b; font-size: 9.5px; font-weight: 600; font-family: 'Oxanium', sans-serif; }
+  /* Solid, because it is a measured frontier rather than "anywhere along here";
+     the gradient tail marks where the budget starts costing something. */
+  .q-curve { fill: none; stroke: url(#q-curve-grad); stroke-width: 3;
+             stroke-linecap: round; stroke-linejoin: round; }
+  /* Outline rings so a coincident rival dot stays visible inside them. */
+  .q-cpt { fill: #fff; stroke-width: 2.5; }
+  /* The axis break: a surface-coloured stroke under a hairline, so the two slashes
+     read as a cut in the axis rather than as marks floating beside it. */
+  .q-break-mask { stroke: #fff; stroke-width: 5; }
+  .q-break { stroke: #c9ccd1; stroke-width: 1; }
 
   /* ---------- rent vs own ---------- */
   .own { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 6px; }
@@ -223,7 +233,7 @@ description: How Atomdrift Scan compares to Socket, Aikido, VirusTotal, ClamAV a
 
   <div class="cmp-hero">
     <div>
-      <div class="kick">Atomdrift Scan · supply-chain malware detection · Apache-2.0</div>
+      <div class="kick">Atomdrift Scan · zero-day supply-chain malware detection · Apache-2.0</div>
       <h1>Open-source malware scanning on <em>your</em> infrastructure.</h1>
       <p class="say">Scan source, binaries, packages, archives, URLs, and running processes with local static analysis
         and ONNX models. No cloud scanner or API key is required, and every verdict includes the capabilities that drove it.</p>
@@ -249,9 +259,12 @@ description: How Atomdrift Scan compares to Socket, Aikido, VirusTotal, ClamAV a
     {%- if h %}
     <div class="proof">
       <div class="scores">
-        <div><div class="n">{{ h.detRate }}%</div><div class="l">malware caught</div></div>
+        {# "0-day" is the whole claim: signatures and reputation have had no time to
+           form on a package published this morning, which is exactly the window a
+           supply-chain attack lives in. The cohort line below defines it. #}
+        <div><div class="n">{{ h.detRate }}%</div><div class="l">0-day malware caught</div></div>
         {%- if h.fpRate != null %}
-        <div><div class="n fp">{{ h.fpRate }}%</div><div class="l">false alarms</div></div>
+        <div><div class="n fp">{{ h.fpRate }}%</div><div class="l">false positives</div></div>
         {%- endif %}
       </div>
       {%- if curve %}
@@ -262,19 +275,22 @@ description: How Atomdrift Scan compares to Socket, Aikido, VirusTotal, ClamAV a
         <label class="dial-label" for="dial">False-positive budget</label>
         <input type="range" id="dial" min="0" max="{{ (curve | length) - 1 }}"
                value="{{ curve | curveIndex(dialDefault) }}" step="1"
-               aria-valuetext="L {{ dialStop.l }}: {{ dialStop.det }}% caught, {{ dialStop.fp }}% false alarms"
+               aria-valuetext="-l {{ dialStop.l }}: {{ dialStop.det }}% caught, {{ dialStop.flagged }} false positive{% if dialStop.flagged != 1 %}s{% endif %}"
                aria-describedby="dial-help">
-        <div class="ends"><span>-l 0</span><span>-l {{ (curve | last).l }}</span></div>
+        <div class="ends"><span>-l 0</span><span>-l {{ dialMaxLabel }}</span></div>
       </div>
       {%- endif %}
       <div class="at" id="dial-help">at <b id="dial-l">-l {{ dialDefault }}</b> <span id="dial-say">— the shipped default, untuned</span></div>
       <span id="dial-status" class="visually-hidden" aria-live="polite" aria-atomic="true"></span>
-      <p>As of <b>{{ battle.generated_at | dateDisplay }}</b>.</p>
+      <p>As of <b>{{ battle.generated_at | dateDisplay }}</b>, against
+        {{ battle.detection.sample_count }} samples first seen in the wild
+        {%- if battle.malware_age %} in the last {{ (battle.malware_age.max_hours / 24) | round(0, 'ceil') }} days —
+        median <b>{{ battle.malware_age.median_hours | round(0) }} h old</b>{% else %} in the last 48 hours{% endif %}.</p>
     </div>
     {%- endif %}
   </div>
 
-  <h2 id="results">Latest results <span class="note">{{ battle.detection.sample_count }} malware samples, none older than 48 hours · {{ battle.generated_at | dateDisplay }}</span></h2>
+  <h2 id="results">Latest results <span class="note">{{ battle.detection.sample_count }} 0-day malware samples, none older than 48 hours{% if battle.malware_age %} · median {{ battle.malware_age.median_hours | round(0) }} h old{% endif %} · {{ battle.generated_at | dateDisplay }}</span></h2>
   {{ rows(battle.detection.leaderboard) }}
   <div class="legend">
     <span><i class="hostile-key"></i>flagged hostile</span>
@@ -295,94 +311,131 @@ description: How Atomdrift Scan compares to Socket, Aikido, VirusTotal, ClamAV a
 
   {%- set q = battle | quadrant(chartProviders) %}
   {%- if q %}
-  <h2 id="frontier">Catch rate vs. false alarms <span class="note">everyone else is a dot — we're the line</span></h2>
-  <p class="sub">Only the top-right corner counts: catch the malware, spare the clean code.
-    <b>Every rival is one dot — one setting, chosen for you. We're the curve.</b></p>
+  <h2 id="frontier">Detection vs. false positives <span class="note">everyone else is one dot — we're the curve</span></h2>
+  <p class="sub">Only the top-right corner counts: catch the zero-day, leave the clean code alone.
+    <b>Every rival ships one setting, chosen for you. <code>-l</code> is a dial you set.</b></p>
   <div class="frontier-wrap">
-    <svg viewBox="0 0 {{ q.w }} {{ q.h }}" role="img" aria-label="Catch rate against false-alarm rate for every engine measured this run. The horizontal axis is catch rate, higher to the right; the vertical axis is false-alarm rate, inverted so fewer false alarms is higher. Atomdrift is drawn as a curve across its false-positive budget settings rather than a single point. Equivalent values follow the chart.">
+    <svg viewBox="0 0 {{ q.w }} {{ q.h }}" role="img" aria-label="Zero-day detection rate against false-positive rate for every engine measured this run. The horizontal axis is the share of zero-day malware caught, higher to the right; the vertical axis is false positives, inverted so fewer is higher, and cropped so any engine past the crop appears in a marked strip below. Atomdrift is drawn as a curve across its false-positive budget rather than a single point. Every value follows the chart in a list.">
+      {%- if q.curve %}
+      <defs>
+        <linearGradient id="q-curve-grad" gradientUnits="userSpaceOnUse" x1="{{ q.curve.x1 }}" y1="0" x2="{{ q.curve.x2 }}" y2="0">
+          <stop offset="0" stop-color="{{ q.curve.color }}"></stop>
+          <stop offset=".6" stop-color="{{ q.curve.color }}"></stop>
+          <stop offset="1" stop-color="#c02d1e"></stop>
+        </linearGradient>
+      </defs>
+      {%- endif %}
+
+      {%- if q.head %}
+      <text class="q-head" x="{{ q.pl }}" y="{{ q.pt - 66 }}">{{ q.head.title }}</text>
+      <text class="q-headsub" x="{{ q.pl }}" y="{{ q.pt - 42 }}">{{ q.head.sub }}</text>
+      {%- endif %}
+
+      {# The one shaded region on the chart: high detection, few false positives. #}
       <rect class="q-target" x="{{ q.xDiv }}" y="{{ q.pt }}" width="{{ q.pr - q.xDiv }}" height="{{ q.yDiv - q.pt }}"></rect>
+      <rect class="q-target-edge" x="{{ q.xDiv }}" y="{{ q.pt }}" width="{{ q.pr - q.xDiv }}" height="{{ q.yDiv - q.pt }}"></rect>
+
       {%- for t in q.xTicks %}
       <line class="q-grid" x1="{{ t.x }}" y1="{{ q.pt }}" x2="{{ t.x }}" y2="{{ q.pb }}"></line>
-      <text class="q-tick" x="{{ t.x }}" y="{{ q.pb + 19 }}" text-anchor="middle">{{ t.v }}%</text>
+      <text class="q-tick" x="{{ t.x }}" y="{{ q.pb + 20 }}" text-anchor="middle">{{ t.v }}%</text>
       {%- endfor %}
       {%- for t in q.yTicks %}
       <line class="q-grid" x1="{{ q.pl }}" y1="{{ t.y }}" x2="{{ q.pr }}" y2="{{ t.y }}"></line>
-      <text class="q-tick" x="{{ q.pl - 10 }}" y="{{ t.y + 4 }}" text-anchor="end">{{ t.v }}%</text>
+      <text class="q-tick" x="{{ q.pl - 9 }}" y="{{ t.y + 4 }}" text-anchor="end">{{ t.v }}%</text>
       {%- endfor %}
-      <line class="q-div" x1="{{ q.xDiv }}" y1="{{ q.pt }}" x2="{{ q.xDiv }}" y2="{{ q.pb }}"></line>
+      <line class="q-div" x1="{{ q.xDiv }}" y1="{{ q.pt }}" x2="{{ q.xDiv }}" y2="{{ q.mb }}"></line>
       <line class="q-div" x1="{{ q.pl }}" y1="{{ q.yDiv }}" x2="{{ q.pr }}" y2="{{ q.yDiv }}"></line>
-      <text class="q-quad" x="{{ q.pl + 10 }}" y="{{ q.pt + 20 }}">Conservative</text>
-      <text class="q-quad on-target" x="{{ q.pr - 10 }}" y="{{ q.pt + 20 }}" text-anchor="end">The corner that matters</text>
-      <text class="q-quad" x="{{ q.pl + 10 }}" y="{{ q.pb - 10 }}">Trailing</text>
-      <text class="q-quad" x="{{ q.pr - 10 }}" y="{{ q.pb - 10 }}" text-anchor="end">Aggressive</text>
+      <text class="q-quad" x="{{ q.pr - 10 }}" y="{{ q.yDiv - 10 }}" text-anchor="end">HIGH DETECTION  ·  LOW FALSE POSITIVES</text>
+
       <line class="q-axis" x1="{{ q.pl }}" y1="{{ q.pt }}" x2="{{ q.pl }}" y2="{{ q.pb }}"></line>
       <line class="q-axis" x1="{{ q.pl }}" y1="{{ q.pb }}" x2="{{ q.pr }}" y2="{{ q.pb }}"></line>
-      <text class="q-alab" x="{{ (q.pl + q.pr) / 2 }}" y="{{ q.pb + 46 }}" text-anchor="middle">Malware caught  ·  higher is better →</text>
-      <text class="q-alab" transform="translate(18,{{ (q.pt + q.pb) / 2 }}) rotate(-90)" text-anchor="middle">False alarms  ·  fewer is better ↑</text>
-
-      {# Atomdrift's operating range, painted before anything else so no dot or
-         label ever sits under it. Dotted because it is a range you choose a point
-         on, not a series of measurements over time. #}
-      {%- if q.curve %}<polyline class="q-curve" points="{{ q.curve.points }}"></polyline>{% endif %}
-
-      {# competitors: one fixed point each #}
-      {%- for g in q.groups %}
-      {%- if g.leader %}<line class="q-leader" x1="{{ g.leader.x1 }}" y1="{{ g.leader.y1 }}" x2="{{ g.leader.x2 }}" y2="{{ g.leader.y2 }}"></line>{% endif %}
-      <circle class="q-pt" cx="{{ g.x }}" cy="{{ g.y }}" r="{{ g.r }}" fill="{{ g.color }}">
-        <title>{% for e in g.engines %}{{ e.name }}{% if not loop.last %}, {% endif %}{% endfor %} — {{ g.value }}</title>
-      </circle>
-      {%- if g.n > 1 %}<text class="q-count" x="{{ g.x }}" y="{{ g.y + 4 }}" text-anchor="middle">{{ g.n }}</text>{% endif %}
-      {%- for e in g.engines %}
-      {%- set ly = g.label.y + (loop.index0 * q.lineH) + 11 %}
-      {%- if g.n > 1 %}
-      {%- set sx = (g.label.tx - 9) if g.label.anchor == 'end' else (g.label.x if g.label.anchor == 'start' else g.label.tx - (e.name | length * 3.7) - 13) %}
-      <rect class="q-swatch" x="{{ sx }}" y="{{ ly - 8 }}" width="8" height="8" rx="1.5" fill="{{ e.color }}"></rect>
-      {%- endif %}
-      {%- set nx = (g.label.tx - 15 if g.n > 1 else g.label.tx) if g.label.anchor == 'end' else (g.label.x + 14 if g.n > 1 else g.label.x) %}
-      <text class="q-name" x="{{ g.label.tx if g.label.anchor == 'middle' else nx }}" y="{{ ly }}" text-anchor="{{ g.label.anchor }}">{{ e.name }}</text>
-      {%- endfor %}
-      <text class="q-val" x="{{ g.label.tx }}" y="{{ g.label.y + (g.engines | length * q.lineH) + 11 }}" text-anchor="{{ g.label.anchor }}">{{ g.value }}</text>
-      {%- endfor %}
+      {# Axis titles carry their own denominator, so no number on the plot needs a
+         footnote to be understood. #}
+      <text class="q-alab" x="{{ (q.pl + q.pr) / 2 }}" y="{{ q.pb + 46 }}" text-anchor="middle">Zero-day malware caught  ·  more is better →</text>
+      <text class="q-asub" x="{{ (q.pl + q.pr) / 2 }}" y="{{ q.pb + 62 }}" text-anchor="middle">of {{ q.nBad }} malicious packages, none more than 48 hours old</text>
+      <g transform="translate(24,{{ (q.pt + q.pb) / 2 }}) rotate(-90)">
+        <text class="q-alab" x="0" y="0" text-anchor="middle">False positives  ·  fewer is better ↑</text>
+        <text class="q-asub" x="0" y="15" text-anchor="middle">of {{ q.nGood }} known-safe packages</text>
+      </g>
 
       {%- if q.curve %}
-      {%- for v in q.curve.verts %}
-      <circle class="q-cpt" cx="{{ v.x }}" cy="{{ v.y }}" r="6" stroke="{{ q.curve.color }}">
-        <title>atomscan -l {{ v.lLo }}{% if v.lHi != v.lLo %}–{{ v.lHi }}{% endif %} — {{ v.det }}% caught · {{ v.fp }}% false alarms</title>
-      </circle>
-      {%- if v.label %}
-      <line class="q-leader q-cleader" x1="{{ v.leader.x1 }}" y1="{{ v.leader.y1 }}" x2="{{ v.leader.x2 }}" y2="{{ v.leader.y2 }}"></line>
-      <text class="q-clab" x="{{ v.labelX }}" y="{{ v.labelY }}" text-anchor="{{ v.labelAnchor }}" fill="{{ q.curve.color }}">{{ v.label }}</text>
-      <text class="q-csub" x="{{ v.labelX }}" y="{{ v.labelY + 13 }}" text-anchor="{{ v.labelAnchor }}">{{ v.sub }}</text>
+      <path class="q-curve" d="{{ q.curve.path }}"></path>
       {%- endif %}
+
+      {%- for m in q.marks %}
+      {%- if m.leader %}<line class="q-leader" x1="{{ m.leader.x1 }}" y1="{{ m.leader.y1 }}" x2="{{ m.leader.x2 }}" y2="{{ m.leader.y2 }}"></line>{% endif %}
+      {%- endfor %}
+
+      {# Rivals are drawn identically to one another — Atomdrift is the only
+         emphasized mark, and emphasis is size and weight, never hue. #}
+      {%- for m in q.marks %}
+      {%- if m.kind == 'engine' %}
+      <circle class="q-pt" cx="{{ m.x }}" cy="{{ m.y }}" r="{{ m.r }}" fill="{{ m.engine.color }}">
+        <title>{{ m.engine.name }} — {{ m.engine.det }}% caught ({{ m.engine.caught }}/{{ m.engine.nBad }}), {{ m.engine.flagged }} false positive{% if m.engine.flagged != 1 %}s{% endif %} of {{ m.engine.nGood }}</title>
+      </circle>
+      {%- else %}
+      <circle class="q-cpt" cx="{{ m.x }}" cy="{{ m.y }}" r="{{ m.r }}" stroke="{{ q.curve.color }}">
+        <title>atomscan -l {{ m.stop.lLo }}{% if m.stop.lHi != m.stop.lLo %}–{{ m.stop.lHi }}{% endif %} — {{ m.stop.det }}% caught ({{ m.stop.caught }}/{{ q.nBad }}), {{ m.stop.flagged }} false positive{% if m.stop.flagged != 1 %}s{% endif %} of {{ q.nGood }}</title>
+      </circle>
+      {%- endif %}
+      {%- endfor %}
+
+      {%- for m in q.marks %}
+      <text class="{{ 'q-usname' if m.kind == 'stop' else 'q-name' }}" x="{{ m.label.tx }}" y="{{ m.label.y1 }}" text-anchor="{{ m.label.anchor }}">{{ m.head }}</text>
+      {%- if m.sub %}<text class="q-fp" x="{{ m.label.tx }}" y="{{ m.label.y2 }}" text-anchor="{{ m.label.anchor }}">{{ m.sub }}</text>{% endif %}
+      {%- endfor %}
+
+      {# Anything past the crop keeps its real value in a labelled strip below an
+         axis break, rather than being clipped to the frame and understated. #}
+      {%- if q.offscale | length %}
+      <line class="q-grid" x1="{{ q.pl }}" y1="{{ q.breakY }}" x2="{{ q.pr }}" y2="{{ q.breakY }}"></line>
+      <line class="q-break-mask" x1="{{ q.pl - 6 }}" y1="{{ q.breakY + 8 }}" x2="{{ q.pl + 5 }}" y2="{{ q.breakY - 8 }}"></line>
+      <line class="q-break" x1="{{ q.pl - 6 }}" y1="{{ q.breakY + 8 }}" x2="{{ q.pl + 5 }}" y2="{{ q.breakY - 8 }}"></line>
+      <line class="q-break-mask" x1="{{ q.pl + 2 }}" y1="{{ q.breakY + 8 }}" x2="{{ q.pl + 13 }}" y2="{{ q.breakY - 8 }}"></line>
+      <line class="q-break" x1="{{ q.pl + 2 }}" y1="{{ q.breakY + 8 }}" x2="{{ q.pl + 13 }}" y2="{{ q.breakY - 8 }}"></line>
+      {%- for o in q.offscale %}
+      <text class="q-tick" x="{{ q.pl - 9 }}" y="{{ o.y + 4 }}" text-anchor="end">{{ o.engine.fp }}%</text>
+      <circle class="q-pt" cx="{{ o.x }}" cy="{{ o.y }}" r="5" fill="{{ o.engine.color }}">
+        <title>{{ o.engine.name }} — {{ o.engine.det }}% caught, {{ o.engine.flagged }} false positive{% if o.engine.flagged != 1 %}s{% endif %} of {{ o.engine.nGood }}</title>
+      </circle>
+      <text class="q-name" x="{{ o.x + 13 }}" y="{{ o.y - 2 }}">{{ o.engine.name }}  {{ o.engine.det }}%</text>
+      {%- if o.fpText %}<text class="q-fp" x="{{ o.x + 13 }}" y="{{ o.y + 12 }}">{{ o.fpText }}</text>{% endif %}
       {%- endfor %}
       {%- endif %}
     </svg>
   </div>
   <div class="visually-hidden">
-    <h3>Catch rate and false-alarm chart data</h3>
+    <h3>Detection and false-positive chart data</h3>
     <ul>
-      {%- for g in q.groups %}
-        {%- for e in g.engines %}<li>{{ e.name }}: {{ g.value }}.</li>{% endfor %}
+      {%- for m in q.marks %}
+        {%- if m.kind == 'engine' %}<li>{{ m.engine.name }}: {{ m.engine.det }}% caught ({{ m.engine.caught }} of {{ m.engine.nBad }}), {{ m.engine.flagged }} false positive{% if m.engine.flagged != 1 %}s{% endif %} of {{ m.engine.nGood }}.</li>{% endif %}
       {%- endfor %}
+      {%- for o in q.offscale %}<li>{{ o.engine.name }}: {{ o.engine.det }}% caught, {{ o.engine.flagged }} false positive{% if o.engine.flagged != 1 %}s{% endif %} of {{ o.engine.nGood }}.</li>{% endfor %}
       {%- if q.curve %}
-        {%- for v in q.curve.verts %}<li>Atomdrift L {{ v.lLo }}{% if v.lHi != v.lLo %} through {{ v.lHi }}{% endif %}: {{ v.det }}% caught, {{ v.fp }}% false alarms.</li>{% endfor %}
+        {%- for v in q.curve.verts %}<li>Atomdrift at -l {{ v.lLo }}{% if v.lHi != v.lLo %} through {{ v.lHi }}{% endif %}: {{ v.det }}% caught ({{ v.caught }} of {{ q.nBad }}), {{ v.flagged }} false positive{% if v.flagged != 1 %}s{% endif %} of {{ q.nGood }}.</li>{% endfor %}
       {%- endif %}
     </ul>
   </div>
   {%- if q.curve %}
   <p class="fig-note"><code>-l</code> is a false-positive budget — files flagged per <b>100 million</b>, calibrated
-    per file type. Not “medium sensitivity”; a number you can plan a pipeline around.</p>
+    per file type. Not “medium sensitivity”; a number you can plan a pipeline around. The chart quotes it from
+    <code>-l 0</code> to <code>-l {{ dialMaxLabel }}</code>.</p>
+  <p class="fig-note">Atomdrift's curve is drawn through <b>{{ q.curve.verts | length }} measured operating points</b> —
+    every distinct result the dial produces across that whole range — with the spans between them interpolated.
+    Rings mark the three stops named above; hover any mark for its exact counts.</p>
   {%- endif %}
-  <p class="fig-note">{{ battle.detection.sample_count }} malware samples against
-    {{ battle.false_positive.sample_count }} known-good packages. False-alarm axis inverted, so up and right is
-    better.</p>
+  <p class="fig-note">{{ q.nBad }} zero-day malware samples against {{ q.nGood }} known-good packages. The
+    false-positive axis is inverted and cropped at {{ q.yMax }}%
+    {%- if q.offscale | length %}; {% for o in q.offscale %}{{ o.engine.name }}{% if not loop.last %}, {% endif %}{% endfor %}
+    {{ 'is' if (q.offscale | length) == 1 else 'are' }} past it and drawn below the break at
+    {% for o in q.offscale %}{{ o.engine.fp }}%{% if not loop.last %} and {% endif %}{% endfor %}{% endif %}.</p>
   {%- endif %}
 
   <h2 id="over-time">Every run before this one <span class="note">each draws a fresh cohort from live feeds</span></h2>
   <p class="sub">Most engines swing sixty points as the cohort changes. <b>Judge us on the worst night, not the
     best.</b></p>
   {%- if history and history | length >= 2 %}
-  <div class="trend-wrap"><canvas id="trendChart" role="img" aria-label="Historical catch-rate line chart for every measured engine across fresh live-malware cohorts. Current-run values are provided in Latest results above."></canvas></div>
+  <div class="trend-wrap"><canvas id="trendChart" role="img" aria-label="Historical 0-day catch-rate line chart for every measured engine across fresh live-malware cohorts. Current-run values are provided in Latest results above."></canvas></div>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script>
   (function () {
@@ -462,7 +515,7 @@ description: How Atomdrift Scan compares to Socket, Aikido, VirusTotal, ClamAV a
         interaction: { mode: 'index', intersect: false },
         layout: { padding: { right: 46, left: 6 } },
         scales: {
-          y: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%' }, title: { display: true, text: 'Catch rate' } }
+          y: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%' }, title: { display: true, text: '0-day catch rate' } }
         },
         plugins: {
           // Chart.js defaults to a 40px line-style box per entry, which pushes
@@ -559,12 +612,12 @@ description: How Atomdrift Scan compares to Socket, Aikido, VirusTotal, ClamAV a
       if (fp) fp.textContent = c.fp + '%';
       lab.textContent = '-l ' + c.l.toLocaleString('en-US');
       say.textContent = stance(c.l);
-      el.setAttribute('aria-valuetext', 'L ' + c.l.toLocaleString('en-US') + ': ' + c.det + '% caught, ' + c.fp + '% false alarms');
+      el.setAttribute('aria-valuetext', '-l ' + c.l.toLocaleString('en-US') + ': ' + c.det + '% caught, ' + c.flagged + ' false positive' + (c.flagged === 1 ? '' : 's'));
     }
     el.addEventListener('input', render);
     el.addEventListener('change', function () {
       const c = C[+el.value];
-      if (status) status.textContent = 'L ' + c.l.toLocaleString('en-US') + ': ' + c.det + '% caught, ' + c.fp + '% false alarms';
+      if (status) status.textContent = '-l ' + c.l.toLocaleString('en-US') + ': ' + c.det + '% caught, ' + c.flagged + ' false positive' + (c.flagged === 1 ? '' : 's');
     });
     render();
   })();
@@ -578,7 +631,12 @@ description: How Atomdrift Scan compares to Socket, Aikido, VirusTotal, ClamAV a
     <a href="https://lab.atomdrift.org/file/{{ sm.sha256 }}" title="{{ sm.filename }}{% if sm.ecosystem %} · {{ sm.ecosystem }}{% endif %} — view in Atomdrift Lab">{{ sm.purl or sm.filename }}</a>
     {%- endfor %}
   </div>
-  <div class="meth"><b>How this is scored.</b> Samples come from live public malware feeds, none older than 48 hours.
+  <div class="meth"><b>What "0-day" means here.</b> Every sample in the detection cohort was first seen in the wild
+    within the last 48 hours{% if battle.malware_age %} — median {{ battle.malware_age.median_hours | round(0) }} hours
+    old, youngest {{ battle.malware_age.min_hours | round(1) }} hours{% endif %}. That is the window a supply-chain
+    attack actually lives in: a package published this morning has no signature written for it, no reputation, and no
+    download history to be anomalous against. Catching malware that a feed already named is a different, easier problem.
+    <br><br><b>How this is scored.</b> Samples come from live public malware feeds, none older than 48 hours.
     Every engine gets the identical cohort, and a skip counts as a miss for all of them — a file nobody scanned is a
     file that got through. A listing from a feed belonging to one of the contestants only counts once an independent
     engine corroborates it, so nobody is credited for their own report. Presumed-good packages are drawn from the
