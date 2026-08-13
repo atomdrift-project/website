@@ -18,6 +18,8 @@ function admonition(name, defaultTitle) {
 module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/assets");
   eleventyConfig.addPassthroughCopy("src/.well-known");
+  // Encrypted 0-day sample dump used by the /demo/ scan walkthrough.
+  eleventyConfig.addPassthroughCopy({ "src/demo.zip": "scan/demo.zip" });
   eleventyConfig.addPassthroughCopy("src/_redirects");
 
   // Build-time syntax highlighting (Prism, no client JS).
