@@ -17,13 +17,24 @@ title: "isomer — Differential Supply-Chain Attack Detection"
     <p>isomer detects whether a <em>change</em> is malicious. It compares two
     states of the same thing — a directory, a git ref, a package, a container
     image — and judges the delta in context: capability drift, version-bump
-    proportionality, commit intent, and behavioral disassembly, combined by a
-    differential ML model (<strong>Valence</strong>). &ldquo;Gained network
+    proportionality, commit intent, and behavioral disassembly, weighed by an
+    expert system built on three decades of real supply-chain attacks.
+    &ldquo;Gained network
     and process-spawn between 1.2.3 and 1.2.4, and the changelog says
     <em>fix typo</em>&rdquo; is a far higher-signal alert than any score on a
     whole tree — and it's exactly the shape of xz-utils, event-stream, and
     ua-parser-js. Offline command-line tool built for CI, powered by
     <a href="/scan/">Atomdrift Scan</a>. Apache-2.0, no telemetry.</p>
+
+    <p>isomer reads the delta the same way the rest of the stack reads a
+    single artifact: <a href="/cleave/">cleave</a> extracts what each side
+    can actually <em>do</em>, and an expert system judges the capability
+    drift against the patterns behind thirty years of supply-chain attacks —
+    codified in our public
+    <a href="https://isotope13.ai/compendium/" target="_blank">compendium</a>.
+    That's what lets it flag a previously unseen 0-day supply-chain attack
+    from behavior alone — without a signature for the specific backdoor and
+    without the change ever having been seen before.</p>
 
     <div class="admonition warning">
       <p class="admonition-title">Heavy development</p>

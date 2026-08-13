@@ -1,0 +1,176 @@
+---
+layout: base.njk
+title: "hood — Supply-Chain Firewall (experiment)"
+---
+
+<style>
+  .hood-photo { float: right; width: 220px; max-width: 40%; margin: 4px 0 16px 24px; }
+  .hood-photo img { width: 100%; height: auto; border-radius: 8px; display: block; }
+  .hood-photo figcaption { font-size: 12px; color: var(--slate); margin-top: 6px; line-height: 1.4; }
+  .hood-facts { max-width: none; margin: 0 0 20px; padding-left: 1.1em; }
+  .hood-facts li { margin: 4px 0; }
+  .content .hood-cov { width: 100%; border-collapse: collapse; margin: 14px 0 8px; font-size: 13.5px; }
+  .content .hood-cov th, .content .hood-cov td { border-bottom: 1px solid var(--border); padding: 6px 10px 6px 0; text-align: left; }
+  .content .hood-cov thead th { font-family: 'Oxanium', sans-serif; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--iron); border-bottom: 1px solid var(--graphite); }
+  .content .hood-cov td:first-child, .content .hood-cov th:first-child { font-family: 'SF Mono', Consolas, monospace; font-size: 13px; }
+  .content .hood-cov td:not(:first-child), .content .hood-cov th:not(:first-child) { text-align: center; width: 15%; }
+  .content .hood-cov .yes { color: #1D9E75; font-weight: 700; }
+  .content .hood-cov .part { color: #EF9F27; font-weight: 700; }
+  .content .hood-cov .no { color: var(--slate); }
+  .cov-wrap { overflow-x: auto; }
+  .cov-legend { font-size: 12.5px; color: var(--slate); margin: 4px 0 0; }
+</style>
+
+<div class="main">
+  <div class="content" data-pagefind-body>
+
+    <div class="project-header">
+      <img src="/assets/images/hood.svg" alt="hood" class="proj-logo">
+      <span class="badge badge-experimental">experimental</span>
+      <h1 class="visually-hidden">hood</h1>
+    </div>
+
+    <figure class="hood-photo">
+      <img src="/assets/images/hood.jpg" alt="A laboratory fume hood">
+      <figcaption>You handle unfamiliar chemicals under a fume hood. hood is
+      the same idea for unfamiliar software.</figcaption>
+    </figure>
+
+    <p>hood is a supply-chain firewall. It sits between your fetching tools
+    and the network, and it looks at what comes back before you get to run
+    it. Public package, private package, a tarball behind
+    <code>curl</code> — it is all the same to hood: unfamiliar bytes,
+    inspected on your machine before they are handed to the tool that asked
+    for them.</p>
+
+    <p>Nothing about your workflow changes. You still type <code>npm ci</code>
+    and <code>pip install</code>. Nothing leaves the building. This is an
+    experiment, and it is honest about that.</p>
+
+    <p>The facts, briefly:</p>
+    <ul class="hood-facts">
+      <li><strong>What it checks.</strong> Every artifact a fetching command
+      pulls in. Known-good and known-bad hashes and PURLs are decided at
+      once; anything unknown is decomposed by <a href="/cleave/">cleave</a>
+      and classified by <a href="/scan/">Atomdrift Scan</a>.</li>
+      <li><strong>Where it runs.</strong> On your machine. No cloud scanner,
+      no API key, no proprietary package shipped to a third party. No
+      telemetry.</li>
+      <li><strong>How it intercepts.</strong> Locally, and only for the
+      command that asked. The host trust store is never touched, and nothing
+      is left behind for other processes.</li>
+      <li><strong>When in doubt, it stops.</strong> A fetch fails closed if
+      scanning cannot start. Local work — <code>go test</code>,
+      <code>cargo build</code>, <code>npm test</code> — is left alone.</li>
+      <li><strong>Why it can see new attacks.</strong> It judges what an
+      artifact <em>does</em>, not what it is called. That is what lets it
+      flag a previously unseen 0-day supply-chain attack rather than waiting
+      for a feed to name it.</li>
+    </ul>
+
+    <div class="admonition warning">
+      <p class="admonition-title">This is an experiment</p>
+      <p>hood is an early build, released quietly to see how it behaves in
+      the field. Verdicts, flags, and output will change without notice.
+      There is no stable release. Try it, break it, send back what you find —
+      but do not put it anywhere you cannot take it out again. It may eat
+      your cat.</p>
+    </div>
+
+    <h2>Coverage</h2>
+    <p>hood installs user-level shims for the fetching tools already on your
+    <code>PATH</code>. No system proxy, no root CA, no package-manager
+    reconfiguration. Anything not listed still runs under
+    <code>hood exec -- &lt;command&gt;</code>. The columns compare hood with
+    three related tools; only hood classifies the contents of a private
+    artifact locally, rather than deciding from a feed or from metadata.</p>
+
+    <div class="cov-wrap">
+    <table class="hood-cov">
+      <thead>
+        <tr>
+          <th>Tool</th>
+          <th>hood</th>
+          <th><a href="https://github.com/safedep/pmg" target="_blank">PMG</a></th>
+          <th><a href="https://github.com/DataDog/supply-chain-firewall" target="_blank">SCFW</a></th>
+          <th><a href="https://github.com/AikidoSec/safe-chain" target="_blank">Safe&nbsp;Chain</a></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>curl</td><td class="yes">✅</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+        <tr><td>wget</td><td class="yes">✅</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+        <tr><td>npm</td><td class="yes">✅</td><td class="yes">✅</td><td class="yes">✅</td><td class="yes">✅</td></tr>
+        <tr><td>npx</td><td class="yes">✅</td><td class="yes">✅</td><td class="no">—</td><td class="yes">✅</td></tr>
+        <tr><td>pnpm</td><td class="yes">✅</td><td class="yes">✅</td><td class="no">—</td><td class="yes">✅</td></tr>
+        <tr><td>pnpx</td><td class="yes">✅</td><td class="yes">✅</td><td class="no">—</td><td class="yes">✅</td></tr>
+        <tr><td>yarn</td><td class="yes">✅</td><td class="yes">✅</td><td class="no">—</td><td class="yes">✅</td></tr>
+        <tr><td>rush</td><td class="yes">✅</td><td class="no">—</td><td class="no">—</td><td class="yes">✅</td></tr>
+        <tr><td>rushx</td><td class="yes">✅</td><td class="no">—</td><td class="no">—</td><td class="yes">✅</td></tr>
+        <tr><td>bun</td><td class="yes">✅</td><td class="yes">✅</td><td class="no">—</td><td class="yes">✅</td></tr>
+        <tr><td>bunx</td><td class="yes">✅</td><td class="no">—</td><td class="no">—</td><td class="yes">✅</td></tr>
+        <tr><td>pip</td><td class="yes">✅</td><td class="yes">✅</td><td class="yes">✅</td><td class="yes">✅</td></tr>
+        <tr><td>pip3</td><td class="yes">✅</td><td class="yes">✅</td><td class="no">—</td><td class="yes">✅</td></tr>
+        <tr><td>pipx</td><td class="yes">✅</td><td class="yes">✅</td><td class="no">—</td><td class="yes">✅</td></tr>
+        <tr><td>uv</td><td class="yes">✅</td><td class="yes">✅</td><td class="no">—</td><td class="yes">✅</td></tr>
+        <tr><td>uvx</td><td class="yes">✅</td><td class="yes">✅</td><td class="no">—</td><td class="yes">✅</td></tr>
+        <tr><td>poetry</td><td class="yes">✅</td><td class="yes">✅</td><td class="yes">✅</td><td class="yes">✅</td></tr>
+        <tr><td>pdm</td><td class="yes">✅</td><td class="no">—</td><td class="no">—</td><td class="yes">✅</td></tr>
+        <tr><td>go</td><td class="yes">✅</td><td class="part">◐</td><td class="no">—</td><td class="no">—</td></tr>
+        <tr><td>cargo</td><td class="yes">✅</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+        <tr><td>brew</td><td class="yes">✅</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+        <tr><td>pacman</td><td class="yes">✅</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+        <tr><td>yay</td><td class="yes">✅</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+        <tr><td>paru</td><td class="yes">✅</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+        <tr><td>makepkg</td><td class="yes">✅</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+        <tr><td>dnf</td><td class="yes">✅</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+        <tr><td>yum</td><td class="yes">✅</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+        <tr><td>zypper</td><td class="yes">✅</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+        <tr><td>rpm</td><td class="yes">✅</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+        <tr><td>apk</td><td class="yes">✅</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+        <tr><td>pkg</td><td class="yes">✅</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p class="cov-legend">✅ automatic &nbsp; ◐ experimental or explicit &nbsp;
+    — unsupported. Matrix verified against each project's source, August 2026.</p>
+
+    <h2>Install — Rust 1.96+</h2>
+<pre class="install-block">git clone https://github.com/atomdrift-project/hood.git
+cd hood
+make install
+hood install</pre>
+    <p>Restart your shell and use your tools as before. <code>hood install</code>
+    adds the shims; <code>hood uninstall</code> removes them and the shell
+    configuration it wrote. Set <code>HOOD_VERBOSE=1</code> (or
+    <code>-v</code>) to see each verdict and a summary:</p>
+<pre class="install-block">✅ Atomdrift Hood scan passed — 3.2% risk score — package.tgz
+⚠️ Atomdrift Hood flagged this download as suspicious — 31.0% risk score — BLOCKED
+🛑 Atomdrift Hood blocked a high-risk download — 87.0% risk score</pre>
+
+  </div>
+
+  <div class="sidebar">
+
+    <h3>Links</h3>
+    <ul>
+      <li><a href="https://github.com/atomdrift-project/hood" target="_blank">Source code</a></li>
+      <li><a href="https://github.com/atomdrift-project/hood/issues" target="_blank">Bug tracker</a></li>
+    </ul>
+
+    <h3>Project Info</h3>
+    <dl class="stats">
+      <dt>Status</dt><dd>experimental</dd>
+      <dt>Version</dt><dd>0.1.0</dd>
+      <dt>License</dt><dd>Apache 2.0</dd>
+      <dt>Language</dt><dd>Rust</dd>
+    </dl>
+
+    <h3>Related</h3>
+    <ul>
+      <li><a href="/scan/">scan</a> — AI malware detection</li>
+      <li><a href="/cleave/">cleave</a> — capability extraction</li>
+      <li><a href="/isomer/">isomer</a> — differential analysis</li>
+    </ul>
+
+  </div>
+</div>
