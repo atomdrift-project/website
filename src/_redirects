@@ -12,4 +12,4 @@
 
 # The 0-day sample dump (~53MB) exceeds Cloudflare Pages' 25MB per-file limit, so
 # it's served from the scan repo. Keep the pretty URL; atomscan follows the 302.
-/demo/samples.zip  https://raw.githubusercontent.com/atomdrift-project/scan/main/demo/samples.zip  302
+/demo/samples.zip  https://raw.githubusercontent.com/atomdrift-project/website/main/demo/samples.zip  302

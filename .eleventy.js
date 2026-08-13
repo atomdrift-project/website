@@ -19,7 +19,8 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/assets");
   eleventyConfig.addPassthroughCopy("src/.well-known");
   // The 0-day sample dump (~53MB) exceeds Cloudflare Pages' 25MB per-file limit,
-  // so it's served from the scan repo. /demo/samples.zip 302s there (see _redirects).
+  // so it's committed at demo/samples.zip and served raw from GitHub; /demo/samples.zip
+  // 302s there (see _redirects) rather than being copied into the Pages build.
   eleventyConfig.addPassthroughCopy("src/_redirects");
 
   // Build-time syntax highlighting (Prism, no client JS).
