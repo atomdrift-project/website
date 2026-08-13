@@ -10,6 +10,6 @@
 /discoveries/           /news/      301
 /discoveries/feed.xml   /feed.xml   301
 
-# The 0-day demo dump (~53MB) exceeds Cloudflare Pages' 25MB per-file limit, so
+# The 0-day sample dump (~53MB) exceeds Cloudflare Pages' 25MB per-file limit, so
 # it's served from the scan repo. Keep the pretty URL; atomscan follows the 302.
-/scan/demo.zip  https://raw.githubusercontent.com/atomdrift-project/scan/main/demo/demo.zip  302
+/demo/samples.zip  https://raw.githubusercontent.com/atomdrift-project/scan/main/demo/samples.zip  302
