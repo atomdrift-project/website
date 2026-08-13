@@ -1,0 +1,164 @@
+---
+layout: base.njk
+title: "Atomdrift Tools Demo"
+description: "Run the Atomdrift stack yourself — scan, lab, and isomer in a few commands."
+noindex: true
+---
+
+<style>
+  /* Demo page — built from the site tokens (carbon / toxic / Oxanium). */
+  .demo-hero { margin: 0 0 30px; }
+  .demo-hero h1 {
+    font-family: 'Oxanium', sans-serif; font-weight: 800; font-size: 32px;
+    line-height: 1.1; letter-spacing: -0.01em; color: var(--carbon); margin: 0 0 10px;
+  }
+  .demo-hero p { font-size: 17px; color: var(--graphite); max-width: 56ch; margin: 0; }
+  .demo-hero .rule {
+    height: 3px; width: 110px; margin-top: 16px; border-radius: 2px;
+    background: linear-gradient(90deg, var(--toxic), var(--toxic-muted) 60%, transparent);
+  }
+
+  .demo-tool {
+    border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; margin: 0 0 20px;
+    box-shadow: -3px 0 0 0 var(--toxic), 0 1px 3px rgba(0,0,0,0.05);
+  }
+  .demo-tool-head { display: flex; align-items: center; gap: 12px; margin: 0 0 12px; }
+  .content .demo-title { display: flex; align-items: center; margin: 0; padding: 0; border: 0; line-height: 1; }
+  .demo-logo { height: 44px; width: auto; display: block; }
+  .demo-wordmark {
+    font-family: 'Oxanium', sans-serif; font-weight: 700; font-size: 28px;
+    letter-spacing: 0.5px; color: #1a1a1a; line-height: 1;
+  }
+  .demo-tool > p { margin: 0 0 10px; max-width: 62ch; }
+  .demo-lead { font-size: 16px; color: var(--carbon); }
+  .model-note { font-size: 0.8125rem; color: var(--slate); margin-top: -2px; }
+
+  /* Softer than the pure-carbon install-block: charcoal, rounded, quiet. */
+  .cmd {
+    background: #17181c; color: #e8e8ea; border-radius: 8px; padding: 14px 16px; margin: 6px 0 14px;
+    font-family: 'SF Mono', Consolas, monospace; font-size: 13.5px; line-height: 1.65; overflow-x: auto;
+  }
+
+  .demo-cases { list-style: none; margin: 4px 0 12px; padding: 0; }
+  .demo-cases li { padding: 9px 0; border-bottom: 1px solid var(--border); font-size: 15px; color: var(--graphite); }
+  .demo-cases li:last-child { border-bottom: none; }
+  .demo-cases a { font-family: 'Oxanium', sans-serif; font-weight: 600; text-decoration: none; }
+  .demo-cases a:hover { text-decoration: underline; }
+
+  .demo-links { font-size: 14px; color: var(--slate); margin: 6px 0 0; }
+  .demo-links a { text-decoration: none; }
+  .demo-links a:hover { text-decoration: underline; }
+</style>
+
+<div class="main">
+  <div class="content">
+
+    <div class="demo-hero">
+      <h1>Run the stack yourself</h1>
+      <p>Three tools. Everything runs locally — no account, key, or GPU.</p>
+      <div class="rule"></div>
+    </div>
+
+    <section class="demo-tool" id="scan" aria-labelledby="scan-title">
+      <div class="demo-tool-head">
+        <h2 class="demo-title" id="scan-title"><img class="demo-logo" src="/assets/images/scan.svg" alt="Scan"></h2>
+        <span class="badge badge-stable">stable</span>
+      </div>
+
+      <p class="demo-lead">Local malware detection, powered by offline AI models.</p>
+
+      <p>Install, then scan a known-good binary:</p>
+<pre class="cmd">curl -fsSL https://install.atomdrift.org/scan.sh | sh
+atomscan /bin/ls</pre>
+
+      <p>The 0-day demo — 12 fresh samples across Go, npm, Java, PE, VSCode, and PyPI:</p>
+<pre class="cmd">atomscan https://atomdrift.org/scan/demo.zip</pre>
+
+      <div class="admonition warning">
+        <p class="admonition-title">Live malware</p>
+        <p>Real samples. Run it where it won't alarm your security team.</p>
+      </div>
+
+      <p><code>--llm</code> blends a model's read with the local verdict. Any
+      OpenAI-compatible endpoint works; recommended in production:</p>
+<pre class="cmd">atomscan --llm https://your-endpoint/v1 https://atomdrift.org/scan/demo.zip</pre>
+      <p class="model-note">Qwen&nbsp;3.6-27B runs well locally; 27B or larger is enough.</p>
+
+      <p class="demo-links"><a href="https://atomdrift.org/scan/">Overview</a>
+      &middot; <a href="https://github.com/atomdrift-project/scan" target="_blank" rel="noopener">Source</a></p>
+    </section>
+
+    <section class="demo-tool" id="lab" aria-labelledby="lab-title">
+      <div class="demo-tool-head">
+        <h2 class="demo-title" id="lab-title"><span class="demo-wordmark">lab / fallout</span></h2>
+        <span class="badge badge-stable">stable</span>
+      </div>
+
+      <p class="demo-lead">Recent catches from auditing 175+ software sources. Each
+      is a &ldquo;mal-ecule&rdquo;: a fingerprint of what a sample does, not its bytes.</p>
+
+      <ul class="demo-cases">
+        <li><a href="https://lab.atomdrift.org/file/a4516971edc3493f7dc66f8310e6b42627b22dfb915882c169dda5550cb52b17" target="_blank" rel="noopener">A worked example</a> — one sample, decomposed</li>
+        <li><a href="https://lab.atomdrift.org/fallout" target="_blank" rel="noopener">The fallout feed</a> — everything caught, live</li>
+      </ul>
+
+      <p class="demo-links"><a href="https://lab.atomdrift.org/" target="_blank" rel="noopener">Open the Lab &rarr;</a></p>
+    </section>
+
+    <section class="demo-tool" id="isomer" aria-labelledby="isomer-title">
+      <div class="demo-tool-head">
+        <h2 class="demo-title" id="isomer-title"><img class="demo-logo" src="/assets/images/isomer.svg" alt="isomer"></h2>
+        <span class="badge badge-experimental">experimental</span>
+      </div>
+
+      <p class="demo-lead">Detects whether a <em>change</em> is malicious. The version
+      says nothing changed; the behavior says otherwise.</p>
+
+      <p>Needs a Rust compiler:</p>
+<pre class="cmd">git clone https://github.com/atomdrift-project/isomer.git
+cd isomer
+make demo</pre>
+
+      <p><code>make demo</code> runs four real attacks as old&nbsp;&rarr;&nbsp;new pairs.
+      Each must score NOTABLE or the build fails:</p>
+      <ul class="demo-cases">
+        <li><a href="https://isotope13.ai/compendium/2024/xzutils/" target="_blank" rel="noopener">xz-utils</a> — backdoor in the liblzma release tarballs</li>
+        <li><a href="https://isotope13.ai/compendium/2025/rand-user-agent/" target="_blank" rel="noopener">rand-user-agent</a> — malicious npm release</li>
+        <li><a href="https://isotope13.ai/compendium/2026/node-ipc/" target="_blank" rel="noopener">node-ipc</a> — hijacked account, DNS exfil</li>
+        <li><a href="https://isotope13.ai/compendium/2009/unrealircd/" target="_blank" rel="noopener">UnrealIRCd</a> — backdoored source tarball</li>
+      </ul>
+
+      <p>The verdict is deterministic; an LLM read is layered on by default.
+      Set <code>LLM_URL</code> to point it at your own endpoint.</p>
+
+      <p class="demo-links"><a href="https://atomdrift.org/isomer/">Overview</a>
+      &middot; <a href="https://github.com/atomdrift-project/isomer" target="_blank" rel="noopener">Source</a></p>
+    </section>
+
+  </div>
+
+  <div class="sidebar">
+
+    <div class="lab-callout">
+      <strong><span aria-hidden="true">&#9883;</span> The stack</strong>
+      <p>cleave extracts capabilities, azoth classifies them, scan ties it together;
+      isomer judges the change between two versions.</p>
+      <a href="https://atomdrift.org/projects/" target="_blank" rel="noopener">All projects &rarr;</a>
+    </div>
+
+    <h3>Links</h3>
+    <ul>
+      <li><a href="https://github.com/atomdrift-project" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="https://install.atomdrift.org/" target="_blank" rel="noopener">Install</a></li>
+      <li><a href="https://lab.atomdrift.org/" target="_blank" rel="noopener">Lab</a></li>
+    </ul>
+
+    <h3>At a glance</h3>
+    <dl class="stats">
+      <dt>Runtime</dt><dd>Local, offline</dd>
+      <dt>License</dt><dd>Apache 2.0</dd>
+      <dt>Requires</dt><dd>Rust (isomer)</dd>
+    </dl>
+
+  </div>
+</div>

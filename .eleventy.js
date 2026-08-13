@@ -18,8 +18,8 @@ function admonition(name, defaultTitle) {
 module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/assets");
   eleventyConfig.addPassthroughCopy("src/.well-known");
-  // Encrypted 0-day sample dump used by the /demo/ scan walkthrough.
-  eleventyConfig.addPassthroughCopy({ "src/demo.zip": "scan/demo.zip" });
+  // The 0-day sample dump (~53MB) exceeds Cloudflare Pages' 25MB per-file limit,
+  // so it's served from the scan repo. /scan/demo.zip 302s there (see _redirects).
   eleventyConfig.addPassthroughCopy("src/_redirects");
 
   // Build-time syntax highlighting (Prism, no client JS).
