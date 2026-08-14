@@ -55,9 +55,9 @@
       <a href="/"{% if page.url == "/" %} class="active" aria-current="page"{% endif %}>Home</a>
       {# Discovery posts keep their /discoveries/ URLs, but they are listed under News now. #}
       <a href="/news/"{% if page.url and (page.url.startsWith("/news") or page.url.startsWith("/discoveries")) %} class="active" aria-current="page"{% endif %}>News</a>
+      <a href="/mission/"{% if page.url == "/mission/" %} class="active" aria-current="page"{% endif %}>Mission</a>
       <a href="/compare/"{% if page.url and page.url.startsWith("/compare") %} class="active" aria-current="page"{% endif %}>Compare</a>
       <a href="/projects/"{% if page.url == "/projects/" or page.url == "/cleave/" or page.url == "/stng/" or page.url == "/scan/" or page.url == "/azoth/" or page.url == "/isomer/" or page.url == "/hood/" %} class="active" aria-current="page"{% endif %}>Projects</a>
-      <a href="/mission/"{% if page.url == "/mission/" %} class="active" aria-current="page"{% endif %}>Mission</a>
       <a href="/support/"{% if page.url == "/support/" %} class="active" aria-current="page"{% endif %}>Support</a>
     </div>
   </nav>

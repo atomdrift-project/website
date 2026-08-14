@@ -4,119 +4,115 @@ title: Mission
 description: Atomdrift's mission is to make supply-chain security accessible to the open-source community, regardless of platform.
 ---
 
-<div class="main">
-  <div class="content" data-pagefind-body>
+<div class="mission" data-pagefind-body>
 
-    <h1>Mission</h1>
+  <p class="mission-eyebrow">Mission</p>
 
-    <p class="mission-statement">Atomdrift's mission is to make supply-chain
-    security accessible to the open-source community, regardless of
-    platform.</p>
+  <h1 class="mission-lede">Atomdrift's Mission is to make supply-chain security
+  <em class="mission-mark">accessible to the open-source community</em>,
+  regardless of platform.</h1>
 
-    <h2>Principles</h2>
+  <p class="mission-sub">We are driven by these principles:</p>
 
-    <ul class="principle-list">
-      <li>
-        <span class="principle-name">Local First</span>
-        <div class="principle-desc">Our tools will never require a cloud
-        provider or remote AI endpoint, though they may use one if you ask.
-        <a href="/azoth/">azoth</a> runs on your CPU, and
-        <a href="/scan/">scan</a> works with no account, no API key, and no
-        network.</div>
-      </li>
-      <li>
-        <span class="principle-name">Zero Telemetry</span>
-        <div class="principle-desc">Our tools never phone home. How you use
-        them is your business, not ours.</div>
-      </li>
-      <li>
-        <span class="principle-name">Frugal</span>
-        <div class="principle-desc">Analysis is expensive, so we do it once
-        and remember the answer. Human attention is even more expensive.
-        Every false positive is a bug &mdash;
-        <a href="https://github.com/atomdrift-project/scan/issues" target="_blank" rel="noopener">report
-        one<span class="visually-hidden"> (opens in a new tab)</span></a> and
-        we will treat it as one.</div>
-      </li>
-      <li>
-        <span class="principle-name">Portable</span>
-        <div class="principle-desc">Software runs everywhere, so security
-        tools should too. We build and test on
-        <a href="https://kernel.org/" target="_blank" rel="noopener">Linux</a>,
-        <a href="https://www.apple.com/macos/" target="_blank" rel="noopener">macOS</a>,
-        <a href="https://www.microsoft.com/windows" target="_blank" rel="noopener">Windows</a>,
-        <a href="https://www.freebsd.org/" target="_blank" rel="noopener">FreeBSD</a>, and
-        <a href="https://illumos.org/" target="_blank" rel="noopener">illumos</a>;
-        and provide best-effort support for all
-        <a href="https://doc.rust-lang.org/rustc/platform-support.html" target="_blank" rel="noopener">Tier&nbsp;1
-        and Tier&nbsp;2 Rust platforms<span class="visually-hidden"> (opens in a new tab)</span></a>.</div>
-      </li>
-      <li>
-        <span class="principle-name">Composable</span>
-        <div class="principle-desc">Our tools produce output meant to be used
-        by other tools &mdash; stable JSON, JSONL for streaming, and honest
-        exit codes.
-        <a href="https://github.com/atomdrift-project" target="_blank" rel="noopener">Integrations
-        welcome<span class="visually-hidden"> (opens in a new tab)</span></a>.</div>
-      </li>
-      <li>
-        <span class="principle-name">Open</span>
-        <div class="principle-desc">Our tools and rules are
-        <a href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank" rel="noopener">Apache&nbsp;2.0</a>
-        and will stay that way. The
-        <a href="https://github.com/atomdrift-project/traits" target="_blank" rel="noopener">traits
-        rule set</a> is public, and patches welcome.</div>
-      </li>
-      <li>
-        <span class="principle-name">Inspectable</span>
-        <div class="principle-desc">Every finding shows its work &mdash; the
-        evidence, the matched rule, and where it came from. Otherwise it's
-        just security theater.</div>
-      </li>
-    </ul>
+  <div class="principles">
 
-    <h2>Contact</h2>
-    <p>Questions, patches, or a platform we should be testing on? Open an
-    issue on <a href="https://github.com/atomdrift-project" target="_blank" rel="noopener">GitHub</a>,
-    or email Thomas Stromberg at <span id="mission-mail">t, at this domain</span>.
-    Commercial support is covered on the <a href="/support/">support page</a>.</p>
+    <section class="principle">
+      <h2>Local First</h2>
+      <div class="principle-body">
+        <ul>
+          <li>Our tools will never require a cloud provider or remote AI
+          endpoint, though they may use one if you ask.</li>
+        </ul>
+      </div>
+    </section>
 
-    <script>
-      (function () {
-        var p = ['t', 'atomdrift', 'org'];
-        var a = p[0] + '@' + p[1] + '.' + p[2];
-        var el = document.getElementById('mission-mail');
-        if (el) el.innerHTML = '<a href="mailto:' + a + '">' + a + '</a>';
-      })();
-    </script>
+    <section class="principle">
+      <h2>Zero Telemetry</h2>
+      <div class="principle-body">
+        <ul>
+          <li>Our tools never phone home. How you use them is your business,
+          not ours.</li>
+        </ul>
+      </div>
+    </section>
 
-  </div>
+    <section class="principle">
+      <h2>Frugal</h2>
+      <div class="principle-body">
+        <ul>
+          <li>Analysis is expensive, so we do it once and remember the
+          answer.</li>
+          <li>Human attention is even more expensive. Every false positive is
+          a <a href="https://github.com/atomdrift-project/scan/issues" target="_blank" rel="noopener">bug<span class="visually-hidden"> (opens in a new tab)</span></a>.</li>
+        </ul>
+      </div>
+    </section>
 
-  <div class="sidebar">
+    <section class="principle">
+      <h2>Portable</h2>
+      <div class="principle-body">
+        <ul>
+          <li>Software runs everywhere, so security tools should too.</li>
+          <li>We build and test on
+          <a href="https://kernel.org/" target="_blank" rel="noopener">Linux</a>,
+          <a href="https://www.apple.com/macos/" target="_blank" rel="noopener">macOS</a>,
+          <a href="https://www.microsoft.com/windows" target="_blank" rel="noopener">Windows</a>,
+          <a href="https://www.freebsd.org/" target="_blank" rel="noopener">FreeBSD</a>, and
+          <a href="https://illumos.org/" target="_blank" rel="noopener">illumos</a>;
+          and provide best-effort support for all
+          <a href="https://doc.rust-lang.org/rustc/platform-support.html" target="_blank" rel="noopener">Tier&nbsp;1
+          and Tier&nbsp;2 Rust platforms<span class="visually-hidden"> (opens in a new tab)</span></a>.</li>
+        </ul>
+      </div>
+    </section>
 
-    <h3>Platforms</h3>
-    <ul>
-      <li><a href="https://kernel.org/" target="_blank" rel="noopener">Linux</a></li>
-      <li><a href="https://www.apple.com/macos/" target="_blank" rel="noopener">macOS</a></li>
-      <li><a href="https://www.microsoft.com/windows" target="_blank" rel="noopener">Windows</a></li>
-      <li><a href="https://www.freebsd.org/" target="_blank" rel="noopener">FreeBSD</a></li>
-      <li><a href="https://illumos.org/" target="_blank" rel="noopener">illumos</a></li>
-      <li><a href="https://doc.rust-lang.org/rustc/platform-support.html" target="_blank" rel="noopener">Rust Tier 1 &amp; 2</a> &mdash; best effort</li>
-    </ul>
+    <section class="principle">
+      <h2>Composable</h2>
+      <div class="principle-body">
+        <ul>
+          <li>Our tools produce output meant to be used by other tools.
+          <a href="https://github.com/atomdrift-project" target="_blank" rel="noopener">Integrations
+          welcome<span class="visually-hidden"> (opens in a new tab)</span></a>.</li>
+        </ul>
+      </div>
+    </section>
 
-    <h3>Contact</h3>
-    <ul>
-      <li><a href="https://github.com/atomdrift-project" target="_blank" rel="noopener">GitHub</a></li>
-      <li><a href="https://github.com/atomdrift-project/scan/issues" target="_blank" rel="noopener">Report a false positive</a></li>
-      <li><a href="/support/">Support options</a></li>
-    </ul>
+    <section class="principle">
+      <h2>Open</h2>
+      <div class="principle-body">
+        <ul>
+          <li>Our tools and rules are
+          <a href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank" rel="noopener">Apache&nbsp;2.0</a>
+          and will stay that way.
+          <a href="https://github.com/atomdrift-project" target="_blank" rel="noopener">Patches
+          welcome<span class="visually-hidden"> (opens in a new tab)</span></a>.</li>
+        </ul>
+      </div>
+    </section>
 
-    <h3>Project Info</h3>
-    <dl class="stats">
-      <dt>License</dt><dd><a href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank" rel="noopener">Apache 2.0</a></dd>
-      <dt>Languages</dt><dd>Rust, Go</dd>
-      <dt>Telemetry</dt><dd>None</dd>
-    </dl>
+    <section class="principle">
+      <h2>Inspectable</h2>
+      <div class="principle-body">
+        <ul>
+          <li>Every finding shows its work; otherwise it's just security
+          theater.</li>
+        </ul>
+      </div>
+    </section>
 
   </div>
+
+  <p class="mission-contact">Questions or patches?
+  <a href="https://github.com/atomdrift-project" target="_blank" rel="noopener">GitHub</a>
+  or <span id="mission-mail">t, at this domain</span>.</p>
+
 </div>
+
+<script>
+  (function () {
+    var p = ['t', 'atomdrift', 'org'];
+    var a = p[0] + '@' + p[1] + '.' + p[2];
+    var el = document.getElementById('mission-mail');
+    if (el) el.innerHTML = '<a href="mailto:' + a + '">' + a + '</a>';
+  })();
+</script>
