@@ -117,9 +117,13 @@ atomscan samples.zip</pre>
       </div>
 
       <p class="demo-lead">Detects whether a <em>change</em> is malicious. The version
-      says nothing changed; the behavior says otherwise. Installer is experimental:
+      says nothing changed; the behavior says otherwise. To run the demo you'll need Rust 1.94 or newer -
+      if that's a problem I can put together a precompiled version.:
 
- <pre class="cmd">curl -fsSL https://install.atomdrift.org/isomer.sh | sh</pre>
+<pre class="cmd">git clone https://github.com/atomdrift-project/isomer.git
+cd isomer
+make demo
+</pre>
       <p><code>make demo</code> runs four real attacks as old&nbsp;&rarr;&nbsp;new pairs.</p>     <ul>
         <li><a href="https://isotope13.ai/compendium/2024/xzutils/" target="_blank" rel="noopener">xz-utils</a></li>
         <li><a href="https://isotope13.ai/compendium/2025/rand-user-agent/" target="_blank" rel="noopener">rand-user-agent</a></li>
