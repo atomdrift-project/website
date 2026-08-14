@@ -11,7 +11,7 @@ description: Atomdrift Scan vs Socket, Aikido, SafeDep, VirusTotal and ClamAV on
   /* one bar palette for every engine: hostile solid, suspicious pale, grey = unreadable.
      Atomdrift is marked by its label, not by a colour of its own. */
   :root {
-    --h: #9abe25; --s: #cfe09a; --na: #dfe3e8;
+    --h: #9abe25; --s: #cfe09a; --na: #dfe3e8; --e: #d64545;
     --t-hostile: #dc2626; --t-suspicious: #e0a526; --t-benign: #2f9e63; --t-nodata: #7b8494;
   }
 
@@ -100,7 +100,12 @@ description: Atomdrift Scan vs Socket, Aikido, SafeDep, VirusTotal and ClamAV on
     background-image: repeating-linear-gradient(135deg, rgba(0,0,0,.18) 0 2px, transparent 2px 5px); }
   .rows .un, .legend .unsupported-key { background-color: var(--na);
     background-image: repeating-linear-gradient(90deg, rgba(0,0,0,.2) 0 1px, transparent 1px 4px); }
-  .rows .un { margin-left: auto; }
+  .rows .eb, .legend .errored-key { background: var(--e); }
+  .rows .eb { height: 100%; }
+  /* Grey (scope) and red (failure) anchor right, in that order; whichever comes
+     first takes the auto margin so the pair hugs the right edge either way. */
+  .rows .un, .rows .sb + .eb, .rows .hb + .eb, .rows .eb:first-child { margin-left: auto; }
+  .rows .un + .eb { margin-left: 0; }
   .rows .rv { font-family: 'Oxanium', sans-serif; font-weight: 800; font-size: .8rem; font-variant-numeric: tabular-nums;
               text-align: right; min-width: 36px; color: var(--carbon); }
   .legend { display: flex; gap: 8px 16px; flex-wrap: wrap; align-items: center; font-size: .72rem; color: var(--iron); }
@@ -228,6 +233,7 @@ description: Atomdrift Scan vs Socket, Aikido, SafeDep, VirusTotal and ClamAV on
         {%- if s.hostile > 0 %}<span class="hb" style="width:{{ s.hostile / s.supported * 100 }}%"></span>{% endif -%}
         {%- if s.suspicious > 0 %}<span class="sb" style="width:{{ s.suspicious / s.supported * 100 }}%"></span>{% endif -%}
         {%- if unsup > 0 %}<span class="un" style="width:{{ unsup / s.supported * 100 }}%"></span>{% endif -%}
+        {%- if s.errored > 0 %}<span class="eb" style="width:{{ s.errored / s.supported * 100 }}%"></span>{% endif -%}
       {%- endif -%}
     </div>
     {%- if s.supported %}
@@ -306,10 +312,12 @@ description: Atomdrift Scan vs Socket, Aikido, SafeDep, VirusTotal and ClamAV on
     <span><i class="hostile-key"></i>flagged hostile</span>
     <span><i class="suspicious-key"></i>flagged suspicious</span>
     <span><i class="unsupported-key"></i>unsupported file format</span>
+    <span><i class="errored-key"></i>errored</span>
   </div>
   <p class="fig-note">Every engine is scored at its most sensitive setting, ours included. <b>Grey is scope</b> —
     an engine that only reads registry packages marks the rest of the cohort unsupported, which the methodology
-    scores as a miss.</p>
+    scores as a miss. <b>Red is failure</b> — the engine supports the sample but errored on it (a timeout or
+    crash), which also scores as a miss.</p>
 
   {%- set q = battle | quadrant(chartProviders) %}
   {%- if q %}
