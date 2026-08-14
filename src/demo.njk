@@ -78,7 +78,8 @@ noindex: true
 <pre class="cmd">atomscan /bin/ls</pre>
 
       <p>0-day demo — 12 fresh samples across Go, npm, Java, PE, VSCode, PyPI:</p>
-<pre class="cmd">atomscan https://atomdrift.org/demo/samples.zip</pre>
+<pre class="cmd">curl -LO https://atomdrift.org/demo/samples.zip
+atomscan samples.zip</pre>
 
       <div class="admonition warning">
         <p>NOTE: samples.zip contains encrypted malware, please execute atomscan in a location that won't alarm your security team.</p>
@@ -86,7 +87,7 @@ noindex: true
 
       <p>Also worth testing is the <code>--llm</code> flag, which blends a large language model's read with the local ML verdict. Any
       OpenAI-compatible endpoint works:</p>
-<pre class="cmd">atomscan --llm ${URL} https://atomdrift.org/demo/samples.zip</pre>
+<pre class="cmd">atomscan --llm ${URL} samples.zip</pre>
 
       <p class="demo-links"><a href="https://atomdrift.org/scan/">Scan Overview</a>
       &middot; <a href="https://github.com/atomdrift-project/scan" target="_blank" rel="noopener">GitHub</a></p>
