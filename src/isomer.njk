@@ -39,7 +39,7 @@ title: "isomer — Differential Supply-Chain Attack Detection"
     <div class="admonition warning">
       <p class="admonition-title">Heavy development</p>
       <p>isomer is an early, experimental build. Verdicts, flags, and
-      output formats change without notice, and there is no stable release
+      output formats change without notice, and no interface is stable
       yet. Try it, break it, file issues — just don't wire it into
       anything you can't unwire. May eat your cat.</p>
     </div>
@@ -74,7 +74,10 @@ isomer oci  &lt;old-image&gt; &lt;new-image&gt;   # compare two container images
     conflated with findings.</p>
 
     <h2>Install</h2>
-    <p>From source only while things are moving fast (Rust 1.94+):</p>
+    <p>Prebuilt binaries for macOS (signed and notarized) and Linux are on
+    the <a href="https://github.com/atomdrift-project/isomer/releases" target="_blank">releases
+    page</a>. Installers are coming soon.</p>
+    <p>From source (Rust 1.94+):</p>
 <pre class="install-block">git clone https://github.com/atomdrift-project/isomer.git
 cd isomer
 make install</pre>
@@ -95,13 +98,15 @@ make install</pre>
     <h3>Links</h3>
     <ul>
       <li><a href="https://github.com/atomdrift-project/isomer" target="_blank">Source code</a></li>
+      <li><a href="https://github.com/atomdrift-project/isomer/releases" target="_blank">Releases</a></li>
       <li><a href="https://github.com/atomdrift-project/isomer/issues" target="_blank">Bug tracker</a></li>
     </ul>
 
     <h3>Project Info</h3>
     <dl class="stats">
       <dt>Status</dt><dd>experimental</dd>
-      <dt>Version</dt><dd>N/A</dd>
+      <dt>Version</dt><dd>0.3.0</dd>
+      <dt>Release Date</dt><dd>2026-08-13</dd>
       <dt>License</dt><dd>Apache 2.0</dd>
       <dt>Language</dt><dd>Rust</dd>
     </dl>
