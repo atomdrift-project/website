@@ -73,7 +73,7 @@ noindex: true
       <p>Install,</p>
 <pre class="cmd">curl -fsSL https://install.atomdrift.org/scan.sh | sh</pre>
 
-<p>scan a known-good binary:</p>
+<p>scan a known-good binary - the first run may be slow as it downloads and compiles the ruleset.</p>
 
 <pre class="cmd">atomscan /bin/ls</pre>
 
@@ -117,11 +117,9 @@ atomscan samples.zip</pre>
       </div>
 
       <p class="demo-lead">Detects whether a <em>change</em> is malicious. The version
-      says nothing changed; the behavior says otherwise. No release binary yet, so it needs a Rust compiler:</p>
-<pre class="cmd">git clone https://github.com/atomdrift-project/isomer.git
-cd isomer
-make demo</pre>
+      says nothing changed; the behavior says otherwise. Installer is experimental:
 
+ <pre class="cmd">curl -fsSL https://install.atomdrift.org/isomer.sh | sh</pre>
       <p><code>make demo</code> runs four real attacks as old&nbsp;&rarr;&nbsp;new pairs.</p>     <ul>
         <li><a href="https://isotope13.ai/compendium/2024/xzutils/" target="_blank" rel="noopener">xz-utils</a></li>
         <li><a href="https://isotope13.ai/compendium/2025/rand-user-agent/" target="_blank" rel="noopener">rand-user-agent</a></li>
