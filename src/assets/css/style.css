@@ -306,6 +306,15 @@ code, .mono { font-family: 'SF Mono', Consolas, monospace; font-size: 0.92em; }
   letter-spacing: -0.3px;
 }
 
+.content h1 {
+  font-family: 'Oxanium', sans-serif;
+  font-size: 27px;
+  font-weight: 700;
+  color: var(--carbon);
+  letter-spacing: -0.5px;
+  margin-bottom: 14px;
+}
+
 .content h2:first-child { margin-top: 0; }
 .content p {
   margin-bottom: 12px;
@@ -449,6 +458,44 @@ code, .mono { font-family: 'SF Mono', Consolas, monospace; font-size: 0.92em; }
 
 .proj-links a { text-decoration: none; }
 .proj-links a:hover { text-decoration: underline; }
+
+/* ========== MISSION ========== */
+.mission-statement {
+  font-size: 19px;
+  line-height: 1.6;
+  color: var(--carbon);
+  border-left: 3px solid var(--toxic);
+  padding-left: 14px;
+  margin-bottom: 8px;
+}
+
+.principle-list { list-style: none; }
+
+.principle-list li {
+  padding: 12px 14px;
+  margin-bottom: 6px;
+  border-radius: 8px;
+  background: var(--cream);
+  border: 1px solid var(--border);
+  transition: box-shadow 0.2s;
+}
+
+.principle-list li:hover {
+  box-shadow: -3px 0 0 0 var(--toxic), 0 1px 3px rgba(0,0,0,0.06);
+}
+
+.principle-name {
+  font-family: 'Oxanium', sans-serif;
+  font-weight: 700;
+  font-size: 17px;
+}
+
+.principle-desc {
+  color: var(--graphite);
+  font-size: 15px;
+  line-height: 1.55;
+  margin-top: 4px;
+}
 
 /* ========== FEATURE LIST ========== */
 .feature-list {
