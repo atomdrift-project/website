@@ -1023,18 +1023,38 @@ module.exports = function(eleventyConfig) {
 
   // errorLines: one "package — detail" line per scanner error within a cohort
   // (label bad/good, excluded samples omitted) — the errored bar segment's
-  // mouseover on the /compare/ benchmark charts.
+  // mouseover on the /compare/ benchmark charts. Samples that share a package
+  // and a reason collapse to "name ×N": an engine timing out on seven versions
+  // of one module is one failure to read, and the tooltip has to stay readable.
+  const ERROR_TIP_MAX = 10;
+  const SHA_NAME = /^[0-9a-f]{64}$/;
   eleventyConfig.addFilter("errorLines", function(samples, scanner, label) {
-    const out = [];
+    const groups = new Map();
     for (const s of samples || []) {
       if (s.excluded || s.label !== label) continue;
       for (const v of s.verdicts || []) {
-        if (v && v.scanner === scanner && v.status === "error") {
-          out.push((s.purl || s.filename) + " — " + (v.detail || "error"));
-        }
+        if (!v || v.scanner !== scanner || v.status !== "error") continue;
+        // A sha-named package is a loose file that never came from a registry;
+        // its filename is the part a reader recognises.
+        const name = s.package && !SHA_NAME.test(s.package)
+          ? s.package
+          : (s.filename || (s.sha256 || "").slice(0, 12));
+        const detail = v.detail || "error";
+        const g = groups.get(name + " " + detail);
+        if (g) g.n += 1;
+        else groups.set(name + " " + detail, { name, version: s.version, detail, n: 1 });
       }
     }
-    return out;
+    const lines = [...groups.values()].map(function(g) {
+      const head = g.n > 1 ? g.name + " ×" + g.n
+        : (g.version ? g.name + "@" + g.version : g.name);
+      return head + " — " + g.detail;
+    });
+    if (lines.length > ERROR_TIP_MAX) {
+      const rest = lines.length - ERROR_TIP_MAX;
+      return lines.slice(0, ERROR_TIP_MAX).concat("…and " + rest + " more");
+    }
+    return lines;
   });
 
   // Pull the first <img> src out of rendered post content, for listing thumbnails.
