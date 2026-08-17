@@ -1,85 +1,85 @@
 {
-  "generated_at": "2026-08-17T02:33:32.930239197Z",
+  "generated_at": "2026-08-17T06:21:08.637574169Z",
   "detection": {
     "cohort": "bad",
     "metric": "detection rate",
     "higher_is_better": true,
-    "sample_count": 10,
+    "sample_count": 9,
     "leaderboard": [
       {
         "scanner": "ascan",
-        "hostile": 9,
+        "hostile": 7,
         "suspicious": 0,
-        "benign": 1,
+        "benign": 2,
         "nodata": 0,
         "unsupported": 0,
-        "supported": 10,
-        "hostile_rate": 0.9,
+        "supported": 9,
+        "hostile_rate": 0.7777777777777778,
         "rank": 1
       },
       {
         "scanner": "virustotal",
-        "hostile": 7,
+        "hostile": 5,
         "suspicious": 1,
-        "benign": 2,
+        "benign": 3,
         "nodata": 0,
         "unsupported": 0,
-        "supported": 10,
-        "hostile_rate": 0.7,
+        "supported": 9,
+        "hostile_rate": 0.5555555555555556,
         "rank": 2
       },
       {
         "scanner": "malcontent",
         "hostile": 4,
-        "suspicious": 4,
+        "suspicious": 3,
         "benign": 2,
         "nodata": 0,
         "unsupported": 0,
-        "supported": 10,
-        "hostile_rate": 0.4,
+        "supported": 9,
+        "hostile_rate": 0.4444444444444444,
         "rank": 3
+      },
+      {
+        "scanner": "guarddog",
+        "hostile": 2,
+        "suspicious": 0,
+        "benign": 2,
+        "nodata": 0,
+        "unsupported": 5,
+        "supported": 9,
+        "hostile_rate": 0.2222222222222222,
+        "rank": 4
       },
       {
         "scanner": "socket",
         "hostile": 2,
-        "suspicious": 1,
+        "suspicious": 2,
         "benign": 0,
         "nodata": 0,
-        "unsupported": 7,
-        "supported": 10,
-        "hostile_rate": 0.2,
-        "rank": 4
+        "unsupported": 5,
+        "supported": 9,
+        "hostile_rate": 0.2222222222222222,
+        "rank": 5
+      },
+      {
+        "scanner": "aikido",
+        "hostile": 1,
+        "suspicious": 0,
+        "benign": 0,
+        "nodata": 4,
+        "unsupported": 4,
+        "supported": 9,
+        "hostile_rate": 0.1111111111111111,
+        "rank": 6
       },
       {
         "scanner": "clamav",
-        "hostile": 1,
+        "hostile": 0,
         "suspicious": 0,
         "benign": 9,
         "nodata": 0,
         "unsupported": 0,
-        "supported": 10,
-        "hostile_rate": 0.1,
-        "rank": 5
-      },
-      {
-        "scanner": "guarddog",
-        "hostile": 1,
-        "suspicious": 0,
-        "benign": 2,
-        "nodata": 0,
-        "unsupported": 7,
-        "supported": 10,
-        "hostile_rate": 0.1,
-        "rank": 6
-      },
-      {
-        "scanner": "aikido",
-        "hostile": 0,
-        "suspicious": 0,
-        "benign": 0,
-        "nodata": 4,
-        "unsupported": 6,
-        "supported": 10,
+        "supported": 9,
         "hostile_rate": 0,
         "rank": 7
       },
@@ -88,9 +88,9 @@
         "hostile": 0,
         "suspicious": 0,
         "benign": 0,
-        "nodata": 3,
-        "unsupported": 7,
-        "supported": 10,
+        "nodata": 4,
+        "unsupported": 5,
+        "supported": 9,
         "hostile_rate": 0,
         "rank": 8
       }
@@ -272,6 +272,96 @@
           "nodata": 2,
           "unsupported": 0,
           "supported": 2,
+          "hostile_rate": 0,
+          "rank": 8
+        }
+      ],
+      "JavaScript": [
+        {
+          "scanner": "aikido",
+          "hostile": 1,
+          "suspicious": 0,
+          "benign": 0,
+          "nodata": 0,
+          "unsupported": 0,
+          "supported": 1,
+          "hostile_rate": 1,
+          "rank": 1
+        },
+        {
+          "scanner": "guarddog",
+          "hostile": 1,
+          "suspicious": 0,
+          "benign": 0,
+          "nodata": 0,
+          "unsupported": 0,
+          "supported": 1,
+          "hostile_rate": 1,
+          "rank": 2
+        },
+        {
+          "scanner": "malcontent",
+          "hostile": 1,
+          "suspicious": 0,
+          "benign": 0,
+          "nodata": 0,
+          "unsupported": 0,
+          "supported": 1,
+          "hostile_rate": 1,
+          "rank": 3
+        },
+        {
+          "scanner": "ascan",
+          "hostile": 0,
+          "suspicious": 0,
+          "benign": 1,
+          "nodata": 0,
+          "unsupported": 0,
+          "supported": 1,
+          "hostile_rate": 0,
+          "rank": 4
+        },
+        {
+          "scanner": "clamav",
+          "hostile": 0,
+          "suspicious": 0,
+          "benign": 1,
+          "nodata": 0,
+          "unsupported": 0,
+          "supported": 1,
+          "hostile_rate": 0,
+          "rank": 5
+        },
+        {
+          "scanner": "safedep",
+          "hostile": 0,
+          "suspicious": 0,
+          "benign": 0,
+          "nodata": 1,
+          "unsupported": 0,
+          "supported": 1,
+          "hostile_rate": 0,
+          "rank": 6
+        },
+        {
+          "scanner": "socket",
+          "hostile": 0,
+          "suspicious": 1,
+          "benign": 0,
+          "nodata": 0,
+          "unsupported": 0,
+          "supported": 1,
+          "hostile_rate": 0,
+          "rank": 7
+        },
+        {
+          "scanner": "virustotal",
+          "hostile": 0,
+          "suspicious": 0,
+          "benign": 1,
+          "nodata": 0,
+          "unsupported": 0,
+          "supported": 1,
           "hostile_rate": 0,
           "rank": 8
         }
@@ -459,47 +549,36 @@
       "Windows": [
         {
           "scanner": "ascan",
-          "hostile": 4,
+          "hostile": 2,
           "suspicious": 0,
           "benign": 0,
           "nodata": 0,
           "unsupported": 0,
-          "supported": 4,
+          "supported": 2,
           "hostile_rate": 1,
           "rank": 1
         },
         {
+          "scanner": "malcontent",
+          "hostile": 1,
+          "suspicious": 1,
+          "benign": 0,
+          "nodata": 0,
+          "unsupported": 0,
+          "supported": 2,
+          "hostile_rate": 0.5,
+          "rank": 2
+        },
+        {
           "scanner": "virustotal",
-          "hostile": 3,
+          "hostile": 1,
           "suspicious": 0,
           "benign": 1,
           "nodata": 0,
           "unsupported": 0,
-          "supported": 4,
-          "hostile_rate": 0.75,
-          "rank": 2
-        },
-        {
-          "scanner": "malcontent",
-          "hostile": 2,
-          "suspicious": 2,
-          "benign": 0,
-          "nodata": 0,
-          "unsupported": 0,
-          "supported": 4,
+          "supported": 2,
           "hostile_rate": 0.5,
           "rank": 3
-        },
-        {
-          "scanner": "clamav",
-          "hostile": 1,
-          "suspicious": 0,
-          "benign": 3,
-          "nodata": 0,
-          "unsupported": 0,
-          "supported": 4,
-          "hostile_rate": 0.25,
-          "rank": 4
         },
         {
           "scanner": "aikido",
@@ -507,8 +586,19 @@
           "suspicious": 0,
           "benign": 0,
           "nodata": 0,
-          "unsupported": 4,
-          "supported": 4,
+          "unsupported": 2,
+          "supported": 2,
+          "hostile_rate": 0,
+          "rank": 4
+        },
+        {
+          "scanner": "clamav",
+          "hostile": 0,
+          "suspicious": 0,
+          "benign": 2,
+          "nodata": 0,
+          "unsupported": 0,
+          "supported": 2,
           "hostile_rate": 0,
           "rank": 5
         },
@@ -518,8 +608,8 @@
           "suspicious": 0,
           "benign": 0,
           "nodata": 0,
-          "unsupported": 4,
-          "supported": 4,
+          "unsupported": 2,
+          "supported": 2,
           "hostile_rate": 0,
           "rank": 6
         },
@@ -529,8 +619,8 @@
           "suspicious": 0,
           "benign": 0,
           "nodata": 0,
-          "unsupported": 4,
-          "supported": 4,
+          "unsupported": 2,
+          "supported": 2,
           "hostile_rate": 0,
           "rank": 7
         },
@@ -540,8 +630,8 @@
           "suspicious": 0,
           "benign": 0,
           "nodata": 0,
-          "unsupported": 4,
-          "supported": 4,
+          "unsupported": 2,
+          "supported": 2,
           "hostile_rate": 0,
           "rank": 8
         }
@@ -552,9 +642,189 @@
     "cohort": "good",
     "metric": "false-positive rate",
     "higher_is_better": false,
-    "sample_count": 0,
-    "leaderboard": [],
-    "by_ecosystem": {}
+    "sample_count": 1,
+    "leaderboard": [
+      {
+        "scanner": "ascan",
+        "hostile": 0,
+        "suspicious": 0,
+        "benign": 1,
+        "nodata": 0,
+        "unsupported": 0,
+        "supported": 1,
+        "hostile_rate": 0,
+        "rank": 1
+      },
+      {
+        "scanner": "clamav",
+        "hostile": 0,
+        "suspicious": 0,
+        "benign": 1,
+        "nodata": 0,
+        "unsupported": 0,
+        "supported": 1,
+        "hostile_rate": 0,
+        "rank": 2
+      },
+      {
+        "scanner": "guarddog",
+        "hostile": 0,
+        "suspicious": 1,
+        "benign": 0,
+        "nodata": 0,
+        "unsupported": 0,
+        "supported": 1,
+        "hostile_rate": 0,
+        "rank": 3
+      },
+      {
+        "scanner": "malcontent",
+        "hostile": 0,
+        "suspicious": 1,
+        "benign": 0,
+        "nodata": 0,
+        "unsupported": 0,
+        "supported": 1,
+        "hostile_rate": 0,
+        "rank": 4
+      },
+      {
+        "scanner": "safedep",
+        "hostile": 0,
+        "suspicious": 0,
+        "benign": 0,
+        "nodata": 1,
+        "unsupported": 0,
+        "supported": 1,
+        "hostile_rate": 0,
+        "rank": 5
+      },
+      {
+        "scanner": "socket",
+        "hostile": 0,
+        "suspicious": 0,
+        "benign": 1,
+        "nodata": 0,
+        "unsupported": 0,
+        "supported": 1,
+        "hostile_rate": 0,
+        "rank": 6
+      },
+      {
+        "scanner": "virustotal",
+        "hostile": 0,
+        "suspicious": 0,
+        "benign": 1,
+        "nodata": 0,
+        "unsupported": 0,
+        "supported": 1,
+        "hostile_rate": 0,
+        "rank": 7
+      },
+      {
+        "scanner": "aikido",
+        "hostile": 1,
+        "suspicious": 0,
+        "benign": 0,
+        "nodata": 0,
+        "unsupported": 0,
+        "supported": 1,
+        "hostile_rate": 1,
+        "rank": 8
+      }
+    ],
+    "by_ecosystem": {
+      "JavaScript": [
+        {
+          "scanner": "ascan",
+          "hostile": 0,
+          "suspicious": 0,
+          "benign": 1,
+          "nodata": 0,
+          "unsupported": 0,
+          "supported": 1,
+          "hostile_rate": 0,
+          "rank": 1
+        },
+        {
+          "scanner": "clamav",
+          "hostile": 0,
+          "suspicious": 0,
+          "benign": 1,
+          "nodata": 0,
+          "unsupported": 0,
+          "supported": 1,
+          "hostile_rate": 0,
+          "rank": 2
+        },
+        {
+          "scanner": "guarddog",
+          "hostile": 0,
+          "suspicious": 1,
+          "benign": 0,
+          "nodata": 0,
+          "unsupported": 0,
+          "supported": 1,
+          "hostile_rate": 0,
+          "rank": 3
+        },
+        {
+          "scanner": "malcontent",
+          "hostile": 0,
+          "suspicious": 1,
+          "benign": 0,
+          "nodata": 0,
+          "unsupported": 0,
+          "supported": 1,
+          "hostile_rate": 0,
+          "rank": 4
+        },
+        {
+          "scanner": "safedep",
+          "hostile": 0,
+          "suspicious": 0,
+          "benign": 0,
+          "nodata": 1,
+          "unsupported": 0,
+          "supported": 1,
+          "hostile_rate": 0,
+          "rank": 5
+        },
+        {
+          "scanner": "socket",
+          "hostile": 0,
+          "suspicious": 0,
+          "benign": 1,
+          "nodata": 0,
+          "unsupported": 0,
+          "supported": 1,
+          "hostile_rate": 0,
+          "rank": 6
+        },
+        {
+          "scanner": "virustotal",
+          "hostile": 0,
+          "suspicious": 0,
+          "benign": 1,
+          "nodata": 0,
+          "unsupported": 0,
+          "supported": 1,
+          "hostile_rate": 0,
+          "rank": 7
+        },
+        {
+          "scanner": "aikido",
+          "hostile": 1,
+          "suspicious": 0,
+          "benign": 0,
+          "nodata": 0,
+          "unsupported": 0,
+          "supported": 1,
+          "hostile_rate": 1,
+          "rank": 8
+        }
+      ]
+    }
   },
   "ascan_types": [
     "go",
@@ -569,6 +839,7 @@
     "pkg_info",
     "png",
     "python",
+    "shell",
     "svg",
     "text"
   ],
@@ -683,12 +954,113 @@
     }
   ],
   "malware_age": {
-    "n": 10,
-    "min_hours": 24.534896388665832,
-    "mean_hours": 36.124139356499164,
-    "median_hours": 35.448331862276945,
-    "max_hours": 43.9433685903325
+    "n": 9,
+    "min_hours": 33.25431994254694,
+    "mean_hours": 41.042549077176574,
+    "median_hours": 39.777447281991385,
+    "max_hours": 47.73662062782472
   },
+  "ascan_curve": [
+    {
+      "level": 0,
+      "hostile": 5,
+      "suspicious": 0,
+      "caught": 5,
+      "cohort_n": 9,
+      "fp_hostile": 0,
+      "fp_suspicious": 0,
+      "fp_flagged": 0,
+      "fp_cohort_n": 1
+    },
+    {
+      "level": 1,
+      "hostile": 5,
+      "suspicious": 0,
+      "caught": 5,
+      "cohort_n": 9,
+      "fp_hostile": 0,
+      "fp_suspicious": 0,
+      "fp_flagged": 0,
+      "fp_cohort_n": 1
+    },
+    {
+      "level": 5,
+      "hostile": 5,
+      "suspicious": 0,
+      "caught": 5,
+      "cohort_n": 9,
+      "fp_hostile": 0,
+      "fp_suspicious": 0,
+      "fp_flagged": 0,
+      "fp_cohort_n": 1
+    },
+    {
+      "level": 25,
+      "hostile": 7,
+      "suspicious": 0,
+      "caught": 7,
+      "cohort_n": 9,
+      "fp_hostile": 0,
+      "fp_suspicious": 0,
+      "fp_flagged": 0,
+      "fp_cohort_n": 1
+    },
+    {
+      "level": 50,
+      "hostile": 7,
+      "suspicious": 0,
+      "caught": 7,
+      "cohort_n": 9,
+      "fp_hostile": 0,
+      "fp_suspicious": 0,
+      "fp_flagged": 0,
+      "fp_cohort_n": 1
+    },
+    {
+      "level": 500,
+      "hostile": 7,
+      "suspicious": 0,
+      "caught": 7,
+      "cohort_n": 9,
+      "fp_hostile": 0,
+      "fp_suspicious": 0,
+      "fp_flagged": 0,
+      "fp_cohort_n": 1
+    },
+    {
+      "level": 1000,
+      "hostile": 7,
+      "suspicious": 2,
+      "caught": 9,
+      "cohort_n": 9,
+      "fp_hostile": 0,
+      "fp_suspicious": 0,
+      "fp_flagged": 0,
+      "fp_cohort_n": 1
+    },
+    {
+      "level": 3000,
+      "hostile": 9,
+      "suspicious": 0,
+      "caught": 9,
+      "cohort_n": 9,
+      "fp_hostile": 0,
+      "fp_suspicious": 0,
+      "fp_flagged": 0,
+      "fp_cohort_n": 1
+    },
+    {
+      "level": 25000,
+      "hostile": 9,
+      "suspicious": 0,
+      "caught": 9,
+      "cohort_n": 9,
+      "fp_hostile": 0,
+      "fp_suspicious": 0,
+      "fp_flagged": 0,
+      "fp_cohort_n": 1
+    }
+  ],
   "samples": [
     {
       "sha256": "8ee69861c0753caf3849787bacc4374c6877f9f6c746e52f641a875c8b86c979",
@@ -785,31 +1157,29 @@
       ]
     },
     {
-      "sha256": "991a4ae3fe1aa02fbc088ba5b4954528b08c5ef1f9dfd84fa306511574f3a989",
-      "package": "github.com/JizongL/bookstore_users-api",
-      "version": "v0.0.0-20211026033517-05f1901a5e3a",
+      "sha256": "eb178a22690b8158cd69a0d999eea701faaf4a9dde4c55132e7366807af03a70",
+      "package": "github.com/jizongl/goquizapp",
+      "version": "v0.0.0-20200317011201-12877c71d0ce",
       "ecosystem": "go",
       "filetype": "zip",
-      "filename": "github.com-JizongL-bookstore_users-api-v0.0.0-20211026033517-05f1901a5e3a.zip",
+      "filename": "github.com-jizongl-goquizapp-v0.0.0-20200317011201-12877c71d0ce.zip",
       "label": "bad",
       "feed": "opensourcemalware.com",
       "pool_label": "bad",
-      "purl": "pkg:golang/github.com/JizongL/bookstore_users-api@v0.0.0-20211026033517-05f1901a5e3a",
-      "purl_base": "pkg:golang/github.com/JizongL/bookstore_users-api",
-      "socket_url": "https://socket.dev/golang/package/github.com/JizongL/bookstore_users-api/overview/v0.0.0-20211026033517-05f1901a5e3a",
-      "created_at": "2026-08-15T02:36:56.803314-04:00",
+      "purl": "pkg:golang/github.com/jizongl/goquizapp@v0.0.0-20200317011201-12877c71d0ce",
+      "purl_base": "pkg:golang/github.com/jizongl/goquizapp",
+      "socket_url": "https://socket.dev/golang/package/github.com/jizongl/goquizapp/overview/v0.0.0-20200317011201-12877c71d0ce",
+      "created_at": "2026-08-15T02:45:11.927404-04:00",
       "file_types": {
+        "csv": 1,
         "dict": 1,
-        "ds_store": 1,
         "eot": 3,
-        "gitignore": 1,
-        "go": 12,
+        "go": 1,
         "javascript": 1,
         "json": 4,
-        "markdown": 2,
-        "pem": 2,
+        "macho": 1,
+        "markdown": 1,
         "svg": 3,
-        "text": 1,
         "ttf": 3,
         "woff": 3,
         "woff2": 3
@@ -837,14 +1207,14 @@
           "scanner": "guarddog",
           "status": "benign",
           "tier": "benign",
-          "detail": "risk 3.3 (low): filesystem-read"
+          "detail": "risk 0.0 (no_risks_detected)"
         },
         {
           "scanner": "malcontent",
           "status": "detected",
-          "tier": "benign",
-          "severity": "medium",
-          "detail": "MEDIUM"
+          "tier": "suspicious",
+          "severity": "high",
+          "detail": "HIGH"
         },
         {
           "scanner": "osm",
@@ -864,7 +1234,7 @@
           "status": "nodata",
           "tier": "nodata",
           "detail": "no safedep data",
-          "link": "https://safedep.io/ti/packages/go/github.com/JizongL/bookstore_users-api"
+          "link": "https://safedep.io/ti/packages/go/github.com/jizongl/goquizapp"
         },
         {
           "scanner": "socket",
@@ -872,29 +1242,29 @@
           "tier": "hostile",
           "severity": "critical",
           "detail": "malware (supplyChain=0.00)",
-          "link": "https://socket.dev/go/package/github.com/JizongL/bookstore_users-api/overview/v0.0.0-20211026033517-05f1901a5e3a"
+          "link": "https://socket.dev/go/package/github.com/jizongl/goquizapp/overview/v0.0.0-20200317011201-12877c71d0ce"
         },
         {
           "scanner": "virustotal",
           "status": "detected",
           "tier": "hostile",
-          "severity": "9",
-          "detail": "9/64 engines (malicious=9, suspicious=0)",
-          "link": "https://www.virustotal.com/gui/file/991a4ae3fe1aa02fbc088ba5b4954528b08c5ef1f9dfd84fa306511574f3a989"
+          "severity": "4",
+          "detail": "4/46 engines (malicious=4, suspicious=0)",
+          "link": "https://www.virustotal.com/gui/file/eb178a22690b8158cd69a0d999eea701faaf4a9dde4c55132e7366807af03a70"
         }
       ]
     },
     {
-      "sha256": "8e6edc67cf9fbfb04e3e4329b34c72369b2e6cde2c68721067f5f17d4affc851",
-      "package": "8e6edc67cf9fbfb04e3e4329b34c72369b2e6cde2c68721067f5f17d4affc851",
-      "filetype": "pe",
-      "filename": "MyCleanPCInstall.exe",
+      "sha256": "a6296a79f44e21b76604d2d2bbf795d2cf380f70e39d45fbf166707ff3b4a6a4",
+      "package": "a6296a79f44e21b76604d2d2bbf795d2cf380f70e39d45fbf166707ff3b4a6a4",
+      "filetype": "shell",
+      "filename": "wget",
       "label": "bad",
       "feed": "malshare",
       "pool_label": "bad",
-      "created_at": "2026-08-15T05:08:38.238694-04:00",
+      "created_at": "2026-08-15T11:38:48.043711-04:00",
       "file_types": {
-        "pe": 1
+        "shell": 1
       },
       "verdicts": [
         {
@@ -908,7 +1278,7 @@
           "status": "detected",
           "tier": "hostile",
           "severity": "hostile",
-          "detail": "level 25 (p=0.9900)"
+          "detail": "level 0 (p=0.9999)"
         },
         {
           "scanner": "clamav",
@@ -954,91 +1324,11 @@
         },
         {
           "scanner": "virustotal",
-          "status": "benign",
-          "tier": "benign",
-          "detail": "0/71 engines",
-          "link": "https://www.virustotal.com/gui/file/8e6edc67cf9fbfb04e3e4329b34c72369b2e6cde2c68721067f5f17d4affc851"
-        }
-      ]
-    },
-    {
-      "sha256": "f1476ee614a2db779a721a7b19281c7e86248311119898d5cca2ea4f813c43a6",
-      "package": "f1476ee614a2db779a721a7b19281c7e86248311119898d5cca2ea4f813c43a6",
-      "ecosystem": "windows",
-      "filetype": "pe",
-      "filename": "dollar.exe",
-      "label": "bad",
-      "feed": "malwarebazaar",
-      "pool_label": "bad",
-      "created_at": "2026-08-15T22:01:27.30324-04:00",
-      "file_types": {
-        "pe": 1
-      },
-      "verdicts": [
-        {
-          "scanner": "aikido",
-          "status": "skipped",
-          "tier": "unsupported",
-          "detail": "ecosystem not covered by aikido"
-        },
-        {
-          "scanner": "ascan",
-          "status": "detected",
-          "tier": "hostile",
-          "severity": "hostile",
-          "detail": "level 25 (p=0.9900)"
-        },
-        {
-          "scanner": "clamav",
-          "status": "benign",
-          "tier": "benign"
-        },
-        {
-          "scanner": "guarddog",
-          "status": "skipped",
-          "tier": "unsupported",
-          "detail": "guarddog doesn't support windows"
-        },
-        {
-          "scanner": "malcontent",
           "status": "detected",
           "tier": "suspicious",
-          "severity": "high",
-          "detail": "HIGH"
-        },
-        {
-          "scanner": "osm",
-          "status": "skipped",
-          "tier": "unsupported",
-          "detail": "not an OSM ecosystem"
-        },
-        {
-          "scanner": "osv",
-          "status": "skipped",
-          "tier": "unsupported",
-          "detail": "not an OSV ecosystem"
-        },
-        {
-          "scanner": "safedep",
-          "status": "skipped",
-          "tier": "unsupported",
-          "detail": "missing package version",
-          "link": "https://safedep.io/ti/packages/windows/f1476ee614a2db779a721a7b19281c7e86248311119898d5cca2ea4f813c43a6"
-        },
-        {
-          "scanner": "socket",
-          "status": "skipped",
-          "tier": "unsupported",
-          "detail": "no purl for ecosystem",
-          "link": "https://socket.dev/windows/package/f1476ee614a2db779a721a7b19281c7e86248311119898d5cca2ea4f813c43a6"
-        },
-        {
-          "scanner": "virustotal",
-          "status": "detected",
-          "tier": "hostile",
-          "severity": "17",
-          "detail": "17/69 engines (malicious=17, suspicious=0)",
-          "link": "https://www.virustotal.com/gui/file/f1476ee614a2db779a721a7b19281c7e86248311119898d5cca2ea4f813c43a6"
+          "severity": "2",
+          "detail": "2/61 engines (malicious=2, suspicious=0)",
+          "link": "https://www.virustotal.com/gui/file/a6296a79f44e21b76604d2d2bbf795d2cf380f70e39d45fbf166707ff3b4a6a4"
         }
       ]
     },
@@ -1124,43 +1414,49 @@
       ]
     },
     {
-      "sha256": "b00c940e3252fce1dd712b0358681a25e3d98eaad3caed3716ae853e34397e7e",
-      "package": "b00c940e3252fce1dd712b0358681a25e3d98eaad3caed3716ae853e34397e7e",
-      "filetype": "pe",
-      "filename": "virussign.com_d64704642e498b3571e45b9d1d8c2210.vir",
+      "sha256": "5574c8f61e8c7d7b9febc22eebc6cc5a1e9a30eb81d915baabe92a46d884e5ac",
+      "package": "@finaxis/common-js",
+      "version": "0.3.4",
+      "ecosystem": "javascript",
+      "filetype": "npm",
+      "filename": "@finaxis-common-js-0.3.4.tgz",
       "label": "bad",
-      "feed": "virussign",
+      "feed": "github-advisories",
       "pool_label": "bad",
-      "created_at": "2026-08-15T13:14:28.975063-04:00",
+      "purl": "pkg:npm/@finaxis/common-js@0.3.4",
+      "purl_base": "pkg:npm/%40finaxis/common-js",
+      "socket_url": "https://socket.dev/npm/package/@finaxis/common-js/overview/0.3.4",
+      "created_at": "2026-08-15T14:42:15.140812-04:00",
       "file_types": {
-        "pe": 1
+        "javascript": 1,
+        "markdown": 1,
+        "package.json": 1
       },
       "verdicts": [
         {
           "scanner": "aikido",
-          "status": "skipped",
-          "tier": "unsupported",
-          "detail": "ecosystem not covered by aikido"
+          "status": "detected",
+          "tier": "hostile",
+          "severity": "malware",
+          "detail": "aikido feed: malware"
         },
         {
           "scanner": "ascan",
-          "status": "detected",
-          "tier": "hostile",
-          "severity": "hostile",
-          "detail": "level 25 (p=1.0000)"
+          "status": "benign",
+          "tier": "benign",
+          "detail": "level 3000 (p=0.6393)"
         },
         {
           "scanner": "clamav",
-          "status": "detected",
-          "tier": "hostile",
-          "severity": "detected",
-          "detail": "Win.Malware.Genpack-10015161-0"
+          "status": "benign",
+          "tier": "benign"
         },
         {
           "scanner": "guarddog",
-          "status": "skipped",
-          "tier": "unsupported",
-          "detail": "unknown ecosystem"
+          "status": "detected",
+          "tier": "hostile",
+          "severity": "hostile",
+          "detail": "risk 8.8 (high_risk): process-cryptomining, runtime-obfuscation-js-mangling"
         },
         {
           "scanner": "malcontent",
@@ -1171,113 +1467,39 @@
         },
         {
           "scanner": "osm",
-          "status": "skipped",
-          "tier": "unsupported",
-          "detail": "not an OSM ecosystem"
-        },
-        {
-          "scanner": "osv",
-          "status": "skipped",
-          "tier": "unsupported",
-          "detail": "not an OSV ecosystem"
-        },
-        {
-          "scanner": "safedep",
-          "status": "skipped",
-          "tier": "unsupported",
-          "detail": "missing package version"
-        },
-        {
-          "scanner": "socket",
-          "status": "skipped",
-          "tier": "unsupported",
-          "detail": "no purl for ecosystem"
-        },
-        {
-          "scanner": "virustotal",
-          "status": "detected",
-          "tier": "hostile",
-          "severity": "57",
-          "detail": "57/70 engines (malicious=57, suspicious=0)",
-          "link": "https://www.virustotal.com/gui/file/b00c940e3252fce1dd712b0358681a25e3d98eaad3caed3716ae853e34397e7e"
-        }
-      ]
-    },
-    {
-      "sha256": "a6296a79f44e21b76604d2d2bbf795d2cf380f70e39d45fbf166707ff3b4a6a4",
-      "package": "a6296a79f44e21b76604d2d2bbf795d2cf380f70e39d45fbf166707ff3b4a6a4",
-      "filetype": "shell",
-      "filename": "wget",
-      "label": "bad",
-      "feed": "malshare",
-      "pool_label": "bad",
-      "created_at": "2026-08-15T11:38:48.043711-04:00",
-      "file_types": {
-        "shell": 1
-      },
-      "verdicts": [
-        {
-          "scanner": "aikido",
-          "status": "skipped",
-          "tier": "unsupported",
-          "detail": "ecosystem not covered by aikido"
-        },
-        {
-          "scanner": "ascan",
           "status": "detected",
           "tier": "hostile",
           "severity": "hostile",
-          "detail": "level 0 (p=0.9999)"
-        },
-        {
-          "scanner": "clamav",
-          "status": "benign",
-          "tier": "benign"
-        },
-        {
-          "scanner": "guarddog",
-          "status": "skipped",
-          "tier": "unsupported",
-          "detail": "unknown ecosystem"
-        },
-        {
-          "scanner": "malcontent",
-          "status": "detected",
-          "tier": "suspicious",
-          "severity": "high",
-          "detail": "HIGH"
-        },
-        {
-          "scanner": "osm",
-          "status": "skipped",
-          "tier": "unsupported",
-          "detail": "not an OSM ecosystem"
+          "detail": "in OSM database (critical)"
         },
         {
           "scanner": "osv",
-          "status": "skipped",
-          "tier": "unsupported",
-          "detail": "not an OSV ecosystem"
+          "status": "detected",
+          "tier": "hostile",
+          "severity": "hostile",
+          "detail": "MAL-2026-14064"
         },
         {
           "scanner": "safedep",
-          "status": "skipped",
-          "tier": "unsupported",
-          "detail": "missing package version"
+          "status": "nodata",
+          "tier": "nodata",
+          "detail": "no safedep data",
+          "link": "https://safedep.io/ti/packages/javascript/@finaxis/common-js"
         },
         {
           "scanner": "socket",
-          "status": "skipped",
-          "tier": "unsupported",
-          "detail": "no purl for ecosystem"
+          "status": "detected",
+          "tier": "suspicious",
+          "severity": "high",
+          "detail": "gptMalware (supplyChain=0.37)",
+          "link": "https://socket.dev/javascript/package/@finaxis/common-js/overview/0.3.4"
         },
         {
           "scanner": "virustotal",
-          "status": "detected",
-          "tier": "suspicious",
-          "severity": "2",
-          "detail": "2/61 engines (malicious=2, suspicious=0)",
-          "link": "https://www.virustotal.com/gui/file/a6296a79f44e21b76604d2d2bbf795d2cf380f70e39d45fbf166707ff3b4a6a4"
+          "status": "benign",
+          "tier": "benign",
+          "detail": "0/60 engines",
+          "link": "https://www.virustotal.com/gui/file/5574c8f61e8c7d7b9febc22eebc6cc5a1e9a30eb81d915baabe92a46d884e5ac"
         }
       ]
     },
@@ -1448,29 +1670,108 @@
       ]
     },
     {
-      "sha256": "eb178a22690b8158cd69a0d999eea701faaf4a9dde4c55132e7366807af03a70",
-      "package": "github.com/jizongl/goquizapp",
-      "version": "v0.0.0-20200317011201-12877c71d0ce",
+      "sha256": "8e6edc67cf9fbfb04e3e4329b34c72369b2e6cde2c68721067f5f17d4affc851",
+      "package": "8e6edc67cf9fbfb04e3e4329b34c72369b2e6cde2c68721067f5f17d4affc851",
+      "filetype": "pe",
+      "filename": "MyCleanPCInstall.exe",
+      "label": "bad",
+      "feed": "malshare",
+      "pool_label": "bad",
+      "created_at": "2026-08-15T05:08:38.238694-04:00",
+      "file_types": {
+        "pe": 1
+      },
+      "verdicts": [
+        {
+          "scanner": "aikido",
+          "status": "skipped",
+          "tier": "unsupported",
+          "detail": "ecosystem not covered by aikido"
+        },
+        {
+          "scanner": "ascan",
+          "status": "detected",
+          "tier": "hostile",
+          "severity": "hostile",
+          "detail": "level 25 (p=0.9900)"
+        },
+        {
+          "scanner": "clamav",
+          "status": "benign",
+          "tier": "benign"
+        },
+        {
+          "scanner": "guarddog",
+          "status": "skipped",
+          "tier": "unsupported",
+          "detail": "unknown ecosystem"
+        },
+        {
+          "scanner": "malcontent",
+          "status": "detected",
+          "tier": "suspicious",
+          "severity": "high",
+          "detail": "HIGH"
+        },
+        {
+          "scanner": "osm",
+          "status": "skipped",
+          "tier": "unsupported",
+          "detail": "not an OSM ecosystem"
+        },
+        {
+          "scanner": "osv",
+          "status": "skipped",
+          "tier": "unsupported",
+          "detail": "not an OSV ecosystem"
+        },
+        {
+          "scanner": "safedep",
+          "status": "skipped",
+          "tier": "unsupported",
+          "detail": "missing package version"
+        },
+        {
+          "scanner": "socket",
+          "status": "skipped",
+          "tier": "unsupported",
+          "detail": "no purl for ecosystem"
+        },
+        {
+          "scanner": "virustotal",
+          "status": "benign",
+          "tier": "benign",
+          "detail": "0/71 engines",
+          "link": "https://www.virustotal.com/gui/file/8e6edc67cf9fbfb04e3e4329b34c72369b2e6cde2c68721067f5f17d4affc851"
+        }
+      ]
+    },
+    {
+      "sha256": "991a4ae3fe1aa02fbc088ba5b4954528b08c5ef1f9dfd84fa306511574f3a989",
+      "package": "github.com/JizongL/bookstore_users-api",
+      "version": "v0.0.0-20211026033517-05f1901a5e3a",
       "ecosystem": "go",
       "filetype": "zip",
-      "filename": "github.com-jizongl-goquizapp-v0.0.0-20200317011201-12877c71d0ce.zip",
+      "filename": "github.com-JizongL-bookstore_users-api-v0.0.0-20211026033517-05f1901a5e3a.zip",
       "label": "bad",
       "feed": "opensourcemalware.com",
       "pool_label": "bad",
-      "purl": "pkg:golang/github.com/jizongl/goquizapp@v0.0.0-20200317011201-12877c71d0ce",
-      "purl_base": "pkg:golang/github.com/jizongl/goquizapp",
-      "socket_url": "https://socket.dev/golang/package/github.com/jizongl/goquizapp/overview/v0.0.0-20200317011201-12877c71d0ce",
-      "created_at": "2026-08-15T02:45:11.927404-04:00",
+      "purl": "pkg:golang/github.com/JizongL/bookstore_users-api@v0.0.0-20211026033517-05f1901a5e3a",
+      "purl_base": "pkg:golang/github.com/JizongL/bookstore_users-api",
+      "socket_url": "https://socket.dev/golang/package/github.com/JizongL/bookstore_users-api/overview/v0.0.0-20211026033517-05f1901a5e3a",
+      "created_at": "2026-08-15T02:36:56.803314-04:00",
       "file_types": {
-        "csv": 1,
         "dict": 1,
+        "ds_store": 1,
         "eot": 3,
-        "go": 1,
+        "gitignore": 1,
+        "go": 12,
         "javascript": 1,
         "json": 4,
-        "macho": 1,
-        "markdown": 1,
+        "markdown": 2,
+        "pem": 2,
         "svg": 3,
+        "text": 1,
         "ttf": 3,
         "woff": 3,
         "woff2": 3
@@ -1498,7 +1799,103 @@
           "scanner": "guarddog",
           "status": "benign",
           "tier": "benign",
-          "detail": "risk 0.0 (no_risks_detected)"
+          "detail": "risk 3.3 (low): filesystem-read"
+        },
+        {
+          "scanner": "malcontent",
+          "status": "detected",
+          "tier": "benign",
+          "severity": "medium",
+          "detail": "MEDIUM"
+        },
+        {
+          "scanner": "osm",
+          "status": "detected",
+          "tier": "hostile",
+          "severity": "hostile",
+          "detail": "in OSM database (critical)"
+        },
+        {
+          "scanner": "osv",
+          "status": "benign",
+          "tier": "benign",
+          "detail": "no OSV malware advisory"
+        },
+        {
+          "scanner": "safedep",
+          "status": "nodata",
+          "tier": "nodata",
+          "detail": "no safedep data",
+          "link": "https://safedep.io/ti/packages/go/github.com/JizongL/bookstore_users-api"
+        },
+        {
+          "scanner": "socket",
+          "status": "detected",
+          "tier": "hostile",
+          "severity": "critical",
+          "detail": "malware (supplyChain=0.00)",
+          "link": "https://socket.dev/go/package/github.com/JizongL/bookstore_users-api/overview/v0.0.0-20211026033517-05f1901a5e3a"
+        },
+        {
+          "scanner": "virustotal",
+          "status": "detected",
+          "tier": "hostile",
+          "severity": "9",
+          "detail": "9/64 engines (malicious=9, suspicious=0)",
+          "link": "https://www.virustotal.com/gui/file/991a4ae3fe1aa02fbc088ba5b4954528b08c5ef1f9dfd84fa306511574f3a989"
+        }
+      ]
+    },
+    {
+      "sha256": "6dde6e42a53b7b506bdd3def40496922827b4225cf3db0c916889123075d0291",
+      "package": "@oratis/lisa",
+      "version": "0.24.0",
+      "ecosystem": "javascript",
+      "filetype": "npm",
+      "filename": "@oratis-lisa-0.24.0.tgz",
+      "label": "good",
+      "feed": "aikido.dev",
+      "pool_label": "good",
+      "purl": "pkg:npm/@oratis/lisa@0.24.0",
+      "purl_base": "pkg:npm/%40oratis/lisa",
+      "socket_url": "https://socket.dev/npm/package/@oratis/lisa/overview/0.24.0",
+      "created_at": "2026-08-15T03:16:59.611788-04:00",
+      "file_types": {
+        "javascript": 562,
+        "json": 4,
+        "map": 562,
+        "markdown": 5,
+        "mp3": 6,
+        "package.json": 1,
+        "png": 139,
+        "shell": 3,
+        "text": 1
+      },
+      "verdicts": [
+        {
+          "scanner": "aikido",
+          "status": "detected",
+          "tier": "hostile",
+          "severity": "malware",
+          "detail": "aikido feed: malware"
+        },
+        {
+          "scanner": "ascan",
+          "status": "benign",
+          "tier": "benign",
+          "detail": "level -1 (p=0.6727)"
+        },
+        {
+          "scanner": "clamav",
+          "status": "benign",
+          "tier": "benign"
+        },
+        {
+          "scanner": "guarddog",
+          "status": "detected",
+          "tier": "suspicious",
+          "severity": "suspicious",
+          "detail": "risk 6.5 (suspicious): process-spawn-silent, runtime-environment-read, filesystem-autostart, network-exfiltration, runtime-system-info, filesystem-read, network-outbound-shady-links"
         },
         {
           "scanner": "malcontent",
@@ -1525,23 +1922,21 @@
           "status": "nodata",
           "tier": "nodata",
           "detail": "no safedep data",
-          "link": "https://safedep.io/ti/packages/go/github.com/jizongl/goquizapp"
+          "link": "https://safedep.io/ti/packages/javascript/@oratis/lisa"
         },
         {
           "scanner": "socket",
-          "status": "detected",
-          "tier": "hostile",
-          "severity": "critical",
-          "detail": "malware (supplyChain=0.00)",
-          "link": "https://socket.dev/go/package/github.com/jizongl/goquizapp/overview/v0.0.0-20200317011201-12877c71d0ce"
+          "status": "benign",
+          "tier": "benign",
+          "detail": "supplyChain=0.80",
+          "link": "https://socket.dev/javascript/package/@oratis/lisa/overview/0.24.0"
         },
         {
           "scanner": "virustotal",
-          "status": "detected",
-          "tier": "hostile",
-          "severity": "4",
-          "detail": "4/46 engines (malicious=4, suspicious=0)",
-          "link": "https://www.virustotal.com/gui/file/eb178a22690b8158cd69a0d999eea701faaf4a9dde4c55132e7366807af03a70"
+          "status": "benign",
+          "tier": "benign",
+          "detail": "0/61 engines",
+          "link": "https://www.virustotal.com/gui/file/6dde6e42a53b7b506bdd3def40496922827b4225cf3db0c916889123075d0291"
         }
       ]
     }
