@@ -183,6 +183,19 @@ description: Atomdrift Scan vs Socket, Aikido, SafeDep, VirusTotal and ClamAV on
   /* ---------- trend ---------- */
   .trend-wrap { position: relative; height: 340px; margin-top: 10px; }
 
+  /* ---------- FP by filetype ---------- */
+  .fp-ft { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 28px; margin: 14px 0 4px; }
+  .fp-ft h3 { font-family: 'Oxanium', sans-serif; font-size: .78rem; font-weight: 800; letter-spacing: .04em;
+              text-transform: uppercase; color: var(--slate); margin: 0 0 10px; }
+  .fp-ft h3.us { color: var(--atomdrift-blue); }
+  .fp-ft .panel { min-width: 0; }
+  .fp-ft .rows { margin: 0; }
+  .fp-ft .rn { font-family: 'SF Mono', Consolas, monospace; font-size: .74rem; font-weight: 600;
+               color: var(--graphite); min-width: 4.5rem; }
+  .fp-ft .rv { min-width: 42px; }
+  .fp-ft .tr { height: 14px; }
+  .fp-ft .hb { background: var(--bar, var(--h)); }
+
   /* ---------- samples + method ---------- */
   /* Folded by default: it is the evidence, not the argument. Anyone who wants to
      check the work opens it; nobody else has to scroll past 43 filenames. */
@@ -214,6 +227,7 @@ description: Atomdrift Scan vs Socket, Aikido, SafeDep, VirusTotal and ClamAV on
   @media (max-width: 720px) {
     .cmp-hero { grid-template-columns: 1fr; gap: 20px; }
     .samples { grid-template-columns: 1fr; }
+    .fp-ft { grid-template-columns: 1fr; }
     .diffs { grid-template-columns: 1fr; }
     .diffs .dh:first-child { display: none; }
     .cmp-hero h1 { font-size: 1.7rem; }
@@ -444,7 +458,7 @@ description: Atomdrift Scan vs Socket, Aikido, SafeDep, VirusTotal and ClamAV on
     Hover any mark for exact counts.</p>
   {%- endif %}
 
-  <h2 id="over-time">Every previous run <span class="note">a fresh cohort each time</span></h2>
+  <h2 id="over-time">Every previous run <span class="note">last 30 days · a fresh cohort each time</span></h2>
   <p class="sub">Most engines swing sixty points as the samples change. <b>Judge us on the worst night, not the
     best.</b></p>
   {%- if history and history | length >= 2 %}
@@ -452,10 +466,8 @@ description: Atomdrift Scan vs Socket, Aikido, SafeDep, VirusTotal and ClamAV on
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script>
   (function () {
-    // Truncate to the 2026-07-09 10:00 UTC pipeline overhaul: earlier runs measured a
-    // materially different detection stack, so plotting them would misrepresent the
-    // current engines. Non-destructive — history.json keeps every point.
-    const CUTOFF = Date.parse('2026-07-09T10:00:00Z');
+    // Rolling 30-day window so the chart stays focused on recent cohorts.
+    const CUTOFF = Date.now() - 30 * 24 * 60 * 60 * 1000;
     const H = ({{ history | dump | safe }}).filter(p => Date.parse(p.at) >= CUTOFF);
     const PROV = {{ chartProviders | dump | safe }};
     // Engine colors and draw order come from providers.json — one declaration
@@ -565,6 +577,39 @@ description: Atomdrift Scan vs Socket, Aikido, SafeDep, VirusTotal and ClamAV on
   {%- else %}
   <div class="meth">Historical trend is collecting. Each recorded run appends a snapshot; the chart appears once there
     are at least two.</div>
+  {%- endif %}
+
+  {%- if battle.fp_by_filetype and battle.fp_by_filetype.rows and battle.fp_by_filetype.rows.length %}
+  {%- set fpft = battle.fp_by_filetype %}
+  <h2 id="fp-filetypes">False-positive rate by filetype <span class="note">last {{ fpft.window_days }} days · top {{ fpft.rows.length }}</span></h2>
+  <p class="sub">Outer artifact types that most often trip a false alarm on known-good packages.
+    Same types, same order on both sides — ranked by combined flag count, shown by combined rate.</p>
+  <div class="fp-ft" role="group" aria-label="False-positive rate by filetype: atomscan versus VirusTotal">
+    <div class="panel" style="--bar: {{ providers.ascan.color }}">
+      <h3 class="us">atomscan</h3>
+      <div class="rows">
+        {%- for row in fpft.rows %}
+        {%- set pct = (row.ascan.rate * 100) | round(1) %}
+        <div class="rn">{{ row.filetype }}</div>
+        <div class="tr" title="{{ row.ascan.flagged }} of {{ row.ascan.samples }} ({{ pct }}%)"><div class="hb" style="width:{{ pct }}%"></div></div>
+        <div class="rv">{{ pct }}%</div>
+        {%- endfor %}
+      </div>
+    </div>
+    <div class="panel" style="--bar: {{ providers.virustotal.color }}">
+      <h3>VirusTotal</h3>
+      <div class="rows">
+        {%- for row in fpft.rows %}
+        {%- set pct = (row.virustotal.rate * 100) | round(1) %}
+        <div class="rn">{{ row.filetype }}</div>
+        <div class="tr" title="{{ row.virustotal.flagged }} of {{ row.virustotal.samples }} ({{ pct }}%)"><div class="hb" style="width:{{ pct }}%"></div></div>
+        <div class="rv">{{ pct }}%</div>
+        {%- endfor %}
+      </div>
+    </div>
+  </div>
+  <p class="fig-note">{{ fpft.sample_n }} known-good picks across the window (after adjudication). A type can show
+    <b>0%</b> on one side when only the other engine flagged it.</p>
   {%- endif %}
 
   <h2 id="how">Three structural differences <span class="note">architecture, not features</span></h2>

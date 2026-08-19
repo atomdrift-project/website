@@ -15,10 +15,8 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <script>
 (function () {
-  // Truncate to the 2026-07-09 10:00 UTC pipeline overhaul: earlier runs measured a
-  // materially different detection stack, so plotting them would misrepresent the
-  // current engines. Non-destructive — history.json keeps every point.
-  const CUTOFF = Date.parse('2026-07-09T10:00:00Z');
+  // Rolling 30-day window so the chart stays focused on recent cohorts.
+  const CUTOFF = Date.now() - 30 * 24 * 60 * 60 * 1000;
   const H = ({{ history | dump | safe }}).filter(p => Date.parse(p.at) >= CUTOFF);
   const PROV = {{ chartProviders | dump | safe }};
   const ENGINES = Object.keys(PROV).filter(e => !PROV[e].hidden)
