@@ -1637,5 +1637,30 @@
       "socket": 0,
       "virustotal": 0
     }
+  },
+  {
+    "at": "2026-08-25T08:20:44.135454314Z",
+    "bad": 21,
+    "good": 50,
+    "detection": {
+      "aikido": 0.19047619047619047,
+      "ascan": 0.5238095238095238,
+      "clamav": 0.047619047619047616,
+      "guarddog": 0.14285714285714285,
+      "malcontent": 0.42857142857142855,
+      "safedep": 0,
+      "socket": 0.09523809523809523,
+      "virustotal": 0.47619047619047616
+    },
+    "false_positive": {
+      "aikido": 0,
+      "ascan": 0.04,
+      "clamav": 0,
+      "guarddog": 0.18,
+      "malcontent": 0.4,
+      "safedep": 0,
+      "socket": 0,
+      "virustotal": 0
+    }
   }
 ]
