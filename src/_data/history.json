@@ -1912,5 +1912,30 @@
     },
     "bad": 50,
     "good": 50
+  },
+  {
+    "at": "2026-08-30T00:17:41.833015771Z",
+    "detection": {
+      "aikido": 0.12,
+      "ascan": 0.8,
+      "clamav": 0.3,
+      "guarddog": 0.08,
+      "malcontent": 0.68,
+      "safedep": 0,
+      "socket": 0.02,
+      "virustotal": 0.64
+    },
+    "false_positive": {
+      "aikido": 0,
+      "ascan": 0.1,
+      "clamav": 0,
+      "guarddog": 0.16,
+      "malcontent": 0.48,
+      "safedep": 0,
+      "socket": 0,
+      "virustotal": 0.02
+    },
+    "bad": 50,
+    "good": 50
   }
 ]
