@@ -466,9 +466,23 @@ description: Atomdrift Scan vs Socket, Aikido, SafeDep, VirusTotal and ClamAV on
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script>
   (function () {
-    // Rolling 30-day window so the chart stays focused on recent cohorts.
+    // Rolling 30-day window so the chart stays focused on recent cohorts. Keep
+    // the latest two valid points when the page is viewed after a long outage
+    // or when a clock skew makes the rolling window sparse; Chart.js cannot
+    // draw a line from an empty/single-point history series.
+    const ALL = ({{ history | dump | safe }})
+      .filter(p => p && Number.isFinite(Date.parse(p.at)))
+      .sort((a, b) => Date.parse(a.at) - Date.parse(b.at));
     const CUTOFF = Date.now() - 30 * 24 * 60 * 60 * 1000;
-    const H = ({{ history | dump | safe }}).filter(p => Date.parse(p.at) >= CUTOFF);
+    let H = ALL.filter(p => Date.parse(p.at) >= CUTOFF);
+    if (H.length < 2) H = ALL.slice(-2);
+    // A one-point history is still possible with a newly initialized site.
+    // Duplicate it at the next hour so the measured value renders as a visible
+    // degenerate line instead of disappearing entirely.
+    if (H.length === 1) {
+      const next = new Date(Date.parse(H[0].at) + 60 * 60 * 1000).toISOString();
+      H = [H[0], Object.assign({}, H[0], { at: next })];
+    }
     const PROV = {{ chartProviders | dump | safe }};
     // Engine colors and draw order come from providers.json — one declaration
     // shared with the quadrant, so an engine keeps its hue across the page and
