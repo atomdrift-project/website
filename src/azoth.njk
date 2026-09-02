@@ -12,71 +12,70 @@ title: "azoth — Open-Source AI Model for General Malware Detection"
       <h1 class="visually-hidden">azoth</h1>
     </div>
 
-    <p>Azoth is the open model bundle behind
-    <a href="/scan/">Atomdrift Scan</a>. It reads
-    <a href="/cleave/">cleave</a>'s output —
-    <a href="https://attack.mitre.org/" target="_blank">MITRE ATT&amp;CK</a>
-    techniques and
-    <a href="https://github.com/MBCProject/mbc-markdown" target="_blank">MBC</a>
-    behaviors extracted from the sample — and produces route-specific model
-    scores and hostile operating points. Scan applies the selected
-    false-positive budget and derives its user-facing benign, suspicious, or
-    hostile verdict.</p>
+    <p>Azoth is the model bundle behind <a href="/scan/">Atomdrift Scan</a>.
+    It takes <a href="/cleave/">cleave</a>'s report of what a file can do,
+    expressed as <a href="https://attack.mitre.org/" target="_blank">MITRE ATT&amp;CK</a>
+    techniques and <a href="https://github.com/MBCProject/mbc-markdown" target="_blank">MBC</a>
+    behaviors, and returns a score. Scan applies your false-positive budget
+    to that score and calls the file benign, suspicious, or hostile.</p>
 
-    <p>Anything cleave can decompose can be represented for Azoth: more than
-    100 source, binary, bytecode, package, archive, document, and configuration
-    formats. A general model covers every recognized input; file-group and
-    file-type specialists handle formats with enough training data.</p>
+    <p>It is a routed ensemble. One general LightGBM model scores every file.
+    Specialists for 6 file groups and 62 file types score files in their own
+    domain: PE, ELF, JavaScript, PDF, and so on. A file is flagged when any
+    route crosses its threshold. Routing exists because evidence differs by
+    format. A PE's section table is signal. A PDF's stream dictionary is
+    signal. A shell script's token distribution is signal. A generalist
+    trained over all of them learns averages; a specialist learns the
+    format.</p>
 
-    <p>Inference runs locally on CPU with no cloud scoring, telemetry, or
-    per-call cost. Weights, the training pipeline, and the capability schema
-    are Apache 2.0. Install Atomdrift Scan if you want a scanner; Azoth itself
-    is model data and documentation, not a standalone end-user CLI.</p>
+    <p>Inference runs on CPU with no cloud scoring, telemetry, or per-call
+    cost. Weights, training pipeline, evaluation harness, and capability
+    schema are Apache 2.0. Azoth is model data, not a CLI. Install Scan if
+    you want to scan something.</p>
 
     <h2>What azoth does not do</h2>
-    <p>It does not execute samples. It does not read bytes. If cleave
-    cannot decompose a sample — unrecognized packer, dynamic loader
-    it cannot follow, control flow it cannot reconstruct — azoth
-    cannot recover — for example an unsupported packer or behavior visible only
-    at runtime — the model cannot score that missing evidence. Treat a benign
-    verdict as one static-analysis signal, not proof that a file is safe.</p>
+    <p>It does not execute samples and it does not read raw bytes. It scores
+    what cleave extracted. If cleave cannot decompose a sample, say an unknown
+    packer or behavior that only appears at runtime, that evidence is missing
+    and azoth cannot score it. Treat a benign verdict as one static-analysis
+    signal, not proof that a file is safe.</p>
 
     <h2>Use the bundle</h2>
     <pre class="install-block">atomscan --model-dir /path/to/azoth suspect.bin</pre>
-    <p>The bundle contains <code>config.json</code>, route-specific
-    <code>feature_spec.json</code> files, and ONNX models. Routes may ship one
-    <code>model.onnx</code> or a <code>models/seed_*.onnx</code> ensemble. The
-    current deployed bundle defaults to L25 (0.25 expected false positives per
-    million benign files).</p>
+    <p><code>config.json</code> records the deployed thresholds. Each route
+    has its own directory holding a <code>models/seed_*.onnx</code> ensemble
+    and <code>feature_spec.json</code>, the features those models expect.
+    Scores are the models' raw probabilities; there is no separate
+    calibrator. The
+    deployed default is L25: 0.25 expected false positives per million benign
+    files.</p>
 
     <h2>Design</h2>
-    <p><strong>No prompt injection.</strong> There is no instruction
-    channel. A malicious sample cannot talk the classifier into ignoring
-    its training the way it can with an LLM. The attack surface is the
-    feature pipeline, not the model.</p>
+    <p><strong>No prompt injection.</strong> There is no instruction channel.
+    A sample cannot talk the classifier out of its training the way it can an
+    LLM. The attack surface is the feature pipeline, not the model.</p>
 
-    <p><strong>Hierarchy-aware.</strong> MBC is a tree; azoth learns
-    combinations across leaves, objectives, and intent. A set of
-    individually unremarkable capabilities can still trip the model
-    when the combination matches what real families do.</p>
+    <p><strong>Hierarchy-aware.</strong> MBC is a tree. Azoth learns
+    combinations across leaves, objectives, and intent, so a set of
+    individually boring capabilities can still trip it when the combination
+    is what real families do.</p>
 
-    <p><strong>Local and fast.</strong> Distilled for CPU inference;
-    fast enough to scan a full disk on commodity hardware. Same
-    weights on a laptop, a CI runner, or an endpoint agent.</p>
+    <p><strong>Local and fast.</strong> Small enough for CPU inference and
+    quick enough to scan a full disk on commodity hardware. Same weights on a
+    laptop, a CI runner, or an endpoint agent.</p>
 
-    <h2>Status and numbers</h2>
-    <p>The model is a weighted ensemble — classifiers trained
-    on different slices of the capability space, blended by calibrated
-    weights. TPR, FPR, and per-family breakdowns will be published once
-    the holdout corpus is locked and the thresholds stop moving.
-    Weights, training pipeline, and evaluation harness are on
-    <a href="https://github.com/atomdrift-project/azoth" target="_blank">GitHub</a>.
-    Until then: read the contributing capabilities, not just the verdict.</p>
+    <h2>Numbers</h2>
+    <p>Thresholds were fit on a 17.5-million-row partition of the labeled
+    corpus. Published numbers come from a locked 2.2-million-row test
+    partition, disjoint from training and calibration. Per-filetype PR AUC,
+    ROC AUC, F1, and recall at L25 are on
+    <a href="https://github.com/atomdrift-project/azoth" target="_blank">GitHub</a>,
+    next to the weights, pipeline, and harness. Read the contributing
+    capabilities, not just the verdict.</p>
 
     <h2>Dataset providers</h2>
-    <p>azoth is only as good as the corpus it learns from. Credit to the
-    researchers and curators who collect, label, and publish malware
-    samples — the training corpus draws from:</p>
+    <p>Azoth is only as good as its corpus. Thanks to the people who collect,
+    label, and publish malware samples. The training corpus draws from:</p>
 
     <ul>
       <li><a href="https://bazaar.abuse.ch/" target="_blank">MalwareBazaar</a> (abuse.ch)</li>

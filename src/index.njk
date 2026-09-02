@@ -8,18 +8,21 @@ title: Open-Source Supply-Chain Attack Detection, Powered by Local Deterministic
 
     <h2>About</h2>
     <p>
-We're quietly building detection for the next generation of subtle
-attacks; think xzutils, but spiked with AI nightmare-fuel.
+We build open-source detection for the next generation of supply-chain
+attacks: xz-utils-style subtlety, written at AI speed.
     </p>
     <p>
-We've built a factory that continuously mints locally-runnable AI models
-based on the latest attacks and research articles:
-<a href="/cleave/">cleave</a> extracts capabilities,
-<a href="/azoth/">azoth</a> classifies them, and
-<a href="/scan/">scan</a> is our local scanning tool. Analysis runs on your
-hardware with no cloud scanner or API key; bundles and referenced artifacts can
-be fetched when you want current, supply-chain-aware results. Everything is
+The models retrain continuously from new samples, threat feeds, and published
+research. <a href="/cleave/">cleave</a> extracts what a file can do,
+<a href="/azoth/">azoth</a> scores it, and <a href="/scan/">scan</a> is the
+tool you run. Everything runs on your hardware: no cloud scanner, no API key,
+no telemetry. Scan fetches rule updates and referenced packages unless you tell
+it not to. Everything is
 <a href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank" rel="noopener">Apache 2.0</a>.
+    </p>
+    <p>
+Measured every day against live zero-day malware, next to VirusTotal, Socket,
+ClamAV, and others. <a href="/compare/">See the numbers &rarr;</a>
     </p>
     <p style="font-size: 0.8125rem;"><a href="/mission/">Our mission and principles &rarr;</a></p>
 
@@ -42,12 +45,12 @@ be fetched when you want current, supply-chain-aware results. Everything is
       <li>
         <span class="proj-name"><a href="/scan/">scan</a></span>
         <span class="badge badge-stable">stable</span>
-        <div class="proj-desc">ClamAV-style local scanner for AI-powered malware detection. Runs azoth and other open models against capabilities extracted by cleave — across binaries, scripts, and source.</div>
+        <div class="proj-desc">Local malware scanner. Runs azoth and other open models over capabilities extracted by cleave, across binaries, scripts, source, packages, and archives.</div>
       </li>
       <li>
         <span class="proj-name"><a href="/azoth/">azoth</a></span>
         <span class="badge badge-stable">stable</span>
-        <div class="proj-desc">Open ONNX model bundle for general malware detection. A routed ensemble over cleave-extracted capabilities across more than 100 recognized file and container types; runs on CPU.</div>
+        <div class="proj-desc">Open model bundle for malware detection. A routed ensemble over cleave's capabilities, covering more than 100 file and container types. Runs on CPU.</div>
       </li>
       <li>
         <span class="proj-name"><a href="/cleave/">cleave</a></span>
@@ -57,22 +60,22 @@ be fetched when you want current, supply-chain-aware results. Everything is
       <li>
         <span class="proj-name"><a href="/stng/">stng</a></span>
         <span class="badge badge-stable">stable</span>
-        <div class="proj-desc">Modern string extraction for binary analysis — all of the good stuff, none of the garbage. Useful for initial triage, C2 enumeration, credential extraction, and signature development.</div>
+        <div class="proj-desc">String extraction for binary analysis that keeps the signal and drops the noise. Used for triage, C2 enumeration, credential extraction, and signature development.</div>
       </li>
       <li>
         <span class="proj-name"><a href="https://github.com/atomdrift-project/filefacts">filefacts</a></span>
         <span class="badge badge-stable">stable</span>
-        <div class="proj-desc">Rust library that reads a file and returns ML-ready facts for security pipelines — package identity, binary provenance, source AST features, strings, symbols, metrics, and structured errors in one cached parse.</div>
+        <div class="proj-desc">Rust library that reads a file once and returns ML-ready facts: package identity, binary provenance, source AST features, strings, symbols, metrics, and structured errors.</div>
       </li>
       <li>
         <span class="proj-name"><a href="/isomer/">isomer</a></span>
         <span class="badge badge-experimental">experimental</span>
-        <div class="proj-desc">Supply-chain attack detection at a molecular level. A differential analyzer that judges whether the change between two versions is malicious — built to catch subtle attacks like xz-utils. In heavy development.</div>
+        <div class="proj-desc">Differential analyzer that judges whether the change between two versions is malicious. Built for subtle attacks like xz-utils. In heavy development.</div>
       </li>
       <li>
         <span class="proj-name"><a href="/hood/">hood</a></span>
         <span class="badge badge-experimental">experimental</span>
-        <div class="proj-desc">A local enforcement layer for software fetched by developers and AI agents — inspects public and private artifacts before they reach a package manager, installer, or <code>curl | sh</code>, adding zero-day detection without changing your workflow.</div>
+        <div class="proj-desc">Local gate for software fetched by developers and AI agents. Scans public and private artifacts before they reach a package manager, installer, or <code>curl | sh</code>, without changing your workflow.</div>
       </li>
     </ul>
 

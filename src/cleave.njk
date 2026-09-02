@@ -13,18 +13,18 @@ tool: cleave
       <h1 class="visually-hidden">cleave</h1>
     </div>
     {% include "docs-nav.njk" %}
-    <p>cleave answers one question — <em>what can this program do?</em>
-    It extracts capabilities from binaries, source, documents, packages, and
-    archives, matching them against the public
-    <a href="https://github.com/atomdrift-project/traits" target="_blank">Atomdrift traits</a>
-    rule set aligned broadly to
+    <p>cleave answers one question: <em>what can this program do?</em>
+    It unpacks the file, extracts structural facts, and matches them against
+    the public <a href="https://github.com/atomdrift-project/traits" target="_blank">Atomdrift traits</a>
+    rule set, aligned broadly to
     <a href="https://github.com/MBCProject/mbc-markdown" target="_blank">MBC</a> and
     <a href="https://attack.mitre.org/" target="_blank">MITRE ATT&amp;CK</a>.
-    Apache-2.0, no telemetry.</p>
+    Every finding points back to the strings, symbols, imports, or metadata
+    that produced it. Apache-2.0, no telemetry.</p>
 
     <ul class="feature-list">
-      <li><strong>Supply-chain &amp; malware triage.</strong> Run on a release, a suspicious sample, or a directory of dropped files. <code>cleave diff old/ new/</code> highlights new capabilities, tampered headers, and provenance anomalies between versions.</li>
-      <li><strong>Feature extraction for ML/AI pipelines.</strong> Stable JSON schema, deterministic output, SHA256-keyed cache. <a href="/scan/">Atomdrift Scan</a> is the reference downstream classifier.</li>
+      <li><strong>Triage.</strong> Run it on a release, a suspicious sample, or a directory of dropped files. <code>cleave diff old/ new/</code> shows new capabilities, tampered headers, and provenance anomalies between versions.</li>
+      <li><strong>Features for other tools.</strong> Stable JSON schema, deterministic output, SHA-256-keyed cache, and a Rust library. <a href="/scan/">Atomdrift Scan</a> is the reference downstream classifier.</li>
     </ul>
 
     <p><img src="/assets/images/cleave-analyze.png" alt="cleave analyze — capabilities of a single sample" style="width: 87.5%; height: auto;"></p>
@@ -39,20 +39,18 @@ tool: cleave
     </ul>
 
     <h2>Open, inspectable rules</h2>
-    <p>The rule set is a mix. The hand-written rules are precise for
-    patterns humans understand well. The AI-derived ones come from a
-    training corpus of about a million samples and cover the long tail
-    across 20+ languages — territory no team is going to keep up with by
-    hand.</p>
-    <p>The AI runs at build time, not at runtime. The cleave you ship is
-    deterministic given the same input, traits, options, and analysis tools.
-    No runtime AI model, GPU, or sample upload is required. Reports include an
-    analysis timestamp, so serialized bytes differ between runs.</p>
+    <p>The rule set is a mix. Hand-written rules are precise for the patterns
+    humans understand well. AI-derived rules come from a training corpus of
+    about a million samples and cover the long tail across 20+ languages,
+    which no team keeps up with by hand.</p>
+    <p>The AI runs at build time, not at runtime. Given the same bytes, traits
+    bundle, options, and analysis tools, cleave's findings are deterministic.
+    No runtime model, GPU, or upload. Reports carry a timestamp, so the
+    serialized bytes differ between runs even when the findings do not.</p>
 
-    <p>The first analysis downloads the compatible traits bundle if it is not
-    installed. cleave also performs a best-effort release notice check at most
-    once every 24 hours. Set <code>CLEAVE_NO_UPDATE_CHECK=1</code> after setup
-    to suppress that check.</p>
+    <p>The first run downloads the compatible traits bundle. cleave also checks
+    for a new release at most once a day; <code>CLEAVE_NO_UPDATE_CHECK=1</code>
+    stops it.</p>
 
     <h2>Install</h2>
 <pre class="install-block">brew install atomdrift-project/tap/cleave             # macOS / Linux</pre>
@@ -60,7 +58,7 @@ tool: cleave
     <p>Prebuilt binaries for macOS (signed and notarized), Linux, Windows,
     FreeBSD, OpenBSD, NetBSD, Solaris, and illumos are on the
     <a href="https://github.com/atomdrift-project/cleave/releases" target="_blank">releases
-    page</a>. Installers are coming soon.</p>
+    page</a>.</p>
 
     <p>From source (Rust 1.94+):</p>
 <pre class="install-block">git clone https://github.com/atomdrift-project/cleave.git
@@ -75,7 +73,9 @@ cleave --format jsonl --min-crit suspicious   # streaming JSON for pipelines</pr
 
     <p style="margin-top: 12px; font-size: 0.8125rem;">Optional:
     <a href="https://github.com/rizinorg/rizin" target="_blank">rizin</a> for disassembly,
-    <a href="https://github.com/upx/upx" target="_blank">upx</a> for runtime unpacking.</p>
+    <a href="https://github.com/upx/upx" target="_blank">upx</a> for unpacking, and upstream
+    <a href="https://7-zip.org/" target="_blank">7-Zip</a> for disk images (p7zip cannot read APFS, so
+    <code>.dmg</code> contents go unscanned).</p>
 
   </div>
 

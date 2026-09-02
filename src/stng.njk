@@ -13,25 +13,23 @@ tool: stng
       <h1 class="visually-hidden">stng</h1>
     </div>
     {% include "docs-nav.njk" %}
-    <p>stng is an open-source string extractor for malware analysis and reverse
-    engineering. Same idea as
-    <code>strings(1)</code>, except it knows about XOR, base64, Go and
-    Rust string layouts, DWARF stack strings, and Windows wide
-    strings — and it filters the obvious garbage by default. Useful for
-    triage, C2 enumeration, credential extraction, and writing YARA
-    signatures. Analysis is local and requires no account or API key.</p>
+    <p>stng is <code>strings(1)</code> for people who read malware. It knows
+    about XOR, base64, Go and Rust string layouts, x86 and arm64 stack
+    strings, and Windows wide strings, and it drops the compiler noise by
+    default. Use it for triage, C2 and credential discovery, and building
+    YARA signatures. Local, no account, no API key.</p>
 
     <h2>Capabilities</h2>
     <ul class="feature-list">
-      <li><strong>Garbage filtering</strong> — automatically removes unusable noise (override with <code>--unfiltered</code>)</li>
-      <li><strong>XOR obfuscation detection</strong> — single/multi-byte keys with entropy analysis, double-layer (encoding+XOR)</li>
-      <li><strong>Encoding detection</strong> — Base64, Base32, Base85, hex, URL-encoding, Unicode escapes</li>
-      <li><strong>Language-aware extraction</strong> — Go/Rust <code>{ptr, len}</code> structures, DWARF stack strings</li>
-      <li><strong>Mixed inputs</strong> — decodes embedded campaign markers from polyglot and mostly-binary unknown files</li>
-      <li><strong>Binary network structures</strong> — hardcoded IPs/ports in socket structures</li>
-      <li><strong>IOC classification</strong> — IPs, URLs, shell commands, paths, credentials</li>
-      <li><strong>Wide strings</strong> — UTF-16LE support for Windows PE binaries</li>
-      <li><strong>Multi-format</strong> — ELF, PE, Mach-O, raw binaries, overlays</li>
+      <li><strong>Garbage filtering:</strong> drops unusable noise by default; <code>--unfiltered</code> brings it back</li>
+      <li><strong>XOR detection:</strong> single- and multi-byte keys with entropy analysis, plus double-layer encoding-then-XOR</li>
+      <li><strong>Encodings:</strong> Base64, Base32, Base85, hex, URL-encoding, Unicode escapes</li>
+      <li><strong>Compiled languages:</strong> Go and Rust <code>{ptr, len}</code> layouts, Go <code>pclntab</code> symbols, x86 and arm64 stack strings</li>
+      <li><strong>Mixed inputs:</strong> recovers campaign markers from polyglot and mostly-binary files</li>
+      <li><strong>Network structures:</strong> hardcoded IPs and ports in socket structs</li>
+      <li><strong>IOC classification:</strong> IPs, URLs, hostnames, shell commands, paths, wallets, tokens, API keys, ransom-note text</li>
+      <li><strong>Wide strings:</strong> UTF-16LE in Windows PE binaries</li>
+      <li><strong>Formats:</strong> ELF, PE, Mach-O with code-signing and entitlement context, raw binaries, overlays</li>
     </ul>
 
     <h2>Install</h2>

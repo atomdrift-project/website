@@ -2,7 +2,7 @@
 layout: base.njk
 title: Compare
 permalink: /compare/
-description: Atomdrift Scan vs Socket, Aikido, SafeDep, VirusTotal and ClamAV on live zero-day supply-chain malware. Measured daily on an identical cohort, every sample published.
+description: Atomdrift Scan vs VirusTotal, Socket, Aikido, SafeDep and ClamAV on live zero-day supply-chain malware. Measured daily on an identical cohort, every sample published. Local, Apache-2.0, built to be embedded.
 ---
 
 <style>
@@ -29,21 +29,9 @@ description: Atomdrift Scan vs Socket, Aikido, SafeDep, VirusTotal and ClamAV on
   .cmp-hero h1 em { font-style: normal; color: var(--atomdrift-blue); }
   .cmp-hero .say { margin: 12px 0 0; color: var(--iron); line-height: 1.6; font-size: .95rem; }
   .cmp-hero .say b { color: var(--carbon); font-weight: 600; }
-  .cta-row { display: flex; gap: 9px; flex-wrap: wrap; margin: 15px 0 0; }
-  .cta { display: inline-flex; align-items: center; font-family: 'Oxanium', sans-serif; font-weight: 700;
-         font-size: .82rem; padding: 8px 15px; border-radius: 7px; text-decoration: none;
-         min-height: 44px; border: 1.5px solid var(--border); color: var(--carbon);
-         transition: border-color .15s, color .15s, background .15s; }
-  .cta:hover { border-color: var(--atomdrift-blue); color: var(--atomdrift-blue); }
-  .cta-primary { background: var(--toxic); border-color: var(--toxic); color: var(--carbon); font-weight: 800; }
-  .cta-primary:hover { background: var(--toxic-dark); border-color: var(--toxic-dark); color: #fff; }
-  .instl { margin-top: 11px; font-family: 'SF Mono', Consolas, monospace; font-size: .78rem; background: var(--mist);
-           border-radius: 6px; padding: 8px 12px; color: var(--carbon); overflow-x: auto; }
-  .badges { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 12px; }
-  .bdg { font-family: 'Oxanium', sans-serif; font-size: .68rem; font-weight: 800; letter-spacing: .05em;
-         text-transform: uppercase; border: 1px solid var(--border); border-radius: 5px; padding: 3px 8px;
-         color: var(--iron); white-space: nowrap; }  /* or 'illumos' orphans onto its own line */
-  .bdg.hot { border-color: var(--toxic-dark); color: var(--toxic-dark); background: var(--toxic-dim); }
+  .instl { margin-top: 16px; font-family: 'SF Mono', Consolas, monospace; font-size: .84rem; background: var(--carbon);
+           border-radius: 7px; padding: 11px 14px; color: var(--toxic); overflow-x: auto; }
+  .facts { margin: 10px 0 0; font-size: .78rem; color: var(--slate); }
 
   /* Our own two numbers, not a face-off. The comparison lives in the leaderboard
      directly below; repeating it here cost width the headline column needed. */
@@ -217,6 +205,16 @@ description: Atomdrift Scan vs Socket, Aikido, SafeDep, VirusTotal and ClamAV on
   .meth { background: var(--cream); border: 1px solid var(--border); border-radius: 8px; padding: 12px 15px;
           font-size: .78rem; color: var(--graphite); line-height: 1.65; margin-top: 14px; }
   .meth b { color: var(--carbon); font-family: 'Oxanium', sans-serif; }
+  .who { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 12px; }
+  .who > div { background: #fff; border: 1px solid #e3e6ea; border-radius: 10px; padding: 16px 18px; }
+  .who h3 { font-family: 'Oxanium', sans-serif; font-size: .92rem; font-weight: 800; color: var(--carbon);
+            letter-spacing: -.2px; margin: 0 0 7px; }
+  .who p { margin: 0; font-size: .82rem; line-height: 1.55; color: var(--iron); }
+  /* isotope13's own palette (fuschia on its mist), so the sponsor line reads as theirs, not ours. */
+  .hosted { margin: 14px 0 0; padding: 10px 14px; border-radius: 8px; font-size: .84rem; font-weight: 600;
+            background: #fdf5fc; border: 1px solid #FF00CC; color: #CC0077; }
+  .hosted a { color: #CC0077; font-family: 'Oxanium', sans-serif; font-weight: 800; text-decoration: underline;
+              text-underline-offset: 2px; }
   .closer { margin-top: 34px; background: var(--carbon); border-radius: 12px; padding: 20px 24px; display: flex;
             justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
   .closer h3 { color: #fff; font-size: 1.05rem; letter-spacing: -.5px; margin: 0; font-family: 'Oxanium', sans-serif; font-weight: 800; }
@@ -229,6 +227,7 @@ description: Atomdrift Scan vs Socket, Aikido, SafeDep, VirusTotal and ClamAV on
     .samples { grid-template-columns: 1fr; }
     .fp-ft { grid-template-columns: 1fr; }
     .diffs { grid-template-columns: 1fr; }
+    .who { grid-template-columns: 1fr; }
     .diffs .dh:first-child { display: none; }
     .cmp-hero h1 { font-size: 1.7rem; }
     .samples a { min-height: 44px; }
@@ -274,25 +273,15 @@ description: Atomdrift Scan vs Socket, Aikido, SafeDep, VirusTotal and ClamAV on
   <div class="cmp-hero">
     <div>
       <div class="kick">Atomdrift Scan · zero-day supply-chain malware detection · Apache-2.0</div>
-      <h1>Supply-chain malware detection for <em>your</em> code, not just a vendor's index.</h1>
-      <p class="say">Every hosted scanner answers one question: <b>is this package on our list yet?</b> Atomdrift reads
-        the artifact — source, binaries, containers, archives, private packages — and scores what it can actually do.
-        Nothing to be listed on, nothing to wait for, and it works on the code no vendor indexes.</p>
-      <div class="cta-row">
-        <a class="cta cta-primary" href="https://install.atomdrift.org/">Install it →</a>
-        <a class="cta" href="#how">The differences</a>
-        <a class="cta" href="#samples">Every sample</a>
-      </div>
+      <h1>Zero-day malware detection that <em>runs anywhere, reads anything.</em></h1>
+      <p class="say">VirusTotal and Socket answer one question: <b>has anyone reported this yet?</b> Atomdrift reads
+        the artifact and decides at scan time, on your hardware. No list to be on, no window to sit in, no code
+        leaving your machine. Measured every day against live malware under 48 hours old.</p>
+      {# One action. The install line is the call to action; everything else on the
+         page is reached by scrolling, so it gets no button. #}
       <div class="instl">curl -fsSL https://install.atomdrift.org/scan.sh | sh</div>
-      <div class="badges">
-        <span class="bdg hot">Apache-2.0</span>
-        <span class="bdg">100+ file types</span>
-        <span class="bdg">{{ providers.ascan.registries | length }} registries</span>
-        <span class="bdg">no telemetry</span>
-        {# Longest badge last: it is ~3x the width of the others, so anything after it
-           gets stranded alone on the next row. #}
-        <span class="bdg">Linux · macOS · BSD · illumos</span>
-      </div>
+      <p class="facts">Apache-2.0 · Linux, macOS, Windows, BSD, illumos · no telemetry ·
+        <a class="lnk" href="#how">what's different ↓</a></p>
     </div>
 
     {%- if h %}
@@ -335,10 +324,9 @@ description: Atomdrift Scan vs Socket, Aikido, SafeDep, VirusTotal and ClamAV on
     <span><i class="unsupported-key"></i>unsupported file format</span>
     <span><i class="errored-key"></i>errored</span>
   </div>
-  <p class="fig-note">Every engine is scored at its most sensitive setting, ours included. <b>Grey is scope</b> —
-    an engine that only reads registry packages marks the rest of the cohort unsupported, which the methodology
-    scores as a miss. <b>Red is failure</b> — the engine supports the sample but errored on it (a timeout or
-    crash), which also scores as a miss.</p>
+  <p class="fig-note">Every engine is scored at its most sensitive setting, ours included. <b>Grey is scope</b>:
+    the engine only reads registry packages, so the rest of the cohort counts as missed. <b>Red is failure</b>:
+    the engine reads the format but timed out or crashed, which also counts as missed.</p>
 
   {%- set q = battle | quadrant(chartProviders) %}
   {%- if q %}
@@ -446,8 +434,8 @@ description: Atomdrift Scan vs Socket, Aikido, SafeDep, VirusTotal and ClamAV on
     </ul>
   </div>
   {%- if q.curve %}
-  <p class="fig-note"><code>-l</code> is a false-positive budget — files flagged per <b>100 million</b>, calibrated per
-    file type. Not “medium sensitivity”; a number you can plan a pipeline around. The curve runs
+  <p class="fig-note"><code>-l</code> is a false-positive budget: benign files flagged per <b>100 million</b>,
+    calibrated per file type. A number you can plan a pipeline around, not “medium sensitivity”. The curve runs
     <code>-l 0</code> to <code>-l {{ dialMaxLabel }}</code> through
     <b>{{ q.curve.verts | length }} measured operating points</b>, spans between them interpolated.</p>
   {%- endif %}
@@ -596,8 +584,8 @@ description: Atomdrift Scan vs Socket, Aikido, SafeDep, VirusTotal and ClamAV on
   {%- if battle.fp_by_filetype and battle.fp_by_filetype.rows and battle.fp_by_filetype.rows.length %}
   {%- set fpft = battle.fp_by_filetype %}
   <h2 id="fp-filetypes">False-positive rate by filetype <span class="note">last {{ fpft.window_days }} days · top {{ fpft.rows.length }}</span></h2>
-  <p class="sub">Outer artifact types that most often trip a false alarm on known-good packages.
-    Same types, same order on both sides — ranked by combined flag count, shown by combined rate.</p>
+  <p class="sub">File types that most often trigger a false alarm on known-good packages. Both sides list the
+    same types in the same order, ranked by how often either engine flagged them.</p>
   <div class="fp-ft" role="group" aria-label="False-positive rate by filetype: atomscan versus VirusTotal">
     <div class="panel" style="--bar: {{ providers.ascan.color }}">
       <h3 class="us">atomscan</h3>
@@ -626,34 +614,62 @@ description: Atomdrift Scan vs Socket, Aikido, SafeDep, VirusTotal and ClamAV on
     <b>0%</b> on one side when only the other engine flagged it.</p>
   {%- endif %}
 
-  <h2 id="how">Three structural differences <span class="note">architecture, not features</span></h2>
+  <h2 id="how">What's different <span class="note">architecture, not features</span></h2>
   <div class="diffs">
     <div class="dh"></div>
-    <div class="dh">Hosted scanners</div>
+    <div class="dh">VirusTotal · Socket · hosted scanners</div>
     <div class="dh us">Atomdrift</div>
 
-    <div class="dk">Scope</div>
-    <div class="dv">Public packages, or file hashes, that they already index.</div>
-    <div class="dv us">Any artifact you can point at — <b>including your own source and private dependencies</b>,
-      which no vendor will ever index.</div>
+    <div class="dk">Verdict</div>
+    <div class="dv">A lookup: hash or package name against what they have already seen.</div>
+    <div class="dv us"><b>A decision.</b> Capabilities extracted from the artifact, scored by a local model. Nothing to
+      be listed on.</div>
 
-    <div class="dk">Timing</div>
-    <div class="dv">After someone else has reported it and the list has shipped.</div>
-    <div class="dv us"><b>At scan time.</b> Capabilities are extracted from the artifact itself, so there is no
-      list to be added to and no window to sit in.</div>
+    <div class="dk">Detection gap</div>
+    <div class="dv">Someone reports it, an analyst confirms it, the list ships. Hours to days. That window is the
+      attack.</div>
+    <div class="dv us"><b>None.</b> The verdict at hour one is the verdict at day thirty.</div>
 
-    <div class="dk">Control</div>
-    <div class="dv">Rented per seat or per scan. Your code goes to their servers, and the rule that flagged your
-      build isn't yours to read.</div>
-    <div class="dv us">Apache-2.0, runs air-gapped, embeddable in what you sell. Every trait, rule and model is
-      inspectable — fix a false positive yourself.</div>
+    <div class="dk">Reads</div>
+    <div class="dv">Packages from registries they index, or file hashes. Binaries, firmware, images and private
+      code come back unsupported.</div>
+    <div class="dv us">100+ formats: source in every major language, ELF, PE, Mach-O, firmware, container images,
+      archives, documents, config. {{ providers.ascan.registries | length }} registries. Anything private.</div>
+
+    <div class="dk">Runs</div>
+    <div class="dv">On their servers. Your code leaves your boundary and their uptime sits on your critical path.</div>
+    <div class="dv us"><b>On yours.</b> CPU only. Linux, macOS, Windows, BSD, illumos, Android. Air-gapped if you
+      want. No telemetry, no per-query bill.</div>
+
+    <div class="dk">Keeps up</div>
+    <div class="dv">Analyst-written signatures, on their schedule.</div>
+    <div class="dv us"><b>Retrains itself.</b> New samples, threat feeds and published research become roughly 1,000
+      rule updates a day. Weekly to open source, real-time to
+      <a class="lnk" href="https://isotope13.ai/enriched/">Enriched</a> subscribers.</div>
+
+    <div class="dk">False positives</div>
+    <div class="dv">One sensitivity, theirs.</div>
+    <div class="dv us">A budget you set: <code>-l</code> is benign files flagged per 100 million, calibrated per
+      file type. Every verdict lists the capabilities that drove it, so a false positive is a bug you can read and
+      fix.</div>
+
+    <div class="dk">Integration</div>
+    <div class="dv">API key, rate limit, terms of service. Shipping their verdicts inside your product is a contract
+      negotiation.</div>
+    <div class="dv us"><b>Built to be embedded.</b> CLI with exit codes, JSON and JSONL, long-running HTTP service,
+      distributed workers, Rust libraries. Pin tool, rule and model versions for reproducible scans. Apache-2.0: ship
+      it inside what you sell without asking.</div>
   </div>
+  <p class="sub" style="margin-top:14px">Keep VirusTotal for what it is good at: consensus on malware the world already
+    knows. Atomdrift covers the rest — the package published this morning, the binary no registry indexes, the code
+    you cannot send to anyone.</p>
 
   {%- set cov = battle | blindSpots(providers) %}
   {%- if cov %}
-  <p class="sub" style="margin-top:22px">The first two are measurable, and this run measures them.
+  <p class="sub" style="margin-top:22px">Where each engine lost this run's samples: files it could not read, and
+    packages it indexes but had no entry for when we asked.
     <b>{{ cov.nonPackage }} of {{ cov.cohort }} samples weren't registry packages at all</b> — binaries, executables,
-    archives. That is also the shape of your own code.</p>
+    archives. That is the shape of firmware, images, and your own code.</p>
   <div class="tw">
     <table class="cov">
       <thead>
@@ -707,6 +723,32 @@ description: Atomdrift Scan vs Socket, Aikido, SafeDep, VirusTotal and ClamAV on
   </script>
   {%- endif %}
 
+  <h2 id="who">Who it's built for <span class="note">tuned for software written by strangers</span></h2>
+  <div class="who">
+    <div>
+      <h3>Open-source marketplaces</h3>
+      <p>Registries, app stores, extension galleries, model hubs: anything that hosts code other people wrote.
+        Scan at publish time, before the first download, on infrastructure you run. One engine across
+        {{ providers.ascan.registries | length }} package ecosystems, and a false-positive budget you can defend
+        to maintainers.</p>
+    </div>
+    <div>
+      <h3>Security vendors</h3>
+      <p>Add zero-day coverage to a SAST, SCA, firmware, container or EDR product without building a malware
+        team. Embed the CLI, the HTTP service or the Rust libraries; every verdict comes with the evidence behind
+        it. <a class="lnk" href="https://isotope13.ai/enriched/">OEM rights and support</a> from the engineers
+        who build it.</p>
+    </div>
+    <div>
+      <h3>Anyone with a machine</h3>
+      <p>Something on the box looks wrong. Point it at a file, a directory, an archive, a running process or the
+        whole host. More file types, more languages and more operating systems than any other scanner, open or
+        commercial. Nothing leaves the machine.</p>
+    </div>
+  </div>
+  <p class="hosted">Prefer a hosted API? Our sponsor,
+    <a href="https://isotope13.ai/" target="_blank" rel="noopener">isotope¹³</a>, has you covered.</p>
+
   <details class="appendix" id="samples">
     <summary>Appendix — samples and methodology <span class="note">all {{ cohortBad | length }}, every one linked</span></summary>
   <div class="samples">
@@ -733,8 +775,8 @@ description: Atomdrift Scan vs Socket, Aikido, SafeDep, VirusTotal and ClamAV on
 
   <div class="closer">
     <div>
-      <h3>Point it at your own code.</h3>
-      <p>Apache-2.0 · runs locally · no account, no index</p>
+      <h3>Point it at anything.</h3>
+      <p>Apache-2.0 · runs locally · no account, no index, no gap</p>
     </div>
     <div class="inst">curl -fsSL https://install.atomdrift.org/scan.sh | sh</div>
   </div>

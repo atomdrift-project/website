@@ -13,55 +13,55 @@ tool: scan
       <h1 class="visually-hidden">Atomdrift Scan</h1>
     </div>
     {% include "docs-nav.njk" %}
-    <p>Think of Atomdrift Scan as ClamAV for AI-powered malware detection: a
-    local scanner backed by open models that improve as newly observed
-    malware behavior is captured, labeled, and folded back through
-    cyclotron, Atomdrift's live training loop.
+    <p>Atomdrift Scan is a local malware scanner built for the software
+    supply chain: the package that landed on npm an hour ago, the binary in
+    a vendor tarball, the thing a coworker just ran with <code>curl | sh</code>.
+    Hand it a path, a PURL, a URL, or a process. It decomposes what it finds,
+    scores it, and exits with a status code your CI can act on.
     <em>(Scan was previously released as litmus.)</em></p>
-    <p>Hand it a path; it scans, classifies, and exits with a status code
-    your CI can act on. Whatever <a href="/cleave/">cleave</a> decomposes,
-    Scan classifies — more than 100 source, binary, package, archive,
-    document, and configuration formats. Files and model inference stay on
-    your machine; no cloud scanner, API key, or GPU is required.</p>
-    <p>Today it scores capabilities with <a href="/azoth/">azoth</a>,
-    our weighted-ensemble model for context-free malware detection — now
-    the default. Every verdict ships with a list of the
-    capabilities that drove the score, computed on the live model rather
-    than a post-hoc story. Severity is a false-positive budget, not a
-    fixed scale: tell Scan how many false positives per 100M benign
-    files you'll tolerate (<code>-l</code>, default L25) and that's the
-    gate. Use <code>-l 0</code> when a single false positive is
-    unacceptable, higher when you'd rather not miss anything.</p>
+    <p>Nothing leaves your machine. <a href="/cleave/">cleave</a> extracts
+    what each file can do, <a href="/azoth/">azoth</a> scores those
+    capabilities on your CPU, and every verdict lists the capabilities that
+    drove it. No cloud scanner, no API key, no GPU, no telemetry. The models
+    retrain continuously from new samples, threat feeds, and published
+    research, and ship about 1,000 rule updates a day.</p>
+    <p>Sensitivity is a false-positive budget, not a dial labelled medium.
+    <code>-l 25</code>, the default, means 25 false positives per 100 million
+    benign files. <code>-l 0</code> means none observed. Go higher when
+    missing something costs more than a second look.</p>
+    <p>It is measured every day against live zero-day malware, next to
+    VirusTotal, Socket, ClamAV, and others.
+    <a href="/compare/">See the numbers &rarr;</a></p>
 
     <h2>Capabilities</h2>
     <ul class="feature-list">
-      <li><strong>File scanning</strong> — files, directories, and archives, classified against <a href="/azoth/">azoth</a> by default</li>
-      <li><strong>Process scanning</strong> — running processes, via the on-disk image (memory-resident analysis is not yet implemented)</li>
-      <li><strong>Explainable verdicts</strong> — every score ships with a ranked list of the capabilities that drove it</li>
-      <li><strong>Optional LLM second opinion</strong> — <code>--llm</code> sends extracted evidence to an OpenAI-compatible endpoint and blends the response with the ML verdict</li>
-      <li><strong>Pluggable models</strong> — runs any model trained on cleave's capability schema; <code>--model-dir</code> swaps in a custom bundle</li>
+      <li><strong>File scanning:</strong> files, directories, archives, PURLs, and URLs</li>
+      <li><strong>Process scanning:</strong> running processes, via their on-disk image. Memory-resident analysis is not implemented yet.</li>
+      <li><strong>Explainable verdicts:</strong> every score ships with a ranked list of the capabilities that drove it</li>
+      <li><strong>Optional LLM second opinion:</strong> <code>--llm</code> sends the extracted evidence to an OpenAI-compatible endpoint and blends the answer with the ML verdict</li>
+      <li><strong>Pluggable models:</strong> <code>--model-dir</code> swaps in any bundle trained on cleave's capability schema</li>
     </ul>
 
-    <p><strong>Network behavior:</strong> analysis is local, but the CLI
-    downloads bundles on first use, refreshes stale bundles, and follows
-    referenced packages and URLs by default. After setup, use
-    <code>SCAN_NO_UPDATE_CHECK=1 atomscan --no-update --fetch=none …</code>
-    for a fully offline run.</p>
+    <p><strong>Network behavior.</strong> Analysis is local. The CLI touches
+    the network for two things: rule and model updates, at most once a day,
+    and following the packages and URLs a sample references, so a clean
+    wrapper cannot hide a dirty payload. Turn both off with
+    <code>SCAN_NO_UPDATE_CHECK=1 atomscan --no-update --fetch=none …</code>.</p>
 
     <h2>Install</h2>
 
     <p>Installer (macOS, Linux, BSD, Solaris, illumos, and Android):</p>
     <pre class="install-block">curl -fsSL https://install.atomdrift.org/scan.sh | sh</pre>
 
-    <p>On macOS and Linux, the installer delegates to Homebrew when it is
-    available so Homebrew can manage upgrades, PATH, and dependencies. Pass
+    <p>On macOS and Linux the installer hands off to Homebrew when it finds
+    one, so Homebrew manages upgrades, PATH, and dependencies. Pass
     <code>--method binary</code> to use the prebuilt release directly.</p>
 
     <p>Windows PowerShell:</p>
     <pre class="install-block">irm https://install.atomdrift.org/scan.ps1 | iex</pre>
 
-    <p>See all supported platforms, requirements, and release downloads on the
-    <a href="https://install.atomdrift.org/">Atomdrift Scan install page</a>.</p>
+    <p>Every supported platform, requirement, and release download is on the
+    <a href="https://install.atomdrift.org/">install page</a>.</p>
 
     <p>From source:</p>
     <pre class="install-block">
@@ -72,15 +72,21 @@ make install
 
     <h2>Usage</h2>
     <pre class="install-block">$ atomscan &lt;path&gt;
-$ atomscan -f json &lt;path&gt;    # machine-readable output</pre>
+$ atomscan -f json &lt;path&gt;    # machine-readable output
+$ atomscan purl npm/left-pad@1.3.0
+$ atomscan url https://example.com/download</pre>
 
-    <p>The first scan downloads the open model, rule, and bloom-filter
-    bundles. Run <code>atomscan version</code> to see the exact inventory
-    installed on your machine.</p>
+    <p>Exit codes, so CI needs no parsing:</p>
+    <pre class="install-block">0 benign   1 hostile   2 suspicious   3 analysis error   4 incomplete rule set; re-run</pre>
 
-    <p style="margin-top: 12px; font-size: 0.8125rem;">For more thorough results, install
-    <a href="https://github.com/rizinorg/rizin" target="_blank">Rizin</a> (binary reverse-engineering) and
-    <a href="https://github.com/upx/upx" target="_blank">UPX</a> (unpacker).</p>
+    <p>The first scan downloads the model, rule, and bloom-filter bundles.
+    <code>atomscan version</code> prints the exact inventory installed.</p>
+
+    <p style="margin-top: 12px; font-size: 0.8125rem;">For deeper binary analysis, install
+    <a href="https://github.com/rizinorg/rizin" target="_blank">Rizin</a> (disassembly),
+    <a href="https://github.com/upx/upx" target="_blank">UPX</a> (unpacking), and upstream
+    <a href="https://7-zip.org/" target="_blank">7-Zip</a> (disk images; p7zip cannot read APFS, so
+    <code>.dmg</code> contents go unscanned).</p>
 
   </div>
 

@@ -37,53 +37,49 @@ title: "hood — Supply-Chain Firewall (experiment)"
     </figure>
 
     <p>hood is a supply-chain firewall. It sits between your fetching tools
-    and the network, and it looks at what comes back before you get to run
-    it. Public package, private package, a tarball behind
-    <code>curl</code> — it is all the same to hood: unfamiliar bytes,
-    inspected on your machine before they are handed to the tool that asked
-    for them.</p>
+    and the network and inspects what comes back before the tool that asked
+    for it gets to run it. Public package, private package, a tarball behind
+    <code>curl</code>: all the same to hood. Unfamiliar bytes, checked on
+    your machine first.</p>
 
-    <p>Nothing about your workflow changes. You still type <code>npm ci</code>
-    and <code>pip install</code>. Nothing leaves the building. This is an
-    experiment, and it is honest about that.</p>
+    <p>Your workflow does not change. You still type <code>npm ci</code> and
+    <code>pip install</code>. Nothing leaves the building.</p>
 
     <p>The facts, briefly:</p>
     <ul class="hood-facts">
       <li><strong>What it checks.</strong> Every artifact a fetching command
-      pulls in. Known-good and known-bad hashes and PURLs are decided at
-      once; anything unknown is decomposed by <a href="/cleave/">cleave</a>
+      pulls in. Known-good and known-bad hashes and PURLs are decided
+      instantly. Anything unknown is decomposed by <a href="/cleave/">cleave</a>
       and classified by <a href="/scan/">Atomdrift Scan</a>.</li>
-      <li><strong>Where it runs.</strong> On your machine. No cloud scanner,
-      no API key, no proprietary package shipped to a third party. No
-      telemetry.</li>
-      <li><strong>How it intercepts.</strong> Locally, and only for the
-      command that asked. The host trust store is never touched, and nothing
-      is left behind for other processes.</li>
+      <li><strong>Where it runs.</strong> Your machine. No cloud scanner, no
+      API key, no proprietary package sent to a third party, no telemetry.</li>
+      <li><strong>How it intercepts.</strong> A loopback proxy with a fresh CA
+      per command, trusted only by that command's child process. The host
+      trust store is never touched.</li>
       <li><strong>When in doubt, it stops.</strong> A fetch fails closed if
-      scanning cannot start. Local work — <code>go test</code>,
-      <code>cargo build</code>, <code>npm test</code> — is left alone.</li>
-      <li><strong>Why it can see new attacks.</strong> It judges what an
-      artifact <em>does</em>, not what it is called. That is what lets it
-      flag a previously unseen 0-day supply-chain attack rather than waiting
-      for a feed to name it.</li>
+      scanning cannot start. Local work such as <code>go test</code>,
+      <code>cargo build</code>, and <code>npm test</code> is left alone.</li>
+      <li><strong>Why it sees new attacks.</strong> It judges what an artifact
+      <em>does</em>, not what it is called, so it does not wait for a feed to
+      name the malware.</li>
     </ul>
 
     <div class="admonition warning">
       <p class="admonition-title">This is an experiment</p>
       <p>hood is an early build, released quietly to see how it behaves in
       the field. Verdicts, flags, and output will change without notice.
-      There is no stable release. Try it, break it, send back what you find —
-      but do not put it anywhere you cannot take it out again. It may eat
-      your cat.</p>
+      There is no stable release. Try it, break it, send back what you find.
+      Do not put it anywhere you cannot take it out again. It may eat your
+      cat.</p>
     </div>
 
     <h2>Coverage</h2>
-    <p>hood installs user-level shims for the fetching tools already on your
-    <code>PATH</code>. No system proxy, no root CA, no package-manager
-    reconfiguration. Anything not listed still runs under
-    <code>hood exec -- &lt;command&gt;</code>. The columns compare hood with
-    three related tools; only hood classifies the contents of a private
-    artifact locally, rather than deciding from a feed or from metadata.</p>
+    <p><code>hood install</code> adds user-level shims for the fetching tools
+    already on your <code>PATH</code>. No system proxy, no root CA, no
+    package-manager reconfiguration. Anything not listed runs under
+    <code>hood exec -- &lt;command&gt;</code>. The table compares hood with
+    three related tools. Only hood classifies the contents of a private
+    artifact locally; the others decide from a feed or from metadata.</p>
 
     <div class="cov-wrap">
     <table class="hood-cov">
@@ -139,10 +135,10 @@ title: "hood — Supply-Chain Firewall (experiment)"
 cd hood
 make install
 hood install</pre>
-    <p>Restart your shell and use your tools as before. <code>hood install</code>
-    adds the shims; <code>hood uninstall</code> removes them and the shell
-    configuration it wrote. Set <code>HOOD_VERBOSE=1</code> (or
-    <code>-v</code>) to see each verdict and a summary:</p>
+    <p>Restart your shell and use your tools as before. <code>hood uninstall</code>
+    removes the shims and the shell configuration it wrote.
+    <code>HOOD_VERBOSE=1</code> (or <code>-v</code>) prints each verdict and a
+    summary:</p>
 <pre class="install-block">✅ Atomdrift Hood scan passed — 3.2% risk score — package.tgz
 ⚠️ Atomdrift Hood flagged this download as suspicious — 31.0% risk score — BLOCKED
 🛑 Atomdrift Hood blocked a high-risk download — 87.0% risk score</pre>

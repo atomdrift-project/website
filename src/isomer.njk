@@ -14,69 +14,64 @@ title: "isomer — Differential Supply-Chain Attack Detection"
 
     <p><em>The version string says nothing changed; the behavior says otherwise.</em></p>
 
-    <p>isomer detects whether a <em>change</em> is malicious. It compares two
-    states of the same thing — a directory, a git ref, a package, a container
-    image — and judges the delta in context: capability drift, version-bump
-    proportionality, commit intent, and behavioral disassembly, weighed by an
-    expert system built on three decades of real supply-chain attacks.
-    &ldquo;Gained network
-    and process-spawn between 1.2.3 and 1.2.4, and the changelog says
-    <em>fix typo</em>&rdquo; is a far higher-signal alert than any score on a
-    whole tree — and it's exactly the shape of xz-utils, event-stream, and
-    ua-parser-js. Offline command-line tool built for CI, powered by
-    <a href="/scan/">Atomdrift Scan</a>. Apache-2.0, no telemetry.</p>
+    <p>isomer judges whether a <em>change</em> is malicious. Give it two
+    states of the same thing, a directory, a git ref, a package, or a
+    container image, and it reads the delta in context: capability drift,
+    whether the version bump matches the size of the change, what the commit
+    claims to do, and what the disassembly says it does. &ldquo;Gained
+    network and process-spawn between 1.2.3 and 1.2.4, and the changelog says
+    <em>fix typo</em>&rdquo; is a sharper alert than any score on a whole
+    tree. It is also the exact shape of xz-utils, event-stream, and
+    ua-parser-js.</p>
 
-    <p>isomer reads the delta the same way the rest of the stack reads a
-    single artifact: <a href="/cleave/">cleave</a> extracts what each side
-    can actually <em>do</em>, and an expert system judges the capability
-    drift against the patterns behind thirty years of supply-chain attacks —
-    codified in our public
-    <a href="https://isotope13.ai/compendium/" target="_blank">compendium</a>.
-    That's what lets it flag a previously unseen 0-day supply-chain attack
-    from behavior alone — without a signature for the specific backdoor and
-    without the change ever having been seen before.</p>
+    <p><a href="/cleave/">cleave</a> extracts what each side can actually
+    <em>do</em>. An expert system built from three decades of real
+    supply-chain attacks, written up in our public
+    <a href="https://isotope13.ai/compendium/" target="_blank">compendium</a>,
+    judges the drift. That is how it can flag a backdoor nobody has seen
+    before, from behavior alone, with no signature. Offline CLI built for CI,
+    powered by <a href="/scan/">Atomdrift Scan</a>. Apache-2.0, no
+    telemetry.</p>
 
     <div class="admonition warning">
       <p class="admonition-title">Heavy development</p>
-      <p>isomer is an early, experimental build. Verdicts, flags, and
-      output formats change without notice, and no interface is stable
-      yet. Try it, break it, file issues — just don't wire it into
-      anything you can't unwire. May eat your cat.</p>
+      <p>isomer is an early build. Verdicts, flags, and output formats change
+      without notice. Try it, break it, file issues. Do not wire it into
+      anything you cannot unwire. May eat your cat.</p>
     </div>
 
     <div class="admonition note" id="design-partners">
       <p class="admonition-title">Design partners wanted</p>
-      <p>We're looking for a handful of design partners interested in the
-      space — teams who can put isomer up against real pipelines and
-      dependency churn, and tell us early whether we're designing the right
-      thing. Interested? Contact Thomas Stromberg at
+      <p>We want a handful of design partners: teams who will run isomer
+      against real pipelines and real dependency churn and tell us early
+      whether we are building the right thing. Contact Thomas Stromberg at
       <span id="dp-mail">t, at this domain</span>.</p>
     </div>
 
     <h2>The xz-utils test</h2>
-    <p>isomer's benchmark is the hardest version of the problem: the
-    compiled, stripped <code>liblzma.so</code> from the 2024 xz-utils
-    backdoor. The 5.4.5&nbsp;&rarr;&nbsp;5.6.0 diff verdicts
-    <strong>HOSTILE</strong> — and with every known signature ignored, the
-    behavioral axis alone still reads high enough to fail CI, which is what
-    catching a <em>novel</em> xz-shaped attack on release day requires. The
-    5.6.0&nbsp;&rarr;&nbsp;5.6.3 diff correctly reads as the backdoor being
-    removed, not added.</p>
+    <p>The benchmark is the hardest version of the problem: the compiled,
+    stripped <code>liblzma.so</code> from the 2024 xz-utils backdoor. The
+    5.4.5&nbsp;&rarr;&nbsp;5.6.0 diff verdicts <strong>HOSTILE</strong>. With
+    every known signature ignored, the behavioral axis alone still fails CI,
+    which is what catching a <em>novel</em> xz-shaped attack on release day
+    requires. The 5.6.0&nbsp;&rarr;&nbsp;5.6.3 diff reads as the backdoor
+    being removed, not added.</p>
 
     <h2>Surface</h2>
 <pre class="install-block">isomer ci                             # zero-config in CI: derives base..head from the environment
 isomer fs   &lt;old-path&gt; &lt;new-path&gt;     # compare two trees; follows the dependency graph
-isomer git  --repo &lt;url&gt; &lt;old&gt; &lt;new&gt;  # compare two commits/branches/tags of a remote repo
-isomer purl &lt;purl@a&gt; &lt;purl@b&gt;         # compare two published package versions
-isomer oci  &lt;old-image&gt; &lt;new-image&gt;   # compare two container images</pre>
-    <p>Old, then new, like <code>diff</code>. Exit codes: 0 clean, 1 findings
-    at or above <code>--fail-on</code>, 2 operational error — never
-    conflated with findings.</p>
+isomer git  --repo &lt;url&gt; &lt;old&gt; &lt;new&gt;  # compare two commits/branches/tags of a remote repo   (planned)
+isomer purl &lt;purl@a&gt; &lt;purl@b&gt;         # compare two published package versions               (planned)
+isomer oci  &lt;old-image&gt; &lt;new-image&gt;   # compare two container images                         (planned)</pre>
+    <p><code>ci</code> and <code>fs</code> are implemented. Output is
+    terminal, JSON, SARIF, or Markdown. Old, then new, like <code>diff</code>.
+    Exit codes: 0 clean, 1 findings at or above <code>--fail-on</code>,
+    2 operational error, never confused with findings.</p>
 
     <h2>Install</h2>
     <p>Prebuilt binaries for macOS (signed and notarized) and Linux are on
     the <a href="https://github.com/atomdrift-project/isomer/releases" target="_blank">releases
-    page</a>. Installers are coming soon.</p>
+    page</a>.</p>
     <p>From source (Rust 1.94+):</p>
 <pre class="install-block">git clone https://github.com/atomdrift-project/isomer.git
 cd isomer
