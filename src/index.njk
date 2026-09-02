@@ -8,23 +8,20 @@ title: Open-Source Supply-Chain Attack Detection, Powered by Local Deterministic
 
     <h2>About</h2>
     <p>
-We build open-source detection for the next generation of supply-chain
-attacks: xz-utils-style subtlety, written at AI speed.
+xz-utils was not a fluke. It was a preview. Atomdrift is open-source
+malware and supply-chain attack detection, built for what's coming next.
     </p>
     <p>
-The models retrain continuously from new samples, threat feeds, and published
-research. <a href="/cleave/">cleave</a> extracts what a file can do,
-<a href="/azoth/">azoth</a> scores it, and <a href="/scan/">scan</a> is the
-tool you run. Everything runs on your hardware: no cloud scanner, no API key,
-no telemetry. Scan fetches rule updates and referenced packages unless you tell
-it not to. Everything is
+How it works, in full: <a href="/cleave/">cleave</a> extracts what a file
+can do. <a href="/azoth/">azoth</a>, a small machine-learning classifier
+trained on public malware corpora, scores it on your CPU.
+<a href="/scan/">scan</a> is the tool you run. We use LLMs at build time to
+help turn new samples, threat feeds, and published research into rules, and
+every rule is validated before it ships. At scan time nothing runs but the
+local classifier: no cloud, no API key, no telemetry. Scan fetches rule
+updates and referenced packages unless you tell it not to. Everything is
 <a href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank" rel="noopener">Apache 2.0</a>.
     </p>
-    <p>
-Measured every day against live zero-day malware, next to VirusTotal, Socket,
-ClamAV, and others. <a href="/compare/">See the numbers &rarr;</a>
-    </p>
-    <p style="font-size: 0.8125rem;"><a href="/mission/">Our mission and principles &rarr;</a></p>
 
     <h2>News <a href="/feed.xml" class="rss-link" title="RSS Feed"><svg class="rss-icon" viewBox="0 0 24 24" fill="currentColor"><circle cx="6.18" cy="17.82" r="2.18"/><path d="M4 4.44v2.83c7.03 0 12.73 5.7 12.73 12.73h2.83c0-8.59-6.97-15.56-15.56-15.56zm0 5.66v2.83c3.9 0 7.07 3.17 7.07 7.07h2.83c0-5.47-4.43-9.9-9.9-9.9z"/></svg></a></h2>
     <ul class="news-list">
