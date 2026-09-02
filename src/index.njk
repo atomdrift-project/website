@@ -12,14 +12,10 @@ xz-utils was not a fluke. It was a preview. Atomdrift is open-source
 malware and supply-chain attack detection, built for what's coming next.
     </p>
     <p>
-How it works, in full: <a href="/cleave/">cleave</a> extracts what a file
-can do. <a href="/azoth/">azoth</a>, a small machine-learning classifier
-trained on public malware corpora, scores it on your CPU.
-<a href="/scan/">scan</a> is the tool you run. We use LLMs at build time to
-help turn new samples, threat feeds, and published research into rules, and
-every rule is validated before it ships. At scan time nothing runs but the
-local classifier: no cloud, no API key, no telemetry. Scan fetches rule
-updates and referenced packages unless you tell it not to. Everything is
+We build the <a href="/scan/">tools</a>, train the <a href="/azoth/">models</a>,
+and write the <a href="https://github.com/atomdrift-project/traits" target="_blank" rel="noopener">rules</a>. Our detection tools are simple, fast, local-first, and
+designed to be integrated into any pipeline or product. Built for open source,
+we're obsessively multi-platform, and everything is
 <a href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank" rel="noopener">Apache 2.0</a>.
     </p>
 
