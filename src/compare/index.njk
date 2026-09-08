@@ -172,7 +172,7 @@ description: Atomdrift Scan vs VirusTotal, Socket, Aikido, SafeDep and ClamAV on
   .trend-wrap { position: relative; height: 340px; margin-top: 10px; }
 
   /* ---------- FP by filetype ---------- */
-  .fp-ft { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 28px; margin: 14px 0 4px; }
+  .fp-ft { display: grid; grid-template-columns: 1fr; gap: 18px 28px; margin: 14px 0 4px; max-width: 560px; }
   .fp-ft h3 { font-family: 'Oxanium', sans-serif; font-size: .78rem; font-weight: 800; letter-spacing: .04em;
               text-transform: uppercase; color: var(--slate); margin: 0 0 10px; }
   .fp-ft h3.us { color: var(--atomdrift-blue); }
@@ -180,7 +180,17 @@ description: Atomdrift Scan vs VirusTotal, Socket, Aikido, SafeDep and ClamAV on
   .fp-ft .rows { margin: 0; }
   .fp-ft .rn { font-family: 'SF Mono', Consolas, monospace; font-size: .74rem; font-weight: 600;
                color: var(--graphite); min-width: 4.5rem; }
-  .fp-ft .rv { min-width: 42px; }
+  .fp-ft .rv { min-width: 42px; white-space: nowrap; }
+  .fp-ft .rv .n { color: var(--slate); font-size: .68rem; font-weight: 500; }
+  /* The flagged artifacts themselves: the evidence behind the bars, each linking
+     to its report so the claim can be checked against the file. */
+  .fp-list { font-family: 'SF Mono', Consolas, monospace; font-size: .76rem; line-height: 2.1;
+             color: var(--iron); margin: 14px 0 0; }
+  .fp-list a { text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 1px; }
+  .fp-list a.fphostile { color: var(--h); }
+  .fp-list a.fpsuspicious { color: var(--toxic-dark); }
+  .fp-list a:hover { background: var(--cream); }
+  .fp-list.none { font-family: inherit; color: var(--slate); }
   .fp-ft .tr { height: 14px; }
   .fp-ft .hb { background: var(--bar, var(--h)); }
 
@@ -581,37 +591,44 @@ description: Atomdrift Scan vs VirusTotal, Socket, Aikido, SafeDep and ClamAV on
     are at least two.</div>
   {%- endif %}
 
-  {%- if battle.fp_by_filetype and battle.fp_by_filetype.rows and battle.fp_by_filetype.rows.length %}
+  {%- if battle.fp_by_filetype and battle.fp_by_filetype.sample_n %}
   {%- set fpft = battle.fp_by_filetype %}
-  <h2 id="fp-filetypes">False-positive rate by filetype <span class="note">last {{ fpft.window_days }} days · top {{ fpft.rows.length }}</span></h2>
-  <p class="sub">File types that most often trigger a false alarm on known-good packages. Both sides list the
-    same types in the same order, ranked by how often either engine flagged them.</p>
-  <div class="fp-ft" role="group" aria-label="False-positive rate by filetype: atomscan versus VirusTotal">
+  <h2 id="fp-filetypes">False positives <span class="note">last {{ fpft.window_days }} days</span></h2>
+  <p class="sub">Every known-good artifact atomscan flagged in the window, and the file types they came from.
+    File types are folded onto one canonical name, so a format the feeds spell two ways
+    (<code>exe</code> and <code>pe</code>) is one row rather than two.</p>
+
+  {%- if fpft.rows.length %}
+  <div class="fp-ft" role="group" aria-label="False-positive rate by filetype">
     <div class="panel" style="--bar: {{ providers.ascan.color }}">
-      <h3 class="us">atomscan</h3>
       <div class="rows">
         {%- for row in fpft.rows %}
-        {%- set pct = (row.ascan.rate * 100) | round(1) %}
+        {%- set pct = (row.rate * 100) | round(1) %}
         <div class="rn">{{ row.filetype }}</div>
-        <div class="tr" title="{{ row.ascan.flagged }} of {{ row.ascan.samples }} ({{ pct }}%)"><div class="hb" style="width:{{ pct }}%"></div></div>
-        <div class="rv">{{ pct }}%</div>
-        {%- endfor %}
-      </div>
-    </div>
-    <div class="panel" style="--bar: {{ providers.virustotal.color }}">
-      <h3>VirusTotal</h3>
-      <div class="rows">
-        {%- for row in fpft.rows %}
-        {%- set pct = (row.virustotal.rate * 100) | round(1) %}
-        <div class="rn">{{ row.filetype }}</div>
-        <div class="tr" title="{{ row.virustotal.flagged }} of {{ row.virustotal.samples }} ({{ pct }}%)"><div class="hb" style="width:{{ pct }}%"></div></div>
-        <div class="rv">{{ pct }}%</div>
+        <div class="tr" title="{{ row.flagged }} of {{ row.samples }} scanned ({{ pct }}%) · {{ row.picks }} picks"><div class="hb" style="width:{{ pct }}%"></div></div>
+        <div class="rv">{{ pct }}% <span class="n">{{ row.flagged }}/{{ row.samples }}</span></div>
         {%- endfor %}
       </div>
     </div>
   </div>
-  <p class="fig-note">{{ fpft.sample_n }} known-good picks across the window (after adjudication). A type can show
-    <b>0%</b> on one side when only the other engine flagged it.</p>
+  {%- endif %}
+
+  {%- if fpft.false_positives.length %}
+  <p class="fp-list">{% for fp in fpft.false_positives %}<a href="https://lab.isotope13.ai/file/{{ fp.sha256 }}"
+      title="{{ fp.filetype }}{% if fp.ecosystem %} · {{ fp.ecosystem }}{% endif %} — flagged {{ fp.tier }}; view in the lab"
+      class="fp{{ fp.tier }}">{{ fp.name }}</a>{% if not loop.last %}, {% endif %}{% endfor %}</p>
+  {%- else %}
+  <p class="fp-list none">No known-good artifact was flagged in this window.</p>
+  {%- endif %}
+
+  <p class="fig-note">{{ fpft.sample_n }} known-good picks across the window (after adjudication). A rate is
+    <b>flagged / actually scanned</b>: a pick counts only where atomscan returned a verdict, so a file it could not
+    analyze neither helps nor hurts it.
+    {%- if fpft.clean_types %} {{ fpft.clean_types }} file type{{ "s" if fpft.clean_types != 1 }} produced no false
+    positive at all and {{ "are" if fpft.clean_types != 1 else "is" }} not plotted.{% endif %}
+    {%- if fpft.omitted_types %} Types with fewer than {{ fpft.min_samples }} picks are held back
+    ({{ fpft.omitted_types }} here, {{ fpft.omitted_picks }} picks): a rate over a handful of files says more about the
+    draw than the engine.{% endif %}</p>
   {%- endif %}
 
   <h2 id="how">What's different <span class="note">architecture, not features</span></h2>
