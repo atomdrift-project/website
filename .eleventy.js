@@ -22,6 +22,7 @@ module.exports = function(eleventyConfig) {
   // so it's committed at demo/samples.zip and served raw from GitHub; /demo/samples.zip
   // 302s there (see _redirects) rather than being copied into the Pages build.
   eleventyConfig.addPassthroughCopy("src/_redirects");
+  eleventyConfig.addPassthroughCopy("src/_headers");
 
   // Build-time syntax highlighting (Prism, no client JS).
   eleventyConfig.addPlugin(syntaxHighlight);
