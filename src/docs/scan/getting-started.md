@@ -60,7 +60,7 @@ something is suspicious but nothing is hostile, and `3` for analysis errors.
 After the initial bundles are installed:
 
 ```bash
-SCAN_NO_UPDATE_CHECK=1 atomscan --no-update --fetch=none ./release
+SCAN_NO_UPDATE_CHECK=1 atomscan --no-update --follow=none ./release
 ```
 
 Without those options, Scan may refresh bundles and fetch referenced packages,

@@ -16,10 +16,10 @@ explicitly whether suspicious results should block your pipeline.
 For a stable network boundary in CI, install bundles ahead of time and run:
 
 ```bash
-SCAN_NO_UPDATE_CHECK=1 atomscan --no-update --fetch=none ./artifact
+SCAN_NO_UPDATE_CHECK=1 atomscan --no-update --follow=none ./artifact
 ```
 
-Omit `--fetch=none` when you want Scan to inspect dependencies and URLs
+Omit `--follow=none` when you want Scan to inspect dependencies and URLs
 referenced by the artifact.
 
 ## Machine-readable output

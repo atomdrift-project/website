@@ -12,7 +12,7 @@ evidence to the endpoint you configure, not the original file.
 
 By default, yes: first use downloads bundles, stale bundles refresh, and the
 CLI follows referenced dependencies, packages, and URLs. After setup, use
-`SCAN_NO_UPDATE_CHECK=1 atomscan --no-update --fetch=none …` for a fully
+`SCAN_NO_UPDATE_CHECK=1 atomscan --no-update --follow=none …` for a fully
 offline run.
 
 ## What does L25 mean?
