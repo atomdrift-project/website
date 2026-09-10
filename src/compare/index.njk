@@ -20,13 +20,12 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
      narrower than the old 1.45fr/1fr split and gives the badge row one clean line. */
   .cmp-hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(240px, 28.5%); gap: 28px;
               align-items: start; padding: 18px 0 4px; }
-  .cmp-hero .kick { font-family: 'Oxanium', sans-serif; font-size: .7rem; font-weight: 800; letter-spacing: .15em;
-                    text-transform: uppercase; color: var(--slate); margin-bottom: 9px; }
   /* No hard break: a <br> splits at the same word whatever the column width, which
      is why it read as arbitrary. balance lets the browser even out the lines itself. */
   .cmp-hero h1 { font-family: 'Oxanium', sans-serif; font-size: 2.15rem; font-weight: 800; color: var(--carbon);
                  letter-spacing: -1.1px; line-height: 1.03; margin: 0; text-wrap: balance; }
-  .cmp-hero h1 em { font-style: normal; color: var(--atomdrift-blue); }
+  .cmp-hero h1 em { display: block; font-style: normal; color: var(--atomdrift-blue); font-size: 1.3rem;
+                    font-weight: 700; margin-top: 8px; line-height: 1.3; }
   .cmp-hero .say { margin: 12px 0 0; color: var(--iron); line-height: 1.6; font-size: .95rem; }
   .cmp-hero .say b { color: var(--carbon); font-weight: 600; }
   .instl { margin-top: 16px; font-family: 'SF Mono', Consolas, monospace; font-size: .84rem; background: var(--carbon);
@@ -69,7 +68,9 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
   .compare h2 { font-family: 'Oxanium', sans-serif; font-size: 1.05rem; font-weight: 800; color: var(--carbon);
                 border-bottom: 1px solid var(--border); padding-bottom: 6px; margin: 40px 0 4px; letter-spacing: -.3px;
                 display: flex; align-items: baseline; gap: 9px; flex-wrap: wrap; }
-  .compare h2 .note { font-family: 'Inter', sans-serif; font-size: .72rem; font-weight: 400; color: var(--slate); }
+  .compare h2 .note, details.appendix > summary .note { font-family: 'Inter', sans-serif; font-size: .72rem;
+    font-weight: 400; color: var(--slate); }
+  .legend small { font-size: inherit; color: var(--slate); }
   /* Page-level copy should use the content width. The hero's grid already gives
      its copy a readable measure; another max-width here only creates a ragged,
      half-empty column below full-width charts. */
@@ -145,7 +146,7 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
   /* ---------- the difference matrix ---------- */
   /* Three rows, two columns: the least text that still makes a comparison. Each
      cell is one sentence, so the whole argument is scannable in a column sweep. */
-  .diffs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 12px; }
+  .diffs { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin-top: 12px; }
   .diffs > div { background: #fff; border: 1px solid #e3e6ea; border-radius: 10px; padding: 14px 16px;
                  font-size: .8rem; line-height: 1.5; color: var(--iron); }
   .diffs b { display: block; font-family: 'Oxanium', sans-serif; font-size: .92rem; font-weight: 800;
@@ -157,28 +158,19 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
   /* ---------- trend ---------- */
   .trend-wrap { position: relative; height: 340px; margin-top: 10px; }
 
-  /* ---------- FP by filetype ---------- */
-  .fp-ft { display: grid; grid-template-columns: 1fr; gap: 18px 28px; margin: 14px 0 4px; max-width: 560px; }
-  .fp-ft h3 { font-family: 'Oxanium', sans-serif; font-size: .78rem; font-weight: 800; letter-spacing: .04em;
-              text-transform: uppercase; color: var(--slate); margin: 0 0 10px; }
-  .fp-ft h3.us { color: var(--atomdrift-blue); }
-  .fp-ft .panel { min-width: 0; }
-  .fp-ft .rows { margin: 0; }
-  .fp-ft .rn { font-family: 'SF Mono', Consolas, monospace; font-size: .74rem; font-weight: 600;
-               color: var(--graphite); min-width: 4.5rem; }
-  .fp-ft .rv { min-width: 42px; white-space: nowrap; }
-  .fp-ft .rv .n { color: var(--slate); font-size: .68rem; font-weight: 500; }
-  /* The flagged artifacts themselves: the evidence behind the bars, each linking
-     to its report so the claim can be checked against the file. */
-  .fp-list { font-family: 'SF Mono', Consolas, monospace; font-size: .76rem; line-height: 2.1;
-             color: var(--iron); margin: 14px 0 0; }
-  .fp-list a { text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 1px; }
-  .fp-list a.fphostile { color: var(--h); }
-  .fp-list a.fpsuspicious { color: var(--toxic-dark); }
-  .fp-list a:hover { background: var(--cream); }
-  .fp-list.none { font-family: inherit; color: var(--slate); }
-  .fp-ft .tr { height: 14px; }
-  .fp-ft .hb { background: var(--bar, var(--h)); }
+  /* ---------- false positives ---------- */
+  table.fpt { border-collapse: collapse; margin-top: 12px; font-size: .8rem; }
+  table.fpt th, table.fpt td { text-align: left; padding: 7px 14px 7px 0; border-bottom: 1px solid var(--border);
+                               vertical-align: top; }
+  table.fpt thead th { font-family: 'Oxanium', sans-serif; font-size: .66rem; letter-spacing: .07em;
+                       text-transform: uppercase; color: var(--slate); font-weight: 700; white-space: nowrap; }
+  table.fpt td:first-child { font-family: 'SF Mono', Consolas, monospace; font-size: .76rem; font-weight: 600;
+                             color: var(--graphite); white-space: nowrap; }
+  table.fpt a { font-family: 'SF Mono', Consolas, monospace; font-size: .76rem; text-decoration: none;
+                border-bottom: 1px solid currentColor; word-break: break-all; }
+  table.fpt a.fphostile { color: var(--h); }
+  table.fpt a.fpsuspicious { color: var(--toxic-dark); }
+  table.fpt a:hover { background: var(--cream); }
 
   /* ---------- samples + method ---------- */
   /* Folded by default: it is the evidence, not the argument. Anyone who wants to
@@ -208,8 +200,8 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
   .who p { margin: 0; font-size: .82rem; line-height: 1.55; color: var(--iron); }
   /* isotope13's own palette (fuschia on its mist), so the sponsor line reads as theirs, not ours. */
   .hosted { margin: 14px 0 0; padding: 10px 14px; border-radius: 8px; font-size: .84rem; font-weight: 600;
-            background: #fdf5fc; border: 1px solid #FF00CC; color: #CC0077; }
-  .hosted a { color: #CC0077; font-family: 'Oxanium', sans-serif; font-weight: 800; text-decoration: underline;
+            background: var(--toxic-dim); border: 1px solid var(--toxic-muted); color: var(--toxic-dark); }
+  .hosted a { color: var(--toxic-dark); font-family: 'Oxanium', sans-serif; font-weight: 800; text-decoration: underline;
               text-underline-offset: 2px; }
   .closer { margin-top: 34px; background: var(--carbon); border-radius: 12px; padding: 20px 24px; display: flex;
             justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
@@ -221,10 +213,17 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
   @media (max-width: 720px) {
     .cmp-hero { grid-template-columns: 1fr; gap: 20px; }
     .samples { grid-template-columns: 1fr; }
-    .fp-ft { grid-template-columns: 1fr; }
-    .diffs, .who { grid-template-columns: 1fr; }
+    .who { grid-template-columns: 1fr; }
     .cmp-hero h1 { font-size: 1.7rem; }
     .samples a { min-height: 44px; }
+    /* The scatter needs 720px to be legible; narrower than that it would scroll
+       sideways with Atomdrift's own mark off-screen. Show its data list instead. */
+    .frontier-wrap { display: none; }
+    .q-data { position: static; width: auto; height: auto; margin: 0; padding: 0; overflow: visible;
+              clip: auto; white-space: normal; }
+    .q-data h3 { display: none; }
+    .q-data ul { list-style: none; margin: 10px 0 0; padding: 0; font-size: .84rem; line-height: 1.7;
+                 color: var(--iron); }
   }
 </style>
 
@@ -266,8 +265,8 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
 
   <div class="cmp-hero">
     <div>
-      <div class="kick">Atomdrift Scan · zero-day supply-chain malware detection</div>
-      <h1>Zero-day malware detection that <em>runs anywhere, reads anything.</em></h1>
+      <h1>Catches malware before anyone has reported it. <em>Zero-day detection that runs anywhere, reads
+        anything.</em></h1>
       <p class="say">Most engines answer one question: <b>has anyone reported this as malware?</b> Atomdrift reads
         the artifact and decides at scan time, on your hardware. No list to wait for, no window to sit in, no code
         leaving your machine. Measured every day against live malware under 48 hours old.</p>
@@ -305,50 +304,54 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
       <div class="at" id="dial-help">at <b id="dial-l">-l {{ dialDefault }}</b> <span id="dial-say">— the shipped default, untuned</span></div>
       <span id="dial-status" class="visually-hidden" aria-live="polite" aria-atomic="true"></span>
       <p><b>{{ battle.generated_at | dateDisplay }}</b> · {{ battle.detection.sample_count }} live samples,
-        median <b>{{ battle.malware_age.median_hours | round(0) if battle.malware_age else 24 }} h old</b>.</p>
+        median <b>{{ battle.malware_age.median_hours | round(0) if battle.malware_age else 24 }} h old</b>,
+        and {{ battle.false_positive.sample_count }} known-good.</p>
     </div>
     {%- endif %}
   </div>
 
-  <h2 id="results">Caught, per engine <span class="note">identical cohort · a skip counts as a miss</span></h2>
+  <h2 id="results">Caught, per engine <span class="note">identical cohort · most sensitive setting for everyone</span></h2>
   {{ rows(battle.detection.leaderboard, 'bad') }}
   <div class="legend">
-    <span><i class="hostile-key"></i>flagged hostile</span>
-    <span><i class="suspicious-key"></i>flagged suspicious</span>
-    <span><i class="unsupported-key"></i>unsupported file format</span>
-    <span><i class="errored-key"></i>errored</span>
+    <span><i class="hostile-key"></i>hostile</span>
+    <span><i class="suspicious-key"></i>suspicious <small>· a catch, and a false positive</small></span>
+    <span><i class="unsupported-key"></i>unsupported format <small>· a miss</small></span>
+    <span><i class="errored-key"></i>errored <small>· a miss</small></span>
   </div>
 
   <h2 id="how">What's different <span class="note">architecture, not features</span></h2>
   <div class="diffs">
-    <div><b>Catches more.</b> The highest 0-day catch rate of any engine on this page, every run published.</div>
+    <div><b>Catches more.</b> {% if h %}{{ h.detRate }}% of this run's zero-day samples, the highest on this page.
+      {% else %}The highest zero-day catch rate of any engine on this page. {% endif %}Every run published.</div>
+    <div><b>No review gap.</b> Someone reports it, an analyst confirms it, the list ships. Hours to days. That window
+      is the attack. Atomdrift decides on first sight.</div>
+    <div><b>Shows its work.</b> Every verdict lists the capabilities that drove it, so a false positive is a bug you
+      can read, fix or override with a rule of your own.</div>
     <div><b>Three opinions, one verdict.</b> An expert system, an ML classifier and an optional small local LLM each
       score the file; the verdict is their consensus. Same file, same verdict, and no single voice — not even a prompt
       planted in the sample — swings the vote.</div>
-    <div><b>No review gap.</b> A reputation service protects you once someone reports the package and an analyst
-      signs off. Atomdrift decides on first sight.</div>
-    <div><b>Runs where the code is.</b> Local, CPU only, Linux through illumos and Android. Private code and
-      air-gapped hosts included.</div>
+    <div><b>Scales like your build farm.</b> Local, CPU only, Linux through illumos and Android, air-gapped if you
+      like. No per-query bill, no rate limit, no upload: every core you add is throughput you own, from one laptop
+      to a worker fleet pulling from a queue.</div>
+    <div><b>Keeps up on its own.</b> A reinforcement-learning pipeline turns new samples, threat feeds and published
+      research into roughly 1,000 tested rule updates a day. The engine catches what its rules describe; new rules
+      reach open source weekly and <a class="lnk" href="https://isotope13.ai/enriched/">Enriched</a> subscribers
+      live.</div>
     <div><b>Reads 100+ formats.</b> Source in every major language, ELF, PE, Mach-O, firmware, container images,
-      archives, documents, config. {{ providers.ascan.registries | length }} registries.</div>
+      archives, documents, config; packages from {{ providers.ascan.registries | length }} registries.</div>
     <div><b>A sensitivity you set.</b> <code>-l</code> is a false-positive budget — benign files flagged per
       100 million, calibrated per file type — not “medium sensitivity.”</div>
-    <div><b>Shows its work.</b> Every verdict lists the capabilities that drove it, so a false positive is a bug you
-      can read, fix or override with a rule of your own.</div>
-    <div><b>Keeps up on its own.</b> A reinforcement-learning pipeline turns new samples, threat feeds and published
-      research into roughly 1,000 tested rule updates a day. Weekly to open source, live to
-      <a class="lnk" href="https://isotope13.ai/enriched/">Enriched</a> subscribers.</div>
-    <div><b>Built to be embedded.</b> Exit codes, JSON and JSONL, an HTTP service, Rust libraries, pinnable versions.
-      Apache-2.0: ship it inside what you sell, no contract.</div>
+    <div><b>Built to be embedded.</b> Exit codes, JSON and JSONL, an HTTP service, Rust libraries. Pin tool, rule and
+      model versions and a verdict reproduces a year later. Apache-2.0: ship it inside what you sell, no
+      contract.</div>
   </div>
   {%- set cov = battle | blindSpots(providers) %}
   {%- set gap = (cov.rows | selectattr("hosted") | sort(true, false, "lookups") | first) if cov else null %}
-  <p class="vs"><b>Against Socket, Aikido and other reputation services.</b> A lookup, and only for packages in
-    registries they index{% if cov %}; {{ cov.nonPackage }} of this run's {{ cov.cohort }} samples weren't registry
-    packages at all{% endif %}.{% if gap %} Where a lookup was possible the record usually wasn't there yet:
-    {{ gap.name }} could check {{ gap.lookups }} and had an entry for {{ gap.lookups - gap.noRecord }}.{% endif %}
-    Atomdrift reads the artifact, so a package published this morning, a firmware image or code that never touched
-    a registry gets the same verdict as anything else.</p>
+  <p class="vs"><b>Against Socket, Aikido and other reputation services.</b> A registry lookup.{% if cov %}
+    {{ cov.nonPackage }} of this run's {{ cov.cohort }} samples weren't registry packages{% if gap %}; of the
+    {{ gap.lookups }} {{ gap.name }} could look up, it had a record for {{ gap.lookups - gap.noRecord }}{% endif %}.
+    {% endif %}Atomdrift reads the artifact, so this morning's package, a firmware image or your own code gets the
+    same verdict.</p>
   <p class="vs"><b>Against VirusTotal.</b> Dozens of engines voting on malware the world already knows is a bar we
     won't clear, and we don't try. On zero-day samples, latency, privacy and convenience we aim to beat it every run,
     and the chart above is where you check.
@@ -357,7 +360,7 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
 
   {%- set q = battle | quadrant(chartProviders) %}
   {%- if q %}
-  <h2 id="frontier">Detection vs. false positives <span class="note">every rival ships one setting — <code>-l</code> is a dial you set</span></h2>
+  <h2 id="frontier">Detection vs. false positives{% if q.curve %} <span class="note">every rival ships one setting — <code>-l</code> is a dial you set</span>{% else %} <span class="note">this run · hover a mark for counts</span>{% endif %}</h2>
   <div class="frontier-wrap">
     <svg viewBox="0 0 {{ q.w }} {{ q.h }}" role="img" aria-label="Zero-day detection rate against false-positive rate for every engine measured this run. The horizontal axis is the share of zero-day malware caught, higher to the right; the vertical axis is false positives, inverted so fewer is higher, and cropped so any engine past the crop appears in a marked strip below. Atomdrift is drawn as a curve across its false-positive budget rather than a single point. Every value follows the chart in a list.">
       {%- if q.curve %}
@@ -448,7 +451,7 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
       {%- endif %}
     </svg>
   </div>
-  <div class="visually-hidden">
+  <div class="visually-hidden q-data">
     <h3>Detection and false-positive chart data</h3>
     <ul>
       {%- for m in q.marks %}
@@ -468,7 +471,8 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
 
   <h2 id="over-time">Every previous run <span class="note">last 30 days · a fresh cohort each time</span></h2>
   <p class="sub">Three things move these lines: a fresh cohort each run, engine updates and changes to our own rules.
-    Most engines swing 60 points over 30 days. <b>Judge us on the worst night, not the best.</b></p>
+    Most engines swing 60 points over 30 days. <span id="trend-n"></span> <b>Judge us on the worst night, not the
+    best.</b></p>
   {%- if history and history | length >= 2 %}
   <div class="trend-wrap"><canvas id="trendChart" role="img" aria-label="Historical 0-day catch-rate line chart for every measured engine across fresh live-malware cohorts. Current-run values are provided in Latest results above."></canvas></div>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
@@ -491,6 +495,9 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
       const next = new Date(Date.parse(H[0].at) + 60 * 60 * 1000).toISOString();
       H = [H[0], Object.assign({}, H[0], { at: next })];
     }
+    const tn = document.getElementById('trend-n');
+    if (tn) tn.textContent = H.length + ' runs, ' +
+      H.reduce((n, p) => n + (p.bad || 0), 0).toLocaleString('en-US') + ' samples.';
     const PROV = {{ chartProviders | dump | safe }};
     // Engine colors and draw order come from providers.json — one declaration
     // shared with the quadrant, so an engine keeps its hue across the page and
@@ -539,9 +546,12 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
           }
         });
         items.sort((a, b) => a.y - b.y);
-        for (let i = 1; i < items.length; i++) {
-          if (items[i].y - items[i - 1].y < 13) items[i].y = items[i - 1].y + 13;
+        // Ties share a label; the rest are nudged apart.
+        const shown = items.filter((it, i) => !i || it.val !== items[i - 1].val);
+        for (let i = 1; i < shown.length; i++) {
+          if (shown[i].y - shown[i - 1].y < 13) shown[i].y = shown[i - 1].y + 13;
         }
+        items.length = 0; items.push(...shown);
         ctx.save();
         ctx.textBaseline = 'middle';
         items.forEach(it => {
@@ -603,43 +613,23 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
   {%- if battle.fp_by_filetype and battle.fp_by_filetype.sample_n %}
   {%- set fpft = battle.fp_by_filetype %}
   <h2 id="fp-filetypes">False positives <span class="note">last {{ fpft.window_days }} days</span></h2>
-  <p class="sub">Known-good artifacts Atomdrift flagged in the window, by file type.</p>
-
-  {# The feed has shipped rows both flat and keyed per engine (`ascan`); take
-     either. A row with nothing scanned has no rate, so it is skipped rather than
-     rendered as NaN. #}
-  {%- set fpRows = [] %}
-  {%- for row in fpft.rows %}{% set a = row.ascan or row %}{% if a.samples %}{% set fpRows = (fpRows.push({ filetype: row.filetype, a: a }), fpRows) %}{% endif %}{% endfor %}
-  {%- if fpRows.length %}
-  <div class="fp-ft" role="group" aria-label="False-positive rate by filetype">
-    <div class="panel" style="--bar: {{ providers.ascan.color }}">
-      <div class="rows">
-        {%- for row in fpRows %}
-        {%- set pct = (row.a.rate * 100) | round(1) %}
-        <div class="rn">{{ row.filetype }}</div>
-        <div class="tr" title="{{ row.a.flagged }} of {{ row.a.samples }} scanned ({{ pct }}%)"><div class="hb" style="width:{{ pct }}%"></div></div>
-        <div class="rv">{{ pct }}% <span class="n">{{ row.a.flagged }}/{{ row.a.samples }}</span></div>
-        {%- endfor %}
-      </div>
-    </div>
-  </div>
+  {%- set fps = fpft.false_positives or [] %}
+  <p class="sub">{{ fps | length if fps | length else "None" }} of {{ fpft.sample_n }} known-good artifacts
+    flagged{% if fps | length %}, each linked to its report{% endif %}.</p>
+  {%- if fps | length %}
+  <table class="fpt">
+    <thead><tr><th>File type</th><th>Flagged</th></tr></thead>
+    <tbody>
+      {%- for type, items in fps | groupby("filetype") %}
+      <tr><td>{{ type }}</td><td>
+        {%- for fp in items %}<a href="https://lab.isotope13.ai/file/{{ fp.sha256 }}"
+          title="{% if fp.ecosystem %}{{ fp.ecosystem }} · {% endif %}flagged {{ fp.tier }}"
+          class="fp{{ fp.tier }}">{{ fp.name }}</a>{% if not loop.last %}, {% endif %}{% endfor %}
+      </td></tr>
+      {%- endfor %}
+    </tbody>
+  </table>
   {%- endif %}
-
-  {%- if fpft.false_positives and fpft.false_positives.length %}
-  <p class="fp-list">{% for fp in fpft.false_positives %}<a href="https://lab.isotope13.ai/file/{{ fp.sha256 }}"
-      title="{{ fp.filetype }}{% if fp.ecosystem %} · {{ fp.ecosystem }}{% endif %} — flagged {{ fp.tier }}; view in the lab"
-      class="fp{{ fp.tier }}">{{ fp.name }}</a>{% if not loop.last %}, {% endif %}{% endfor %}</p>
-  {%- endif %}
-
-  <p class="fig-note">{{ fpft.sample_n }} known-good picks across the window (after adjudication). A rate is
-    <b>flagged / scanned</b>: a pick counts only where Atomdrift returned a verdict, so a file it couldn't read
-    neither helps nor hurts. Each file type gets one canonical name, so a format the feeds spell two ways
-    (<code>exe</code> and <code>pe</code>) is one row, not two.
-    {%- if fpft.clean_types %} {{ fpft.clean_types }} file type{{ "s" if fpft.clean_types != 1 }} produced no false
-    positives and {{ "are" if fpft.clean_types != 1 else "is" }} not plotted.{% endif %}
-    {%- if fpft.omitted_types %} Types with fewer than {{ fpft.min_samples }} picks are held back
-    ({{ fpft.omitted_types }} here, {{ fpft.omitted_picks }} picks): a rate over a handful of files says more about the
-    draw than the engine.{% endif %}</p>
   {%- endif %}
 
   {%- set badSamples = battle.samples | where("label", "bad") -%}
@@ -679,17 +669,16 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
   <div class="who">
     <div>
       <h3>Open-source marketplaces</h3>
-      <p>Registries, app stores, extension galleries, model hubs: anything that hosts code other people wrote.
-        Scan at publish time, before the first download, on infrastructure you run. One engine across
-        {{ providers.ascan.registries | length }} package ecosystems, and a false-positive budget you can defend
-        to maintainers.</p>
+      <p>A malicious package goes live and your name is on the download page. Scan at publish time, before the
+        first download, on infrastructure you run: one engine across {{ providers.ascan.registries | length }}
+        package ecosystems, and a false-positive budget you can defend to maintainers.</p>
     </div>
     <div>
       <h3>Security vendors</h3>
-      <p>Add zero-day coverage to a SAST, SCA, firmware, container or EDR product without building a malware
-        team. Embed the CLI, the HTTP service or the Rust libraries; every verdict comes with the evidence behind
-        it. <a class="lnk" href="https://isotope13.ai/enriched/">OEM rights and support</a> from the engineers
-        who build it.</p>
+      <p>Zero-day coverage in your product this quarter, without hiring a malware team. Embed the CLI, the HTTP
+        service or the Rust libraries in a SAST, SCA, firmware, container or EDR product; every verdict ships with
+        its evidence. <a class="lnk" href="https://isotope13.ai/enriched/">OEM rights and support</a> from the
+        engineers who build it.</p>
     </div>
     <div>
       <h3>Anyone with a machine</h3>
@@ -697,8 +686,8 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
         whole host. Nothing leaves the machine.</p>
     </div>
   </div>
-  <p class="hosted">Prefer a hosted API? Our sponsor,
-    <a href="https://isotope13.ai/" target="_blank" rel="noopener">isotope¹³</a>, runs one.</p>
+  <p class="hosted">Looking for a support contract, rapid-release rulesets or a SaaS API? Check out
+    <a href="https://isotope13.ai/" target="_blank" rel="noopener">isotope13.ai</a>.</p>
 
   <details class="appendix" id="samples">
     <summary>Appendix — samples and methodology <span class="note">all {{ cohortBad | length }}, every one linked</span></summary>

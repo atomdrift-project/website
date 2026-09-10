@@ -1926,7 +1926,6 @@
     "at": "2026-09-04T21:09:34.492143227Z",
     "detection": {
       "aikido": 0.08,
-      "ascan": 0.18,
       "clamav": 0.36,
       "guarddog": 0.08,
       "malcontent": 0.54,

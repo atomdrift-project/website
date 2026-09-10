@@ -346,6 +346,9 @@ module.exports = function(eleventyConfig) {
   const DIAL_DEFAULT = 25;   // atomscan's shipped default
   const DIAL_MAX = 2500;     // the top of the range this page quotes, dial included
   const GRID_MAX = 25000;    // atomscan's own ceiling — a property of the engine
+  // Above this a sample is never worse than suspicious, whatever the budget:
+  // scan's SUSPICIOUS_LEVEL_CEILING (model.rs), applied as min(grid_max, ceiling).
+  const SUSPICIOUS_CEILING = 3000;
 
   function ascanLevels(battle) {
     const out = { bad: [], good: [] };
@@ -360,7 +363,7 @@ module.exports = function(eleventyConfig) {
   }
 
   function tally(lvls, n) {
-    const cap = Math.min(GRID_MAX, 4 * n);
+    const cap = Math.min(GRID_MAX, SUSPICIOUS_CEILING);
     let hostile = 0, suspicious = 0;
     for (const l of lvls) {
       if (l < 0) continue;
@@ -395,19 +398,33 @@ module.exports = function(eleventyConfig) {
     return out.length >= 2 ? out : null;
   }
 
+  // The dial's ceiling as a stop of its own. The grid's stops jump past the cap
+  // (1000 -> 3000), so without this the curve would end at -l 1000 while the
+  // page quotes a range up to -l 2500. The last published stop below the cap is
+  // the only measurement we have for it; re-deriving it from per-sample levels
+  // would need gauntlet's suspicious rule, which `tally` does not reproduce.
+  function capStop(raw, last) {
+    return { caught: last.caught, flagged: last.flagged, det: last.det, fp: last.fp };
+  }
+
   // Fallback: the published grid stops, collapsed the same way.
   function gridCurve(battle) {
     const raw = (battle && battle.ascan_curve) || [];
     if (raw.length < 2) return null;
     const out = [];
+    const push = (det, fp, caught, flagged, l) => {
+      const prev = out[out.length - 1];
+      if (prev && prev.det === det && prev.fp === fp) { prev.lHi = l; return; }
+      out.push({ det: det, fp: fp, caught: caught, flagged: flagged, lLo: l, lHi: l });
+    };
     for (const p of raw) {
       if (p.level > DIAL_MAX) continue;
-      const det = Math.round((100 * p.caught) / p.cohort_n);
-      const fp = Math.round((100 * p.fp_flagged) / p.fp_cohort_n);
-      const prev = out[out.length - 1];
-      if (prev && prev.det === det && prev.fp === fp) { prev.lHi = p.level; continue; }
-      out.push({ det: det, fp: fp, caught: p.caught, flagged: p.fp_flagged,
-                 lLo: p.level, lHi: p.level });
+      push(Math.round((100 * p.caught) / p.cohort_n), Math.round((100 * p.fp_flagged) / p.fp_cohort_n),
+           p.caught, p.fp_flagged, p.level);
+    }
+    if (out.length && out[out.length - 1].lHi < DIAL_MAX) {
+      const c = capStop(raw, out[out.length - 1]);
+      push(c.det, c.fp, c.caught, c.flagged, DIAL_MAX);
     }
     return out.length >= 2 ? out : null;
   }
@@ -432,21 +449,7 @@ module.exports = function(eleventyConfig) {
     }));
     if (!out.length) return null;
     if (out[out.length - 1].l < DIAL_MAX) {
-      // Measured at the cap where the per-sample levels allow it; otherwise the
-      // last grid stop below the cap still describes it, since nothing on the
-      // grid changes in between.
-      const lv = ascanLevels(battle);
-      const last = out[out.length - 1];
-      let stop = { l: DIAL_MAX, det: last.det, fp: last.fp, caught: last.caught, flagged: last.flagged };
-      if (lv.bad.length && lv.good.length && nBad && nGood) {
-        const b = tally(lv.bad, DIAL_MAX), g = tally(lv.good, DIAL_MAX);
-        const caught = b.hostile + b.suspicious, flagged = g.hostile + g.suspicious;
-        stop = {
-          l: DIAL_MAX, caught: caught, flagged: flagged,
-          det: Math.round((100 * caught) / nBad), fp: Math.round((100 * flagged) / nGood),
-        };
-      }
-      out.push(stop);
+      out.push(Object.assign({ l: DIAL_MAX }, capStop(raw, out[out.length - 1])));
     }
     if (out.length < 2) return null;
     return out.some((c) => c.det !== out[0].det || c.fp !== out[0].fp) ? out : null;
