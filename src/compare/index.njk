@@ -2,7 +2,7 @@
 layout: base.njk
 title: Compare
 permalink: /compare/
-description: Atomdrift Scan vs VirusTotal, Socket, Aikido, SafeDep and ClamAV on live zero-day supply-chain malware. Measured daily on an identical cohort, every sample published. Local, Apache-2.0, built to be embedded.
+description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV on live zero-day supply-chain malware. Measured daily on an identical cohort, every sample published. Local, Apache-2.0, built to be embedded.
 ---
 
 <style>
@@ -145,17 +145,15 @@ description: Atomdrift Scan vs VirusTotal, Socket, Aikido, SafeDep and ClamAV on
   /* ---------- the difference matrix ---------- */
   /* Three rows, two columns: the least text that still makes a comparison. Each
      cell is one sentence, so the whole argument is scannable in a column sweep. */
-  .diffs { display: grid; grid-template-columns: max-content 1fr 1fr; gap: 1px; margin-top: 10px;
+  .diffs { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; margin-top: 10px;
            background: var(--border); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
-  .diffs > * { background: #fff; padding: 11px 15px; }
-  .diffs .dh { font-family: 'Oxanium', sans-serif; font-size: .68rem; font-weight: 800; letter-spacing: .09em;
-               text-transform: uppercase; color: var(--slate); padding-top: 12px; padding-bottom: 10px; }
-  .diffs .dh.us { color: var(--toxic-dark); background: var(--toxic-dim); }
-  .diffs .dk { font-family: 'Oxanium', sans-serif; font-size: .82rem; font-weight: 800; color: var(--carbon);
-               white-space: nowrap; }
-  .diffs .dv { font-size: .8rem; line-height: 1.5; color: var(--slate); }
-  .diffs .dv.us { color: var(--carbon); background: var(--toxic-dim); }
-  .diffs .dv b { color: var(--carbon); font-weight: 650; }
+  .diffs > div { background: #fff; padding: 11px 15px; font-size: .8rem; line-height: 1.5; color: var(--slate); }
+  .diffs b { display: block; font-family: 'Oxanium', sans-serif; font-size: .82rem; font-weight: 800;
+             color: var(--carbon); margin-bottom: 2px; }
+  .diffs > div:last-child:nth-child(odd) { grid-column: 1 / -1; }
+  .diffs code { font-size: .78rem; }
+  .vs { margin-top: 16px; font-size: .88rem; line-height: 1.55; color: var(--iron); }
+  .vs b { color: var(--carbon); font-weight: 650; }
 
   /* ---------- coverage table ---------- */
   .tw { overflow-x: auto; margin-top: 12px; }
@@ -238,7 +236,6 @@ description: Atomdrift Scan vs VirusTotal, Socket, Aikido, SafeDep and ClamAV on
     .fp-ft { grid-template-columns: 1fr; }
     .diffs { grid-template-columns: 1fr; }
     .who { grid-template-columns: 1fr; }
-    .diffs .dh:first-child { display: none; }
     .cmp-hero h1 { font-size: 1.7rem; }
     .samples a { min-height: 44px; }
   }
@@ -282,10 +279,10 @@ description: Atomdrift Scan vs VirusTotal, Socket, Aikido, SafeDep and ClamAV on
 
   <div class="cmp-hero">
     <div>
-      <div class="kick">Atomdrift Scan · zero-day supply-chain malware detection · Apache-2.0</div>
+      <div class="kick">Atomdrift Scan · zero-day supply-chain malware detection</div>
       <h1>Zero-day malware detection that <em>runs anywhere, reads anything.</em></h1>
       <p class="say">VirusTotal and Socket answer one question: <b>has anyone reported this yet?</b> Atomdrift reads
-        the artifact and decides at scan time, on your hardware. No list to be on, no window to sit in, no code
+        the artifact and decides at scan time, on your hardware. No list to wait for, no window to sit in, no code
         leaving your machine. Measured every day against live malware under 48 hours old.</p>
       {# One action. The install line is the call to action; everything else on the
          page is reached by scrolling, so it gets no button. #}
@@ -335,8 +332,63 @@ description: Atomdrift Scan vs VirusTotal, Socket, Aikido, SafeDep and ClamAV on
     <span><i class="errored-key"></i>errored</span>
   </div>
   <p class="fig-note">Every engine is scored at its most sensitive setting, ours included. <b>Grey is scope</b>:
-    the engine only reads registry packages, so the rest of the cohort counts as missed. <b>Red is failure</b>:
-    the engine reads the format but timed out or crashed, which also counts as missed.</p>
+    the engine reads only registry packages, so the rest of the cohort counts as missed. <b>Red is failure</b>:
+    the engine reads the format but timed out or crashed. Either way, a miss.</p>
+
+  <h2 id="how">What's different <span class="note">architecture, not features</span></h2>
+  <div class="diffs">
+    <div><b>Catches more.</b> The highest 0-day catch rate of any engine on this page, every run published.</div>
+    <div><b>Three opinions, one verdict.</b> An expert system, an ML classifier and an optional small local LLM each
+      score the file; the verdict is their consensus. Same file, same verdict, and no single voice — not even a prompt
+      planted in the sample — swings the vote.</div>
+    <div><b>No review gap.</b> A reputation service protects you once someone reports the package and an analyst
+      signs off. Atomdrift decides on first sight.</div>
+    <div><b>Runs where the code is.</b> Local, CPU only, Linux through illumos and Android. Private code and
+      air-gapped hosts included.</div>
+    <div><b>Reads 100+ formats.</b> Source in every major language, ELF, PE, Mach-O, firmware, container images,
+      archives, documents, config. {{ providers.ascan.registries | length }} registries.</div>
+    <div><b>A sensitivity you set.</b> <code>-l</code> is a false-positive budget — benign files flagged per
+      100 million, calibrated per file type — not “medium sensitivity.”</div>
+    <div><b>Shows its work.</b> Every verdict lists the capabilities that drove it, so a false positive is a bug you
+      can read, fix or override with a rule of your own.</div>
+    <div><b>Keeps up on its own.</b> A reinforcement-learning pipeline turns new samples, threat feeds and published
+      research into roughly 1,000 tested rule updates a day. Weekly to open source, live to
+      <a class="lnk" href="https://isotope13.ai/enriched/">Enriched</a> subscribers.</div>
+    <div><b>Built to be embedded.</b> Exit codes, JSON and JSONL, an HTTP service, Rust libraries, pinnable versions.
+      Apache-2.0: ship it inside what you sell, no contract.</div>
+  </div>
+  <p class="vs"><b>Against Socket, Aikido and other reputation services.</b> A lookup, and only for packages in
+    registries they index. Atomdrift reads the artifact, so a package published this morning, a firmware image or
+    code that never touched a registry gets the same verdict as anything else.</p>
+  <p class="vs"><b>Against VirusTotal.</b> Dozens of engines voting on malware the world already knows is a bar we
+    won't clear, and we don't try. On zero-day samples, latency, privacy and convenience we aim to beat it every run,
+    and the chart above is where you check.</p>
+
+  {%- set cov = battle | blindSpots(providers) %}
+  {%- if cov %}
+  <p class="sub" style="margin-top:22px">Where each engine lost this run's samples: files it couldn't read, and
+    packages it indexes but had no entry for when we asked.
+    <b>{{ cov.nonPackage }} of {{ cov.cohort }} samples weren't registry packages at all</b> — binaries, executables,
+    archives. That's the shape of firmware, images and your own code.</p>
+  <div class="tw">
+    <table class="cov">
+      <thead>
+        <tr><th>Engine</th><th>Couldn't read</th><th>Could look up</th><th>No record yet</th><th>Caught</th></tr>
+      </thead>
+      <tbody>
+        {%- for r in cov.rows %}
+        <tr><th scope="row"><i style="background:{{ r.color }}"></i>{{ r.name }}</th>
+          <td>{{ r.unreadable }}</td><td class="muted">{{ r.lookups }}</td>
+          <td>{{ r.noRecord if r.noRecord else '—' }}</td><td class="muted">{{ r.caught }}</td></tr>
+        {%- endfor %}
+      </tbody>
+    </table>
+  </div>
+  <p class="fig-note"><b>“No record yet”</b> is the detection gap, measured: a live malicious package from a registry
+    the vendor indexes, with no entry when we asked.
+    {% for r in cov.clean %}{{ r.name }}{% if not loop.last %}, {% endif %}{% endfor %} read every sample.
+    <a class="lnk" href="/scan/how-it-works/">How it decides →</a></p>
+  {%- endif %}
 
   {%- set q = battle | quadrant(chartProviders) %}
   {%- if q %}
@@ -444,10 +496,8 @@ description: Atomdrift Scan vs VirusTotal, Socket, Aikido, SafeDep and ClamAV on
     </ul>
   </div>
   {%- if q.curve %}
-  <p class="fig-note"><code>-l</code> is a false-positive budget: benign files flagged per <b>100 million</b>,
-    calibrated per file type. A number you can plan a pipeline around, not “medium sensitivity”. The curve runs
-    <code>-l 0</code> to <code>-l {{ dialMaxLabel }}</code> through
-    <b>{{ q.curve.verts | length }} measured operating points</b>, spans between them interpolated.</p>
+  <p class="fig-note">The <code>-l</code> curve runs <code>-l 0</code> to <code>-l {{ dialMaxLabel }}</code> through
+    <b>{{ q.curve.verts | length }} measured operating points</b>; the spans between are interpolated.</p>
   {%- endif %}
   <p class="fig-note">False-positive axis inverted and cropped at {{ q.yMax }}%
     {%- if q.offscale | length %}; {% for o in q.offscale %}{{ o.engine.name }}{% if not loop.last %}, {% endif %}{% endfor %}
@@ -457,8 +507,8 @@ description: Atomdrift Scan vs VirusTotal, Socket, Aikido, SafeDep and ClamAV on
   {%- endif %}
 
   <h2 id="over-time">Every previous run <span class="note">last 30 days · a fresh cohort each time</span></h2>
-  <p class="sub">Most engines swing sixty points as the samples change. <b>Judge us on the worst night, not the
-    best.</b></p>
+  <p class="sub">Three things move these lines: a fresh cohort each run, engine updates and changes to our own rules.
+    Most engines swing 60 points over 30 days. <b>Judge us on the worst night, not the best.</b></p>
   {%- if history and history | length >= 2 %}
   <div class="trend-wrap"><canvas id="trendChart" role="img" aria-label="Historical 0-day catch-rate line chart for every measured engine across fresh live-malware cohorts. Current-run values are provided in Latest results above."></canvas></div>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
@@ -587,124 +637,48 @@ description: Atomdrift Scan vs VirusTotal, Socket, Aikido, SafeDep and ClamAV on
   })();
   </script>
   {%- else %}
-  <div class="meth">Historical trend is collecting. Each recorded run appends a snapshot; the chart appears once there
-    are at least two.</div>
+  <div class="meth">History is still collecting. Each run adds a point; the chart appears at two.</div>
   {%- endif %}
 
   {%- if battle.fp_by_filetype and battle.fp_by_filetype.sample_n %}
   {%- set fpft = battle.fp_by_filetype %}
   <h2 id="fp-filetypes">False positives <span class="note">last {{ fpft.window_days }} days</span></h2>
-  <p class="sub">Every known-good artifact atomscan flagged in the window, and the file types they came from.
-    File types are folded onto one canonical name, so a format the feeds spell two ways
-    (<code>exe</code> and <code>pe</code>) is one row rather than two.</p>
+  <p class="sub">Known-good artifacts Atomdrift flagged in the window, by file type.</p>
 
-  {%- if fpft.rows.length %}
+  {# Rows carry one block per engine; ours is `ascan`. A row with nothing scanned
+     has no rate to draw, so it is skipped rather than rendered as NaN. #}
+  {%- set fpRows = [] %}
+  {%- for row in fpft.rows %}{% if row.ascan and row.ascan.samples %}{% set fpRows = (fpRows.push(row), fpRows) %}{% endif %}{% endfor %}
+  {%- if fpRows.length %}
   <div class="fp-ft" role="group" aria-label="False-positive rate by filetype">
     <div class="panel" style="--bar: {{ providers.ascan.color }}">
       <div class="rows">
-        {%- for row in fpft.rows %}
-        {%- set pct = (row.rate * 100) | round(1) %}
+        {%- for row in fpRows %}
+        {%- set pct = (row.ascan.rate * 100) | round(1) %}
         <div class="rn">{{ row.filetype }}</div>
-        <div class="tr" title="{{ row.flagged }} of {{ row.samples }} scanned ({{ pct }}%) · {{ row.picks }} picks"><div class="hb" style="width:{{ pct }}%"></div></div>
-        <div class="rv">{{ pct }}% <span class="n">{{ row.flagged }}/{{ row.samples }}</span></div>
+        <div class="tr" title="{{ row.ascan.flagged }} of {{ row.ascan.samples }} scanned ({{ pct }}%)"><div class="hb" style="width:{{ pct }}%"></div></div>
+        <div class="rv">{{ pct }}% <span class="n">{{ row.ascan.flagged }}/{{ row.ascan.samples }}</span></div>
         {%- endfor %}
       </div>
     </div>
   </div>
   {%- endif %}
 
-  {%- if fpft.false_positives.length %}
+  {%- if fpft.false_positives and fpft.false_positives.length %}
   <p class="fp-list">{% for fp in fpft.false_positives %}<a href="https://lab.isotope13.ai/file/{{ fp.sha256 }}"
       title="{{ fp.filetype }}{% if fp.ecosystem %} · {{ fp.ecosystem }}{% endif %} — flagged {{ fp.tier }}; view in the lab"
       class="fp{{ fp.tier }}">{{ fp.name }}</a>{% if not loop.last %}, {% endif %}{% endfor %}</p>
-  {%- else %}
-  <p class="fp-list none">No known-good artifact was flagged in this window.</p>
   {%- endif %}
 
   <p class="fig-note">{{ fpft.sample_n }} known-good picks across the window (after adjudication). A rate is
-    <b>flagged / actually scanned</b>: a pick counts only where atomscan returned a verdict, so a file it could not
-    analyze neither helps nor hurts it.
+    <b>flagged / scanned</b>: a pick counts only where Atomdrift returned a verdict, so a file it couldn't read
+    neither helps nor hurts. Each file type gets one canonical name, so a format the feeds spell two ways
+    (<code>exe</code> and <code>pe</code>) is one row, not two.
     {%- if fpft.clean_types %} {{ fpft.clean_types }} file type{{ "s" if fpft.clean_types != 1 }} produced no false
-    positive at all and {{ "are" if fpft.clean_types != 1 else "is" }} not plotted.{% endif %}
+    positives and {{ "are" if fpft.clean_types != 1 else "is" }} not plotted.{% endif %}
     {%- if fpft.omitted_types %} Types with fewer than {{ fpft.min_samples }} picks are held back
     ({{ fpft.omitted_types }} here, {{ fpft.omitted_picks }} picks): a rate over a handful of files says more about the
     draw than the engine.{% endif %}</p>
-  {%- endif %}
-
-  <h2 id="how">What's different <span class="note">architecture, not features</span></h2>
-  <div class="diffs">
-    <div class="dh"></div>
-    <div class="dh">VirusTotal · Socket · reputation services</div>
-    <div class="dh us">Atomdrift</div>
-
-    <div class="dk">Verdict</div>
-    <div class="dv">A lookup: hash or package name against what they have already seen.</div>
-    <div class="dv us"><b>A decision.</b> Capabilities extracted from the artifact, scored by a local model. Nothing to
-      be listed on.</div>
-
-    <div class="dk">Detection gap</div>
-    <div class="dv">Someone reports it, an analyst confirms it, the list ships. Hours to days. That window is the
-      attack.</div>
-    <div class="dv us"><b>None.</b> The verdict at hour one is the verdict at day thirty.</div>
-
-    <div class="dk">Reads</div>
-    <div class="dv">Packages from registries they index, or file hashes. Binaries, firmware, images and private
-      code come back unsupported.</div>
-    <div class="dv us">100+ formats: source in every major language, ELF, PE, Mach-O, firmware, container images,
-      archives, documents, config. {{ providers.ascan.registries | length }} registries. Anything private.</div>
-
-    <div class="dk">Runs</div>
-    <div class="dv">On their servers. Your code leaves your boundary and their uptime sits on your critical path.</div>
-    <div class="dv us"><b>On yours.</b> CPU only. Linux, macOS, Windows, BSD, illumos, Android. Air-gapped if you
-      want. No telemetry, no per-query bill.</div>
-
-    <div class="dk">Keeps up</div>
-    <div class="dv">Analyst-written signatures, on their schedule.</div>
-    <div class="dv us"><b>Retrains itself.</b> New samples, threat feeds and published research become roughly 1,000
-      rule updates a day. Weekly to open source, real-time to
-      <a class="lnk" href="https://isotope13.ai/enriched/">Enriched</a> subscribers.</div>
-
-    <div class="dk">False positives</div>
-    <div class="dv">One sensitivity, theirs.</div>
-    <div class="dv us">A budget you set: <code>-l</code> is benign files flagged per 100 million, calibrated per
-      file type. Every verdict lists the capabilities that drove it, so a false positive is a bug you can read and
-      fix.</div>
-
-    <div class="dk">Integration</div>
-    <div class="dv">API key, rate limit, terms of service. Shipping their verdicts inside your product is a contract
-      negotiation.</div>
-    <div class="dv us"><b>Built to be embedded.</b> CLI with exit codes, JSON and JSONL, long-running HTTP service,
-      distributed workers, Rust libraries. Pin tool, rule and model versions for reproducible scans. Apache-2.0: ship
-      it inside what you sell without asking.</div>
-  </div>
-  <p class="sub" style="margin-top:14px">Keep VirusTotal for what it is good at: consensus on malware the world already
-    knows. Atomdrift covers the rest — the package published this morning, the binary no registry indexes, the code
-    you cannot send to anyone.</p>
-
-  {%- set cov = battle | blindSpots(providers) %}
-  {%- if cov %}
-  <p class="sub" style="margin-top:22px">Where each engine lost this run's samples: files it could not read, and
-    packages it indexes but had no entry for when we asked.
-    <b>{{ cov.nonPackage }} of {{ cov.cohort }} samples weren't registry packages at all</b> — binaries, executables,
-    archives. That is the shape of firmware, images, and your own code.</p>
-  <div class="tw">
-    <table class="cov">
-      <thead>
-        <tr><th>Engine</th><th>Couldn't read</th><th>Could look up</th><th>No record yet</th><th>Caught</th></tr>
-      </thead>
-      <tbody>
-        {%- for r in cov.rows %}
-        <tr><th scope="row"><i style="background:{{ r.color }}"></i>{{ r.name }}</th>
-          <td>{{ r.unreadable }}</td><td class="muted">{{ r.lookups }}</td>
-          <td>{{ r.noRecord if r.noRecord else '—' }}</td><td class="muted">{{ r.caught }}</td></tr>
-        {%- endfor %}
-      </tbody>
-    </table>
-  </div>
-  <p class="fig-note"><b>“No record yet”</b> is the detection gap, measured: a live malicious package the vendor
-    indexes and had no entry for at the moment we asked.
-    {% for r in cov.clean %}{{ r.name }}{% if not loop.last %}, {% endif %}{% endfor %} read every sample.
-    <a class="lnk" href="/scan/how-it-works/">How it decides →</a></p>
   {%- endif %}
 
   {%- set badSamples = battle.samples | where("label", "bad") -%}
@@ -759,12 +733,11 @@ description: Atomdrift Scan vs VirusTotal, Socket, Aikido, SafeDep and ClamAV on
     <div>
       <h3>Anyone with a machine</h3>
       <p>Something on the box looks wrong. Point it at a file, a directory, an archive, a running process or the
-        whole host. More file types, more languages and more operating systems than any other scanner, open or
-        commercial. Nothing leaves the machine.</p>
+        whole host. Nothing leaves the machine.</p>
     </div>
   </div>
   <p class="hosted">Prefer a hosted API? Our sponsor,
-    <a href="https://isotope13.ai/" target="_blank" rel="noopener">isotope¹³</a>, has you covered.</p>
+    <a href="https://isotope13.ai/" target="_blank" rel="noopener">isotope¹³</a>, runs one.</p>
 
   <details class="appendix" id="samples">
     <summary>Appendix — samples and methodology <span class="note">all {{ cohortBad | length }}, every one linked</span></summary>
@@ -773,19 +746,19 @@ description: Atomdrift Scan vs VirusTotal, Socket, Aikido, SafeDep and ClamAV on
     <a href="https://lab.atomdrift.org/file/{{ sm.sha256 }}" title="{{ sm.filename }}{% if sm.ecosystem %} · {{ sm.ecosystem }}{% endif %} — view in Atomdrift Lab">{{ sm.purl or sm.filename }}</a>
     {%- endfor %}
   </div>
-  <div class="meth"><b>What "0-day" means here.</b> Every detection sample was first seen in the wild within 48
-    hours{% if battle.malware_age %} — median {{ battle.malware_age.median_hours | round(0) }} h, youngest
-    {{ battle.malware_age.min_hours | round(1) }} h{% endif %}: no signature written for it, no reputation, no
+  <div class="meth"><b>What “0-day” means here.</b> Every detection sample first appeared in the wild less than 48
+    hours before the run{% if battle.malware_age %} (median {{ battle.malware_age.median_hours | round(0) }} h, youngest
+    {{ battle.malware_age.min_hours | round(1) }} h){% endif %}: no signature written for it, no reputation, no
     download history to be anomalous against. Catching malware a feed has already named is a different, easier problem.
-    <br><br><b>How this is scored.</b> Every engine gets the identical cohort, and a skip counts as a miss for all of
-    them — a file nobody scanned is a file that got through. A listing from a contestant's own feed counts only once an
-    independent engine corroborates it. Known-good packages come from the freshest 48 hours of the open-source
-    firehose and are re-checked later: one that turns out to be malware leaves that run's false-positive rates, and
-    any engine that flagged it is credited with an early detection.
-    <b>We run this benchmark and we're one of the engines in it</b>, so every sample, verdict and rate is published.
+    <br><br><b>How this is scored.</b> Every engine gets the identical cohort, and a skip counts as a miss for
+    everyone — a file nobody scanned is a file that got through. A listing from a contestant's own feed counts only
+    once an independent engine corroborates it. Known-good packages come from the freshest 48 hours of the open-source
+    firehose and are re-checked later: one that turns out to be malware is dropped from that run's false-positive
+    rates, and any engine that flagged it is credited with an early detection.
+    <b>We run this benchmark and we're one of the engines in it</b>, so we publish every sample, verdict and rate.
     {%- if battle.versions %}
     <br><br><b>Engine versions:</b> {% for k, v in battle.versions %}{% if not loop.first %} · {% endif %}{{ providers[k].name or k }} {{ v }}{% endfor %}
-    <span style="color:var(--slate)">(locally-run engines; {% for p in providers | bySlot | selectattr("hosted") %}{{ p.name }}{% if not loop.last %}, {% endif %}{% endfor %} are hosted services queried live, so they carry no pinned version).</span>
+    <span style="color:var(--slate)">(locally run engines; {% for p in providers | bySlot | selectattr("hosted") %}{{ p.name }}{% if not loop.last %}, {% endif %}{% endfor %} are hosted services queried live, so they carry no pinned version).</span>
     {%- endif %}
   </div>
   </details>
