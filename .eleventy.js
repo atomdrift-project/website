@@ -524,13 +524,23 @@ module.exports = function(eleventyConfig) {
     }
     if (pts.length < 2) return null;
 
-    const xOf = (v) => QPL + 18 + (v / 100) * (QPR - QPL - 40);
-    const yOf = (v) => QZERO + (Math.min(v, YMAX) / YMAX) * (QMB - QZERO);
-
     // Anything past the crop keeps its true value in a labelled strip rather than
     // being clipped to the frame edge, which would understate it.
     const offscale = pts.filter((p) => p.fp > YMAX).sort((a, b) => b.fp - a.fp);
     const inScale = pts.filter((p) => p.fp <= YMAX);
+
+    // Vertical layout is per run: the headline band exists only with a curve to
+    // headline, and the off-scale strip only when something is off-scale. The
+    // in-scale band itself never changes height, so marks land where they always
+    // have; only the frame shrinks.
+    const pt = curve ? QPT : 30;
+    const zero = pt + (QZERO - QPT);
+    const mb = zero + (QMB - QZERO);
+    const pb = mb + (offscale.length ? QSTRIP : 0);
+    const h = pb + (QH - QPB);
+
+    const xOf = (v) => QPL + 18 + (v / 100) * (QPR - QPL - 40);
+    const yOf = (v) => zero + (Math.min(v, YMAX) / YMAX) * (mb - zero);
 
     // --- label boxes ---------------------------------------------------------
     // Width is estimated from character count; close enough for collisions at
@@ -587,14 +597,15 @@ module.exports = function(eleventyConfig) {
     const capW = 250, capH = 20;
     const placed = [{ x: QPR - 10 - capW, y: yOf(YDIV) - 10 - capH, w: capW, h: capH }];
     const GAP = 14;
-    const BOUND = { x: 8, y: QPT - 2, w: QW - 16, h: QPB - QPT + 4 };
+    // Labels stay inside the plot: past the y axis they collide with its ticks.
+    const BOUND = { x: QPL + 4, y: pt - 2, w: QPR - QPL - 8, h: pb - pt + 4 };
 
     function candidates(m) {
       const right = { x: m.x + GAP, y: m.y - m.h / 2, anchor: "start" };
       const left = { x: m.x - GAP - m.w, y: m.y - m.h / 2, anchor: "end" };
       const below = { x: m.x - m.w / 2, y: m.y + GAP, anchor: "middle" };
       const above = { x: m.x - m.w / 2, y: m.y - GAP - m.h, anchor: "middle" };
-      const vert = m.y < QZERO + 40 ? [above, below] : [below, above];
+      const vert = m.y < zero + 40 ? [above, below] : [below, above];
       const horiz = m.x > (QPL + QPR) / 2 ? [left, right] : [right, left];
       return vert.concat(horiz);
     }
@@ -666,7 +677,7 @@ module.exports = function(eleventyConfig) {
     }
 
     return {
-      w: QW, h: QH, pl: QPL, pr: QPR, pt: QPT, pb: QPB, mb: QMB, zero: QZERO,
+      w: QW, h: h, pl: QPL, pr: QPR, pt: pt, pb: pb, mb: mb, zero: zero,
       yMax: YMAX,
       xTicks: [0, 25, 50, 75, 100].map((v) => ({ v: v, x: xOf(v) })),
       yTicks: [0, 2, 4, 6, 8, 10].map((v) => ({ v: v, y: yOf(v) })),
@@ -675,10 +686,10 @@ module.exports = function(eleventyConfig) {
       curve: curveGeo,
       head: head,
       offscale: offscale.map((p, i) => ({
-        engine: p, x: xOf(p.det), y: QMB + 30 + i * 26,
+        engine: p, x: xOf(p.det), y: mb + 30 + i * 26,
         fpText: fpText(p.flagged),
       })),
-      breakY: QMB + 10,
+      breakY: mb + 10,
       lineH: LINE_H,
       nBad: nBad, nGood: nGood,
     };
