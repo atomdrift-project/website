@@ -149,6 +149,10 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
   .diffs { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin-top: 12px; }
   .diffs > div { background: #fff; border: 1px solid #e3e6ea; border-radius: 10px; padding: 14px 16px;
                  font-size: .8rem; line-height: 1.5; color: var(--iron); }
+  /* Three tiers, top to bottom: the claims in the site's green (same tint as the
+     old "us" cells and the sponsor box), the how in white, the fit in the nav's grey. */
+  .diffs > div:nth-child(-n+3) { background: var(--toxic-dim); border-color: var(--toxic-muted); }
+  .diffs > div:nth-child(n+7) { background: var(--mist); border-color: var(--border); }
   .diffs b { display: block; font-family: 'Oxanium', sans-serif; font-size: .92rem; font-weight: 800;
              color: var(--carbon); margin-bottom: 4px; }
   .diffs code { font-size: .78rem; }
@@ -195,6 +199,10 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
   .meth b { color: var(--carbon); font-family: 'Oxanium', sans-serif; }
   .who { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 12px; }
   .who > div { background: #fff; border: 1px solid #e3e6ea; border-radius: 10px; padding: 16px 18px; }
+  /* Same tiers as the cards above, left to right: the primary audience in green,
+     then white, then grey. */
+  .who > div:first-child { background: var(--toxic-dim); border-color: var(--toxic-muted); }
+  .who > div:last-child { background: var(--mist); border-color: var(--border); }
   .who h3 { font-family: 'Oxanium', sans-serif; font-size: .92rem; font-weight: 800; color: var(--carbon);
             letter-spacing: -.2px; margin: 0 0 7px; }
   .who p { margin: 0; font-size: .82rem; line-height: 1.55; color: var(--iron); }
@@ -675,10 +683,10 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
     </div>
     <div>
       <h3>Security vendors</h3>
-      <p>Zero-day coverage in your product this quarter, without hiring a malware team. Embed the CLI, the HTTP
-        service or the Rust libraries in a SAST, SCA, firmware, container or EDR product; every verdict ships with
-        its evidence. <a class="lnk" href="https://isotope13.ai/enriched/">OEM rights and support</a> from the
-        engineers who build it.</p>
+      <p>Zero-day coverage in your product without hiring a malware team. Embed the CLI, the HTTP service or the
+        Rust libraries in a SAST, SCA, firmware, container or EDR product; every verdict ships with its evidence.
+        <a class="lnk" href="https://isotope13.ai/enriched/">OEM rights and support</a> from the engineers who
+        build it.</p>
     </div>
     <div>
       <h3>Anyone with a machine</h3>
@@ -686,7 +694,7 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
         whole host. Nothing leaves the machine.</p>
     </div>
   </div>
-  <p class="hosted">Looking for a support contract, rapid-release rulesets or a SaaS API? Check out
+  <p class="hosted">Want the rules the hour they clear QA, an API, and someone on the hook? That's
     <a href="https://isotope13.ai/" target="_blank" rel="noopener">isotope13.ai</a>.</p>
 
   <details class="appendix" id="samples">
