@@ -236,15 +236,15 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
 </style>
 
 {# One palette for every engine — hostile solid, suspicious pale, both anchored left;
-   a grey tail on the right for unsupported file formats, which the methodology
-   scores as a miss. Atomdrift is identified by its label, not by a colour of its own. #}
+   a grey tail on the right for what the engine never takes — a file format or an
+   ecosystem it does not read — which the methodology scores as a miss. Atomdrift is identified by its label, not by a colour of its own. #}
 {%- macro rows(board, cohort) -%}
   <div class="rows">
   {%- for s in board | byFlagged %}
     {%- set p = providers[s.scanner] %}
     {%- set unsup = s.unsupported or 0 %}
     <div class="rn{% if s.scanner == 'ascan' %} us{% endif %}">{{ p.name or s.scanner }}</div>
-    <div class="tr" role="img" aria-label="{{ p.name or s.scanner }}: {{ s.hostile }} hostile, {{ s.suspicious }} suspicious, {{ s.benign }} analyzed clean{% if s.nodata %}, {{ s.nodata }} no record{% endif %}{% if s.errored %}, {{ s.errored }} errored{% endif %}{% if unsup %}, {{ unsup }} unsupported file format{% endif %}" title="{{ s.hostile }} hostile · {{ s.suspicious }} suspicious · {{ s.benign }} analyzed clean{% if s.nodata %} · {{ s.nodata }} no record{% endif %}{% if s.errored %} · {{ s.errored }} errored{% endif %}{% if unsup %} · {{ unsup }} unsupported file format{% endif %}">
+    <div class="tr" role="img" aria-label="{{ p.name or s.scanner }}: {{ s.hostile }} hostile, {{ s.suspicious }} suspicious, {{ s.benign }} analyzed clean{% if s.nodata %}, {{ s.nodata }} no record{% endif %}{% if s.errored %}, {{ s.errored }} errored{% endif %}{% if unsup %}, {{ unsup }} out of scope{% endif %}" title="{{ s.hostile }} hostile · {{ s.suspicious }} suspicious · {{ s.benign }} analyzed clean{% if s.nodata %} · {{ s.nodata }} no record{% endif %}{% if s.errored %} · {{ s.errored }} errored{% endif %}{% if unsup %} · {{ unsup }} out of scope{% endif %}">
       {%- if s.supported > 0 -%}
         {%- if s.hostile > 0 %}<span class="hb" style="width:{{ s.hostile / s.supported * 100 }}%"></span>{% endif -%}
         {%- if s.suspicious > 0 %}<span class="sb" style="width:{{ s.suspicious / s.supported * 100 }}%"></span>{% endif -%}
@@ -323,7 +323,7 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
   <div class="legend">
     <span><i class="hostile-key"></i>hostile</span>
     <span><i class="suspicious-key"></i>suspicious <small>· a catch, and a false positive</small></span>
-    <span><i class="unsupported-key"></i>unsupported format <small>· a miss</small></span>
+    <span><i class="unsupported-key"></i>out of scope <small>· a miss</small></span>
     <span><i class="errored-key"></i>errored <small>· a miss</small></span>
   </div>
 
