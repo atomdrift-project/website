@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-09-11T21:35:07.490740151Z",
-  "fp_rate": 2,
-  "best_det": 66,
-  "median_hours": 9,
+  "generated_at": "2026-09-12T20:07:53.967773196Z",
+  "fp_rate": 8,
+  "best_det": 70,
+  "median_hours": 7,
   "best_scanner": "malcontent",
-  "det_rate": 68,
+  "det_rate": 74,
   "samples": 50,
   "engines": 8
 }
