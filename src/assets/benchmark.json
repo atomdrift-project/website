@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-09-21T19:34:37.590362373Z",
+  "generated_at": "2026-09-22T11:41:09.363736975Z",
   "fp_rate": 0,
-  "best_det": 52,
-  "median_hours": 3,
-  "best_scanner": "virustotal",
-  "det_rate": 86,
-  "samples": 50,
+  "best_det": 33,
+  "median_hours": 19,
+  "best_scanner": "malcontent",
+  "det_rate": 67,
+  "samples": 3,
   "engines": 8
 }
