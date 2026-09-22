@@ -1,4 +1,4 @@
-Contact: mailto:security@isotope13.ai
+Contact: mailto:security@isotope13.io
 Expires: 2026-12-31T23:59:00.000Z
 Preferred-Languages: en
-Canonical: https://isotope13.ai/.well-known/security.txt
+Canonical: https://isotope13.io/.well-known/security.txt

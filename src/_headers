@@ -1,7 +1,7 @@
 # Cloudflare Pages response headers.
 
 # The benchmark headline summary gauntlet publishes every cycle (see the Headline
-# type in the gauntlet repo). isotope13.ai reads it from the browser to keep its
+# type in the gauntlet repo). isotope13.io reads it from the browser to keep its
 # front-page numbers current without redeploying that site, so it needs CORS.
 #
 # Public data by definition — the compare page already publishes all of it, and

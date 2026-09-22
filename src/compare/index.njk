@@ -343,7 +343,7 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
       to a worker fleet pulling from a queue.</div>
     <div><b>Keeps up on its own.</b> A reinforcement-learning pipeline turns new samples, threat feeds and published
       research into roughly 1,000 tested rule updates a day. The engine catches what its rules describe; new rules
-      reach open source weekly and <a class="lnk" href="https://isotope13.ai/enriched/">Enriched</a> subscribers
+      reach open source weekly and <a class="lnk" href="https://isotope13.io/enriched/">Enriched</a> subscribers
       live.</div>
     <div><b>Reads 100+ formats.</b> Source in every major language, ELF, PE, Mach-O, firmware, container images,
       archives, documents, config; packages from {{ providers.ascan.registries | length }} registries.</div>
@@ -630,7 +630,7 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
     <tbody>
       {%- for type, items in fps | groupby("filetype") %}
       <tr><td>{{ type }}</td><td>
-        {%- for fp in items %}<a href="https://lab.isotope13.ai/file/{{ fp.sha256 }}"
+        {%- for fp in items %}<a href="https://lab.isotope13.io/file/{{ fp.sha256 }}"
           title="{% if fp.ecosystem %}{{ fp.ecosystem }} · {% endif %}flagged {{ fp.tier }}"
           class="fp{{ fp.tier }}">{{ fp.name }}</a>{% if not loop.last %}, {% endif %}{% endfor %}
       </td></tr>
@@ -685,7 +685,7 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
       <h3>Security vendors</h3>
       <p>Zero-day coverage in your product without hiring a malware team. Embed the CLI, the HTTP service or the
         Rust libraries in a SAST, SCA, firmware, container or EDR product; every verdict ships with its evidence.
-        <a class="lnk" href="https://isotope13.ai/enriched/">OEM rights and support</a> from the engineers who
+        <a class="lnk" href="https://isotope13.io/enriched/">OEM rights and support</a> from the engineers who
         build it.</p>
     </div>
     <div>
@@ -695,7 +695,7 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
     </div>
   </div>
   <p class="hosted">Want the rules the hour they clear QA, an API, and someone on the hook? That's
-    <a href="https://isotope13.ai/" target="_blank" rel="noopener">isotope13.ai</a>.</p>
+    <a href="https://isotope13.io/" target="_blank" rel="noopener">isotope13.io</a>.</p>
 
   <details class="appendix" id="samples">
     <summary>Appendix — samples and methodology <span class="note">all {{ cohortBad | length }}, every one linked</span></summary>
