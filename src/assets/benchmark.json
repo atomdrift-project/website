@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-09-23T20:09:54.784602961Z",
+  "generated_at": "2026-09-24T08:32:30.284132461Z",
   "fp_rate": 0,
-  "best_det": 66,
-  "median_hours": 5,
+  "best_det": 60,
+  "median_hours": 9,
   "best_scanner": "virustotal",
   "det_rate": 92,
   "samples": 50,
