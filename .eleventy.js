@@ -141,28 +141,54 @@ module.exports = function(eleventyConfig) {
   });
 
   // Flagged rate ((hostile+suspicious)/supported) as a 0..100 percentage, or null
-  // when the engine scanned nothing — the single rate both the bars and these
-  // synthesis views are built from, so nothing downstream can disagree with the chart.
+  // when the engine scanned nothing — the rate the per-run bars and every per-run
+  // view are built from, so nothing downstream can disagree with the chart. The
+  // headline figures read the pooled window instead (see headlineScores).
   const flaggedRate = (s) => (s && s.supported) ? (s.hostile + s.suspicious) / s.supported * 100 : null;
 
-  // headline distills a run to the one line a skim-reader needs: how the subject
-  // (ascan) did on detection, how far it leads the best *other* engine, and its
-  // false-positive rate. Computed from the same leaderboards the bars use, so the
-  // banner can never drift from the chart below it. Null if ascan didn't scan.
+  // headlineScores is what the headline figures are read from: gauntlet's pooled
+  // window (battle.window — the last few days of runs summed, because one
+  // 50-sample run moves a false-positive rate two points per verdict) when it
+  // published one, else this run's leaderboards. Either way one shape — a score
+  // is { scanner, flagged, n } — so the hero, its dial and the quadrant cannot
+  // disagree about which runs they describe. The bars and the trend chart stay
+  // per-run.
+  function headlineScores(battle) {
+    const w = battle && battle.window;
+    if (w && (w.detection || []).length) {
+      return {
+        det: w.detection, fp: w.false_positive || [], curve: w.ascan_curve || [],
+        nBad: w.bad, nGood: w.good, window: { days: w.days, runs: w.runs },
+      };
+    }
+    const board = (b) => ((b && b.leaderboard) || [])
+      .map((s) => ({ scanner: s.scanner, flagged: s.hostile + s.suspicious, n: s.supported }));
+    return {
+      det: board(battle && battle.detection), fp: board(battle && battle.false_positive),
+      curve: (battle && battle.ascan_curve) || [],
+      nBad: (battle && battle.detection && battle.detection.sample_count) || 0,
+      nGood: (battle && battle.false_positive && battle.false_positive.sample_count) || 0,
+      window: null,
+    };
+  }
+  // A headline score's rate as a 0..100 percentage, null when it scored nothing.
+  const scoreRate = (s) => (s && s.n) ? s.flagged / s.n * 100 : null;
+
+  // headline distills the figures to the one line a skim-reader needs: how the
+  // subject (ascan) did on detection, how far it leads the best *other* engine,
+  // and its false-positive rate. Null if ascan didn't scan.
   eleventyConfig.addFilter("headline", function(battle) {
-    const det = (battle && battle.detection && battle.detection.leaderboard) || [];
-    const fp = (battle && battle.false_positive && battle.false_positive.leaderboard) || [];
-    const us = det.find((s) => s.scanner === "ascan");
-    const usDet = flaggedRate(us);
+    const src = headlineScores(battle);
+    const usDet = scoreRate(src.det.find((s) => s.scanner === "ascan"));
     if (usDet === null) return null;
     let best = null; // best competing detection rate — the bar we're beating
-    for (const s of det) {
+    for (const s of src.det) {
       if (s.scanner === "ascan") continue;
-      const r = flaggedRate(s);
+      const r = scoreRate(s);
       if (r === null) continue;
       if (!best || r > best.det) best = { name: s.scanner, det: r };
     }
-    const usFp = flaggedRate(fp.find((s) => s.scanner === "ascan"));
+    const usFp = scoreRate(src.fp.find((s) => s.scanner === "ascan"));
     return {
       detRate: Math.round(usDet),
       fpRate: usFp === null ? null : Math.round(usFp),
@@ -170,8 +196,17 @@ module.exports = function(eleventyConfig) {
       bestDet: best ? Math.round(best.det) : null,
       lead: best && best.det > 0 ? usDet / best.det : null, // multiple, e.g. 2.2
       leadPts: best ? Math.round(usDet - best.det) : null,   // percentage-point gap
-      sampleCount: (battle.detection && battle.detection.sample_count) || 0,
+      sampleCount: src.nBad,
+      nGood: src.nGood,
+      window: src.window,
     };
+  });
+
+  // trendPoints trims history to what the trend chart draws. history.json also
+  // carries each run's operating curve for gauntlet's window, which would
+  // otherwise be inlined into the page for nothing.
+  eleventyConfig.addFilter("trendPoints", function(history) {
+    return (history || []).map((p) => ({ at: p.at, bad: p.bad, detection: p.detection }));
   });
 
   // Engine draw order for anything that colors by engine (the quadrant, the trend
@@ -408,9 +443,8 @@ module.exports = function(eleventyConfig) {
   }
 
   // Fallback: the published grid stops, collapsed the same way.
-  function gridCurve(battle) {
-    const raw = (battle && battle.ascan_curve) || [];
-    if (raw.length < 2) return null;
+  function gridCurve(raw) {
+    if (!raw || raw.length < 2) return null;
     const out = [];
     const push = (det, fp, caught, flagged, l) => {
       const prev = out[out.length - 1];
@@ -429,8 +463,12 @@ module.exports = function(eleventyConfig) {
     return out.length >= 2 ? out : null;
   }
 
+  // A pooled window has only the grid: the per-sample levels preciseCurve
+  // replays are this run's alone, and a curve drawn from them beside rates
+  // pooled over several runs would describe a different cohort.
   function ascanCurve(battle) {
-    return preciseCurve(battle) || gridCurve(battle);
+    const src = headlineScores(battle);
+    return src.window ? gridCurve(src.curve) : (preciseCurve(battle) || gridCurve(src.curve));
   }
   eleventyConfig.addFilter("ascanCurve", function(battle) {
     // The hero slider walks the published grid, capped at the same ceiling the
@@ -438,7 +476,7 @@ module.exports = function(eleventyConfig) {
     // own stops jump 1000 -> 3000, straddling the cap, so the ceiling is appended
     // as a stop of its own — otherwise the slider would end at -l 1000 while the
     // figure beside it claims a range up to -l 2500.
-    const raw = (battle && battle.ascan_curve) || [];
+    const raw = headlineScores(battle).curve;
     if (!raw.length) return null;
     const nBad = raw[0].cohort_n, nGood = raw[0].fp_cohort_n;
     const out = raw.filter((p) => p.level <= DIAL_MAX).map((p) => ({
@@ -502,27 +540,26 @@ module.exports = function(eleventyConfig) {
 
   eleventyConfig.addFilter("quadrant", function(battle, providers) {
     const provs = providers || {};
-    const det = (battle && battle.detection && battle.detection.leaderboard) || [];
-    const fp = (battle && battle.false_positive && battle.false_positive.leaderboard) || [];
+    const src = headlineScores(battle);
     const fpBy = {};
-    for (const s of fp) fpBy[s.scanner] = s;
+    for (const s of src.fp) fpBy[s.scanner] = s;
 
     const curve = ascanCurve(battle);
 
     // One point per engine that has both measures. Atomdrift is a curve, not a
     // dot, whenever the curve is recoverable.
     const pts = [];
-    for (const d of det) {
+    for (const d of src.det) {
       if (isHidden(provs, d.scanner)) continue;
       if (curve && d.scanner === "ascan") continue;
-      const dr = flaggedRate(d), f = fpBy[d.scanner], fr = flaggedRate(f);
+      const dr = scoreRate(d), f = fpBy[d.scanner], fr = scoreRate(f);
       if (dr === null || fr === null) continue;
       const p = provs[d.scanner] || {};
       pts.push({
         key: d.scanner, name: p.name || d.scanner, color: p.color || "#6b7280",
         det: Math.round(dr), fp: Math.round(fr),
-        flagged: f.hostile + f.suspicious, nGood: f.supported,
-        caught: d.hostile + d.suspicious, nBad: d.supported,
+        flagged: f.flagged, nGood: f.n,
+        caught: d.flagged, nBad: d.n,
       });
     }
     if (pts.length < 2) return null;
@@ -658,8 +695,7 @@ module.exports = function(eleventyConfig) {
     // Stated as a claim, so it has to survive the chart under it: on a run where
     // a rival out-detects us, or where the default costs a false positive, the
     // wording steps down rather than overclaiming.
-    const nBad = (battle.detection && battle.detection.sample_count) || 0;
-    const nGood = (battle.false_positive && battle.false_positive.sample_count) || 0;
+    const nBad = src.nBad, nGood = src.nGood;
     let head = null;
     if (curve) {
       const dflt = curveGeo.named.filter((v) => v.lLo <= DIAL_DEFAULT && DIAL_DEFAULT <= v.lHi)[0]
@@ -670,7 +706,8 @@ module.exports = function(eleventyConfig) {
       head = {
         title: beatsAll && dflt.flagged === 0
           ? "Highest detection rate, and nothing flagged that shouldn't be."
-          : (beatsAll ? "Highest detection rate on this run."
+          : (beatsAll ? "Highest detection rate " +
+              (src.window ? "over the last " + src.window.days + " days." : "on this run.")
           : "Where Atomdrift's dial sits against the field."),
         sub: dflt.det + "% of " + nBad + " zero-day supply-chain samples caught, " +
           dflt.flagged + " of " + nGood + " known-safe packages flagged." +
@@ -695,6 +732,7 @@ module.exports = function(eleventyConfig) {
       breakY: mb + 10,
       lineH: LINE_H,
       nBad: nBad, nGood: nGood,
+      window: src.window,
     };
   });
 

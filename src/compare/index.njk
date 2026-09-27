@@ -42,6 +42,8 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
   .proof .n.fp { color: #fff; }
   .proof .l { font-size: .68rem; font-weight: 800; letter-spacing: .09em; color: #b9bfc9; margin-top: 8px;
               text-transform: uppercase; font-family: 'Oxanium', sans-serif; }
+  /* The span the two numbers pool over, read before the numbers themselves. */
+  .proof .l.win { margin-top: 0; }
   .proof .at { font-family: 'SF Mono', Consolas, monospace; font-size: .72rem; color: #d5d9d2;
                border-top: 1px solid #2a2e28; padding-top: 11px; }
   .proof .at b { color: var(--toxic); font-weight: 700; }
@@ -290,6 +292,12 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
 
     {%- if h %}
     <div class="proof">
+      {# The window pools the last few days of runs: one 50-sample night moves a
+         false-positive rate two points per verdict, which is noise, not the
+         engine. The per-run numbers are on the bars and the trend chart below. #}
+      {%- if h.window %}
+      <div class="l win">Last {{ h.window.days }} days · {{ h.window.runs }} runs</div>
+      {%- endif %}
       <div class="scores">
         {# "0-day" is the whole claim: signatures and reputation have had no time to
            form on a package published this morning, which is exactly the window a
@@ -314,15 +322,20 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
       {%- endif %}
       <div class="at" id="dial-help">at <b id="dial-l">-l {{ dialDefault }}</b> <span id="dial-say">— the shipped default, untuned</span></div>
       <span id="dial-status" class="visually-hidden" aria-live="polite" aria-atomic="true"></span>
+      {%- if h.window %}
+      <p><b>{{ h.sampleCount }} live samples</b>, none more than 48 h old, and {{ h.nGood }} known-good, pooled
+        through <b>{{ battle.generated_at | dateDisplay }}</b>.</p>
+      {%- else %}
       <p><b>{{ battle.generated_at | dateDisplay }}</b> · {{ battle.detection.sample_count }} live samples,
         median <b>{{ battle.malware_age.median_hours | round(0) if battle.malware_age else 24 }} h old</b>,
         and {{ battle.false_positive.sample_count }} known-good{% if battle.detection.weighting %} across
         <b>{{ battle.detection.weighting.classes | length }} file formats</b>{% endif %}.</p>
+      {%- endif %}
     </div>
     {%- endif %}
   </div>
 
-  <h2 id="results">Caught, per engine <span class="note">identical cohort · most sensitive setting for everyone</span></h2>
+  <h2 id="results">Caught, per engine <span class="note">{% if h and h.window %}latest run · {% endif %}identical cohort · most sensitive setting for everyone</span></h2>
   {{ rows(battle.detection.leaderboard, 'bad') }}
   <div class="legend">
     <span><i class="hostile-key"></i>hostile</span>
@@ -333,7 +346,7 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
 
   <h2 id="how">What's different <span class="note">architecture, not features</span></h2>
   <div class="diffs">
-    <div><b>Catches more.</b> {% if h %}{{ h.detRate }}% of this run's zero-day samples, the highest on this page.
+    <div><b>Catches more.</b> {% if h %}{{ h.detRate }}% of {% if h.window %}the last {{ h.window.days }} days'{% else %}this run's{% endif %} zero-day samples, the highest on this page.
       {% else %}The highest zero-day catch rate of any engine on this page. {% endif %}Every run published.</div>
     <div><b>No review gap.</b> Someone reports it, an analyst confirms it, the list ships. Hours to days. That window
       is the attack. Atomdrift decides on first sight.</div>
@@ -372,9 +385,10 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
 
   {%- set q = battle | quadrant(chartProviders) %}
   {%- if q %}
-  <h2 id="frontier">Detection vs. false positives{% if q.curve %} <span class="note">every rival ships one setting — <code>-l</code> is a dial you set</span>{% else %} <span class="note">this run · hover a mark for counts</span>{% endif %}</h2>
+  {%- set qspan = ("last " ~ q.window.days ~ " days") if q.window else "this run" %}
+  <h2 id="frontier">Detection vs. false positives{% if q.curve %} <span class="note">{% if q.window %}{{ qspan }} · {% endif %}every rival ships one setting — <code>-l</code> is a dial you set</span>{% else %} <span class="note">{{ qspan }} · hover a mark for counts</span>{% endif %}</h2>
   <div class="frontier-wrap">
-    <svg viewBox="0 0 {{ q.w }} {{ q.h }}" role="img" aria-label="Zero-day detection rate against false-positive rate for every engine measured this run. The horizontal axis is the share of zero-day malware caught, higher to the right; the vertical axis is false positives, inverted so fewer is higher, and cropped so any engine past the crop appears in a marked strip below. Atomdrift is drawn as a curve across its false-positive budget rather than a single point. Every value follows the chart in a list.">
+    <svg viewBox="0 0 {{ q.w }} {{ q.h }}" role="img" aria-label="Zero-day detection rate against false-positive rate for every engine measured {{ 'over the ' ~ qspan if q.window else qspan }}. The horizontal axis is the share of zero-day malware caught, higher to the right; the vertical axis is false positives, inverted so fewer is higher, and cropped so any engine past the crop appears in a marked strip below. Atomdrift is drawn as a curve across its false-positive budget rather than a single point. Every value follows the chart in a list.">
       {%- if q.curve %}
       <defs>
         <linearGradient id="q-curve-grad" gradientUnits="userSpaceOnUse" x1="{{ q.curve.x1 }}" y1="0" x2="{{ q.curve.x2 }}" y2="0">
@@ -411,7 +425,7 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
       {# Axis titles carry their own denominator, so no number on the plot needs a
          footnote to be understood. #}
       <text class="q-alab" x="{{ (q.pl + q.pr) / 2 }}" y="{{ q.pb + 46 }}" text-anchor="middle">Zero-day malware caught  ·  more is better →</text>
-      <text class="q-asub" x="{{ (q.pl + q.pr) / 2 }}" y="{{ q.pb + 62 }}" text-anchor="middle">of {{ q.nBad }} malicious packages, none more than 48 hours old</text>
+      <text class="q-asub" x="{{ (q.pl + q.pr) / 2 }}" y="{{ q.pb + 62 }}" text-anchor="middle">of {{ q.nBad }} malicious packages{% if q.window %} across {{ q.window.runs }} runs{% endif %}, none more than 48 hours old</text>
       <g transform="translate(24,{{ (q.pt + q.pb) / 2 }}) rotate(-90)">
         <text class="q-alab" x="0" y="0" text-anchor="middle">False positives  ·  fewer is better ↑</text>
         <text class="q-asub" x="0" y="15" text-anchor="middle">of {{ q.nGood }} known-safe packages</text>
@@ -494,7 +508,7 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
     // the latest two valid points when the page is viewed after a long outage
     // or when a clock skew makes the rolling window sparse; Chart.js cannot
     // draw a line from an empty/single-point history series.
-    const ALL = ({{ history | dump | safe }})
+    const ALL = ({{ history | trendPoints | dump | safe }})
       .filter(p => p && Number.isFinite(Date.parse(p.at)))
       .sort((a, b) => Date.parse(a.at) - Date.parse(b.at));
     const CUTOFF = Date.now() - 30 * 24 * 60 * 60 * 1000;
@@ -649,8 +663,9 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
   {%- if curve %}
   <script>
   (function () {
-    // Every point is a measurement from this run — atomscan's lvl is swept across the
-    // whole grid on each scan, so one pass describes the cohort at every deploy level.
+    // Every point is measured, not modelled — atomscan's lvl is swept across the
+    // whole grid on each scan, so one pass describes the cohort at every deploy
+    // level — and pooled over the same runs as the two numbers it moves.
     const C = {{ curve | dump | safe }}, DEF = {{ dialDefault }};
     const el = document.getElementById('dial');
     if (!el || !C.length) return;

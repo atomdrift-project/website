@@ -121,6 +121,107 @@
       "socket": 0,
       "virustotal": 0
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 7,
+        "suspicious": 0,
+        "caught": 7,
+        "cohort_n": 40,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 1,
+        "hostile": 7,
+        "suspicious": 0,
+        "caught": 7,
+        "cohort_n": 40,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 5,
+        "hostile": 7,
+        "suspicious": 0,
+        "caught": 7,
+        "cohort_n": 40,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 25,
+        "hostile": 21,
+        "suspicious": 0,
+        "caught": 21,
+        "cohort_n": 40,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 50,
+        "hostile": 21,
+        "suspicious": 0,
+        "caught": 21,
+        "cohort_n": 40,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 500,
+        "hostile": 21,
+        "suspicious": 0,
+        "caught": 21,
+        "cohort_n": 40,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 1000,
+        "hostile": 21,
+        "suspicious": 13,
+        "caught": 34,
+        "cohort_n": 40,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 3000,
+        "hostile": 34,
+        "suspicious": 0,
+        "caught": 34,
+        "cohort_n": 40,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 25000,
+        "hostile": 34,
+        "suspicious": 0,
+        "caught": 34,
+        "cohort_n": 40,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 49
+      }
+    ],
     "bad": 40,
     "good": 49
   },
@@ -146,6 +247,107 @@
       "socket": 0,
       "virustotal": 0
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 6,
+        "suspicious": 0,
+        "caught": 6,
+        "cohort_n": 27,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 1,
+        "hostile": 6,
+        "suspicious": 0,
+        "caught": 6,
+        "cohort_n": 27,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 5,
+        "hostile": 6,
+        "suspicious": 0,
+        "caught": 6,
+        "cohort_n": 27,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 25,
+        "hostile": 17,
+        "suspicious": 0,
+        "caught": 17,
+        "cohort_n": 27,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 50,
+        "hostile": 17,
+        "suspicious": 0,
+        "caught": 17,
+        "cohort_n": 27,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 500,
+        "hostile": 17,
+        "suspicious": 0,
+        "caught": 17,
+        "cohort_n": 27,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 1000,
+        "hostile": 17,
+        "suspicious": 6,
+        "caught": 23,
+        "cohort_n": 27,
+        "fp_hostile": 1,
+        "fp_suspicious": 2,
+        "fp_flagged": 3,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 3000,
+        "hostile": 23,
+        "suspicious": 0,
+        "caught": 23,
+        "cohort_n": 27,
+        "fp_hostile": 3,
+        "fp_suspicious": 0,
+        "fp_flagged": 3,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 25000,
+        "hostile": 23,
+        "suspicious": 0,
+        "caught": 23,
+        "cohort_n": 27,
+        "fp_hostile": 3,
+        "fp_suspicious": 0,
+        "fp_flagged": 3,
+        "fp_cohort_n": 49
+      }
+    ],
     "bad": 27,
     "good": 49
   },
@@ -171,6 +373,107 @@
       "socket": 0,
       "virustotal": 0
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 9,
+        "suspicious": 0,
+        "caught": 9,
+        "cohort_n": 36,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 1,
+        "hostile": 9,
+        "suspicious": 0,
+        "caught": 9,
+        "cohort_n": 36,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 5,
+        "hostile": 9,
+        "suspicious": 0,
+        "caught": 9,
+        "cohort_n": 36,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 25,
+        "hostile": 19,
+        "suspicious": 0,
+        "caught": 19,
+        "cohort_n": 36,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 50,
+        "hostile": 19,
+        "suspicious": 0,
+        "caught": 19,
+        "cohort_n": 36,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 500,
+        "hostile": 19,
+        "suspicious": 0,
+        "caught": 19,
+        "cohort_n": 36,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 1000,
+        "hostile": 19,
+        "suspicious": 8,
+        "caught": 27,
+        "cohort_n": 36,
+        "fp_hostile": 1,
+        "fp_suspicious": 2,
+        "fp_flagged": 3,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 3000,
+        "hostile": 27,
+        "suspicious": 0,
+        "caught": 27,
+        "cohort_n": 36,
+        "fp_hostile": 3,
+        "fp_suspicious": 0,
+        "fp_flagged": 3,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 25000,
+        "hostile": 27,
+        "suspicious": 0,
+        "caught": 27,
+        "cohort_n": 36,
+        "fp_hostile": 3,
+        "fp_suspicious": 0,
+        "fp_flagged": 3,
+        "fp_cohort_n": 49
+      }
+    ],
     "bad": 36,
     "good": 49
   },
@@ -196,6 +499,107 @@
       "socket": 0.02,
       "virustotal": 0.02
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 11,
+        "suspicious": 0,
+        "caught": 11,
+        "cohort_n": 48,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1,
+        "hostile": 11,
+        "suspicious": 1,
+        "caught": 12,
+        "cohort_n": 48,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 5,
+        "hostile": 12,
+        "suspicious": 0,
+        "caught": 12,
+        "cohort_n": 48,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25,
+        "hostile": 34,
+        "suspicious": 0,
+        "caught": 34,
+        "cohort_n": 48,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 50,
+        "hostile": 34,
+        "suspicious": 0,
+        "caught": 34,
+        "cohort_n": 48,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 500,
+        "hostile": 34,
+        "suspicious": 0,
+        "caught": 34,
+        "cohort_n": 48,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1000,
+        "hostile": 34,
+        "suspicious": 8,
+        "caught": 42,
+        "cohort_n": 48,
+        "fp_hostile": 0,
+        "fp_suspicious": 4,
+        "fp_flagged": 4,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 3000,
+        "hostile": 42,
+        "suspicious": 0,
+        "caught": 42,
+        "cohort_n": 48,
+        "fp_hostile": 4,
+        "fp_suspicious": 0,
+        "fp_flagged": 4,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25000,
+        "hostile": 42,
+        "suspicious": 0,
+        "caught": 42,
+        "cohort_n": 48,
+        "fp_hostile": 4,
+        "fp_suspicious": 0,
+        "fp_flagged": 4,
+        "fp_cohort_n": 50
+      }
+    ],
     "bad": 48,
     "good": 50
   },
@@ -221,6 +625,107 @@
       "socket": 0,
       "virustotal": 0
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 8,
+        "suspicious": 0,
+        "caught": 8,
+        "cohort_n": 45,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 1,
+        "hostile": 9,
+        "suspicious": 0,
+        "caught": 9,
+        "cohort_n": 45,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 5,
+        "hostile": 9,
+        "suspicious": 1,
+        "caught": 10,
+        "cohort_n": 45,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 25,
+        "hostile": 29,
+        "suspicious": 0,
+        "caught": 29,
+        "cohort_n": 45,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 50,
+        "hostile": 29,
+        "suspicious": 0,
+        "caught": 29,
+        "cohort_n": 45,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 500,
+        "hostile": 29,
+        "suspicious": 0,
+        "caught": 29,
+        "cohort_n": 45,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 1000,
+        "hostile": 29,
+        "suspicious": 7,
+        "caught": 36,
+        "cohort_n": 45,
+        "fp_hostile": 1,
+        "fp_suspicious": 1,
+        "fp_flagged": 2,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 3000,
+        "hostile": 36,
+        "suspicious": 0,
+        "caught": 36,
+        "cohort_n": 45,
+        "fp_hostile": 2,
+        "fp_suspicious": 0,
+        "fp_flagged": 2,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 25000,
+        "hostile": 36,
+        "suspicious": 0,
+        "caught": 36,
+        "cohort_n": 45,
+        "fp_hostile": 2,
+        "fp_suspicious": 0,
+        "fp_flagged": 2,
+        "fp_cohort_n": 49
+      }
+    ],
     "bad": 45,
     "good": 49
   },
@@ -246,6 +751,107 @@
       "socket": 0,
       "virustotal": 0
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 10,
+        "suspicious": 0,
+        "caught": 10,
+        "cohort_n": 49,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 1,
+        "hostile": 11,
+        "suspicious": 0,
+        "caught": 11,
+        "cohort_n": 49,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 5,
+        "hostile": 11,
+        "suspicious": 0,
+        "caught": 11,
+        "cohort_n": 49,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 25,
+        "hostile": 30,
+        "suspicious": 0,
+        "caught": 30,
+        "cohort_n": 49,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 50,
+        "hostile": 30,
+        "suspicious": 0,
+        "caught": 30,
+        "cohort_n": 49,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 500,
+        "hostile": 30,
+        "suspicious": 1,
+        "caught": 31,
+        "cohort_n": 49,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 1000,
+        "hostile": 30,
+        "suspicious": 10,
+        "caught": 40,
+        "cohort_n": 49,
+        "fp_hostile": 1,
+        "fp_suspicious": 1,
+        "fp_flagged": 2,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 3000,
+        "hostile": 40,
+        "suspicious": 0,
+        "caught": 40,
+        "cohort_n": 49,
+        "fp_hostile": 2,
+        "fp_suspicious": 0,
+        "fp_flagged": 2,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 25000,
+        "hostile": 40,
+        "suspicious": 0,
+        "caught": 40,
+        "cohort_n": 49,
+        "fp_hostile": 2,
+        "fp_suspicious": 0,
+        "fp_flagged": 2,
+        "fp_cohort_n": 49
+      }
+    ],
     "bad": 49,
     "good": 49
   },
@@ -512,6 +1118,107 @@
       "socket": 0,
       "virustotal": 0
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 5,
+        "suspicious": 0,
+        "caught": 5,
+        "cohort_n": 9,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 1
+      },
+      {
+        "level": 1,
+        "hostile": 5,
+        "suspicious": 0,
+        "caught": 5,
+        "cohort_n": 9,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 1
+      },
+      {
+        "level": 5,
+        "hostile": 5,
+        "suspicious": 0,
+        "caught": 5,
+        "cohort_n": 9,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 1
+      },
+      {
+        "level": 25,
+        "hostile": 7,
+        "suspicious": 0,
+        "caught": 7,
+        "cohort_n": 9,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 1
+      },
+      {
+        "level": 50,
+        "hostile": 7,
+        "suspicious": 0,
+        "caught": 7,
+        "cohort_n": 9,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 1
+      },
+      {
+        "level": 500,
+        "hostile": 7,
+        "suspicious": 0,
+        "caught": 7,
+        "cohort_n": 9,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 1
+      },
+      {
+        "level": 1000,
+        "hostile": 7,
+        "suspicious": 2,
+        "caught": 9,
+        "cohort_n": 9,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 1
+      },
+      {
+        "level": 3000,
+        "hostile": 9,
+        "suspicious": 0,
+        "caught": 9,
+        "cohort_n": 9,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 1
+      },
+      {
+        "level": 25000,
+        "hostile": 9,
+        "suspicious": 0,
+        "caught": 9,
+        "cohort_n": 9,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 1
+      }
+    ],
     "bad": 9,
     "good": 1
   },
@@ -537,6 +1244,107 @@
       "socket": 0,
       "virustotal": 0
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 18,
+        "suspicious": 0,
+        "caught": 18,
+        "cohort_n": 28,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 43
+      },
+      {
+        "level": 1,
+        "hostile": 18,
+        "suspicious": 0,
+        "caught": 18,
+        "cohort_n": 28,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 43
+      },
+      {
+        "level": 5,
+        "hostile": 18,
+        "suspicious": 0,
+        "caught": 18,
+        "cohort_n": 28,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 43
+      },
+      {
+        "level": 25,
+        "hostile": 26,
+        "suspicious": 0,
+        "caught": 26,
+        "cohort_n": 28,
+        "fp_hostile": 2,
+        "fp_suspicious": 0,
+        "fp_flagged": 2,
+        "fp_cohort_n": 43
+      },
+      {
+        "level": 50,
+        "hostile": 26,
+        "suspicious": 0,
+        "caught": 26,
+        "cohort_n": 28,
+        "fp_hostile": 2,
+        "fp_suspicious": 0,
+        "fp_flagged": 2,
+        "fp_cohort_n": 43
+      },
+      {
+        "level": 500,
+        "hostile": 26,
+        "suspicious": 0,
+        "caught": 26,
+        "cohort_n": 28,
+        "fp_hostile": 2,
+        "fp_suspicious": 0,
+        "fp_flagged": 2,
+        "fp_cohort_n": 43
+      },
+      {
+        "level": 1000,
+        "hostile": 26,
+        "suspicious": 1,
+        "caught": 27,
+        "cohort_n": 28,
+        "fp_hostile": 2,
+        "fp_suspicious": 1,
+        "fp_flagged": 3,
+        "fp_cohort_n": 43
+      },
+      {
+        "level": 3000,
+        "hostile": 27,
+        "suspicious": 0,
+        "caught": 27,
+        "cohort_n": 28,
+        "fp_hostile": 3,
+        "fp_suspicious": 0,
+        "fp_flagged": 3,
+        "fp_cohort_n": 43
+      },
+      {
+        "level": 25000,
+        "hostile": 27,
+        "suspicious": 0,
+        "caught": 27,
+        "cohort_n": 28,
+        "fp_hostile": 3,
+        "fp_suspicious": 0,
+        "fp_flagged": 3,
+        "fp_cohort_n": 43
+      }
+    ],
     "bad": 28,
     "good": 43
   },
@@ -562,6 +1370,107 @@
       "socket": 0.0425531914893617,
       "virustotal": 0
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 11,
+        "suspicious": 0,
+        "caught": 11,
+        "cohort_n": 28,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 47
+      },
+      {
+        "level": 1,
+        "hostile": 12,
+        "suspicious": 0,
+        "caught": 12,
+        "cohort_n": 28,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 47
+      },
+      {
+        "level": 5,
+        "hostile": 12,
+        "suspicious": 0,
+        "caught": 12,
+        "cohort_n": 28,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 47
+      },
+      {
+        "level": 25,
+        "hostile": 14,
+        "suspicious": 0,
+        "caught": 14,
+        "cohort_n": 28,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 47
+      },
+      {
+        "level": 50,
+        "hostile": 14,
+        "suspicious": 0,
+        "caught": 14,
+        "cohort_n": 28,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 47
+      },
+      {
+        "level": 500,
+        "hostile": 14,
+        "suspicious": 0,
+        "caught": 14,
+        "cohort_n": 28,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 47
+      },
+      {
+        "level": 1000,
+        "hostile": 14,
+        "suspicious": 13,
+        "caught": 27,
+        "cohort_n": 28,
+        "fp_hostile": 0,
+        "fp_suspicious": 2,
+        "fp_flagged": 2,
+        "fp_cohort_n": 47
+      },
+      {
+        "level": 3000,
+        "hostile": 27,
+        "suspicious": 0,
+        "caught": 27,
+        "cohort_n": 28,
+        "fp_hostile": 2,
+        "fp_suspicious": 0,
+        "fp_flagged": 2,
+        "fp_cohort_n": 47
+      },
+      {
+        "level": 25000,
+        "hostile": 27,
+        "suspicious": 0,
+        "caught": 27,
+        "cohort_n": 28,
+        "fp_hostile": 2,
+        "fp_suspicious": 0,
+        "fp_flagged": 2,
+        "fp_cohort_n": 47
+      }
+    ],
     "bad": 28,
     "good": 47
   },
@@ -587,6 +1496,107 @@
       "socket": 0.06,
       "virustotal": 0.02
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 9,
+        "suspicious": 0,
+        "caught": 9,
+        "cohort_n": 21,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1,
+        "hostile": 12,
+        "suspicious": 0,
+        "caught": 12,
+        "cohort_n": 21,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 5,
+        "hostile": 12,
+        "suspicious": 0,
+        "caught": 12,
+        "cohort_n": 21,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25,
+        "hostile": 14,
+        "suspicious": 0,
+        "caught": 14,
+        "cohort_n": 21,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 50,
+        "hostile": 14,
+        "suspicious": 0,
+        "caught": 14,
+        "cohort_n": 21,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 500,
+        "hostile": 14,
+        "suspicious": 0,
+        "caught": 14,
+        "cohort_n": 21,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1000,
+        "hostile": 14,
+        "suspicious": 5,
+        "caught": 19,
+        "cohort_n": 21,
+        "fp_hostile": 1,
+        "fp_suspicious": 4,
+        "fp_flagged": 5,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 3000,
+        "hostile": 19,
+        "suspicious": 0,
+        "caught": 19,
+        "cohort_n": 21,
+        "fp_hostile": 5,
+        "fp_suspicious": 0,
+        "fp_flagged": 5,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25000,
+        "hostile": 19,
+        "suspicious": 0,
+        "caught": 19,
+        "cohort_n": 21,
+        "fp_hostile": 5,
+        "fp_suspicious": 0,
+        "fp_flagged": 5,
+        "fp_cohort_n": 50
+      }
+    ],
     "bad": 21,
     "good": 50
   },
@@ -612,6 +1622,107 @@
       "socket": 0,
       "virustotal": 0.02
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 15,
+        "suspicious": 0,
+        "caught": 15,
+        "cohort_n": 41,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1,
+        "hostile": 15,
+        "suspicious": 0,
+        "caught": 15,
+        "cohort_n": 41,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 5,
+        "hostile": 15,
+        "suspicious": 0,
+        "caught": 15,
+        "cohort_n": 41,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25,
+        "hostile": 20,
+        "suspicious": 0,
+        "caught": 20,
+        "cohort_n": 41,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 50,
+        "hostile": 20,
+        "suspicious": 0,
+        "caught": 20,
+        "cohort_n": 41,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 500,
+        "hostile": 20,
+        "suspicious": 0,
+        "caught": 20,
+        "cohort_n": 41,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1000,
+        "hostile": 20,
+        "suspicious": 5,
+        "caught": 25,
+        "cohort_n": 41,
+        "fp_hostile": 0,
+        "fp_suspicious": 2,
+        "fp_flagged": 2,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 3000,
+        "hostile": 25,
+        "suspicious": 0,
+        "caught": 25,
+        "cohort_n": 41,
+        "fp_hostile": 2,
+        "fp_suspicious": 0,
+        "fp_flagged": 2,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25000,
+        "hostile": 25,
+        "suspicious": 0,
+        "caught": 25,
+        "cohort_n": 41,
+        "fp_hostile": 2,
+        "fp_suspicious": 0,
+        "fp_flagged": 2,
+        "fp_cohort_n": 50
+      }
+    ],
     "bad": 41,
     "good": 50
   },
@@ -637,6 +1748,107 @@
       "socket": 0,
       "virustotal": 0
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 5,
+        "suspicious": 0,
+        "caught": 5,
+        "cohort_n": 25,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1,
+        "hostile": 6,
+        "suspicious": 0,
+        "caught": 6,
+        "cohort_n": 25,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 5,
+        "hostile": 6,
+        "suspicious": 0,
+        "caught": 6,
+        "cohort_n": 25,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25,
+        "hostile": 13,
+        "suspicious": 0,
+        "caught": 13,
+        "cohort_n": 25,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 50,
+        "hostile": 13,
+        "suspicious": 0,
+        "caught": 13,
+        "cohort_n": 25,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 500,
+        "hostile": 13,
+        "suspicious": 0,
+        "caught": 13,
+        "cohort_n": 25,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1000,
+        "hostile": 13,
+        "suspicious": 0,
+        "caught": 13,
+        "cohort_n": 25,
+        "fp_hostile": 1,
+        "fp_suspicious": 3,
+        "fp_flagged": 4,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 3000,
+        "hostile": 13,
+        "suspicious": 0,
+        "caught": 13,
+        "cohort_n": 25,
+        "fp_hostile": 4,
+        "fp_suspicious": 0,
+        "fp_flagged": 4,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25000,
+        "hostile": 13,
+        "suspicious": 0,
+        "caught": 13,
+        "cohort_n": 25,
+        "fp_hostile": 4,
+        "fp_suspicious": 0,
+        "fp_flagged": 4,
+        "fp_cohort_n": 50
+      }
+    ],
     "bad": 25,
     "good": 50
   },
@@ -662,6 +1874,107 @@
       "socket": 0,
       "virustotal": 0
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 13,
+        "suspicious": 0,
+        "caught": 13,
+        "cohort_n": 26,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1,
+        "hostile": 14,
+        "suspicious": 0,
+        "caught": 14,
+        "cohort_n": 26,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 5,
+        "hostile": 14,
+        "suspicious": 0,
+        "caught": 14,
+        "cohort_n": 26,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25,
+        "hostile": 17,
+        "suspicious": 0,
+        "caught": 17,
+        "cohort_n": 26,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 50,
+        "hostile": 17,
+        "suspicious": 0,
+        "caught": 17,
+        "cohort_n": 26,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 500,
+        "hostile": 17,
+        "suspicious": 0,
+        "caught": 17,
+        "cohort_n": 26,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1000,
+        "hostile": 17,
+        "suspicious": 2,
+        "caught": 19,
+        "cohort_n": 26,
+        "fp_hostile": 1,
+        "fp_suspicious": 4,
+        "fp_flagged": 5,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 3000,
+        "hostile": 19,
+        "suspicious": 0,
+        "caught": 19,
+        "cohort_n": 26,
+        "fp_hostile": 5,
+        "fp_suspicious": 0,
+        "fp_flagged": 5,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25000,
+        "hostile": 19,
+        "suspicious": 0,
+        "caught": 19,
+        "cohort_n": 26,
+        "fp_hostile": 5,
+        "fp_suspicious": 0,
+        "fp_flagged": 5,
+        "fp_cohort_n": 50
+      }
+    ],
     "bad": 26,
     "good": 50
   },
@@ -687,6 +2000,107 @@
       "socket": 0,
       "virustotal": 0
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 10,
+        "suspicious": 0,
+        "caught": 10,
+        "cohort_n": 25,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1,
+        "hostile": 10,
+        "suspicious": 0,
+        "caught": 10,
+        "cohort_n": 25,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 5,
+        "hostile": 10,
+        "suspicious": 0,
+        "caught": 10,
+        "cohort_n": 25,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25,
+        "hostile": 14,
+        "suspicious": 0,
+        "caught": 14,
+        "cohort_n": 25,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 50,
+        "hostile": 14,
+        "suspicious": 0,
+        "caught": 14,
+        "cohort_n": 25,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 500,
+        "hostile": 14,
+        "suspicious": 0,
+        "caught": 14,
+        "cohort_n": 25,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1000,
+        "hostile": 14,
+        "suspicious": 0,
+        "caught": 14,
+        "cohort_n": 25,
+        "fp_hostile": 1,
+        "fp_suspicious": 3,
+        "fp_flagged": 4,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 3000,
+        "hostile": 14,
+        "suspicious": 0,
+        "caught": 14,
+        "cohort_n": 25,
+        "fp_hostile": 4,
+        "fp_suspicious": 0,
+        "fp_flagged": 4,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25000,
+        "hostile": 14,
+        "suspicious": 0,
+        "caught": 14,
+        "cohort_n": 25,
+        "fp_hostile": 4,
+        "fp_suspicious": 0,
+        "fp_flagged": 4,
+        "fp_cohort_n": 50
+      }
+    ],
     "bad": 25,
     "good": 50
   },
@@ -712,6 +2126,107 @@
       "socket": 0,
       "virustotal": 0
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 6,
+        "suspicious": 0,
+        "caught": 6,
+        "cohort_n": 21,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1,
+        "hostile": 6,
+        "suspicious": 0,
+        "caught": 6,
+        "cohort_n": 21,
+        "fp_hostile": 2,
+        "fp_suspicious": 0,
+        "fp_flagged": 2,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 5,
+        "hostile": 6,
+        "suspicious": 0,
+        "caught": 6,
+        "cohort_n": 21,
+        "fp_hostile": 2,
+        "fp_suspicious": 0,
+        "fp_flagged": 2,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25,
+        "hostile": 11,
+        "suspicious": 0,
+        "caught": 11,
+        "cohort_n": 21,
+        "fp_hostile": 2,
+        "fp_suspicious": 0,
+        "fp_flagged": 2,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 50,
+        "hostile": 11,
+        "suspicious": 0,
+        "caught": 11,
+        "cohort_n": 21,
+        "fp_hostile": 2,
+        "fp_suspicious": 0,
+        "fp_flagged": 2,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 500,
+        "hostile": 11,
+        "suspicious": 0,
+        "caught": 11,
+        "cohort_n": 21,
+        "fp_hostile": 2,
+        "fp_suspicious": 0,
+        "fp_flagged": 2,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1000,
+        "hostile": 11,
+        "suspicious": 0,
+        "caught": 11,
+        "cohort_n": 21,
+        "fp_hostile": 2,
+        "fp_suspicious": 2,
+        "fp_flagged": 4,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 3000,
+        "hostile": 11,
+        "suspicious": 0,
+        "caught": 11,
+        "cohort_n": 21,
+        "fp_hostile": 4,
+        "fp_suspicious": 0,
+        "fp_flagged": 4,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25000,
+        "hostile": 11,
+        "suspicious": 0,
+        "caught": 11,
+        "cohort_n": 21,
+        "fp_hostile": 4,
+        "fp_suspicious": 0,
+        "fp_flagged": 4,
+        "fp_cohort_n": 50
+      }
+    ],
     "bad": 21,
     "good": 50
   },
@@ -737,6 +2252,107 @@
       "socket": 0,
       "virustotal": 0.02
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 7,
+        "suspicious": 0,
+        "caught": 7,
+        "cohort_n": 21,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1,
+        "hostile": 7,
+        "suspicious": 0,
+        "caught": 7,
+        "cohort_n": 21,
+        "fp_hostile": 2,
+        "fp_suspicious": 0,
+        "fp_flagged": 2,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 5,
+        "hostile": 7,
+        "suspicious": 0,
+        "caught": 7,
+        "cohort_n": 21,
+        "fp_hostile": 2,
+        "fp_suspicious": 0,
+        "fp_flagged": 2,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25,
+        "hostile": 9,
+        "suspicious": 0,
+        "caught": 9,
+        "cohort_n": 21,
+        "fp_hostile": 3,
+        "fp_suspicious": 0,
+        "fp_flagged": 3,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 50,
+        "hostile": 9,
+        "suspicious": 0,
+        "caught": 9,
+        "cohort_n": 21,
+        "fp_hostile": 3,
+        "fp_suspicious": 0,
+        "fp_flagged": 3,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 500,
+        "hostile": 9,
+        "suspicious": 0,
+        "caught": 9,
+        "cohort_n": 21,
+        "fp_hostile": 3,
+        "fp_suspicious": 0,
+        "fp_flagged": 3,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1000,
+        "hostile": 9,
+        "suspicious": 1,
+        "caught": 10,
+        "cohort_n": 21,
+        "fp_hostile": 3,
+        "fp_suspicious": 4,
+        "fp_flagged": 7,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 3000,
+        "hostile": 10,
+        "suspicious": 0,
+        "caught": 10,
+        "cohort_n": 21,
+        "fp_hostile": 7,
+        "fp_suspicious": 0,
+        "fp_flagged": 7,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25000,
+        "hostile": 10,
+        "suspicious": 0,
+        "caught": 10,
+        "cohort_n": 21,
+        "fp_hostile": 7,
+        "fp_suspicious": 0,
+        "fp_flagged": 7,
+        "fp_cohort_n": 50
+      }
+    ],
     "bad": 21,
     "good": 50
   },
@@ -812,6 +2428,107 @@
       "socket": 0,
       "virustotal": 0
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 19,
+        "suspicious": 0,
+        "caught": 19,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1,
+        "hostile": 24,
+        "suspicious": 0,
+        "caught": 24,
+        "cohort_n": 50,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 5,
+        "hostile": 24,
+        "suspicious": 0,
+        "caught": 24,
+        "cohort_n": 50,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25,
+        "hostile": 31,
+        "suspicious": 0,
+        "caught": 31,
+        "cohort_n": 50,
+        "fp_hostile": 3,
+        "fp_suspicious": 0,
+        "fp_flagged": 3,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 50,
+        "hostile": 31,
+        "suspicious": 0,
+        "caught": 31,
+        "cohort_n": 50,
+        "fp_hostile": 3,
+        "fp_suspicious": 0,
+        "fp_flagged": 3,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 500,
+        "hostile": 31,
+        "suspicious": 0,
+        "caught": 31,
+        "cohort_n": 50,
+        "fp_hostile": 3,
+        "fp_suspicious": 0,
+        "fp_flagged": 3,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1000,
+        "hostile": 31,
+        "suspicious": 5,
+        "caught": 36,
+        "cohort_n": 50,
+        "fp_hostile": 3,
+        "fp_suspicious": 6,
+        "fp_flagged": 9,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 3000,
+        "hostile": 36,
+        "suspicious": 0,
+        "caught": 36,
+        "cohort_n": 50,
+        "fp_hostile": 9,
+        "fp_suspicious": 0,
+        "fp_flagged": 9,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25000,
+        "hostile": 36,
+        "suspicious": 0,
+        "caught": 36,
+        "cohort_n": 50,
+        "fp_hostile": 9,
+        "fp_suspicious": 0,
+        "fp_flagged": 9,
+        "fp_cohort_n": 50
+      }
+    ],
     "bad": 50,
     "good": 50
   },
@@ -837,6 +2554,107 @@
       "socket": 0,
       "virustotal": 0.02
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 17,
+        "suspicious": 0,
+        "caught": 17,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1,
+        "hostile": 21,
+        "suspicious": 0,
+        "caught": 21,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 5,
+        "hostile": 21,
+        "suspicious": 0,
+        "caught": 21,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25,
+        "hostile": 31,
+        "suspicious": 0,
+        "caught": 31,
+        "cohort_n": 50,
+        "fp_hostile": 2,
+        "fp_suspicious": 0,
+        "fp_flagged": 2,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 50,
+        "hostile": 31,
+        "suspicious": 0,
+        "caught": 31,
+        "cohort_n": 50,
+        "fp_hostile": 2,
+        "fp_suspicious": 0,
+        "fp_flagged": 2,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 500,
+        "hostile": 31,
+        "suspicious": 0,
+        "caught": 31,
+        "cohort_n": 50,
+        "fp_hostile": 2,
+        "fp_suspicious": 0,
+        "fp_flagged": 2,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1000,
+        "hostile": 31,
+        "suspicious": 6,
+        "caught": 37,
+        "cohort_n": 50,
+        "fp_hostile": 2,
+        "fp_suspicious": 7,
+        "fp_flagged": 9,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 3000,
+        "hostile": 37,
+        "suspicious": 0,
+        "caught": 37,
+        "cohort_n": 50,
+        "fp_hostile": 9,
+        "fp_suspicious": 0,
+        "fp_flagged": 9,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25000,
+        "hostile": 37,
+        "suspicious": 0,
+        "caught": 37,
+        "cohort_n": 50,
+        "fp_hostile": 10,
+        "fp_suspicious": 0,
+        "fp_flagged": 10,
+        "fp_cohort_n": 50
+      }
+    ],
     "bad": 50,
     "good": 50
   },
@@ -862,6 +2680,107 @@
       "socket": 0,
       "virustotal": 0.02
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 14,
+        "suspicious": 0,
+        "caught": 14,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1,
+        "hostile": 19,
+        "suspicious": 0,
+        "caught": 19,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 5,
+        "hostile": 19,
+        "suspicious": 1,
+        "caught": 20,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25,
+        "hostile": 26,
+        "suspicious": 0,
+        "caught": 26,
+        "cohort_n": 50,
+        "fp_hostile": 2,
+        "fp_suspicious": 0,
+        "fp_flagged": 2,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 50,
+        "hostile": 26,
+        "suspicious": 0,
+        "caught": 26,
+        "cohort_n": 50,
+        "fp_hostile": 2,
+        "fp_suspicious": 0,
+        "fp_flagged": 2,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 500,
+        "hostile": 26,
+        "suspicious": 0,
+        "caught": 26,
+        "cohort_n": 50,
+        "fp_hostile": 2,
+        "fp_suspicious": 0,
+        "fp_flagged": 2,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1000,
+        "hostile": 26,
+        "suspicious": 14,
+        "caught": 40,
+        "cohort_n": 50,
+        "fp_hostile": 2,
+        "fp_suspicious": 8,
+        "fp_flagged": 10,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 3000,
+        "hostile": 40,
+        "suspicious": 0,
+        "caught": 40,
+        "cohort_n": 50,
+        "fp_hostile": 10,
+        "fp_suspicious": 0,
+        "fp_flagged": 10,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25000,
+        "hostile": 40,
+        "suspicious": 0,
+        "caught": 40,
+        "cohort_n": 50,
+        "fp_hostile": 10,
+        "fp_suspicious": 0,
+        "fp_flagged": 10,
+        "fp_cohort_n": 50
+      }
+    ],
     "bad": 50,
     "good": 50
   },
@@ -887,6 +2806,107 @@
       "socket": 0,
       "virustotal": 0.02
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 25,
+        "suspicious": 0,
+        "caught": 25,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1,
+        "hostile": 25,
+        "suspicious": 0,
+        "caught": 25,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 5,
+        "hostile": 25,
+        "suspicious": 6,
+        "caught": 31,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25,
+        "hostile": 33,
+        "suspicious": 4,
+        "caught": 37,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 2,
+        "fp_flagged": 2,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 50,
+        "hostile": 33,
+        "suspicious": 4,
+        "caught": 37,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 2,
+        "fp_flagged": 2,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 500,
+        "hostile": 41,
+        "suspicious": 0,
+        "caught": 41,
+        "cohort_n": 50,
+        "fp_hostile": 3,
+        "fp_suspicious": 0,
+        "fp_flagged": 3,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1000,
+        "hostile": 41,
+        "suspicious": 0,
+        "caught": 41,
+        "cohort_n": 50,
+        "fp_hostile": 3,
+        "fp_suspicious": 0,
+        "fp_flagged": 3,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 3000,
+        "hostile": 41,
+        "suspicious": 0,
+        "caught": 41,
+        "cohort_n": 50,
+        "fp_hostile": 3,
+        "fp_suspicious": 0,
+        "fp_flagged": 3,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25000,
+        "hostile": 41,
+        "suspicious": 0,
+        "caught": 41,
+        "cohort_n": 50,
+        "fp_hostile": 4,
+        "fp_suspicious": 0,
+        "fp_flagged": 4,
+        "fp_cohort_n": 50
+      }
+    ],
     "bad": 50,
     "good": 50
   },
@@ -962,6 +2982,107 @@
       "socket": 0,
       "virustotal": 0
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 19,
+        "suspicious": 30,
+        "caught": 49,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 7,
+        "fp_flagged": 7,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1,
+        "hostile": 19,
+        "suspicious": 30,
+        "caught": 49,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 7,
+        "fp_flagged": 7,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 5,
+        "hostile": 19,
+        "suspicious": 30,
+        "caught": 49,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 7,
+        "fp_flagged": 7,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25,
+        "hostile": 42,
+        "suspicious": 7,
+        "caught": 49,
+        "cohort_n": 50,
+        "fp_hostile": 3,
+        "fp_suspicious": 4,
+        "fp_flagged": 7,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 50,
+        "hostile": 42,
+        "suspicious": 7,
+        "caught": 49,
+        "cohort_n": 50,
+        "fp_hostile": 3,
+        "fp_suspicious": 4,
+        "fp_flagged": 7,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 500,
+        "hostile": 49,
+        "suspicious": 0,
+        "caught": 49,
+        "cohort_n": 50,
+        "fp_hostile": 7,
+        "fp_suspicious": 0,
+        "fp_flagged": 7,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1000,
+        "hostile": 49,
+        "suspicious": 0,
+        "caught": 49,
+        "cohort_n": 50,
+        "fp_hostile": 7,
+        "fp_suspicious": 0,
+        "fp_flagged": 7,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 3000,
+        "hostile": 49,
+        "suspicious": 0,
+        "caught": 49,
+        "cohort_n": 50,
+        "fp_hostile": 7,
+        "fp_suspicious": 0,
+        "fp_flagged": 7,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25000,
+        "hostile": 49,
+        "suspicious": 0,
+        "caught": 49,
+        "cohort_n": 50,
+        "fp_hostile": 9,
+        "fp_suspicious": 0,
+        "fp_flagged": 9,
+        "fp_cohort_n": 50
+      }
+    ],
     "bad": 50,
     "good": 50
   },
@@ -987,6 +3108,107 @@
       "socket": 0,
       "virustotal": 0.02
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 16,
+        "suspicious": 24,
+        "caught": 40,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 5,
+        "fp_flagged": 5,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1,
+        "hostile": 16,
+        "suspicious": 24,
+        "caught": 40,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 5,
+        "fp_flagged": 5,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 5,
+        "hostile": 16,
+        "suspicious": 24,
+        "caught": 40,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 5,
+        "fp_flagged": 5,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25,
+        "hostile": 31,
+        "suspicious": 9,
+        "caught": 40,
+        "cohort_n": 50,
+        "fp_hostile": 2,
+        "fp_suspicious": 3,
+        "fp_flagged": 5,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 50,
+        "hostile": 31,
+        "suspicious": 9,
+        "caught": 40,
+        "cohort_n": 50,
+        "fp_hostile": 2,
+        "fp_suspicious": 3,
+        "fp_flagged": 5,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 500,
+        "hostile": 40,
+        "suspicious": 0,
+        "caught": 40,
+        "cohort_n": 50,
+        "fp_hostile": 5,
+        "fp_suspicious": 0,
+        "fp_flagged": 5,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1000,
+        "hostile": 40,
+        "suspicious": 0,
+        "caught": 40,
+        "cohort_n": 50,
+        "fp_hostile": 5,
+        "fp_suspicious": 0,
+        "fp_flagged": 5,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 3000,
+        "hostile": 40,
+        "suspicious": 0,
+        "caught": 40,
+        "cohort_n": 50,
+        "fp_hostile": 5,
+        "fp_suspicious": 0,
+        "fp_flagged": 5,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25000,
+        "hostile": 40,
+        "suspicious": 0,
+        "caught": 40,
+        "cohort_n": 50,
+        "fp_hostile": 7,
+        "fp_suspicious": 0,
+        "fp_flagged": 7,
+        "fp_cohort_n": 50
+      }
+    ],
     "bad": 50,
     "good": 50
   },
@@ -1012,6 +3234,107 @@
       "socket": 0,
       "virustotal": 0.02
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 13,
+        "suspicious": 26,
+        "caught": 39,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 6,
+        "fp_flagged": 6,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1,
+        "hostile": 13,
+        "suspicious": 26,
+        "caught": 39,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 6,
+        "fp_flagged": 6,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 5,
+        "hostile": 13,
+        "suspicious": 26,
+        "caught": 39,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 6,
+        "fp_flagged": 6,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25,
+        "hostile": 26,
+        "suspicious": 13,
+        "caught": 39,
+        "cohort_n": 50,
+        "fp_hostile": 3,
+        "fp_suspicious": 3,
+        "fp_flagged": 6,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 50,
+        "hostile": 26,
+        "suspicious": 13,
+        "caught": 39,
+        "cohort_n": 50,
+        "fp_hostile": 3,
+        "fp_suspicious": 3,
+        "fp_flagged": 6,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 500,
+        "hostile": 38,
+        "suspicious": 1,
+        "caught": 39,
+        "cohort_n": 50,
+        "fp_hostile": 6,
+        "fp_suspicious": 0,
+        "fp_flagged": 6,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1000,
+        "hostile": 38,
+        "suspicious": 1,
+        "caught": 39,
+        "cohort_n": 50,
+        "fp_hostile": 6,
+        "fp_suspicious": 0,
+        "fp_flagged": 6,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 3000,
+        "hostile": 39,
+        "suspicious": 0,
+        "caught": 39,
+        "cohort_n": 50,
+        "fp_hostile": 6,
+        "fp_suspicious": 0,
+        "fp_flagged": 6,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25000,
+        "hostile": 39,
+        "suspicious": 0,
+        "caught": 39,
+        "cohort_n": 50,
+        "fp_hostile": 8,
+        "fp_suspicious": 0,
+        "fp_flagged": 8,
+        "fp_cohort_n": 50
+      }
+    ],
     "bad": 50,
     "good": 50
   },
@@ -1037,6 +3360,107 @@
       "socket": 0,
       "virustotal": 0.02
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 13,
+        "suspicious": 27,
+        "caught": 40,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 3,
+        "fp_flagged": 3,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1,
+        "hostile": 13,
+        "suspicious": 27,
+        "caught": 40,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 3,
+        "fp_flagged": 3,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 5,
+        "hostile": 13,
+        "suspicious": 27,
+        "caught": 40,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 3,
+        "fp_flagged": 3,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25,
+        "hostile": 28,
+        "suspicious": 12,
+        "caught": 40,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 3,
+        "fp_flagged": 3,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 50,
+        "hostile": 28,
+        "suspicious": 12,
+        "caught": 40,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 3,
+        "fp_flagged": 3,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 500,
+        "hostile": 39,
+        "suspicious": 1,
+        "caught": 40,
+        "cohort_n": 50,
+        "fp_hostile": 1,
+        "fp_suspicious": 2,
+        "fp_flagged": 3,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1000,
+        "hostile": 39,
+        "suspicious": 1,
+        "caught": 40,
+        "cohort_n": 50,
+        "fp_hostile": 1,
+        "fp_suspicious": 2,
+        "fp_flagged": 3,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 3000,
+        "hostile": 40,
+        "suspicious": 0,
+        "caught": 40,
+        "cohort_n": 50,
+        "fp_hostile": 3,
+        "fp_suspicious": 0,
+        "fp_flagged": 3,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25000,
+        "hostile": 40,
+        "suspicious": 0,
+        "caught": 40,
+        "cohort_n": 50,
+        "fp_hostile": 4,
+        "fp_suspicious": 0,
+        "fp_flagged": 4,
+        "fp_cohort_n": 50
+      }
+    ],
     "bad": 50,
     "good": 50
   },
@@ -1062,6 +3486,107 @@
       "socket": 0,
       "virustotal": 0
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 9,
+        "suspicious": 35,
+        "caught": 44,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 1,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1,
+        "hostile": 9,
+        "suspicious": 35,
+        "caught": 44,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 1,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 5,
+        "hostile": 9,
+        "suspicious": 35,
+        "caught": 44,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 1,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25,
+        "hostile": 29,
+        "suspicious": 15,
+        "caught": 44,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 1,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 50,
+        "hostile": 29,
+        "suspicious": 15,
+        "caught": 44,
+        "cohort_n": 50,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 500,
+        "hostile": 41,
+        "suspicious": 3,
+        "caught": 44,
+        "cohort_n": 50,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1000,
+        "hostile": 41,
+        "suspicious": 3,
+        "caught": 44,
+        "cohort_n": 50,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 3000,
+        "hostile": 44,
+        "suspicious": 0,
+        "caught": 44,
+        "cohort_n": 50,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25000,
+        "hostile": 44,
+        "suspicious": 0,
+        "caught": 44,
+        "cohort_n": 50,
+        "fp_hostile": 3,
+        "fp_suspicious": 0,
+        "fp_flagged": 3,
+        "fp_cohort_n": 50
+      }
+    ],
     "bad": 50,
     "good": 50
   },
@@ -1112,6 +3637,107 @@
       "socket": 0,
       "virustotal": 0
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 18,
+        "suspicious": 20,
+        "caught": 38,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1,
+        "hostile": 18,
+        "suspicious": 20,
+        "caught": 38,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 5,
+        "hostile": 18,
+        "suspicious": 20,
+        "caught": 38,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25,
+        "hostile": 34,
+        "suspicious": 4,
+        "caught": 38,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 50,
+        "hostile": 34,
+        "suspicious": 4,
+        "caught": 38,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 500,
+        "hostile": 38,
+        "suspicious": 0,
+        "caught": 38,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1000,
+        "hostile": 38,
+        "suspicious": 0,
+        "caught": 38,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 3000,
+        "hostile": 38,
+        "suspicious": 0,
+        "caught": 38,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25000,
+        "hostile": 38,
+        "suspicious": 0,
+        "caught": 38,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      }
+    ],
     "bad": 50,
     "good": 50
   },
@@ -1137,6 +3763,107 @@
       "socket": 0,
       "virustotal": 0
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 13,
+        "suspicious": 33,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 1,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1,
+        "hostile": 13,
+        "suspicious": 33,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 1,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 5,
+        "hostile": 13,
+        "suspicious": 33,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 1,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25,
+        "hostile": 39,
+        "suspicious": 7,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 1,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 50,
+        "hostile": 39,
+        "suspicious": 7,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 1,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 500,
+        "hostile": 46,
+        "suspicious": 0,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1000,
+        "hostile": 46,
+        "suspicious": 0,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 3000,
+        "hostile": 46,
+        "suspicious": 0,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25000,
+        "hostile": 46,
+        "suspicious": 0,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      }
+    ],
     "bad": 50,
     "good": 50
   },
@@ -1187,6 +3914,107 @@
       "socket": 0,
       "virustotal": 0
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 4,
+        "suspicious": 39,
+        "caught": 43,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1,
+        "hostile": 4,
+        "suspicious": 39,
+        "caught": 43,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 5,
+        "hostile": 4,
+        "suspicious": 39,
+        "caught": 43,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25,
+        "hostile": 24,
+        "suspicious": 19,
+        "caught": 43,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 50,
+        "hostile": 25,
+        "suspicious": 18,
+        "caught": 43,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 500,
+        "hostile": 37,
+        "suspicious": 6,
+        "caught": 43,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1000,
+        "hostile": 37,
+        "suspicious": 6,
+        "caught": 43,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 3000,
+        "hostile": 43,
+        "suspicious": 0,
+        "caught": 43,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25000,
+        "hostile": 43,
+        "suspicious": 0,
+        "caught": 43,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      }
+    ],
     "bad": 50,
     "good": 50
   },
@@ -1212,6 +4040,107 @@
       "socket": 0,
       "virustotal": 0
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 20,
+        "suspicious": 25,
+        "caught": 45,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1,
+        "hostile": 20,
+        "suspicious": 25,
+        "caught": 45,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 5,
+        "hostile": 20,
+        "suspicious": 25,
+        "caught": 45,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25,
+        "hostile": 34,
+        "suspicious": 11,
+        "caught": 45,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 50,
+        "hostile": 34,
+        "suspicious": 11,
+        "caught": 45,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 500,
+        "hostile": 45,
+        "suspicious": 0,
+        "caught": 45,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1000,
+        "hostile": 45,
+        "suspicious": 0,
+        "caught": 45,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 3000,
+        "hostile": 45,
+        "suspicious": 0,
+        "caught": 45,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25000,
+        "hostile": 45,
+        "suspicious": 0,
+        "caught": 45,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      }
+    ],
     "bad": 50,
     "good": 50
   },
@@ -1237,6 +4166,107 @@
       "socket": 0,
       "virustotal": 0
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 13,
+        "suspicious": 36,
+        "caught": 49,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 1,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1,
+        "hostile": 13,
+        "suspicious": 36,
+        "caught": 49,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 1,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 5,
+        "hostile": 13,
+        "suspicious": 36,
+        "caught": 49,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 1,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25,
+        "hostile": 30,
+        "suspicious": 19,
+        "caught": 49,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 1,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 50,
+        "hostile": 35,
+        "suspicious": 14,
+        "caught": 49,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 1,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 500,
+        "hostile": 49,
+        "suspicious": 0,
+        "caught": 49,
+        "cohort_n": 50,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1000,
+        "hostile": 49,
+        "suspicious": 0,
+        "caught": 49,
+        "cohort_n": 50,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 3000,
+        "hostile": 49,
+        "suspicious": 0,
+        "caught": 49,
+        "cohort_n": 50,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25000,
+        "hostile": 49,
+        "suspicious": 0,
+        "caught": 49,
+        "cohort_n": 50,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      }
+    ],
     "bad": 50,
     "good": 50
   },
@@ -1261,6 +4291,107 @@
       "socket": 0,
       "virustotal": 0
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 2,
+        "suspicious": 7,
+        "caught": 9,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 1,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1,
+        "hostile": 3,
+        "suspicious": 6,
+        "caught": 9,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 1,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 5,
+        "hostile": 3,
+        "suspicious": 6,
+        "caught": 9,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 1,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25,
+        "hostile": 5,
+        "suspicious": 4,
+        "caught": 9,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 1,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 50,
+        "hostile": 5,
+        "suspicious": 4,
+        "caught": 9,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 1,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 500,
+        "hostile": 9,
+        "suspicious": 0,
+        "caught": 9,
+        "cohort_n": 50,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1000,
+        "hostile": 9,
+        "suspicious": 0,
+        "caught": 9,
+        "cohort_n": 50,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 3000,
+        "hostile": 9,
+        "suspicious": 0,
+        "caught": 9,
+        "cohort_n": 50,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25000,
+        "hostile": 9,
+        "suspicious": 0,
+        "caught": 9,
+        "cohort_n": 50,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      }
+    ],
     "bad": 50,
     "good": 50
   },
@@ -1286,6 +4417,107 @@
       "socket": 0,
       "virustotal": 0
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 16,
+        "suspicious": 18,
+        "caught": 34,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1,
+        "hostile": 18,
+        "suspicious": 16,
+        "caught": 34,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 5,
+        "hostile": 18,
+        "suspicious": 16,
+        "caught": 34,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25,
+        "hostile": 28,
+        "suspicious": 6,
+        "caught": 34,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 50,
+        "hostile": 28,
+        "suspicious": 6,
+        "caught": 34,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 500,
+        "hostile": 33,
+        "suspicious": 1,
+        "caught": 34,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1000,
+        "hostile": 33,
+        "suspicious": 1,
+        "caught": 34,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 3000,
+        "hostile": 34,
+        "suspicious": 0,
+        "caught": 34,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25000,
+        "hostile": 34,
+        "suspicious": 0,
+        "caught": 34,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      }
+    ],
     "bad": 50,
     "good": 50
   },
@@ -1311,6 +4543,107 @@
       "socket": 0,
       "virustotal": 0
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 12,
+        "suspicious": 33,
+        "caught": 45,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1,
+        "hostile": 12,
+        "suspicious": 33,
+        "caught": 45,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 5,
+        "hostile": 12,
+        "suspicious": 33,
+        "caught": 45,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25,
+        "hostile": 39,
+        "suspicious": 6,
+        "caught": 45,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 50,
+        "hostile": 39,
+        "suspicious": 6,
+        "caught": 45,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 500,
+        "hostile": 42,
+        "suspicious": 3,
+        "caught": 45,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1000,
+        "hostile": 42,
+        "suspicious": 3,
+        "caught": 45,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 3000,
+        "hostile": 45,
+        "suspicious": 0,
+        "caught": 45,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25000,
+        "hostile": 45,
+        "suspicious": 0,
+        "caught": 45,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      }
+    ],
     "bad": 50,
     "good": 50
   },
@@ -1336,6 +4669,107 @@
       "socket": 0,
       "virustotal": 0
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 13,
+        "suspicious": 29,
+        "caught": 42,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1,
+        "hostile": 13,
+        "suspicious": 29,
+        "caught": 42,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 5,
+        "hostile": 13,
+        "suspicious": 29,
+        "caught": 42,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25,
+        "hostile": 33,
+        "suspicious": 9,
+        "caught": 42,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 50,
+        "hostile": 35,
+        "suspicious": 7,
+        "caught": 42,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 500,
+        "hostile": 42,
+        "suspicious": 0,
+        "caught": 42,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1000,
+        "hostile": 42,
+        "suspicious": 0,
+        "caught": 42,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 3000,
+        "hostile": 42,
+        "suspicious": 0,
+        "caught": 42,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25000,
+        "hostile": 42,
+        "suspicious": 0,
+        "caught": 42,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      }
+    ],
     "bad": 50,
     "good": 50
   },
@@ -1361,6 +4795,107 @@
       "socket": 0,
       "virustotal": 0
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 17,
+        "suspicious": 27,
+        "caught": 44,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1,
+        "hostile": 17,
+        "suspicious": 27,
+        "caught": 44,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 5,
+        "hostile": 17,
+        "suspicious": 27,
+        "caught": 44,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25,
+        "hostile": 42,
+        "suspicious": 2,
+        "caught": 44,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 50,
+        "hostile": 42,
+        "suspicious": 2,
+        "caught": 44,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 500,
+        "hostile": 44,
+        "suspicious": 0,
+        "caught": 44,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1000,
+        "hostile": 44,
+        "suspicious": 0,
+        "caught": 44,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 3000,
+        "hostile": 44,
+        "suspicious": 0,
+        "caught": 44,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25000,
+        "hostile": 44,
+        "suspicious": 0,
+        "caught": 44,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      }
+    ],
     "bad": 50,
     "good": 50
   },
@@ -1386,6 +4921,107 @@
       "socket": 0,
       "virustotal": 0
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 17,
+        "suspicious": 32,
+        "caught": 49,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1,
+        "hostile": 17,
+        "suspicious": 32,
+        "caught": 49,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 5,
+        "hostile": 17,
+        "suspicious": 32,
+        "caught": 49,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25,
+        "hostile": 43,
+        "suspicious": 6,
+        "caught": 49,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 50,
+        "hostile": 43,
+        "suspicious": 6,
+        "caught": 49,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 500,
+        "hostile": 49,
+        "suspicious": 0,
+        "caught": 49,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1000,
+        "hostile": 49,
+        "suspicious": 0,
+        "caught": 49,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 3000,
+        "hostile": 49,
+        "suspicious": 0,
+        "caught": 49,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25000,
+        "hostile": 49,
+        "suspicious": 0,
+        "caught": 49,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      }
+    ],
     "bad": 50,
     "good": 50
   },
@@ -1411,6 +5047,107 @@
       "socket": 0,
       "virustotal": 0
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 20,
+        "suspicious": 25,
+        "caught": 45,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1,
+        "hostile": 20,
+        "suspicious": 25,
+        "caught": 45,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 5,
+        "hostile": 20,
+        "suspicious": 25,
+        "caught": 45,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25,
+        "hostile": 42,
+        "suspicious": 3,
+        "caught": 45,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 50,
+        "hostile": 42,
+        "suspicious": 3,
+        "caught": 45,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 500,
+        "hostile": 44,
+        "suspicious": 1,
+        "caught": 45,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1000,
+        "hostile": 44,
+        "suspicious": 1,
+        "caught": 45,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 3000,
+        "hostile": 45,
+        "suspicious": 0,
+        "caught": 45,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25000,
+        "hostile": 45,
+        "suspicious": 0,
+        "caught": 45,
+        "cohort_n": 50,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      }
+    ],
     "bad": 50,
     "good": 50
   },
@@ -1436,6 +5173,107 @@
       "socket": 0,
       "virustotal": 0.02
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 18,
+        "suspicious": 26,
+        "caught": 44,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1,
+        "hostile": 18,
+        "suspicious": 26,
+        "caught": 44,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 5,
+        "hostile": 18,
+        "suspicious": 26,
+        "caught": 44,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25,
+        "hostile": 35,
+        "suspicious": 9,
+        "caught": 44,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 50,
+        "hostile": 35,
+        "suspicious": 9,
+        "caught": 44,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 500,
+        "hostile": 43,
+        "suspicious": 1,
+        "caught": 44,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1000,
+        "hostile": 43,
+        "suspicious": 1,
+        "caught": 44,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 3000,
+        "hostile": 44,
+        "suspicious": 0,
+        "caught": 44,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25000,
+        "hostile": 44,
+        "suspicious": 0,
+        "caught": 44,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      }
+    ],
     "bad": 50,
     "good": 50
   },
@@ -1461,6 +5299,107 @@
       "socket": 0,
       "virustotal": 0
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 13,
+        "suspicious": 33,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1,
+        "hostile": 13,
+        "suspicious": 33,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 5,
+        "hostile": 13,
+        "suspicious": 33,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25,
+        "hostile": 25,
+        "suspicious": 21,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 50,
+        "hostile": 25,
+        "suspicious": 21,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 500,
+        "hostile": 46,
+        "suspicious": 0,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1000,
+        "hostile": 46,
+        "suspicious": 0,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 3000,
+        "hostile": 46,
+        "suspicious": 0,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25000,
+        "hostile": 46,
+        "suspicious": 0,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      }
+    ],
     "bad": 50,
     "good": 50
   },
@@ -1486,6 +5425,107 @@
       "socket": 0,
       "virustotal": 0
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 13,
+        "suspicious": 36,
+        "caught": 49,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1,
+        "hostile": 13,
+        "suspicious": 36,
+        "caught": 49,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 5,
+        "hostile": 13,
+        "suspicious": 36,
+        "caught": 49,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25,
+        "hostile": 37,
+        "suspicious": 12,
+        "caught": 49,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 50,
+        "hostile": 38,
+        "suspicious": 11,
+        "caught": 49,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 500,
+        "hostile": 49,
+        "suspicious": 0,
+        "caught": 49,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1000,
+        "hostile": 49,
+        "suspicious": 0,
+        "caught": 49,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 3000,
+        "hostile": 49,
+        "suspicious": 0,
+        "caught": 49,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25000,
+        "hostile": 49,
+        "suspicious": 0,
+        "caught": 49,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      }
+    ],
     "bad": 50,
     "good": 50
   },
@@ -1611,6 +5651,107 @@
       "socket": 0,
       "virustotal": 0
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 14,
+        "suspicious": 27,
+        "caught": 41,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1,
+        "hostile": 14,
+        "suspicious": 27,
+        "caught": 41,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 5,
+        "hostile": 14,
+        "suspicious": 27,
+        "caught": 41,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25,
+        "hostile": 26,
+        "suspicious": 15,
+        "caught": 41,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 50,
+        "hostile": 26,
+        "suspicious": 15,
+        "caught": 41,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 500,
+        "hostile": 40,
+        "suspicious": 1,
+        "caught": 41,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1000,
+        "hostile": 40,
+        "suspicious": 1,
+        "caught": 41,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 3000,
+        "hostile": 41,
+        "suspicious": 0,
+        "caught": 41,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25000,
+        "hostile": 41,
+        "suspicious": 0,
+        "caught": 41,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      }
+    ],
     "bad": 50,
     "good": 50
   },
@@ -1686,6 +5827,107 @@
       "socket": 0,
       "virustotal": 0
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 11,
+        "suspicious": 29,
+        "caught": 40,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1,
+        "hostile": 11,
+        "suspicious": 29,
+        "caught": 40,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 5,
+        "hostile": 11,
+        "suspicious": 29,
+        "caught": 40,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25,
+        "hostile": 23,
+        "suspicious": 17,
+        "caught": 40,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 50,
+        "hostile": 24,
+        "suspicious": 16,
+        "caught": 40,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 500,
+        "hostile": 40,
+        "suspicious": 0,
+        "caught": 40,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1000,
+        "hostile": 40,
+        "suspicious": 0,
+        "caught": 40,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 3000,
+        "hostile": 40,
+        "suspicious": 0,
+        "caught": 40,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25000,
+        "hostile": 40,
+        "suspicious": 0,
+        "caught": 40,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      }
+    ],
     "bad": 50,
     "good": 50
   },
@@ -1736,6 +5978,107 @@
       "socket": 0,
       "virustotal": 0
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 8,
+        "suspicious": 26,
+        "caught": 34,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 1,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1,
+        "hostile": 8,
+        "suspicious": 26,
+        "caught": 34,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 1,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 5,
+        "hostile": 8,
+        "suspicious": 26,
+        "caught": 34,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 1,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25,
+        "hostile": 18,
+        "suspicious": 16,
+        "caught": 34,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 1,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 50,
+        "hostile": 18,
+        "suspicious": 16,
+        "caught": 34,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 1,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 500,
+        "hostile": 32,
+        "suspicious": 2,
+        "caught": 34,
+        "cohort_n": 50,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1000,
+        "hostile": 34,
+        "suspicious": 0,
+        "caught": 34,
+        "cohort_n": 50,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 3000,
+        "hostile": 34,
+        "suspicious": 0,
+        "caught": 34,
+        "cohort_n": 50,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25000,
+        "hostile": 35,
+        "suspicious": 0,
+        "caught": 35,
+        "cohort_n": 50,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      }
+    ],
     "bad": 50,
     "good": 50
   },
@@ -1836,6 +6179,107 @@
       "socket": 0,
       "virustotal": 0
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 11,
+        "suspicious": 23,
+        "caught": 34,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 2,
+        "fp_flagged": 2,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1,
+        "hostile": 11,
+        "suspicious": 23,
+        "caught": 34,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 2,
+        "fp_flagged": 2,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 5,
+        "hostile": 11,
+        "suspicious": 23,
+        "caught": 34,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 2,
+        "fp_flagged": 2,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25,
+        "hostile": 21,
+        "suspicious": 13,
+        "caught": 34,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 2,
+        "fp_flagged": 2,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 50,
+        "hostile": 22,
+        "suspicious": 12,
+        "caught": 34,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 2,
+        "fp_flagged": 2,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 500,
+        "hostile": 33,
+        "suspicious": 1,
+        "caught": 34,
+        "cohort_n": 50,
+        "fp_hostile": 1,
+        "fp_suspicious": 1,
+        "fp_flagged": 2,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1000,
+        "hostile": 33,
+        "suspicious": 1,
+        "caught": 34,
+        "cohort_n": 50,
+        "fp_hostile": 1,
+        "fp_suspicious": 1,
+        "fp_flagged": 2,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 3000,
+        "hostile": 34,
+        "suspicious": 0,
+        "caught": 34,
+        "cohort_n": 50,
+        "fp_hostile": 2,
+        "fp_suspicious": 0,
+        "fp_flagged": 2,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25000,
+        "hostile": 34,
+        "suspicious": 0,
+        "caught": 34,
+        "cohort_n": 50,
+        "fp_hostile": 2,
+        "fp_suspicious": 0,
+        "fp_flagged": 2,
+        "fp_cohort_n": 50
+      }
+    ],
     "bad": 50,
     "good": 50
   },
@@ -1886,6 +6330,107 @@
       "socket": 0,
       "virustotal": 0
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 13,
+        "suspicious": 31,
+        "caught": 44,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1,
+        "hostile": 13,
+        "suspicious": 31,
+        "caught": 44,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 5,
+        "hostile": 13,
+        "suspicious": 31,
+        "caught": 44,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25,
+        "hostile": 23,
+        "suspicious": 21,
+        "caught": 44,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 50,
+        "hostile": 23,
+        "suspicious": 21,
+        "caught": 44,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 500,
+        "hostile": 42,
+        "suspicious": 2,
+        "caught": 44,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1000,
+        "hostile": 42,
+        "suspicious": 2,
+        "caught": 44,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 3000,
+        "hostile": 44,
+        "suspicious": 0,
+        "caught": 44,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25000,
+        "hostile": 44,
+        "suspicious": 0,
+        "caught": 44,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      }
+    ],
     "bad": 50,
     "good": 50
   },
@@ -1936,6 +6481,107 @@
       "socket": 0,
       "virustotal": 0
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 14,
+        "suspicious": 29,
+        "caught": 43,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 1,
+        "hostile": 14,
+        "suspicious": 29,
+        "caught": 43,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 5,
+        "hostile": 14,
+        "suspicious": 29,
+        "caught": 43,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 25,
+        "hostile": 28,
+        "suspicious": 15,
+        "caught": 43,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 50,
+        "hostile": 28,
+        "suspicious": 15,
+        "caught": 43,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 500,
+        "hostile": 43,
+        "suspicious": 0,
+        "caught": 43,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 1000,
+        "hostile": 43,
+        "suspicious": 0,
+        "caught": 43,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 3000,
+        "hostile": 43,
+        "suspicious": 0,
+        "caught": 43,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 25000,
+        "hostile": 43,
+        "suspicious": 0,
+        "caught": 43,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 49
+      }
+    ],
     "bad": 50,
     "good": 49
   },
@@ -1961,6 +6607,107 @@
       "socket": 0,
       "virustotal": 0
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 0,
+        "suspicious": 2,
+        "caught": 2,
+        "cohort_n": 3,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 6
+      },
+      {
+        "level": 1,
+        "hostile": 0,
+        "suspicious": 2,
+        "caught": 2,
+        "cohort_n": 3,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 6
+      },
+      {
+        "level": 5,
+        "hostile": 0,
+        "suspicious": 2,
+        "caught": 2,
+        "cohort_n": 3,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 6
+      },
+      {
+        "level": 25,
+        "hostile": 1,
+        "suspicious": 1,
+        "caught": 2,
+        "cohort_n": 3,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 6
+      },
+      {
+        "level": 50,
+        "hostile": 1,
+        "suspicious": 1,
+        "caught": 2,
+        "cohort_n": 3,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 6
+      },
+      {
+        "level": 500,
+        "hostile": 2,
+        "suspicious": 0,
+        "caught": 2,
+        "cohort_n": 3,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 6
+      },
+      {
+        "level": 1000,
+        "hostile": 2,
+        "suspicious": 0,
+        "caught": 2,
+        "cohort_n": 3,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 6
+      },
+      {
+        "level": 3000,
+        "hostile": 2,
+        "suspicious": 0,
+        "caught": 2,
+        "cohort_n": 3,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 6
+      },
+      {
+        "level": 25000,
+        "hostile": 2,
+        "suspicious": 0,
+        "caught": 2,
+        "cohort_n": 3,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 6
+      }
+    ],
     "bad": 3,
     "good": 6
   },
@@ -1986,6 +6733,107 @@
       "socket": 0,
       "virustotal": 0
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 18,
+        "suspicious": 28,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 1,
+        "fp_flagged": 1,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 1,
+        "hostile": 18,
+        "suspicious": 28,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 1,
+        "fp_flagged": 1,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 5,
+        "hostile": 18,
+        "suspicious": 28,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 1,
+        "fp_flagged": 1,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 25,
+        "hostile": 32,
+        "suspicious": 14,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 1,
+        "fp_flagged": 1,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 50,
+        "hostile": 32,
+        "suspicious": 14,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 1,
+        "fp_flagged": 1,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 500,
+        "hostile": 46,
+        "suspicious": 0,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 1000,
+        "hostile": 46,
+        "suspicious": 0,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 3000,
+        "hostile": 46,
+        "suspicious": 0,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 25000,
+        "hostile": 46,
+        "suspicious": 0,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 49
+      }
+    ],
     "bad": 50,
     "good": 49
   },
@@ -2011,6 +6859,107 @@
       "socket": 0,
       "virustotal": 0
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 15,
+        "suspicious": 28,
+        "caught": 43,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1,
+        "hostile": 15,
+        "suspicious": 28,
+        "caught": 43,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 5,
+        "hostile": 15,
+        "suspicious": 28,
+        "caught": 43,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25,
+        "hostile": 27,
+        "suspicious": 16,
+        "caught": 43,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 50,
+        "hostile": 27,
+        "suspicious": 16,
+        "caught": 43,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 500,
+        "hostile": 42,
+        "suspicious": 1,
+        "caught": 43,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1000,
+        "hostile": 42,
+        "suspicious": 1,
+        "caught": 43,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 3000,
+        "hostile": 43,
+        "suspicious": 0,
+        "caught": 43,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25000,
+        "hostile": 43,
+        "suspicious": 0,
+        "caught": 43,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      }
+    ],
     "bad": 50,
     "good": 50
   },
@@ -2036,6 +6985,107 @@
       "socket": 0,
       "virustotal": 0.02
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 7,
+        "suspicious": 33,
+        "caught": 40,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1,
+        "hostile": 7,
+        "suspicious": 33,
+        "caught": 40,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 5,
+        "hostile": 7,
+        "suspicious": 33,
+        "caught": 40,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25,
+        "hostile": 26,
+        "suspicious": 14,
+        "caught": 40,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 50,
+        "hostile": 26,
+        "suspicious": 14,
+        "caught": 40,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 500,
+        "hostile": 38,
+        "suspicious": 2,
+        "caught": 40,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1000,
+        "hostile": 38,
+        "suspicious": 2,
+        "caught": 40,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 3000,
+        "hostile": 40,
+        "suspicious": 0,
+        "caught": 40,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25000,
+        "hostile": 40,
+        "suspicious": 0,
+        "caught": 40,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      }
+    ],
     "bad": 50,
     "good": 50
   },
@@ -2061,6 +7111,107 @@
       "socket": 0,
       "virustotal": 0.04
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 13,
+        "suspicious": 33,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1,
+        "hostile": 13,
+        "suspicious": 33,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 5,
+        "hostile": 13,
+        "suspicious": 33,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25,
+        "hostile": 33,
+        "suspicious": 13,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 50,
+        "hostile": 33,
+        "suspicious": 13,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 500,
+        "hostile": 46,
+        "suspicious": 0,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1000,
+        "hostile": 46,
+        "suspicious": 0,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 3000,
+        "hostile": 46,
+        "suspicious": 0,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25000,
+        "hostile": 46,
+        "suspicious": 0,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      }
+    ],
     "bad": 50,
     "good": 50
   },
@@ -2086,6 +7237,107 @@
       "socket": 0,
       "virustotal": 0
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 17,
+        "suspicious": 29,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1,
+        "hostile": 17,
+        "suspicious": 29,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 5,
+        "hostile": 17,
+        "suspicious": 29,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25,
+        "hostile": 31,
+        "suspicious": 15,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 50,
+        "hostile": 31,
+        "suspicious": 15,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 500,
+        "hostile": 46,
+        "suspicious": 0,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1000,
+        "hostile": 46,
+        "suspicious": 0,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 3000,
+        "hostile": 46,
+        "suspicious": 0,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25000,
+        "hostile": 46,
+        "suspicious": 0,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      }
+    ],
     "bad": 50,
     "good": 50
   },
@@ -2111,6 +7363,107 @@
       "socket": 0,
       "virustotal": 0.04
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 9,
+        "suspicious": 32,
+        "caught": 41,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 1,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1,
+        "hostile": 9,
+        "suspicious": 32,
+        "caught": 41,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 1,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 5,
+        "hostile": 9,
+        "suspicious": 32,
+        "caught": 41,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 1,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25,
+        "hostile": 22,
+        "suspicious": 19,
+        "caught": 41,
+        "cohort_n": 50,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 50,
+        "hostile": 22,
+        "suspicious": 19,
+        "caught": 41,
+        "cohort_n": 50,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 500,
+        "hostile": 41,
+        "suspicious": 0,
+        "caught": 41,
+        "cohort_n": 50,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1000,
+        "hostile": 41,
+        "suspicious": 0,
+        "caught": 41,
+        "cohort_n": 50,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 3000,
+        "hostile": 41,
+        "suspicious": 0,
+        "caught": 41,
+        "cohort_n": 50,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25000,
+        "hostile": 41,
+        "suspicious": 0,
+        "caught": 41,
+        "cohort_n": 50,
+        "fp_hostile": 2,
+        "fp_suspicious": 0,
+        "fp_flagged": 2,
+        "fp_cohort_n": 50
+      }
+    ],
     "bad": 50,
     "good": 50
   },
@@ -2136,6 +7489,107 @@
       "socket": 0,
       "virustotal": 0.02
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 18,
+        "suspicious": 27,
+        "caught": 45,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1,
+        "hostile": 18,
+        "suspicious": 27,
+        "caught": 45,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 5,
+        "hostile": 18,
+        "suspicious": 27,
+        "caught": 45,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25,
+        "hostile": 30,
+        "suspicious": 15,
+        "caught": 45,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 50,
+        "hostile": 31,
+        "suspicious": 14,
+        "caught": 45,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 500,
+        "hostile": 45,
+        "suspicious": 0,
+        "caught": 45,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1000,
+        "hostile": 45,
+        "suspicious": 0,
+        "caught": 45,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 3000,
+        "hostile": 45,
+        "suspicious": 0,
+        "caught": 45,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25000,
+        "hostile": 45,
+        "suspicious": 0,
+        "caught": 45,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      }
+    ],
     "bad": 50,
     "good": 50
   },
@@ -2161,6 +7615,107 @@
       "socket": 0,
       "virustotal": 0.061224489795918366
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 5,
+        "suspicious": 41,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 2,
+        "fp_flagged": 2,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 1,
+        "hostile": 5,
+        "suspicious": 41,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 2,
+        "fp_flagged": 2,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 5,
+        "hostile": 5,
+        "suspicious": 41,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 2,
+        "fp_flagged": 2,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 25,
+        "hostile": 17,
+        "suspicious": 29,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 1,
+        "fp_suspicious": 1,
+        "fp_flagged": 2,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 50,
+        "hostile": 20,
+        "suspicious": 26,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 1,
+        "fp_suspicious": 1,
+        "fp_flagged": 2,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 500,
+        "hostile": 46,
+        "suspicious": 0,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 2,
+        "fp_suspicious": 0,
+        "fp_flagged": 2,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 1000,
+        "hostile": 46,
+        "suspicious": 0,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 2,
+        "fp_suspicious": 0,
+        "fp_flagged": 2,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 3000,
+        "hostile": 46,
+        "suspicious": 0,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 2,
+        "fp_suspicious": 0,
+        "fp_flagged": 2,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 25000,
+        "hostile": 46,
+        "suspicious": 0,
+        "caught": 46,
+        "cohort_n": 50,
+        "fp_hostile": 2,
+        "fp_suspicious": 0,
+        "fp_flagged": 2,
+        "fp_cohort_n": 49
+      }
+    ],
     "bad": 50,
     "good": 49
   },
@@ -2186,6 +7741,107 @@
       "socket": 0,
       "virustotal": 0.04
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 17,
+        "suspicious": 27,
+        "caught": 44,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 1,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1,
+        "hostile": 17,
+        "suspicious": 27,
+        "caught": 44,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 1,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 5,
+        "hostile": 17,
+        "suspicious": 27,
+        "caught": 44,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 1,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25,
+        "hostile": 27,
+        "suspicious": 17,
+        "caught": 44,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 1,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 50,
+        "hostile": 29,
+        "suspicious": 15,
+        "caught": 44,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 1,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 500,
+        "hostile": 44,
+        "suspicious": 0,
+        "caught": 44,
+        "cohort_n": 50,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1000,
+        "hostile": 44,
+        "suspicious": 0,
+        "caught": 44,
+        "cohort_n": 50,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 3000,
+        "hostile": 44,
+        "suspicious": 0,
+        "caught": 44,
+        "cohort_n": 50,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25000,
+        "hostile": 44,
+        "suspicious": 0,
+        "caught": 44,
+        "cohort_n": 50,
+        "fp_hostile": 1,
+        "fp_suspicious": 0,
+        "fp_flagged": 1,
+        "fp_cohort_n": 50
+      }
+    ],
     "bad": 50,
     "good": 50
   },
@@ -2211,6 +7867,107 @@
       "socket": 0,
       "virustotal": 0
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 12,
+        "suspicious": 31,
+        "caught": 43,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1,
+        "hostile": 12,
+        "suspicious": 31,
+        "caught": 43,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 5,
+        "hostile": 12,
+        "suspicious": 31,
+        "caught": 43,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25,
+        "hostile": 21,
+        "suspicious": 22,
+        "caught": 43,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 50,
+        "hostile": 29,
+        "suspicious": 14,
+        "caught": 43,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 500,
+        "hostile": 43,
+        "suspicious": 0,
+        "caught": 43,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 1000,
+        "hostile": 43,
+        "suspicious": 0,
+        "caught": 43,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 3000,
+        "hostile": 43,
+        "suspicious": 0,
+        "caught": 43,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      },
+      {
+        "level": 25000,
+        "hostile": 43,
+        "suspicious": 0,
+        "caught": 43,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 0,
+        "fp_flagged": 0,
+        "fp_cohort_n": 50
+      }
+    ],
     "bad": 50,
     "good": 50
   },
@@ -2236,6 +7993,107 @@
       "socket": 0,
       "virustotal": 0
     },
+    "ascan_curve": [
+      {
+        "level": 0,
+        "hostile": 20,
+        "suspicious": 25,
+        "caught": 45,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 3,
+        "fp_flagged": 3,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 1,
+        "hostile": 20,
+        "suspicious": 25,
+        "caught": 45,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 3,
+        "fp_flagged": 3,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 5,
+        "hostile": 20,
+        "suspicious": 25,
+        "caught": 45,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 3,
+        "fp_flagged": 3,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 25,
+        "hostile": 31,
+        "suspicious": 14,
+        "caught": 45,
+        "cohort_n": 50,
+        "fp_hostile": 0,
+        "fp_suspicious": 3,
+        "fp_flagged": 3,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 50,
+        "hostile": 32,
+        "suspicious": 13,
+        "caught": 45,
+        "cohort_n": 50,
+        "fp_hostile": 3,
+        "fp_suspicious": 0,
+        "fp_flagged": 3,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 500,
+        "hostile": 45,
+        "suspicious": 0,
+        "caught": 45,
+        "cohort_n": 50,
+        "fp_hostile": 3,
+        "fp_suspicious": 0,
+        "fp_flagged": 3,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 1000,
+        "hostile": 45,
+        "suspicious": 0,
+        "caught": 45,
+        "cohort_n": 50,
+        "fp_hostile": 3,
+        "fp_suspicious": 0,
+        "fp_flagged": 3,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 3000,
+        "hostile": 45,
+        "suspicious": 0,
+        "caught": 45,
+        "cohort_n": 50,
+        "fp_hostile": 3,
+        "fp_suspicious": 0,
+        "fp_flagged": 3,
+        "fp_cohort_n": 49
+      },
+      {
+        "level": 25000,
+        "hostile": 45,
+        "suspicious": 0,
+        "caught": 45,
+        "cohort_n": 50,
+        "fp_hostile": 3,
+        "fp_suspicious": 0,
+        "fp_flagged": 3,
+        "fp_cohort_n": 49
+      }
+    ],
     "bad": 50,
     "good": 49
   }
