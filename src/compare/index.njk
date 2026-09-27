@@ -258,7 +258,10 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
       {%- endif -%}
     </div>
     {%- if s.supported %}
-    <div class="rv">{{ (100 * (s.hostile + s.suspicious) / s.supported) | round(0) }}%</div>
+    {#- The cell shows the rate over this cohort. The tooltip adds the same rate
+        re-weighted onto the format population the cohort was drawn from, because
+        the cohort is deliberately not proportional to it — see the appendix. -#}
+    <div class="rv"{% if s.weighted_flagged_rate %} title="{{ (100 * (s.hostile + s.suspicious) / s.supported) | round(0) }}% over this cohort · {{ (100 * s.weighted_flagged_rate) | round(0) }}% weighted to the format population"{% endif %}>{{ (100 * (s.hostile + s.suspicious) / s.supported) | round(0) }}%</div>
     {%- else %}
     <div class="rv" style="color:var(--slate)">—</div>
     {%- endif %}
@@ -313,7 +316,8 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
       <span id="dial-status" class="visually-hidden" aria-live="polite" aria-atomic="true"></span>
       <p><b>{{ battle.generated_at | dateDisplay }}</b> · {{ battle.detection.sample_count }} live samples,
         median <b>{{ battle.malware_age.median_hours | round(0) if battle.malware_age else 24 }} h old</b>,
-        and {{ battle.false_positive.sample_count }} known-good.</p>
+        and {{ battle.false_positive.sample_count }} known-good{% if battle.detection.weighting %} across
+        <b>{{ battle.detection.weighting.classes | length }} file formats</b>{% endif %}.</p>
     </div>
     {%- endif %}
   </div>
@@ -719,6 +723,47 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
     <span style="color:var(--slate)">(locally run engines; {% for p in providers | bySlot | selectattr("hosted") %}{{ p.name }}{% if not loop.last %}, {% endif %}{% endfor %} are hosted services queried live, so they carry no pinned version).</span>
     {%- endif %}
   </div>
+  {%- set dw = battle.detection.weighting %}
+  {%- set fw = battle.false_positive.weighting %}
+  {%- if dw %}
+  <div class="meth"><b>Why the cohort isn't a random sample.</b> A plain random draw from the malware and open-source
+    firehoses is dominated by whatever published most: three registries took 70% of the known-good seats and Windows
+    executables 60% of the malware seats, which left most file formats never measured at all. So each cohort is built
+    from two parts. Most seats track the real population, damped by a square root so the biggest format stays the
+    biggest without crowding out everything else. The rest go one-per-format on a rotation, and that rotation is the
+    only reason a Firefox add-on or a Conda package appears here at all.
+    {%- if battle.detection.strata_count and battle.detection.strata_count.breadth %}
+    This run: {{ battle.detection.strata_count.fairness or 0 }} proportional seats and
+    {{ battle.detection.strata_count.breadth or 0 }} rotation seats on the malware side, across
+    {{ dw.classes | length }} formats.
+    {%- endif %}
+    <br><br><b>So every rate is published twice.</b> The percentage in the table is the rate over this cohort. Because
+    the cohort over-samples rare formats deliberately, that is not what an engine would score on the population — so
+    each rate is also re-weighted by every format's true share of it. Hover a percentage to see both.
+    {#- Every engine, not selectattr: a weighted rate of exactly 0 is falsy, and
+        dropping an engine that scored 0% would read as it not being measured. -#}
+    <br><br><b>Weighted to the population:</b>
+    {%- for s in battle.detection.leaderboard %}{% if not loop.first %} · {% endif %}{{ providers[s.scanner].name or s.scanner }}
+      {{ (100 * (s.weighted_flagged_rate or 0)) | round(0) }}%{% endfor %}.
+    {%- if dw.population_covered < 0.999 %}
+    <br><br><span style="color:var(--slate)">The weighted malware rates speak for
+      {{ (100 * dw.population_covered) | round(0) }}% of the population: nothing was drawn this run for
+      {{ dw.unseated_classes | join(', ') }}.</span>
+    {%- endif %}
+    {%- if fw and fw.population_covered < 0.999 %}
+    <br><br><span style="color:var(--slate)">On the false-positive side they speak for
+      {{ (100 * fw.population_covered) | round(0) }}%: nothing was drawn for {{ fw.unseated_classes | join(', ') }}.</span>
+    {%- endif %}
+    {%- set lead = battle.detection.leaderboard | first %}
+    {%- if lead and lead.effective_n %}
+    <br><br><span style="color:var(--slate)">Re-weighting costs precision, so here is the cost: these
+      {{ battle.detection.sample_count }} malware samples carry the statistical weight of
+      {{ lead.effective_n | round(0) }} once weighted. A cohort spread across many formats is less precise about any
+      one of them than the same cohort spent on a single format — and saying so is cheaper than being caught not
+      saying it.</span>
+    {%- endif %}
+  </div>
+  {%- endif %}
   </details>
 
   <div class="closer">
