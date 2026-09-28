@@ -24,7 +24,7 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
      is why it read as arbitrary. balance lets the browser even out the lines itself. */
   /* The copy column stretches to the card's height, with the install line at its
      foot, so the two columns end together instead of leaving a blank block. */
-  .cmp-hero > div:first-child { display: flex; flex-direction: column; }
+  .cmp-hero > div:first-child { display: flex; flex-direction: column; align-self: stretch; }
   .cmp-hero .instl { margin-top: auto; }
   .cmp-hero h1 { font-family: 'Oxanium', sans-serif; font-size: 2.15rem; font-weight: 800; color: var(--carbon);
                  letter-spacing: -1.1px; line-height: 1.03; margin: 0; text-wrap: balance; }
@@ -48,7 +48,8 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
               text-transform: uppercase; font-family: 'Oxanium', sans-serif; }
   /* The span the two numbers pool over, read before the numbers themselves. */
   .proof .l.win { margin-top: 0; }
-  .proof .l.win #fresh { font-weight: 600; letter-spacing: .04em; text-transform: none; }
+  .proof .l.win { display: flex; flex-wrap: wrap; gap: 0 4px; }
+  .proof .l.win #fresh { font-weight: 600; white-space: nowrap; }
   .proof .l.win #fresh.stale { color: #e0a526; }
   /* The headline's like-for-like number, beside the default it is compared with. */
   .proof .also { font-family: 'SF Mono', Consolas, monospace; font-size: .72rem; color: #d5d9d2; }
@@ -160,7 +161,9 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
      for the other. */
   .q-leader { stroke: #6b7280; stroke-width: .75; }
   /* One slider per engine with settings to choose from. */
-  .q-tune { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 8px 22px; margin: 6px 0 4px; }
+  /* Two by two: four engines have a setting to tune, and a 3+1 grid leaves one
+     orphaned on its own row. */
+  .q-tune { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 40px; margin: 6px 0 4px; }
   .q-knob { display: grid; grid-template-columns: 6.5rem 1fr; align-items: center; gap: 2px 10px; font-size: .78rem; color: var(--iron); }
   .q-kname { font-weight: 700; color: var(--carbon); }
   .q-kname::before { content: ""; display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: var(--c); margin-right: 6px; }
@@ -349,7 +352,7 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
          engine. The per-run numbers are on the bars and the trend chart below. #}
       {%- if h.window %}
       <div class="l win">Last {{ h.window.days }} days · {{ h.window.runs }} runs
-        <span id="fresh" data-at="{{ battle.generated_at }}">· updated {{ battle.generated_at | dateDisplay }}</span></div>
+        <span id="fresh" data-at="{{ battle.generated_at }}">· {{ battle.generated_at | dateDisplay }}</span></div>
       {%- endif %}
       <div class="scores">
         {# "0-day" is the whole claim: signatures and reputation have had no time to
@@ -412,7 +415,7 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
     if (f) {
       const h = (Date.now() - Date.parse(f.dataset.at)) / 36e5;
       if (Number.isFinite(h)) {
-        f.textContent = '· updated ' + (h < 1 ? 'under an hour' : Math.round(h) + ' h') + ' ago';
+        f.textContent = '· ' + (h < 1 ? 'under 1 h' : Math.round(h) + ' h') + ' ago';
         if (h > 12) f.classList.add('stale');
       }
     }
@@ -625,9 +628,11 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
   </script>
   {%- endif %}
 
-  <h2 id="over-time">Every previous run <span class="note">last 30 days · a fresh cohort each time</span></h2>
-  <p class="sub">A fresh cohort every run, so every line swings. <span id="trend-n"></span> <b>Judge us on the worst
-    night, not the best.</b></p>
+  <h2 id="over-time">Every previous run <span class="note">last 30 days · blocked as hostile at each engine's default setting</span></h2>
+  <p class="sub">Each point is one run: the share of that run's zero-day malware an engine blocked as hostile at its
+    recommended default (Atomdrift <code>L25</code>, VirusTotal <code>n=4</code>, GuardDog <code>risk≥7</code>,
+    malcontent <code>critical</code>) — the same rule as every number above. A fresh cohort every run, so every line
+    swings. <span id="trend-n"></span> <b>Judge us on the worst night, not the best.</b></p>
   {%- if history and history | length >= 2 %}
   <div class="trend-wrap"><canvas id="trendChart" role="img" aria-label="Per-run 0-day detection rate (blocked as hostile) for every measured engine across fresh live-malware cohorts."></canvas></div>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
@@ -752,6 +757,8 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
       plugins: [endLabels, windowBand],
       options: {
         responsive: true, maintainAspectRatio: false,
+        // A record, not a reveal: the lines are there when the page is.
+        animation: false,
         interaction: { mode: 'index', intersect: false },
         layout: { padding: { right: 46, left: 6 } },
         scales: {

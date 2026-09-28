@@ -503,7 +503,7 @@ module.exports = function(eleventyConfig) {
     // --- labels ----------------------------------------------------------------
     // One line each. Width is estimated from character count; close enough for
     // collisions at these sizes, and it costs no layout pass.
-    const NAME_PX = 7.0, RATE_PX = 6.0;
+    const NAME_PX = 7.2, RATE_PX = 6.3;
     const marks = [];
     for (const e of engines) {
       e.tuned = e.opts.length > 1;
@@ -554,7 +554,7 @@ module.exports = function(eleventyConfig) {
     const placed = [{ x: QPR - 10 - capW, y: yOf(YDIV) - 10 - capH, w: capW, h: capH }];
     // Labels keep off the axis break: text sitting on it reads as struck through.
     if (anyStrip) placed.push({ x: QPL, y: mb + 4, w: QPR - QPL, h: 12 });
-    const GAP = 12;
+    const GAP = 14;
     const BOUND = { x: QPL + 4, y: pt - 2, w: QPR - QPL - 8, h: pb - pt + 4 };
     function candidates(m) {
       const right = { x: m.x + GAP, y: m.y - m.h / 2, anchor: "start" };
