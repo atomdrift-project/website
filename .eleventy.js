@@ -122,12 +122,12 @@ module.exports = function(eleventyConfig) {
       .sort(function(a, b) { return b.n - a.n; });
   });
 
-  // Sort a leaderboard by its displayed flagged rate ((hostile+suspicious) /
-  // supported), highest first — so every bar chart reads top-to-bottom, biggest
-  // bar first. Engines that scanned nothing (supported 0) sort to the bottom.
+  // Sort a leaderboard by its displayed rate (hostile / supported), highest first —
+  // so every bar chart reads top-to-bottom, biggest bar first. Engines that
+  // scanned nothing (supported 0) sort to the bottom.
   eleventyConfig.addFilter("byFlagged", function(board) {
     if (!Array.isArray(board)) return [];
-    const rate = (s) => (s && s.supported) ? (s.hostile + s.suspicious) / s.supported : -1;
+    const rate = (s) => (s && s.supported) ? s.hostile / s.supported : -1;
     return board.slice().sort((a, b) => rate(b) - rate(a));
   });
 
@@ -140,71 +140,97 @@ module.exports = function(eleventyConfig) {
       .sort(function(a, b) { return (b.registries || []).length - (a.registries || []).length; });
   });
 
-  // Flagged rate ((hostile+suspicious)/supported) as a 0..100 percentage, or null
-  // when the engine scanned nothing — the rate the per-run bars and every per-run
-  // view are built from, so nothing downstream can disagree with the chart. The
-  // headline figures read the pooled window instead (see headlineScores).
-  const flaggedRate = (s) => (s && s.supported) ? (s.hostile + s.suspicious) / s.supported * 100 : null;
+  // A detection is a verdict blocked as hostile, at the engine's default setting;
+  // suspicious verdicts count for no engine anywhere on the page (see gauntlet's
+  // points.go). flaggedRate is that rate as a 0..100 percentage, or null when the
+  // engine scanned nothing — what the bars and every view here are built from.
+  const flaggedRate = (s) => (s && s.supported) ? s.hostile / s.supported * 100 : null;
 
-  // headlineScores is what the headline figures are read from: gauntlet's pooled
-  // window (battle.window — the last few days of runs summed, because one
-  // 50-sample run moves a false-positive rate two points per verdict) when it
-  // published one, else this run's leaderboards. Either way one shape — a score
-  // is { scanner, flagged, n } — so the hero, its dial and the quadrant cannot
-  // disagree about which runs they describe. The bars and the trend chart stay
-  // per-run.
+  // battle.json is the published window — every sample scored over the last
+  // battle.window.days, pooled and scored as one cohort by gauntlet (see its
+  // window.go) — so every figure here comes from the same samples. Only the trend
+  // chart is per-run, and it reads history.json. A score is
+  // { scanner, flagged, n }, flagged being what the engine blocked.
   function headlineScores(battle) {
-    const w = battle && battle.window;
-    if (w && (w.detection || []).length) {
-      return {
-        det: w.detection, fp: w.false_positive || [], curve: w.ascan_curve || [],
-        nBad: w.bad, nGood: w.good, window: { days: w.days, runs: w.runs },
-      };
-    }
     const board = (b) => ((b && b.leaderboard) || [])
-      .map((s) => ({ scanner: s.scanner, flagged: s.hostile + s.suspicious, n: s.supported }));
+      .map((s) => ({ scanner: s.scanner, flagged: s.hostile, n: s.supported }));
+    const w = battle && battle.window;
     return {
       det: board(battle && battle.detection), fp: board(battle && battle.false_positive),
-      curve: (battle && battle.ascan_curve) || [],
       nBad: (battle && battle.detection && battle.detection.sample_count) || 0,
       nGood: (battle && battle.false_positive && battle.false_positive.sample_count) || 0,
-      window: null,
+      window: w ? { days: w.days, runs: w.runs } : null,
     };
   }
-  // A headline score's rate as a 0..100 percentage, null when it scored nothing.
+  // The same, for one display ecosystem: its leaderboards and operating points.
+  // Null when the ecosystem has no known-good files to score false positives on.
+  function ecoScores(battle, eco) {
+    const det = ((battle && battle.detection && battle.detection.by_ecosystem) || {})[eco];
+    const fp = ((battle && battle.false_positive && battle.false_positive.by_ecosystem) || {})[eco];
+    if (!det || !fp) return null;
+    const board = (b) => b.map((s) => ({ scanner: s.scanner, flagged: s.hostile, n: s.supported }));
+    const n = (b) => (b.find((s) => s.scanner === "ascan") || b[0] || {}).supported || 0;
+    const w = battle.window;
+    return {
+      det: board(det), fp: board(fp), nBad: n(det), nGood: n(fp),
+      window: w ? { days: w.days, runs: w.runs } : null,
+      points: ((battle.operating_points_by_ecosystem || {})[eco]) || [],
+    };
+  }
+  // scoresFor: the whole cohort, or one ecosystem when eco is given.
+  const scoresFor = (battle, eco) => (eco ? ecoScores(battle, eco)
+    : Object.assign(headlineScores(battle), { points: (battle && battle.operating_points) || [] }));
+  // A score's rate as a 0..100 percentage, null when it scored nothing.
   const scoreRate = (s) => (s && s.n) ? s.flagged / s.n * 100 : null;
+  // Rates are shown to one decimal. pct keeps a rate numeric (for plotting and
+  // comparison); fmtPct / the pct1 filter render it as %.1f.
+  const pct = (x) => Math.round(x * 10) / 10;
+  const fmtPct = (x) => Number(x).toFixed(1);
+  eleventyConfig.addFilter("pct1", fmtPct);
 
   // headline distills the figures to the one line a skim-reader needs: how the
-  // subject (ascan) did on detection, how far it leads the best *other* engine,
-  // and its false-positive rate. Null if ascan didn't scan.
+  // subject (ascan) did on detection, how it compares with the best *other*
+  // engine, and its false-positive rate. Null if ascan didn't scan.
   eleventyConfig.addFilter("headline", function(battle) {
     const src = headlineScores(battle);
     const usDet = scoreRate(src.det.find((s) => s.scanner === "ascan"));
     if (usDet === null) return null;
-    let best = null; // best competing detection rate — the bar we're beating
+    let best = null; // best competing detection rate
     for (const s of src.det) {
       if (s.scanner === "ascan") continue;
       const r = scoreRate(s);
       if (r === null) continue;
       if (!best || r > best.det) best = { name: s.scanner, det: r };
     }
-    const usFp = scoreRate(src.fp.find((s) => s.scanner === "ascan"));
+    const usFpScore = src.fp.find((s) => s.scanner === "ascan");
+    const usFp = scoreRate(usFpScore);
+    // parity: Atomdrift at the loosest -l whose false-positive rate is no worse
+    // than the strongest rival's at its default — the like-for-like comparison
+    // the headline makes. Null when no -l stop qualifies.
+    let parity = null;
+    if (best) {
+      const rivalFp = scoreRate(src.fp.find((s) => s.scanner === best.name));
+      const pts = ((battle && battle.operating_points) || []).filter((p) => p.scanner === "ascan");
+      const stops = pts.map(opPoint).filter((o) => rivalFp !== null && o.fp <= pct(rivalFp));
+      const at = stops.reduce((a, b) => (!a || b.det >= a.det ? b : a), null);
+      if (at) parity = { level: at.level, det: at.det, fp: at.fp, rival: best.name, rivalDet: pct(best.det), rivalFp: pct(rivalFp) };
+    }
     return {
-      detRate: Math.round(usDet),
-      fpRate: usFp === null ? null : Math.round(usFp),
+      parity: parity,
+      detRate: pct(usDet),
+      fpRate: usFp === null ? null : pct(usFp),
+      fpFlagged: usFpScore ? usFpScore.flagged : null,
       bestName: best ? best.name : null,
-      bestDet: best ? Math.round(best.det) : null,
-      lead: best && best.det > 0 ? usDet / best.det : null, // multiple, e.g. 2.2
-      leadPts: best ? Math.round(usDet - best.det) : null,   // percentage-point gap
+      bestDet: best ? pct(best.det) : null,
+      leads: !best || usDet >= best.det,
       sampleCount: src.nBad,
       nGood: src.nGood,
       window: src.window,
     };
   });
 
-  // trendPoints trims history to what the trend chart draws. history.json also
-  // carries each run's operating curve for gauntlet's window, which would
-  // otherwise be inlined into the page for nothing.
+  // trendPoints trims history to what the trend chart draws, so the page inlines
+  // only the per-run detection rates it plots.
   eleventyConfig.addFilter("trendPoints", function(history) {
     return (history || []).map((p) => ({ at: p.at, bad: p.bad, detection: p.detection }));
   });
@@ -301,7 +327,7 @@ module.exports = function(eleventyConfig) {
         key: s.scanner, name: p.name || s.scanner, color: p.color || "#6b7280",
         hosted: !!p.hosted, us: s.scanner === "ascan",
         unreadable: unreadable, lookups: s.supported - unreadable, noRecord: noRecord,
-        caught: s.hostile + s.suspicious, n: s.supported,
+        caught: s.hostile, n: s.supported,
       });
     }
     // Only the engines with a gap to show, worst first; the rest are named in prose.
@@ -365,134 +391,35 @@ module.exports = function(eleventyConfig) {
     return dx > 0 && dy > 0 ? dx * dy : 0;
   }
 
-  // --- Atomdrift's operating curve -------------------------------------------
+  // --- operating points ---------------------------------------------------------
   //
-  // `-l N` is a false-positive budget: N flagged benign files per 100 million,
-  // calibrated per file type. battle.json publishes `ascan_curve` at nine grid
-  // stops, but each sample's verdict detail records the level it was actually
-  // assigned ("level 25 (p=0.83)"), and the tier rule is atomscan's own —
-  // hostile at lvl <= N, suspicious out to min(gridMax, 4N). Replaying that over
-  // every budget rather than the nine we happen to publish is what lets the
-  // figure claim a curve instead of a scatter of grid stops.
-  //
-  // We do not trust that replay blindly: it is checked against every published
-  // stop first, and a single disagreement falls back to the grid. A wrong curve
-  // drawn confidently is worse than a coarse one.
+  // gauntlet publishes every engine at each setting it can run at
+  // (battle.operating_points; see its points.go), scored over the same samples as
+  // the bars: what the engine blocks as hostile there, and how many known-good
+  // files it blocks with them. One setting per engine is the `default` — the one
+  // every other figure on the page uses — and it equals the engine's bar.
   const DIAL_DEFAULT = 25;   // atomscan's shipped default
-  const DIAL_MAX = 2500;     // the top of the range this page quotes, dial included
-  const GRID_MAX = 25000;    // atomscan's own ceiling — a property of the engine
-  // Above this a sample is never worse than suspicious, whatever the budget:
-  // scan's SUSPICIOUS_LEVEL_CEILING (model.rs), applied as min(grid_max, ceiling).
-  const SUSPICIOUS_CEILING = 3000;
 
-  function ascanLevels(battle) {
-    const out = { bad: [], good: [] };
-    for (const s of (battle && battle.samples) || []) {
-      for (const v of s.verdicts || []) {
-        if (v.scanner !== "ascan") continue;
-        const m = /^level (-?\d+)/.exec(v.detail || "");
-        if (m && out[s.label]) out[s.label].push(Number(m[1]));
-      }
-    }
+  function opPoint(p) {
+    const r = (n, of) => (of ? pct((100 * n) / of) : 0);
+    return {
+      setting: p.setting, level: p.level || 0, isDefault: !!p.default,
+      det: r(p.detected, p.cohort_n), fp: r(p.false_positives, p.fp_cohort_n),
+    };
+  }
+  // Each engine's settings, in the order gauntlet published them.
+  function pointsBy(points) {
+    const out = {};
+    for (const p of points || []) (out[p.scanner] = out[p.scanner] || []).push(opPoint(p));
     return out;
   }
 
-  function tally(lvls, n) {
-    const cap = Math.min(GRID_MAX, SUSPICIOUS_CEILING);
-    let hostile = 0, suspicious = 0;
-    for (const l of lvls) {
-      if (l < 0) continue;
-      if (l <= n) hostile++;
-      else if (l <= cap) suspicious++;
-    }
-    return { hostile: hostile, suspicious: suspicious };
-  }
-
-  // The precise curve, or null when the levels can't reproduce what we published.
-  function preciseCurve(battle) {
-    const raw = (battle && battle.ascan_curve) || [];
-    if (raw.length < 2) return null;
-    const lv = ascanLevels(battle);
-    if (!lv.bad.length || !lv.good.length) return null;
-    const nBad = raw[0].cohort_n, nGood = raw[0].fp_cohort_n;
-    if (!nBad || !nGood) return null;
-    for (const p of raw) {                       // the check that earns the sweep
-      const b = tally(lv.bad, p.level), g = tally(lv.good, p.level);
-      if (b.hostile !== p.hostile || b.suspicious !== p.suspicious ||
-          g.hostile !== p.fp_hostile || g.suspicious !== p.fp_suspicious) return null;
-    }
-    const out = [];
-    for (let n = 0; n <= DIAL_MAX; n++) {
-      const b = tally(lv.bad, n), g = tally(lv.good, n);
-      const caught = b.hostile + b.suspicious, flagged = g.hostile + g.suspicious;
-      const det = Math.round((100 * caught) / nBad), fp = Math.round((100 * flagged) / nGood);
-      const prev = out[out.length - 1];
-      if (prev && prev.det === det && prev.fp === fp) { prev.lHi = n; continue; }
-      out.push({ det: det, fp: fp, caught: caught, flagged: flagged, lLo: n, lHi: n });
-    }
-    return out.length >= 2 ? out : null;
-  }
-
-  // The dial's ceiling as a stop of its own. The grid's stops jump past the cap
-  // (1000 -> 3000), so without this the curve would end at -l 1000 while the
-  // page quotes a range up to -l 2500. The last published stop below the cap is
-  // the only measurement we have for it; re-deriving it from per-sample levels
-  // would need gauntlet's suspicious rule, which `tally` does not reproduce.
-  function capStop(raw, last) {
-    return { caught: last.caught, flagged: last.flagged, det: last.det, fp: last.fp };
-  }
-
-  // Fallback: the published grid stops, collapsed the same way.
-  function gridCurve(raw) {
-    if (!raw || raw.length < 2) return null;
-    const out = [];
-    const push = (det, fp, caught, flagged, l) => {
-      const prev = out[out.length - 1];
-      if (prev && prev.det === det && prev.fp === fp) { prev.lHi = l; return; }
-      out.push({ det: det, fp: fp, caught: caught, flagged: flagged, lLo: l, lHi: l });
-    };
-    for (const p of raw) {
-      if (p.level > DIAL_MAX) continue;
-      push(Math.round((100 * p.caught) / p.cohort_n), Math.round((100 * p.fp_flagged) / p.fp_cohort_n),
-           p.caught, p.fp_flagged, p.level);
-    }
-    if (out.length && out[out.length - 1].lHi < DIAL_MAX) {
-      const c = capStop(raw, out[out.length - 1]);
-      push(c.det, c.fp, c.caught, c.flagged, DIAL_MAX);
-    }
-    return out.length >= 2 ? out : null;
-  }
-
-  // A pooled window has only the grid: the per-sample levels preciseCurve
-  // replays are this run's alone, and a curve drawn from them beside rates
-  // pooled over several runs would describe a different cohort.
-  function ascanCurve(battle) {
-    const src = headlineScores(battle);
-    return src.window ? gridCurve(src.curve) : (preciseCurve(battle) || gridCurve(src.curve));
-  }
-  eleventyConfig.addFilter("ascanCurve", function(battle) {
-    // The hero slider walks the published grid, capped at the same ceiling the
-    // chart quotes so the two can never advertise different maximums. The grid's
-    // own stops jump 1000 -> 3000, straddling the cap, so the ceiling is appended
-    // as a stop of its own — otherwise the slider would end at -l 1000 while the
-    // figure beside it claims a range up to -l 2500.
-    const raw = headlineScores(battle).curve;
-    if (!raw.length) return null;
-    const nBad = raw[0].cohort_n, nGood = raw[0].fp_cohort_n;
-    const out = raw.filter((p) => p.level <= DIAL_MAX).map((p) => ({
-      l: p.level,
-      det: nBad ? Math.round((100 * p.caught) / nBad) : 0,
-      fp: nGood ? Math.round((100 * p.fp_flagged) / nGood) : 0,
-      caught: p.caught, flagged: p.fp_flagged,
-    }));
-    if (!out.length) return null;
-    if (out[out.length - 1].l < DIAL_MAX) {
-      out.push(Object.assign({ l: DIAL_MAX }, capStop(raw, out[out.length - 1])));
-    }
-    if (out.length < 2) return null;
-    return out.some((c) => c.det !== out[0].det || c.fp !== out[0].fp) ? out : null;
+  // The hero dial walks Atomdrift's -l settings: each stop is what it blocks, and
+  // what that costs in false positives, at that level.
+  eleventyConfig.addFilter("ascanDial", function(battle) {
+    const pts = pointsBy(battle && battle.operating_points).ascan || [];
+    return pts.length >= 2 ? pts.map((p) => ({ l: p.level, det: p.det, fp: p.fp })) : null;
   });
-
   eleventyConfig.addFilter("curveStop", function(curve, l) {
     if (!curve || !curve.length) return null;
     let out = curve[0];
@@ -506,214 +433,197 @@ module.exports = function(eleventyConfig) {
     return i;
   });
   eleventyConfig.addGlobalData("dialDefault", () => DIAL_DEFAULT);
-  eleventyConfig.addGlobalData("dialMax", () => DIAL_MAX);
-  eleventyConfig.addGlobalData("dialMaxLabel", () => DIAL_MAX.toLocaleString("en-US"));
 
-  // Fritsch-Carlson monotone cubic: smooth, and it cannot overshoot into values
-  // the measurement never produced — no dipping below zero false positives on the
-  // way between two stops that both measured zero.
-  function monotoneSlopes(xs, ys) {
-    const n = xs.length, h = [], d = [], m = new Array(n).fill(0);
-    for (let i = 0; i < n - 1; i++) { h.push(xs[i + 1] - xs[i]); d.push((ys[i + 1] - ys[i]) / h[i]); }
-    m[0] = d[0]; m[n - 1] = d[n - 2];
-    for (let i = 1; i < n - 1; i++) {
-      if (d[i - 1] * d[i] <= 0) { m[i] = 0; continue; }
-      const w1 = 2 * h[i] + h[i - 1], w2 = h[i] + 2 * h[i - 1];
-      m[i] = (w1 + w2) / (w1 / d[i - 1] + w2 / d[i]);
-    }
-    return m;
-  }
+  const rateText = (p) => fmtPct(p.det) + "% · " + fmtPct(p.fp) + "% FP";
 
-  function curvePath(verts, xOf, yOf) {
-    const xs = verts.map((v) => v.det), ys = verts.map((v) => v.fp);
-    const m = monotoneSlopes(xs, ys);
-    const at = (x, y) => xOf(x).toFixed(1) + "," + yOf(y).toFixed(1);
-    const parts = ["M " + at(xs[0], ys[0])];
-    for (let i = 0; i < xs.length - 1; i++) {
-      const h = xs[i + 1] - xs[i];
-      parts.push("C " + at(xs[i] + h / 3, ys[i] + (m[i] * h) / 3) + " " +
-                 at(xs[i + 1] - h / 3, ys[i + 1] - (m[i + 1] * h) / 3) + " " +
-                 at(xs[i + 1], ys[i + 1]));
-    }
-    return parts.join(" ");
-  }
+  // settingRange: an engine's detection from its default to its loosest setting
+  // (the one that blocks the most), in the graph's terms — for the bars, whose
+  // pale band is exactly that extra, and whose end text names both settings.
+  // Null for an engine with one setting, or whose loosest adds nothing.
+  eleventyConfig.addFilter("settingRange", function(battle, scanner, eco) {
+    const src = scoresFor(battle, eco);
+    const raw = ((src && src.points) || []).filter((p) => p.scanner === scanner);
+    const def = raw.find((p) => p.default);
+    if (!def || raw.length < 2) return null;
+    // Ties go to the later, looser setting: L2500 over an equal L2000.
+    const loose = raw.reduce((a, b) => (b.detected >= a.detected ? b : a), def);
+    if (loose === def || loose.detected === def.detected) return null;
+    return {
+      defSetting: def.setting, defDet: pct((100 * def.detected) / def.cohort_n),
+      looseSetting: loose.setting, looseDet: pct((100 * loose.detected) / loose.cohort_n),
+      extra: loose.detected - def.detected,
+    };
+  });
 
-  eleventyConfig.addFilter("quadrant", function(battle, providers) {
+  // quadrant: every engine as one coloured point at its default setting, labelled
+  // the same way for all of them — bold name, plain rates, and the setting in grey
+  // when there is a choice of one. An engine's other settings are grey dots on a
+  // grey line; selecting one (script below the chart) moves the engine's point
+  // and label there. With script off, the page is the defaults.
+  eleventyConfig.addFilter("quadrant", function(battle, providers, eco) {
     const provs = providers || {};
-    const src = headlineScores(battle);
+    const src = scoresFor(battle, eco);
+    if (!src) return null;
+    const by = pointsBy(src.points);
     const fpBy = {};
     for (const s of src.fp) fpBy[s.scanner] = s;
 
-    const curve = ascanCurve(battle);
-
-    // One point per engine that has both measures. Atomdrift is a curve, not a
-    // dot, whenever the curve is recoverable.
-    const pts = [];
+    const engines = [];
     for (const d of src.det) {
       if (isHidden(provs, d.scanner)) continue;
-      if (curve && d.scanner === "ascan") continue;
-      const dr = scoreRate(d), f = fpBy[d.scanner], fr = scoreRate(f);
-      if (dr === null || fr === null) continue;
       const p = provs[d.scanner] || {};
-      pts.push({
-        key: d.scanner, name: p.name || d.scanner, color: p.color || "#6b7280",
-        det: Math.round(dr), fp: Math.round(fr),
-        flagged: f.flagged, nGood: f.n,
-        caught: d.flagged, nBad: d.n,
+      let opts = by[d.scanner] || [];
+      if (!opts.length) {
+        // An older battle.json without points: the bar is the one setting.
+        const f = fpBy[d.scanner];
+        if (scoreRate(d) === null || scoreRate(f) === null) continue;
+        opts = [{ setting: "", level: 0, isDefault: true, det: pct(scoreRate(d)), fp: pct(scoreRate(f)) }];
+      }
+      const def = opts.find((o) => o.isDefault) || opts[0];
+      engines.push({
+        key: d.scanner, name: p.name || d.scanner, color: p.color || "#6b7280", us: d.scanner === "ascan",
+        opts: opts, def: def,
       });
     }
-    if (pts.length < 2) return null;
+    if (engines.length < 2) return null;
 
-    // Anything past the crop keeps its true value in a labelled strip rather than
-    // being clipped to the frame edge, which would understate it.
-    const offscale = pts.filter((p) => p.fp > YMAX).sort((a, b) => b.fp - a.fp);
-    const inScale = pts.filter((p) => p.fp <= YMAX);
-
-    // Vertical layout is per run: the headline band exists only with a curve to
-    // headline, and the off-scale strip only when something is off-scale. The
-    // in-scale band itself never changes height, so marks land where they always
-    // have; only the frame shrinks.
-    const pt = curve ? QPT : 30;
+    // A setting past the crop is drawn in a strip below an axis break, at its
+    // true detection rate, with its false-positive rate in its label — never
+    // clipped to the frame, which would understate it.
+    const anyStrip = engines.some((e) => e.opts.some((o) => o.fp > YMAX));
+    const pt = 24;
     const zero = pt + (QZERO - QPT);
     const mb = zero + (QMB - QZERO);
-    const pb = mb + (offscale.length ? QSTRIP : 0);
+    const pb = mb + (anyStrip ? QSTRIP : 0);
+    const stripY = mb + 30;
     const h = pb + (QH - QPB);
-
     const xOf = (v) => QPL + 18 + (v / 100) * (QPR - QPL - 40);
-    const yOf = (v) => zero + (Math.min(v, YMAX) / YMAX) * (mb - zero);
+    const yOf = (v) => (v > YMAX ? stripY : zero + (v / YMAX) * (mb - zero));
 
-    // --- label boxes ---------------------------------------------------------
-    // Width is estimated from character count; close enough for collisions at
-    // these sizes, and it costs no layout pass.
-    const NAME_PX = 6.2, FP_PX = 5.3, US_PX = 7.3;
-    function box(head, sub, us) {
-      const cw = us ? US_PX : NAME_PX;
-      return {
-        head: head, sub: sub, us: us,
-        w: Math.max(head.length * cw, sub ? sub.length * FP_PX : 0),
-        h: sub ? 2 * LINE_H : LINE_H,
-      };
-    }
-    const fpText = (n) => (n ? n + " false positive" + (n === 1 ? "" : "s") : null);
-
+    // --- labels ----------------------------------------------------------------
+    // One line each. Width is estimated from character count; close enough for
+    // collisions at these sizes, and it costs no layout pass.
+    const NAME_PX = 7.0, RATE_PX = 6.0;
     const marks = [];
-    for (const p of inScale) {
-      marks.push(Object.assign({
-        x: xOf(p.det), y: yOf(p.fp), r: 5, kind: "engine",
-      }, box(p.name + "  " + p.det + "%", fpText(p.flagged), false), { engine: p }));
+    for (const e of engines) {
+      e.tuned = e.opts.length > 1;
+      e.x = xOf(e.def.det);
+      e.y = yOf(e.def.fp);
+      e.rates = rateText(e.def);
+      e.setting = e.tuned ? e.def.setting : "";
+      e.optsView = e.opts.map((o) => ({
+        setting: o.setting, level: o.level, isDefault: o.isDefault, rates: rateText(o),
+        x: xOf(o.det), y: yOf(o.fp), onPlot: true, strip: o.fp > YMAX,
+        title: e.name + (o.setting ? " " + o.setting : "") + ": " + fmtPct(o.det) + "% of malware blocked, " +
+          fmtPct(o.fp) + "% of known-good blocked",
+      }));
+      const onPlot = e.optsView.filter((o) => o.onPlot);
+      // The line joins the settings on the plot; the strip is below a break, so
+      // nothing is drawn across it.
+      const inScale = onPlot.filter((o) => !o.strip);
+      e.line = e.tuned && inScale.length > 1 ? inScale.map((o) => o.x.toFixed(1) + "," + o.y.toFixed(1)).join(" ") : "";
+      // The engine's slider runs strictest to loosest — by what each setting
+      // blocks, ties kept in published order — whichever way its own scale runs
+      // (VirusTotal's n and GuardDog's risk count down as they loosen).
+      e.slider = onPlot.map((o, i) => ({ o: o, i: i }))
+        .sort((a, b) => (a.o.x - b.o.x) || (a.i - b.i)).map((x) => x.o);
+      e.slider.forEach((o, i) => { o.idx = i; });
+      e.sliderDefault = e.slider.findIndex((o) => o.isDefault);
+      e.title = e.optsView.find((o) => o.isDefault).title;
+      const w = e.name.length * NAME_PX + 8 + e.rates.length * RATE_PX + (e.setting ? 8 + e.setting.length * RATE_PX : 0);
+      marks.push({ x: e.x, y: e.y, r: e.us ? 6 : 5, w: w, h: LINE_H, engine: e });
     }
 
-    // --- the curve and the three stops worth naming --------------------------
-    let curveGeo = null;
-    if (curve) {
-      const verts = curve;
-      const first = verts[0], last = verts[verts.length - 1];
-      let dflt = null;
-      for (const v of verts) if (v.lLo <= DIAL_DEFAULT && DIAL_DEFAULT <= v.lHi) dflt = v;
-      const named = [];
-      const nameOf = (v) => v === last ? "Atomdrift@L" + DIAL_MAX.toLocaleString("en-US")
-        : (v === dflt ? "Atomdrift@L" + DIAL_DEFAULT + " (default)"
-        : "Atomdrift@L" + v.lLo.toLocaleString("en-US"));
-      for (const v of [first, dflt, last]) {
-        if (v && named.indexOf(v) === -1) named.push(v);
+    // --- placement -------------------------------------------------------------
+    // Candidate sides per label, preferring open space, then nudged until it
+    // clears every dot, every line, the quadrant caption and the labels already
+    // placed. Every label gets a leader to its dot.
+    const obstacles = [];
+    for (const e of engines) {
+      for (const o of e.optsView) if (o.onPlot) obstacles.push({ x: o.x - 6, y: o.y - 6, w: 12, h: 12 });
+      const pts = e.optsView.filter((o) => o.onPlot && !o.strip);
+      for (let i = 1; i < pts.length && e.line; i++) {
+        const a = pts[i - 1], b = pts[i];
+        const steps = Math.ceil(Math.hypot(b.x - a.x, b.y - a.y) / 6);
+        for (let k = 0; k <= steps; k++) {
+          obstacles.push({ x: a.x + ((b.x - a.x) * k) / steps - 2, y: a.y + ((b.y - a.y) * k) / steps - 2, w: 4, h: 4 });
+        }
       }
-      for (const v of named) {
-        marks.push(Object.assign({
-          x: xOf(v.det), y: yOf(v.fp), r: 5.5, kind: "stop",
-        }, box(nameOf(v) + "  " + v.det + "%", fpText(v.flagged), true), { stop: v }));
-      }
-      curveGeo = {
-        path: curvePath(verts, xOf, yOf),
-        color: (provs.ascan && provs.ascan.color) || "#2a78d6",
-        x1: xOf(first.det), x2: xOf(last.det),
-        verts: verts, named: named,
-      };
     }
-
-    // --- placement -----------------------------------------------------------
-    // Candidate sides per mark, preferring open space, then nudged until the box
-    // clears the markers, the quadrant caption and everything already placed.
-    const markerBoxes = marks.map((m) => ({ x: m.x - m.r - 4, y: m.y - m.r - 4, w: 2 * m.r + 8, h: 2 * m.r + 8 }));
     const capW = 250, capH = 20;
     const placed = [{ x: QPR - 10 - capW, y: yOf(YDIV) - 10 - capH, w: capW, h: capH }];
-    const GAP = 14;
-    // Labels stay inside the plot: past the y axis they collide with its ticks.
+    // Labels keep off the axis break: text sitting on it reads as struck through.
+    if (anyStrip) placed.push({ x: QPL, y: mb + 4, w: QPR - QPL, h: 12 });
+    const GAP = 12;
     const BOUND = { x: QPL + 4, y: pt - 2, w: QPR - QPL - 8, h: pb - pt + 4 };
-
     function candidates(m) {
       const right = { x: m.x + GAP, y: m.y - m.h / 2, anchor: "start" };
       const left = { x: m.x - GAP - m.w, y: m.y - m.h / 2, anchor: "end" };
       const below = { x: m.x - m.w / 2, y: m.y + GAP, anchor: "middle" };
       const above = { x: m.x - m.w / 2, y: m.y - GAP - m.h, anchor: "middle" };
-      const vert = m.y < zero + 40 ? [above, below] : [below, above];
       const horiz = m.x > (QPL + QPR) / 2 ? [left, right] : [right, left];
-      return vert.concat(horiz);
+      const vert = m.y < zero + 40 ? [above, below] : [below, above];
+      return horiz.concat(vert);
     }
     function cost(b) {
       let c = 0;
-      for (const k of markerBoxes) c += overlapArea(b, k) * 3;
-      for (const p of placed) c += overlapArea(b, p);
+      for (const k of obstacles) c += overlapArea(b, k) * 3;
+      for (const p of placed) c += overlapArea(b, p) * 4;
       const outX = Math.max(0, BOUND.x - b.x) + Math.max(0, b.x + b.w - (BOUND.x + BOUND.w));
       const outY = Math.max(0, BOUND.y - b.y) + Math.max(0, b.y + b.h - (BOUND.y + BOUND.h));
       return c + (outX + outY) * 400;
     }
-
-    // Atomdrift's stops get the clean positions, then the rest by catch rate.
-    const order = marks.slice().sort((a, b) =>
-      (b.kind === "stop") - (a.kind === "stop") || b.x - a.x);
-    for (const m of order) {
+    // The best box for a label of width w at a dot, and where its leader runs.
+    function place(m, extra) {
       let best = null;
       for (const c of candidates(m)) {
-        for (const dy of [0, 14, -14, 28, -28, 44, -44]) {
-          const b = { x: c.x, y: c.y + dy, w: m.w, h: m.h, anchor: c.anchor };
-          const sc = cost(b) + Math.abs(dy) * 2;
+        for (const [dx, dy] of [[0, 0], [0, 14], [0, -14], [0, 28], [0, -28], [0, 44], [0, -44],
+          [40, 28], [40, -28], [-40, 28], [-40, -28], [0, 64], [60, 44], [-60, 44], [0, 84], [80, 64]]) {
+          const b = { x: c.x + dx, y: c.y + dy, w: m.w, h: m.h, anchor: c.anchor };
+          let sc = cost(b) + (Math.abs(dx) + Math.abs(dy)) * 2;
+          for (const p of extra || []) sc += overlapArea(b, p) * 4;
           if (!best || sc < best.sc) best = { b: b, sc: sc };
           if (sc === 0) break;
         }
         if (best && best.sc === 0) break;
       }
       const b = best.b;
-      m.label = {
-        anchor: b.anchor,
+      const out = {
+        box: b, anchor: b.anchor, y: b.y + 11,
         tx: b.anchor === "end" ? b.x + m.w : (b.anchor === "middle" ? b.x + m.w / 2 : b.x),
-        y1: b.y + 11,
-        y2: b.y + 11 + LINE_H,
+        leader: null,
       };
-      // Every mark gets a leader: which ring a label names should never be
-      // something the reader works out from proximity, least of all on the 0% row
-      // where the curve runs horizontally through a crowd.
       const ex = Math.max(b.x, Math.min(m.x, b.x + m.w));
       const ey = Math.max(b.y, Math.min(m.y, b.y + m.h));
       const a = Math.atan2(ey - m.y, ex - m.x);
       const sx = m.x + Math.cos(a) * (m.r + 3), sy = m.y + Math.sin(a) * (m.r + 3);
-      if (Math.hypot(ex - sx, ey - sy) > 3) m.leader = { x1: sx, y1: sy, x2: ex, y2: ey };
-      placed.push(b);
+      if (Math.hypot(ex - sx, ey - sy) > 3) out.leader = { x1: sx, y1: sy, x2: ex, y2: ey };
+      return out;
     }
-
-    // --- the headline, generated from the run so it cannot drift -------------
-    //
-    // Stated as a claim, so it has to survive the chart under it: on a run where
-    // a rival out-detects us, or where the default costs a false positive, the
-    // wording steps down rather than overclaiming.
-    const nBad = src.nBad, nGood = src.nGood;
-    let head = null;
-    if (curve) {
-      const dflt = curveGeo.named.filter((v) => v.lLo <= DIAL_DEFAULT && DIAL_DEFAULT <= v.lHi)[0]
-        || curveGeo.named[0];
-      const rivals = inScale.concat(offscale);
-      const best = rivals.slice().sort((a, b) => b.det - a.det)[0];
-      const beatsAll = rivals.every((p) => dflt.det >= p.det);
-      head = {
-        title: beatsAll && dflt.flagged === 0
-          ? "Highest detection rate, and nothing flagged that shouldn't be."
-          : (beatsAll ? "Highest detection rate " +
-              (src.window ? "over the last " + src.window.days + " days." : "on this run.")
-          : "Where Atomdrift's dial sits against the field."),
-        sub: dflt.det + "% of " + nBad + " zero-day supply-chain samples caught, " +
-          dflt.flagged + " of " + nGood + " known-safe packages flagged." +
-          (best ? "  Next best: " + best.name + ", " + best.det + "% with " +
-            best.flagged + " false positive" + (best.flagged === 1 ? "" : "s") + "." : ""),
-      };
+    const order = marks.slice().sort((a, b) => (b.engine.us - a.engine.us) || b.x - a.x);
+    for (const m of order) {
+      const at = place(m);
+      m.engine.label = at;
+      m.engine.leader = at.leader;
+      placed.push(at.box);
+    }
+    // Every other setting gets its label placed too, against every other engine at
+    // its default, so selecting it moves the label somewhere it fits rather than
+    // dragging it by the offset it had at the default.
+    for (const m of marks) {
+      const e = m.engine;
+      const others = placed.filter((b) => b !== e.label.box);
+      for (const o of e.optsView) {
+        if (o.isDefault || !o.onPlot) continue;
+        const w = m.w - e.rates.length * RATE_PX + o.rates.length * RATE_PX +
+          (e.setting ? (o.setting.length - e.setting.length) * RATE_PX : 0);
+        const saved = placed.splice(0, placed.length, ...others);
+        const at = place({ x: o.x, y: o.y, r: m.r, w: w, h: LINE_H });
+        placed.splice(0, placed.length, ...saved);
+        o.label = at;
+      }
+      const def = e.optsView.find((o) => o.isDefault);
+      if (def) def.label = e.label;
     }
 
     return {
@@ -721,17 +631,10 @@ module.exports = function(eleventyConfig) {
       yMax: YMAX,
       xTicks: [0, 25, 50, 75, 100].map((v) => ({ v: v, x: xOf(v) })),
       yTicks: [0, 2, 4, 6, 8, 10].map((v) => ({ v: v, y: yOf(v) })),
-      xDiv: xOf(XDIV), yDiv: yOf(YDIV), xDivVal: XDIV, yDivVal: YDIV,
-      marks: marks,
-      curve: curveGeo,
-      head: head,
-      offscale: offscale.map((p, i) => ({
-        engine: p, x: xOf(p.det), y: mb + 30 + i * 26,
-        fpText: fpText(p.flagged),
-      })),
-      breakY: mb + 10,
-      lineH: LINE_H,
-      nBad: nBad, nGood: nGood,
+      xDiv: xOf(XDIV), yDiv: yOf(YDIV),
+      engines: engines,
+      strip: anyStrip ? { y: stripY, breakY: mb + 10 } : null,
+      nBad: src.nBad, nGood: src.nGood,
       window: src.window,
     };
   });
