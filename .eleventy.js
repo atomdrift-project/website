@@ -631,7 +631,7 @@ module.exports = function(eleventyConfig) {
       yMax: YMAX,
       xTicks: [0, 25, 50, 75, 100].map((v) => ({ v: v, x: xOf(v) })),
       yTicks: [0, 2, 4, 6, 8, 10].map((v) => ({ v: v, y: yOf(v) })),
-      xDiv: xOf(XDIV), yDiv: yOf(YDIV),
+      xDiv: xOf(XDIV), yDiv: yOf(YDIV), xDivVal: XDIV, yDivVal: YDIV,
       engines: engines,
       strip: anyStrip ? { y: stripY, breakY: mb + 10 } : null,
       nBad: src.nBad, nGood: src.nGood,
