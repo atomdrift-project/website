@@ -23,17 +23,22 @@ need offsets, encodings, extraction methods, or classifications.
 ## Embed the extractor
 
 stng is also a Rust library. Add the Git dependency and call the library API
-when process startup and JSON parsing are unnecessary:
+when process startup and JSON parsing are unnecessary. Turning off default
+features skips the CLI's dependencies (clap, jemalloc, logging setup, and the
+Rizin cache):
 
 ```toml
 [dependencies]
-stng = { git = "https://github.com/atomdrift-project/stng" }
+stng = { git = "https://github.com/atomdrift-project/stng", default-features = false }
 ```
 
 ```rust
 let bytes = std::fs::read("sample")?;
 let strings = stng::extract_strings(&bytes, 4);
 ```
+
+The library does not run Rizin/radare2 or cache results; that is the CLI's
+job, and callers that want caching provide their own.
 
 Record the stng and Rizin/radare2 versions with long-lived analysis results.
 Optional tool differences can change what is recovered.

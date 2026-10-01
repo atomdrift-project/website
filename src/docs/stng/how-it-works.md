@@ -21,9 +21,11 @@ presentation, not the bytes being analyzed.
 
 ## Cache behavior
 
-Extracted strings and optional Rizin results are cached by file content. The
-cache defaults to a 30-day TTL and a 2 GiB ceiling. Use `--no-cache` for one
-run or `--flush-cache` to discard the target's cached analysis.
+stng does not cache extracted strings; extraction reruns on every call, and
+tools embedding the library cache results themselves. The CLI caches only
+optional Rizin/radare2 output, keyed by file content, for up to 30 days and
+4096 files. Use `--no-cache` for one run or `--flush-cache` to discard the
+target's cached Rizin analysis.
 
 Results depend on the stng version, options, and optional Rizin/radare2 presence
 and version. Pin those inputs when comparing runs across systems.
