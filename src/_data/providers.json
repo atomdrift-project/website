@@ -4,6 +4,7 @@
     "license": "Apache-2.0",
     "appcode": true, "vendored": true, "deps": true, "binaries": true, "airgap": true,
     "identifies": "package or file",
+    "detect": "≥ suspicious",
     "slot": 1, "color": "#2a78d6",
     "registries": ["npm", "PyPI", "RubyGems", "Maven", "NuGet", "Packagist", "Go", "crates.io", "Hex", "CPAN", "CRAN", "LuaRocks", "Pub", "Clojars", "Hackage", "JSR", "unpkg", "Alpine", "Arch", "AUR", "Debian", "Ubuntu", "Fedora", "openSUSE", "RPM Fusion", "FreeBSD", "NetBSD", "OpenBSD", "Wolfi", "conda", "Gentoo", "Snap", "Homebrew", "Chocolatey", "Scoop", "winget", "PowerShell Gallery", "Chrome", "Edge", "Firefox", "VS Code", "Open VSX", "JetBrains", "GitHub", "GitHub Actions", "Hugging Face", "WordPress"],
     "url": "https://atomdrift.org/scan/"
@@ -14,6 +15,7 @@
     "license_note": "free tier used for this benchmark",
     "appcode": false, "vendored": true, "deps": false, "binaries": true, "airgap": false,
     "identifies": "file hash",
+    "detect": "n=1",
     "hosted": true,
     "slot": 2, "color": "#b63202",
     "registries": [],
@@ -25,6 +27,7 @@
     "license": "Apache-2.0",
     "appcode": true, "vendored": true, "deps": false, "binaries": true, "airgap": true,
     "identifies": "file contents",
+    "detect": "≥ high",
     "slot": 3, "color": "#0ca4a0",
     "registries": [],
     "registries_note": "scans files and archives directly; no registry lookup",
@@ -65,6 +68,7 @@
     "license": "Apache-2.0",
     "appcode": false, "vendored": true, "deps": true, "binaries": false, "airgap": false,
     "identifies": "package version",
+    "detect": "risk≥5",
     "slot": 7, "color": "#542eb7",
     "registries": ["npm", "PyPI", "Go", "RubyGems", "GitHub Actions"],
     "url": "https://github.com/DataDog/guarddog"

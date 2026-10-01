@@ -122,15 +122,6 @@ module.exports = function(eleventyConfig) {
       .sort(function(a, b) { return b.n - a.n; });
   });
 
-  // Sort a leaderboard by its displayed rate (hostile / supported), highest first —
-  // so every bar chart reads top-to-bottom, biggest bar first. Engines that
-  // scanned nothing (supported 0) sort to the bottom.
-  eleventyConfig.addFilter("byFlagged", function(board) {
-    if (!Array.isArray(board)) return [];
-    const rate = (s) => (s && s.supported) ? s.hostile / s.supported : -1;
-    return board.slice().sort((a, b) => rate(b) - rate(a));
-  });
-
   // Turn the providers map into a list (each entry tagged with its key), sorted
   // by registry coverage, most first — the order of the /compare/ feature table.
   eleventyConfig.addFilter("byRegistries", function(providers) {
@@ -140,10 +131,9 @@ module.exports = function(eleventyConfig) {
       .sort(function(a, b) { return (b.registries || []).length - (a.registries || []).length; });
   });
 
-  // A detection is a verdict blocked as hostile, at the engine's default setting;
-  // suspicious verdicts count for no engine anywhere on the page (see gauntlet's
-  // points.go). flaggedRate is that rate as a 0..100 percentage, or null when the
-  // engine scanned nothing — what the bars and every view here are built from.
+  // A block is a verdict of hostile, at the engine's default setting (see
+  // gauntlet's points.go). flaggedRate is that rate as a 0..100 percentage, or
+  // null when the engine scanned nothing.
   const flaggedRate = (s) => (s && s.supported) ? s.hostile / s.supported * 100 : null;
 
   // battle.json is the published window — every sample scored over the last
@@ -202,8 +192,6 @@ module.exports = function(eleventyConfig) {
       if (r === null) continue;
       if (!best || r > best.det) best = { name: s.scanner, det: r };
     }
-    const usFpScore = src.fp.find((s) => s.scanner === "ascan");
-    const usFp = scoreRate(usFpScore);
     // parity: Atomdrift at the loosest -l whose false-positive rate is no worse
     // than the strongest rival's at its default — the like-for-like comparison
     // the headline makes. Null when no -l stop qualifies.
@@ -217,12 +205,10 @@ module.exports = function(eleventyConfig) {
     }
     return {
       parity: parity,
-      detRate: pct(usDet),
-      fpRate: usFp === null ? null : pct(usFp),
-      fpFlagged: usFpScore ? usFpScore.flagged : null,
       bestName: best ? best.name : null,
       bestDet: best ? pct(best.det) : null,
       leads: !best || usDet >= best.det,
+      split: ascanSplit(battle),
       sampleCount: src.nBad,
       nGood: src.nGood,
       window: src.window,
@@ -414,11 +400,32 @@ module.exports = function(eleventyConfig) {
     return out;
   }
 
-  // The hero dial walks Atomdrift's -l settings: each stop is what it blocks, and
-  // what that costs in false positives, at that level.
+  // ascanSplit: the hero's figures — everything Atomdrift detects (hostile +
+  // suspicious), split into the two, on the malware and the known-good cohort.
+  // `at` is one of its operating points; without one, its default, from the
+  // leaderboards. Moving -l only moves verdicts between hostile and suspicious —
+  // atomscan's suspicious band ends at a fixed level (gauntlet's
+  // ascanSuspiciousCeiling) — so the total is the same at every stop, and a stop's
+  // suspicious count is the total less what it blocks there.
+  function ascanSplit(battle, at) {
+    const us = (side) => ((battle && battle[side] && battle[side].leaderboard) || [])
+      .find((s) => s.scanner === "ascan");
+    const bad = us("detection"), good = us("false_positive");
+    if (!bad || !bad.supported || !good || !good.supported) return null;
+    const all = bad.hostile + bad.suspicious, fpAll = good.hostile + good.suspicious;
+    const h = at ? at.detected : bad.hostile, fh = at ? at.false_positives : good.hostile;
+    const r = (n, of) => pct((100 * n) / of);
+    return {
+      all: r(all, bad.supported), hostile: r(h, bad.supported), suspicious: r(all - h, bad.supported),
+      fpAll: r(fpAll, good.supported), fpHostile: r(fh, good.supported), fpSuspicious: r(fpAll - fh, good.supported),
+    };
+  }
+
+  // The hero dial walks Atomdrift's -l settings: at each stop, the split above.
   eleventyConfig.addFilter("ascanDial", function(battle) {
-    const pts = pointsBy(battle && battle.operating_points).ascan || [];
-    return pts.length >= 2 ? pts.map((p) => ({ l: p.level, det: p.det, fp: p.fp })) : null;
+    const pts = ((battle && battle.operating_points) || []).filter((p) => p.scanner === "ascan");
+    if (pts.length < 2 || !ascanSplit(battle)) return null;
+    return pts.map((p) => Object.assign({ l: p.level || 0 }, ascanSplit(battle, p)));
   });
   eleventyConfig.addFilter("curveStop", function(curve, l) {
     if (!curve || !curve.length) return null;
@@ -436,23 +443,46 @@ module.exports = function(eleventyConfig) {
 
   const rateText = (p) => fmtPct(p.det) + "% · " + fmtPct(p.fp) + "% FP";
 
-  // settingRange: an engine's detection from its default to its loosest setting
-  // (the one that blocks the most), in the graph's terms — for the bars, whose
-  // pale band is exactly that extra, and whose end text names both settings.
-  // Null for an engine with one setting, or whose loosest adds nothing.
-  eleventyConfig.addFilter("settingRange", function(battle, scanner, eco) {
-    const src = scoresFor(battle, eco);
-    const raw = ((src && src.points) || []).filter((p) => p.scanner === scanner);
-    const def = raw.find((p) => p.default);
-    if (!def || raw.length < 2) return null;
-    // Ties go to the later, looser setting: L2500 over an equal L2000.
-    const loose = raw.reduce((a, b) => (b.detected >= a.detected ? b : a), def);
-    if (loose === def || loose.detected === def.detected) return null;
-    return {
-      defSetting: def.setting, defDet: pct((100 * def.detected) / def.cohort_n),
-      looseSetting: loose.setting, looseDet: pct((100 * loose.detected) / loose.cohort_n),
-      extra: loose.detected - def.detected,
-    };
+  // detectedBoard: the "Detected per engine" bars — a leaderboard with each
+  // engine's detections at its most sensitive, hostile and suspicious alike, sorted
+  // by that rate, highest first; engines that scanned nothing sort last. Detected
+  // is the hostile + suspicious tally, or the loosest published setting where that
+  // flags more: only VirusTotal's does, since its tiers call a lone engine benign
+  // and at n=1 it counts. providers.json's `detect` names that threshold in the
+  // engine's own terms; an engine with no weaker level has none.
+  eleventyConfig.addFilter("detectedBoard", function(board, battle, providers, eco) {
+    const points = (eco ? ((battle && battle.operating_points_by_ecosystem) || {})[eco]
+      : battle && battle.operating_points) || [];
+    const rate = (s) => (s.supported ? s.detected / s.supported : -1);
+    return (board || []).map((s) => {
+      const looser = points.filter((p) => p.scanner === s.scanner).map((p) => p.detected);
+      return Object.assign({}, s, {
+        detected: Math.max(s.hostile + s.suspicious, ...looser),
+        threshold: ((providers || {})[s.scanner] || {}).detect || null,
+      });
+    }).sort((a, b) => rate(b) - rate(a));
+  });
+
+  // weightedDetected: the appendix's population-weighted rates (gauntlet's
+  // hostile + suspicious weighting) as 0..100, highest first. gauntlet omits a
+  // rate of 0, which is still a measured 0, so every engine stays listed.
+  eleventyConfig.addFilter("weightedDetected", function(board) {
+    return (board || []).map((s) => ({ scanner: s.scanner, rate: 100 * (s.weighted_flagged_rate || 0) }))
+      .sort((a, b) => b.rate - a.rate);
+  });
+
+  // ascanFalsePositives: every known-good file Atomdrift flagged, hostile or
+  // suspicious, sorted by file type then name — the rows behind the card's
+  // false-positive rates, from the same samples the leaderboard counts.
+  eleventyConfig.addFilter("ascanFalsePositives", function(samples) {
+    const out = [];
+    for (const s of samples || []) {
+      if (s.label !== "good" || s.excluded === "ascan") continue;
+      const v = (s.verdicts || []).find((x) => x.scanner === "ascan");
+      if (!v || (v.tier !== "hostile" && v.tier !== "suspicious")) continue;
+      out.push({ sha256: s.sha256, name: s.filename, filetype: s.filetype || "other", ecosystem: s.ecosystem, tier: v.tier });
+    }
+    return out.sort((a, b) => a.filetype.localeCompare(b.filetype) || a.name.localeCompare(b.name));
   });
 
   // quadrant: every engine as one coloured point at its default setting, labelled
