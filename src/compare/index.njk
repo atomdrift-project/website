@@ -269,11 +269,9 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
    engine never takes — a file format or an ecosystem it does not read — which the
    methodology scores as a miss. Atomdrift is identified by its label, not by a
    colour of its own. #}
-{%- macro rows(board, cohort, full, eco) -%}
+{%- macro rows(board, cohort, full) -%}
   <div class="rows">
-  {#- Detections come from the same cohort's operating points: the whole window,
-      or this ecosystem's. -#}
-  {%- for s in board | detectedBoard(battle, providers, eco) %}
+  {%- for s in board | detectedBoard(providers) %}
     {%- set p = providers[s.scanner] %}
     {%- set unsup = s.unsupported or 0 %}
     {%- set sus = s.detected - s.hostile %}
@@ -317,10 +315,10 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
           rival. Generated from the data, so it steps down when the data does. -#}
       {%- set rival = providers[h.parity.rival].name if h and h.parity else null %}
       {%- if h and h.parity and h.parity.det > h.parity.rivalDet %}
-      <h1>More zero-day malware blocked than {{ rival }}, at the same false-positive rate — on your own
-        hardware.</h1>
+      <h1>More zero-day malware detected as hostile than {{ rival }}, at the same false-positive rate — on your
+        own hardware.</h1>
       <p class="say">Over {{ span }}, set to <code>L{{ h.parity.level }}</code>: <b>{{ h.parity.det | pct1 }}%</b> of
-        live zero-day malware blocked at <b>{{ h.parity.fp | pct1 }}%</b> false positives. {{ rival }} blocked
+        live zero-day malware detected as hostile at <b>{{ h.parity.fp | pct1 }}%</b> false positives. {{ rival }} detected
         {{ h.parity.rivalDet | pct1 }}%, one upload at a time. Atomdrift reads the artifact and decides at scan time;
         nothing leaves your machine. The shipped default, <code>L{{ dialDefault }}</code>, is beside it.</p>
       {%- else %}
@@ -370,7 +368,7 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
          JS off; the slider only ever re-reads values already in the page, and moves
          Atomdrift's point on the chart below with it. #}
       <div class="dial">
-        <label class="dial-label" for="dial">False-positive budget</label>
+        <label class="dial-label" for="dial">Hostile threshold</label>
         <input type="range" id="dial" min="0" max="{{ (curve | length) - 1 }}"
                value="{{ curve | curveIndex(dialDefault) }}" step="1"
                aria-valuetext="L{{ dialStop.l }}: {{ dialStop.all | pct1 }}% detected ({{ dialStop.hostile | pct1 }}% hostile, {{ dialStop.suspicious | pct1 }}% suspicious), {{ dialStop.fpAll | pct1 }}% false positives"
@@ -380,7 +378,8 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
       {%- endif %}
       <div class="at" id="dial-help">at <b id="dial-l">L{{ dialDefault }}</b> <span id="dial-say">— the shipped default</span></div>
       <span id="dial-status" class="visually-hidden" aria-live="polite" aria-atomic="true"></span>
-      <p><b>Hostile</b> is blocked at this level, <b>suspicious</b> flagged for review · {{ h.sampleCount }} zero-day
+      <p><b>Hostile</b> is a confident detection, <b>suspicious</b> one to review; the threshold moves detections
+        between them · {{ h.sampleCount }} zero-day
         samples, median {{ battle.malware_age.median_hours | round(0) if battle.malware_age else 24 }} h old ·
         {{ h.nGood }} known-good</p>
     </div>
@@ -400,7 +399,7 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
   <div id="boards">
     <div class="board" data-eco="all">{{ rows(battle.detection.leaderboard, 'bad', true) }}</div>
     {%- for e in ecos %}
-    <div class="board" data-eco="{{ e.eco }}" hidden>{{ rows(e.board, 'bad', false, e.eco) }}</div>
+    <div class="board" data-eco="{{ e.eco }}" hidden>{{ rows(e.board, 'bad', false) }}</div>
     {%- endfor %}
   </div>
   <script>
@@ -426,8 +425,8 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
   })();
   </script>
   <div class="legend">
-    <span><i class="hostile-key"></i>hostile <small>· blocked at the default setting</small></span>
-    <span><i class="suspicious-key"></i>suspicious <small>· flagged, not blocked</small></span>
+    <span><i class="hostile-key"></i>detected as hostile</span>
+    <span><i class="suspicious-key"></i>detected as suspicious</span>
     <span><i class="unsupported-key"></i>out of scope <small>· a miss</small></span>
     <span><i class="errored-key"></i>errored <small>· a miss</small></span>
   </div>
@@ -454,7 +453,7 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
     "Detected per engine"; without script the page is the whole cohort. -#}
 {%- macro frontier(q, span) -%}
   <div class="frontier-wrap">
-    <svg class="qchart" viewBox="0 0 {{ q.w }} {{ q.h }}" role="img" aria-label="Zero-day malware blocked against known-good files blocked, for every engine over {{ span }}, each at its default setting. Faded dots are the other settings an engine can run at. The vertical axis is inverted so fewer false positives is higher. Every value follows the chart in a list.">
+    <svg class="qchart" viewBox="0 0 {{ q.w }} {{ q.h }}" role="img" aria-label="Zero-day malware detected as hostile against known-good files detected as hostile, for every engine over {{ span }}, each at its default threshold. Faded dots are the other thresholds an engine can run at. The vertical axis is inverted so fewer false positives is higher. Every value follows the chart in a list.">
       {# The one shaded region on the chart, with its thresholds in its label:
          they are ours, and a reader should be able to disagree with them. #}
       <rect class="q-target" x="{{ q.xDiv }}" y="{{ q.pt }}" width="{{ q.pr - q.xDiv }}" height="{{ q.yDiv - q.pt }}"></rect>
@@ -470,11 +469,11 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
       {%- endfor %}
       <line class="q-div" x1="{{ q.xDiv }}" y1="{{ q.pt }}" x2="{{ q.xDiv }}" y2="{{ q.mb }}"></line>
       <line class="q-div" x1="{{ q.pl }}" y1="{{ q.yDiv }}" x2="{{ q.pr }}" y2="{{ q.yDiv }}"></line>
-      <text class="q-quad" x="{{ q.pr - 10 }}" y="{{ q.yDiv - 10 }}" text-anchor="end">≥{{ q.xDivVal }}% BLOCKED  ·  ≤{{ q.yDivVal }}% FALSE POSITIVES</text>
+      <text class="q-quad" x="{{ q.pr - 10 }}" y="{{ q.yDiv - 10 }}" text-anchor="end">≥{{ q.xDivVal }}% DETECTED AS HOSTILE  ·  ≤{{ q.yDivVal }}% FALSE POSITIVES</text>
 
       <line class="q-axis" x1="{{ q.pl }}" y1="{{ q.pt }}" x2="{{ q.pl }}" y2="{{ q.pb }}"></line>
       <line class="q-axis" x1="{{ q.pl }}" y1="{{ q.pb }}" x2="{{ q.pr }}" y2="{{ q.pb }}"></line>
-      <text class="q-alab" x="{{ (q.pl + q.pr) / 2 }}" y="{{ q.pb + 46 }}" text-anchor="middle">Zero-day malware blocked  ·  more is better →</text>
+      <text class="q-alab" x="{{ (q.pl + q.pr) / 2 }}" y="{{ q.pb + 46 }}" text-anchor="middle">Zero-day malware detected as hostile  ·  more is better →</text>
       <text class="q-asub" x="{{ (q.pl + q.pr) / 2 }}" y="{{ q.pb + 62 }}" text-anchor="middle">of {{ q.nBad }} malicious packages{% if q.window %} across {{ q.window.runs }} runs{% endif %}, none more than 48 hours old</text>
       <g transform="translate(24,{{ (q.pt + q.pb) / 2 }}) rotate(-90)">
         <text class="q-alab" x="0" y="0" text-anchor="middle">False positives  ·  fewer is better ↑</text>
@@ -538,7 +537,7 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
 
   {%- set q = battle | quadrant(chartProviders) %}
   {%- if q %}
-  <h2 id="frontier">Blocked vs. false positives <span class="note">sliders try each engine's other settings<span class="eco-now"></span></span></h2>
+  <h2 id="frontier">Detected as hostile vs. false positives <span class="note">sliders try each engine's other thresholds<span class="eco-now"></span></span></h2>
   <div class="qwrap" data-eco="all">{{ frontier(q, span) }}</div>
   {%- for e in ecos %}
   {%- set qe = (battle | quadrant(chartProviders, e.eco)) if e.n >= 10 else null %}
@@ -548,8 +547,9 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
     {%- endif %}
   </div>
   {%- endfor %}
-  <p class="fig-note">Blocked is what each engine marks hostile at a setting; its suspicious verdicts, counted in
-    the bars above, are not plotted. Defaults: Atomdrift <code>L25</code> (as shipped), VirusTotal <code>n=4</code> engines agreeing, GuardDog
+  <p class="fig-note">Each dot is an engine at one threshold, plotting what it detects as hostile there; its
+    suspicious detections, counted in the bars above, are not plotted. Defaults: Atomdrift <code>L25</code> (as
+    shipped), VirusTotal <code>n≥4</code> engines agreeing, GuardDog
     <code>risk≥7</code> (its "likely malicious"), malcontent <code>critical</code>.</p>
   <script>
   (function () {
@@ -621,11 +621,11 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
   </script>
   {%- endif %}
 
-  <h2 id="over-time">Run by run <span class="note">last 30 days · blocked as hostile at each engine's default setting</span></h2>
+  <h2 id="over-time">Run by run <span class="note">last 30 days · detected as hostile at each engine's default threshold</span></h2>
   <p class="sub">Each point is one run, scored like the chart above. A fresh cohort every run, so every line
     swings. <span id="trend-n"></span> <b>Judge us on the worst night, not the best.</b></p>
   {%- if history and history | length >= 2 %}
-  <div class="trend-wrap"><canvas id="trendChart" role="img" aria-label="Per-run zero-day detection rate (blocked as hostile) for every measured engine across fresh live-malware cohorts."></canvas></div>
+  <div class="trend-wrap"><canvas id="trendChart" role="img" aria-label="Per-run share of zero-day malware detected as hostile, for every measured engine across fresh live-malware cohorts."></canvas></div>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script>
   (function () {
@@ -754,7 +754,7 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
         layout: { padding: { right: 46, left: 6 } },
         scales: {
           x: { ticks: { maxRotation: 0, autoSkip: true, maxTicksLimit: 10 } },
-          y: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%' }, title: { display: true, text: 'Zero-day malware blocked' } }
+          y: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%' }, title: { display: true, text: 'Detected as hostile' } }
         },
         plugins: {
           // Chart.js defaults to a 40px line-style box per entry, which pushes
@@ -797,8 +797,8 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
   {%- if h and h.split %}
   {%- set fps = battle.samples | ascanFalsePositives %}
   <h2 id="fp-filetypes">False positives</h2>
-  <p class="sub">Of {{ h.nGood }} known-good artifacts, Atomdrift blocked {{ fps | where("tier", "hostile") | length }}
-    as hostile ({{ h.split.fpHostile | pct1 }}%) and flagged {{ fps | where("tier", "suspicious") | length }} as
+  <p class="sub">Of {{ h.nGood }} known-good artifacts, Atomdrift detected {{ fps | where("tier", "hostile") | length }}
+    as hostile ({{ h.split.fpHostile | pct1 }}%) and {{ fps | where("tier", "suspicious") | length }} as
     suspicious ({{ h.split.fpSuspicious | pct1 }}%).</p>
   {%- if fps | length %}
   <table class="fpt">
@@ -834,7 +834,7 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
     const status = document.getElementById('dial-status');
     const p1 = (v) => v.toFixed(1) + '%';
     const stance = (l) => l === DEF ? '— the shipped default'
-      : (l === 0 ? '— zero false-positive budget' : (l < DEF ? '— stricter than the default' : '— tuned for recall'));
+      : (l < DEF ? '— fewer marked hostile' : '— more marked hostile');
     const say1 = (c) => 'L' + c.l + ': ' + p1(c.all) + ' detected (' + p1(c.hostile) + ' hostile, ' +
       p1(c.suspicious) + ' suspicious), ' + p1(c.fpAll) + ' false positives';
     function render() {
@@ -874,7 +874,7 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
     {{ battle.malware_age.min_hours | round(1) }} h){% endif %}: no signature written for it, no reputation, no
     download history to be anomalous against. Catching malware a feed has already named is a different, easier problem.
     <br><br><b>How this is scored.</b> Every engine gets the identical cohort at its most sensitive setting, and a
-    skip counts as a miss for everyone — a file nobody scanned is a file that got through. A listing from a contestant's own feed counts only
+    skip counts as a miss for everyone — a file nobody scanned is a file nobody detected. A listing from a contestant's own feed counts only
     once an independent engine corroborates it. Known-good packages come from the freshest 48 hours of the open-source
     firehose and are re-checked later: one that turns out to be malware is dropped from that run's false-positive
     rates, and any engine that flagged it is credited with an early detection.
@@ -901,9 +901,7 @@ description: Atomdrift Scan vs. VirusTotal, Socket, Aikido, SafeDep and ClamAV o
     <br><br><b>So every rate is published twice.</b> The bars show the rate over this cohort. Because the cohort
     over-samples rare formats deliberately, that is not what an engine would score on the population — so each rate
     is also re-weighted by every format's true share of it.
-    {#- gauntlet weights the hostile + suspicious tiers, which for VirusTotal is
-        n≥2 rather than the bars' n=1, so the line says so. -#}
-    <br><br><b>Weighted to the population</b> (hostile + suspicious; VirusTotal at n≥2):
+    <br><br><b>Weighted to the population</b> (hostile + suspicious):
     {% for s in battle.detection.leaderboard | weightedDetected %}{% if not loop.first %} · {% endif %}{{ providers[s.scanner].name or s.scanner }}
       {{ s.rate | pct1 }}%{% endfor %}.
     {%- if dw.population_covered < 0.999 %}

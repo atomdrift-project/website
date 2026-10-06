@@ -131,16 +131,16 @@ module.exports = function(eleventyConfig) {
       .sort(function(a, b) { return (b.registries || []).length - (a.registries || []).length; });
   });
 
-  // A block is a verdict of hostile, at the engine's default setting (see
-  // gauntlet's points.go). flaggedRate is that rate as a 0..100 percentage, or
-  // null when the engine scanned nothing.
+  // flaggedRate: an engine's rate of hostile detections at its default
+  // threshold (see gauntlet's points.go), as a 0..100 percentage, or null when
+  // the engine scanned nothing.
   const flaggedRate = (s) => (s && s.supported) ? s.hostile / s.supported * 100 : null;
 
   // battle.json is the published window — every sample scored over the last
   // battle.window.days, pooled and scored as one cohort by gauntlet (see its
   // window.go) — so every figure here comes from the same samples. Only the trend
   // chart is per-run, and it reads history.json. A score is
-  // { scanner, flagged, n }, flagged being what the engine blocked.
+  // { scanner, flagged, n }, flagged being what the engine detected as hostile.
   function headlineScores(battle) {
     const board = (b) => ((b && b.leaderboard) || [])
       .map((s) => ({ scanner: s.scanner, flagged: s.hostile, n: s.supported }));
@@ -381,8 +381,8 @@ module.exports = function(eleventyConfig) {
   //
   // gauntlet publishes every engine at each setting it can run at
   // (battle.operating_points; see its points.go), scored over the same samples as
-  // the bars: what the engine blocks as hostile there, and how many known-good
-  // files it blocks with them. One setting per engine is the `default` — the one
+  // the bars: what the engine detects as hostile there, and how many known-good
+  // files it detects as hostile with them. One setting per engine is the `default` — the one
   // every other figure on the page uses — and it equals the engine's bar.
   const DIAL_DEFAULT = 25;   // atomscan's shipped default
 
@@ -406,7 +406,7 @@ module.exports = function(eleventyConfig) {
   // leaderboards. Moving -l only moves verdicts between hostile and suspicious —
   // atomscan's suspicious band ends at a fixed level (gauntlet's
   // ascanSuspiciousCeiling) — so the total is the same at every stop, and a stop's
-  // suspicious count is the total less what it blocks there.
+  // suspicious count is the total less what it detects as hostile there.
   function ascanSplit(battle, at) {
     const us = (side) => ((battle && battle[side] && battle[side].leaderboard) || [])
       .find((s) => s.scanner === "ascan");
@@ -444,23 +444,17 @@ module.exports = function(eleventyConfig) {
   const rateText = (p) => fmtPct(p.det) + "% · " + fmtPct(p.fp) + "% FP";
 
   // detectedBoard: the "Detected per engine" bars — a leaderboard with each
-  // engine's detections at its most sensitive, hostile and suspicious alike, sorted
-  // by that rate, highest first; engines that scanned nothing sort last. Detected
-  // is the hostile + suspicious tally, or the loosest published setting where that
-  // flags more: only VirusTotal's does, since its tiers call a lone engine benign
-  // and at n=1 it counts. providers.json's `detect` names that threshold in the
-  // engine's own terms; an engine with no weaker level has none.
-  eleventyConfig.addFilter("detectedBoard", function(board, battle, providers, eco) {
-    const points = (eco ? ((battle && battle.operating_points_by_ecosystem) || {})[eco]
-      : battle && battle.operating_points) || [];
+  // engine's detections, hostile + suspicious, sorted by that rate, highest
+  // first; engines that scanned nothing sort last. gauntlet maps every engine's
+  // own scale onto the two levels; providers.json's `detect` names where an
+  // engine's suspicious level starts, in its own terms. An engine with no weaker
+  // level has none.
+  eleventyConfig.addFilter("detectedBoard", function(board, providers) {
     const rate = (s) => (s.supported ? s.detected / s.supported : -1);
-    return (board || []).map((s) => {
-      const looser = points.filter((p) => p.scanner === s.scanner).map((p) => p.detected);
-      return Object.assign({}, s, {
-        detected: Math.max(s.hostile + s.suspicious, ...looser),
-        threshold: ((providers || {})[s.scanner] || {}).detect || null,
-      });
-    }).sort((a, b) => rate(b) - rate(a));
+    return (board || []).map((s) => Object.assign({}, s, {
+      detected: s.hostile + s.suspicious,
+      threshold: ((providers || {})[s.scanner] || {}).detect || null,
+    })).sort((a, b) => rate(b) - rate(a));
   });
 
   // weightedDetected: the appendix's population-weighted rates (gauntlet's
@@ -544,8 +538,8 @@ module.exports = function(eleventyConfig) {
       e.optsView = e.opts.map((o) => ({
         setting: o.setting, level: o.level, isDefault: o.isDefault, rates: rateText(o),
         x: xOf(o.det), y: yOf(o.fp), onPlot: true, strip: o.fp > YMAX,
-        title: e.name + (o.setting ? " " + o.setting : "") + ": " + fmtPct(o.det) + "% of malware blocked, " +
-          fmtPct(o.fp) + "% of known-good blocked",
+        title: e.name + (o.setting ? " " + o.setting : "") + ": " + fmtPct(o.det) + "% of malware detected as hostile, " +
+          fmtPct(o.fp) + "% of known-good detected as hostile",
       }));
       const onPlot = e.optsView.filter((o) => o.onPlot);
       // The line joins the settings on the plot; the strip is below a break, so

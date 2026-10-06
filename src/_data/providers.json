@@ -15,7 +15,7 @@
     "license_note": "free tier used for this benchmark",
     "appcode": false, "vendored": true, "deps": false, "binaries": true, "airgap": false,
     "identifies": "file hash",
-    "detect": "n=1",
+    "detect": "n≥1",
     "hosted": true,
     "slot": 2, "color": "#b63202",
     "registries": [],
