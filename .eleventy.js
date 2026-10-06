@@ -216,9 +216,11 @@ module.exports = function(eleventyConfig) {
   });
 
   // trendPoints trims history to what the trend chart draws, so the page inlines
-  // only the per-run detection rates it plots.
+  // only the per-run rates it plots: everything each engine detected, hostile or
+  // suspicious — the bars' and the headline's measure. A point recorded before
+  // gauntlet kept that rate has none, and the chart draws over the gap.
   eleventyConfig.addFilter("trendPoints", function(history) {
-    return (history || []).map((p) => ({ at: p.at, bad: p.bad, detection: p.detection }));
+    return (history || []).map((p) => ({ at: p.at, bad: p.bad, detected: p.detected || null }));
   });
 
   // Engine draw order for anything that colors by engine (the quadrant, the trend
@@ -279,9 +281,17 @@ module.exports = function(eleventyConfig) {
     const out = {};
     for (const [key, p] of Object.entries(providers)) out[key] = Object.assign({}, p);
     const n = vtEngineTotal(battle);
-    if (n && out.virustotal) out.virustotal.chartName = out.virustotal.name + " [" + n + " engines]";
+    if (n && out.virustotal) {
+      out.virustotal.engines = n;
+      out.virustotal.chartName = out.virustotal.name + " [" + n + " engines]";
+    }
     return out;
   });
+
+  // The fewest samples an ecosystem needs for a chart of its own: enough malware
+  // for a detection rate, and enough known-good files that one false positive is
+  // not most of the false-positive rate (1 of 3 reads as 33%).
+  eleventyConfig.addGlobalData("chartMin", () => ({ bad: 10, good: 20 }));
 
   // ---------------------------------------------------------------------------
   // blindSpots: the two gaps a hosted scanner has that a local engine does not.
@@ -393,10 +403,42 @@ module.exports = function(eleventyConfig) {
       det: r(p.detected, p.cohort_n), fp: r(p.false_positives, p.fp_cohort_n),
     };
   }
-  // Each engine's settings, in the order gauntlet published them.
-  function pointsBy(points) {
+  // Settings that change nothing are one stop. An engine's settings nest — each
+  // looser one flags a superset of the stricter one's samples — so consecutive
+  // settings with the same detections and false positives over the whole cohort
+  // flag exactly the same samples, in every ecosystem too. Each run of them keeps
+  // one representative (the default, when it is among them) under a range label
+  // like "L500–L2500", so a slider never spends travel on a stop that moves
+  // nothing. scanner -> setting -> { keep, label }.
+  function mergedSettings(battle) {
+    const by = {};
+    for (const p of (battle && battle.operating_points) || []) (by[p.scanner] = by[p.scanner] || []).push(p);
     const out = {};
-    for (const p of points || []) (out[p.scanner] = out[p.scanner] || []).push(opPoint(p));
+    for (const [scanner, pts] of Object.entries(by)) {
+      const m = (out[scanner] = {});
+      for (let i = 0; i < pts.length;) {
+        let j = i;
+        while (j + 1 < pts.length && pts[j + 1].detected === pts[i].detected &&
+          pts[j + 1].false_positives === pts[i].false_positives) j++;
+        const run = pts.slice(i, j + 1);
+        const rep = run.find((p) => p.default) || run[0];
+        const label = run.length > 1 ? run[0].setting + "–" + run[run.length - 1].setting : rep.setting;
+        for (const p of run) m[p.setting] = { keep: p === rep, label: label };
+        i = j + 1;
+      }
+    }
+    return out;
+  }
+  // Each engine's settings, in the order gauntlet published them, merged as above.
+  function pointsBy(points, merged) {
+    const out = {};
+    for (const p of points || []) {
+      const m = merged && merged[p.scanner] && merged[p.scanner][p.setting];
+      if (m && !m.keep) continue;
+      const o = opPoint(p);
+      if (m) o.setting = m.label;
+      (out[p.scanner] = out[p.scanner] || []).push(o);
+    }
     return out;
   }
 
@@ -421,11 +463,15 @@ module.exports = function(eleventyConfig) {
     };
   }
 
-  // The hero dial walks Atomdrift's -l settings: at each stop, the split above.
+  // The hero dial walks Atomdrift's -l settings, merged as the chart merges them:
+  // at each stop, the split above, under the stop's label.
   eleventyConfig.addFilter("ascanDial", function(battle) {
-    const pts = ((battle && battle.operating_points) || []).filter((p) => p.scanner === "ascan");
+    const merged = mergedSettings(battle).ascan || {};
+    const pts = ((battle && battle.operating_points) || [])
+      .filter((p) => p.scanner === "ascan" && (merged[p.setting] || { keep: true }).keep);
     if (pts.length < 2 || !ascanSplit(battle)) return null;
-    return pts.map((p) => Object.assign({ l: p.level || 0 }, ascanSplit(battle, p)));
+    return pts.map((p) => Object.assign(
+      { l: p.level || 0, label: (merged[p.setting] || {}).label || p.setting }, ascanSplit(battle, p)));
   });
   eleventyConfig.addFilter("curveStop", function(curve, l) {
     if (!curve || !curve.length) return null;
@@ -479,6 +525,67 @@ module.exports = function(eleventyConfig) {
     return out.sort((a, b) => a.filetype.localeCompare(b.filetype) || a.name.localeCompare(b.name));
   });
 
+  // chartNotes: the chart's footnote, read off the data so it cannot drift from it.
+  //   defaults — each engine with settings to choose from, at its default, with
+  //              the gloss providers.json gives that setting (settingNotes);
+  //   silent   — engines that had no record of any known-good file they could
+  //              look up, so their 0% false-positive rate rests on no verdicts;
+  //   partial  — engines that had a record of only some of them, by key.
+  // "No record" counts as not flagged, which is what it means for a lookup, but a
+  // reader comparing false-positive rates should know how many verdicts are behind
+  // each one.
+  eleventyConfig.addFilter("chartNotes", function(battle, providers) {
+    const provs = providers || {};
+    const name = (k) => (provs[k] || {}).name || k;
+    const slot = (k) => (provs[k] || {}).slot || 99;
+    const pts = (battle && battle.operating_points) || [];
+    const merged = mergedSettings(battle);
+    const count = {};
+    for (const p of pts) count[p.scanner] = (count[p.scanner] || 0) + 1;
+    const defaults = pts
+      .filter((p) => p.default && count[p.scanner] > 1 && !isHidden(provs, p.scanner))
+      .sort((a, b) => slot(a.scanner) - slot(b.scanner))
+      .map((p) => ({
+        name: name(p.scanner),
+        setting: ((merged[p.scanner] || {})[p.setting] || {}).label || p.setting,
+        note: ((provs[p.scanner] || {}).settingNotes || {})[p.setting] || "",
+      }));
+    const silent = [], partial = {};
+    for (const s of ((battle && battle.false_positive && battle.false_positive.leaderboard) || [])
+      .slice().sort((a, b) => slot(a.scanner) - slot(b.scanner))) {
+      if (isHidden(provs, s.scanner) || !s.nodata) continue;
+      const answered = (s.hostile || 0) + (s.suspicious || 0) + (s.benign || 0);
+      if (answered) partial[s.scanner] = { name: name(s.scanner), answered: answered, of: s.supported };
+      else silent.push(name(s.scanner));
+    }
+    return { defaults: defaults, silent: silent, partial: partial };
+  });
+
+  // andList: ["a", "b", "c"] -> "a, b and c", for prose that names engines.
+  eleventyConfig.addFilter("andList", function(items) {
+    const xs = (items || []).map(String);
+    return xs.length < 2 ? (xs[0] || "") : xs.slice(0, -1).join(", ") + " and " + xs[xs.length - 1];
+  });
+
+  // goodCohort: where the window's known-good samples came from and how long they
+  // had been in the collection when scanned, so the methodology states the draw
+  // rather than an intention. A cohort source is "purl:<type>" for a registry
+  // package, "dom:<domain>" for a download, anything else unrecorded.
+  eleventyConfig.addFilter("goodCohort", function(battle) {
+    const good = ((battle && battle.samples) || []).filter((s) => s.label === "good");
+    const kind = (s) => (s.cohort_source || "").split(":")[0];
+    const days = good.map((s) => (Date.parse(s.scanned_at) - Date.parse(s.created_at)) / 864e5)
+      .filter(Number.isFinite).sort((a, b) => a - b);
+    return {
+      n: good.length,
+      registries: good.filter((s) => kind(s) === "purl").length,
+      downloads: good.filter((s) => kind(s) === "dom").length,
+      unrecorded: good.filter((s) => kind(s) !== "purl" && kind(s) !== "dom").length,
+      medianDays: days.length ? Math.round(days[days.length >> 1]) : null,
+      maxDays: days.length ? Math.ceil(days[days.length - 1]) : null,
+    };
+  });
+
   // quadrant: every engine as one coloured point at its default setting, labelled
   // the same way for all of them — bold name, plain rates, and the setting in grey
   // when there is a choice of one. An engine's other settings are grey dots on a
@@ -488,7 +595,7 @@ module.exports = function(eleventyConfig) {
     const provs = providers || {};
     const src = scoresFor(battle, eco);
     if (!src) return null;
-    const by = pointsBy(src.points);
+    const by = pointsBy(src.points, mergedSettings(battle));
     const fpBy = {};
     for (const s of src.fp) fpBy[s.scanner] = s;
 
@@ -547,7 +654,7 @@ module.exports = function(eleventyConfig) {
       const inScale = onPlot.filter((o) => !o.strip);
       e.line = e.tuned && inScale.length > 1 ? inScale.map((o) => o.x.toFixed(1) + "," + o.y.toFixed(1)).join(" ") : "";
       // The engine's slider runs strictest to loosest — by what each setting
-      // blocks, ties kept in published order — whichever way its own scale runs
+      // detects as hostile, ties kept in published order — whichever way its own scale runs
       // (VirusTotal's n and GuardDog's risk count down as they loosen).
       e.slider = onPlot.map((o, i) => ({ o: o, i: i }))
         .sort((a, b) => (a.o.x - b.o.x) || (a.i - b.i)).map((x) => x.o);
