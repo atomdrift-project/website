@@ -10,7 +10,7 @@ On macOS or Linux:
 brew install atomdrift-project/tap/stng
 ```
 
-Or install with Rust 1.94 or newer:
+Or install with Rust 1.97 or newer:
 
 ```bash
 cargo install --git https://github.com/atomdrift-project/stng

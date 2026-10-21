@@ -24,7 +24,7 @@ dependencies; pass `--method binary` to use the prebuilt release directly. See t
 [install page](https://install.atomdrift.org/) for supported platforms,
 requirements, downloads, and installer options.
 
-Or build with Rust 1.94 or newer:
+Or build with Rust 1.97 or newer:
 
 ```bash
 git clone https://github.com/atomdrift-project/scan.git

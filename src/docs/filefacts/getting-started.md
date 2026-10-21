@@ -6,7 +6,7 @@ title: "Getting started"
 
 ```toml
 [dependencies]
-filefacts = "1.3"
+filefacts = "2.0.1"
 ```
 
 ```rust
@@ -26,7 +26,7 @@ On macOS or Linux:
 brew install atomdrift-project/tap/filefacts
 ```
 
-Or build with Rust 1.85 or newer:
+Or build with Rust 1.97 or newer:
 
 ```bash
 git clone https://github.com/atomdrift-project/filefacts.git

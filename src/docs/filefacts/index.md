@@ -8,6 +8,9 @@ structured, security-relevant facts. It identifies formats and exposes lazy
 views over text, symbols, sections, metrics, metadata, ASTs, and archive
 members.
 
+Latest release: [v2.0.1](https://github.com/atomdrift-project/filefacts/releases/tag/v2.0.1)
+(2026-10-10).
+
 Use it when building a classifier, triage pipeline, dataset, or any tool that
 needs more than a MIME type. It is the extraction layer used by
 [cleave](/cleave/), available independently.
@@ -28,7 +31,7 @@ As a Rust library:
 
 ```toml
 [dependencies]
-filefacts = "1.3"
+filefacts = "2.0.1"
 ```
 
 As a CLI on macOS or Linux:

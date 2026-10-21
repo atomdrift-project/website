@@ -10,7 +10,7 @@ On macOS or Linux:
 brew install atomdrift-project/tap/cleave
 ```
 
-Or build with Rust 1.94 or newer:
+Or build with Rust 1.97 or newer:
 
 ```bash
 git clone https://github.com/atomdrift-project/cleave.git
