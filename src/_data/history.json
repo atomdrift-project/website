@@ -1,69 +1,5 @@
 [
   {
-    "at": "2026-09-20T19:54:28.757082376Z",
-    "detection": {
-      "aikido": 0.05263157894736842,
-      "ascan": 0.6052631578947368,
-      "bazaar": 0.39473684210526316,
-      "clamav": 0.5,
-      "datadog": 0,
-      "extsentry": 0,
-      "ghsa": 0,
-      "guarddog": 0.02631578947368421,
-      "kmsec": 0,
-      "lpm": 0,
-      "malcontent": 0.42105263157894735,
-      "malext": 0.10526315789473684,
-      "malshare": 0.05263157894736842,
-      "manifest": 0,
-      "ossf": 0,
-      "osv": 0.02631578947368421,
-      "rl": 0,
-      "safedep": 0,
-      "socket": 0,
-      "stepsecurity": 0,
-      "triage": 0.6842105263157895,
-      "virustotal": 0.6578947368421053,
-      "vsxsentry": 0
-    },
-    "detected": {
-      "aikido": 0.052632,
-      "ascan": 0.842105,
-      "bazaar": 0.394737,
-      "clamav": 0.5,
-      "datadog": 0,
-      "extsentry": 0,
-      "ghsa": 0,
-      "guarddog": 0.052632,
-      "kmsec": 0,
-      "lpm": 0,
-      "malcontent": 0.657895,
-      "malext": 0.105263,
-      "malshare": 0.052632,
-      "manifest": 0.026316,
-      "ossf": 0,
-      "rl": 0,
-      "safedep": 0,
-      "socket": 0,
-      "stepsecurity": 0,
-      "triage": 0.684211,
-      "virustotal": 0.736842,
-      "vsxsentry": 0
-    },
-    "false_positive": {
-      "aikido": 0,
-      "ascan": 0,
-      "clamav": 0,
-      "guarddog": 0,
-      "malcontent": 0,
-      "safedep": 0,
-      "socket": 0,
-      "virustotal": 0
-    },
-    "bad": 38,
-    "good": 49
-  },
-  {
     "at": "2026-09-21T08:13:12.865761893Z",
     "detection": {
       "aikido": 0.07894736842105263,
@@ -3707,6 +3643,47 @@
       "virustotal": 0
     },
     "bad": 46,
+    "good": 50
+  },
+  {
+    "at": "2026-11-09T22:16:41.02247111Z",
+    "detection": {
+      "aikido": 0.20833333333333334,
+      "ascan": 0.5625,
+      "clamav": 0.3541666666666667,
+      "guarddog": 0.08333333333333333,
+      "malcontent": 0.375,
+      "malscan": 0,
+      "ossgadget-backdoor": 0,
+      "safedep": 0.14583333333333334,
+      "socket": 0.14583333333333334,
+      "virustotal": 0.5416666666666666
+    },
+    "detected": {
+      "aikido": 0.20833333333333334,
+      "ascan": 0.6666666666666666,
+      "clamav": 0.3541666666666667,
+      "guarddog": 0.08333333333333333,
+      "malcontent": 0.6666666666666666,
+      "malscan": 0,
+      "ossgadget-backdoor": 0.3333333333333333,
+      "safedep": 0.14583333333333334,
+      "socket": 0.14583333333333334,
+      "virustotal": 0.6041666666666666
+    },
+    "false_positive": {
+      "aikido": 0,
+      "ascan": 0,
+      "clamav": 0,
+      "guarddog": 0,
+      "malcontent": 0,
+      "malscan": 0,
+      "ossgadget-backdoor": 0,
+      "safedep": 0,
+      "socket": 0,
+      "virustotal": 0
+    },
+    "bad": 48,
     "good": 50
   }
 ]
