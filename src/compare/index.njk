@@ -17,74 +17,16 @@ description: Atomdrift Scan vs. VirusTotal, malcontent, ClamAV, Socket, Aikido, 
   }
 
   /* ---------- hero ---------- */
-  /* Keep the proof card compact, but wide enough that each side of its hostile |
-     suspicious split holds its false-positive rate on one line. */
-  .cmp-hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(300px, 31%); gap: 28px;
-              align-items: start; padding: 18px 0 4px; }
-  /* No hard break: a <br> splits at the same word whatever the column width, which
-     is why it read as arbitrary. balance lets the browser even out the lines itself. */
-  /* The card is the taller column; the copy sits level with its middle. Pinning the
-     install line to the card's foot left a blank block inside the copy instead. */
-  .cmp-hero > div:first-child { align-self: center; }
+  .cmp-hero { padding: 18px 0 4px; }
   .cmp-hero h1 { font-family: 'Oxanium', sans-serif; font-size: 2.15rem; font-weight: 800; color: var(--carbon);
                  letter-spacing: -1.1px; line-height: 1.03; margin: 0; text-wrap: balance; }
   .cmp-hero h1 em { display: block; font-style: normal; color: var(--atomdrift-blue); font-size: 1.3rem;
                     font-weight: 700; margin-top: 8px; line-height: 1.3; }
   .cmp-hero .say { margin: 12px 0 0; color: var(--iron); line-height: 1.6; font-size: .95rem; }
   .cmp-hero .say b { color: var(--carbon); font-weight: 600; }
-  .instl { margin-top: 16px; font-family: 'SF Mono', Consolas, monospace; font-size: .84rem; background: var(--carbon);
+  .instl { margin-top: 16px; width: fit-content; max-width: 100%; box-sizing: border-box; font-family: 'SF Mono', Consolas, monospace; font-size: .84rem; background: var(--carbon);
            border-radius: 7px; padding: 11px 14px; color: var(--toxic); overflow-x: auto; }
   .facts { margin: 10px 0 0; font-size: .78rem; color: var(--slate); }
-
-  /* Our own two numbers, not a face-off. The comparison lives in the leaderboard
-     directly below; repeating it here cost width the headline column needed. */
-  .proof { background: var(--carbon); border-radius: 12px; padding: 18px 20px; color: #fff;
-           display: flex; flex-direction: column; gap: 12px; }
-  .proof .scores { display: flex; gap: 26px; }
-  .proof .n { font-family: 'Oxanium', sans-serif; font-size: 2.7rem; font-weight: 800; line-height: .85;
-              letter-spacing: -2px; color: var(--toxic); font-variant-numeric: tabular-nums; }
-  .proof .n.fp { color: #fff; }
-  /* The total's two parts, side by side, each over its own false-positive rate;
-     keyed like the bars below so the two read as the same split. */
-  .proof .split { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid #2a2e28; padding-top: 11px; }
-  .proof .split > div + div { border-left: 1px solid #2a2e28; padding-left: 12px; }
-  .proof .split .l { margin-top: 0; }
-  .proof .split i { width: 9px; height: 9px; border-radius: 2px; display: inline-block; margin-right: 5px; vertical-align: 0; }
-  .proof .split .m { font-family: 'Oxanium', sans-serif; font-size: 1.45rem; font-weight: 800; line-height: 1;
-                     letter-spacing: -.5px; color: #eef0f3; font-variant-numeric: tabular-nums; margin-top: 7px; }
-  .proof .split .f { font-size: .68rem; color: #b9bfc9; margin-top: 5px; font-variant-numeric: tabular-nums; }
-  .proof .l { font-size: .68rem; font-weight: 800; letter-spacing: .09em; color: #b9bfc9; margin-top: 8px;
-              text-transform: uppercase; font-family: 'Oxanium', sans-serif; }
-  /* The span the two numbers pool over, read before the numbers themselves. */
-  .proof .l.win { margin-top: 0; }
-  .proof .l.win { display: flex; flex-wrap: wrap; gap: 0 4px; }
-  .proof .l.win #fresh { font-weight: 600; white-space: nowrap; }
-  .proof .l.win #fresh.stale { color: #e0a526; }
-  /* The headline's like-for-like number, beside the default it is compared with. */
-  .proof .also { font-family: 'SF Mono', Consolas, monospace; font-size: .72rem; color: #d5d9d2; }
-  .proof .also b { color: var(--toxic); font-weight: 700; }
-  .proof .at { font-family: 'SF Mono', Consolas, monospace; font-size: .72rem; color: #d5d9d2;
-               border-top: 1px solid #2a2e28; padding-top: 11px; }
-  .proof .at b { color: var(--toxic); font-weight: 700; }
-  .proof .dial { display: flex; flex-direction: column; gap: 7px; }
-  .proof .dial-label { color: #d5d9d2; font-family: 'Oxanium', sans-serif; font-size: .7rem;
-                       font-weight: 700; letter-spacing: .04em; }
-  .proof input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; background: transparent;
-                             height: 44px; margin: 0; cursor: ew-resize; }
-  .proof input[type=range]::-webkit-slider-runnable-track { height: 3px; border-radius: 2px; background: #71787f; }
-  .proof input[type=range]::-moz-range-track { height: 3px; border-radius: 2px; background: #71787f; }
-  .proof input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px;
-    border-radius: 50%; background: var(--toxic); margin-top: -8.5px; transition: transform .12s ease; }
-  .proof input[type=range]::-moz-range-thumb { width: 20px; height: 20px; border: 0; border-radius: 50%;
-    background: var(--toxic); transition: transform .12s ease; }
-  .proof input[type=range]:hover::-webkit-slider-thumb { transform: scale(1.25); }
-  .proof input[type=range]:hover::-moz-range-thumb { transform: scale(1.25); }
-  .proof input[type=range]:focus-visible { outline: 2px solid var(--toxic); outline-offset: 5px; border-radius: 4px; }
-  .proof .ends { display: flex; justify-content: space-between; font-family: 'SF Mono', Consolas, monospace;
-                 font-size: .68rem; color: #b9bfc9; }
-  .proof p { margin: 0; font-size: .74rem; line-height: 1.55; color: #b9bfc9; }
-  .proof p b { color: #eef0f3; font-weight: 600; }
-  .proof code { background: #2a2e28; color: #eef0f3; }
 
   /* ---------- sections ---------- */
   .compare h2 { font-family: 'Oxanium', sans-serif; font-size: 1.05rem; font-weight: 800; color: var(--carbon);
@@ -172,8 +114,7 @@ description: Atomdrift Scan vs. VirusTotal, malcontent, ClamAV, Socket, Aikido, 
   /* Label leaders: darker and finer than any setting line, so neither is mistaken
      for the other. */
   .q-leader { stroke: #6b7280; stroke-width: .75; }
-  /* One slider per engine with settings to choose from: four today, so two rows of
-     two keep each slider long enough to aim. Atomdrift's is tied to the card's dial. */
+  /* The sliders wrap below the plot to keep each control wide enough to use. */
   .q-tune { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 32px; margin: 6px 0 4px; }
   .q-knob { display: grid; grid-template-columns: 6.5rem 1fr; align-items: center; gap: 2px 10px; font-size: .78rem; color: var(--iron); }
   .q-kname { font-weight: 700; color: var(--carbon); }
@@ -254,7 +195,6 @@ description: Atomdrift Scan vs. VirusTotal, malcontent, ClamAV, Socket, Aikido, 
                   border-radius: 7px; padding: 10px 15px; }
 
   @media (max-width: 720px) {
-    .cmp-hero { grid-template-columns: 1fr; gap: 20px; }
     .samples { grid-template-columns: 1fr; }
     .cmp-hero h1 { font-size: 1.7rem; }
     .samples a { min-height: 44px; }
@@ -309,85 +249,28 @@ description: Atomdrift Scan vs. VirusTotal, malcontent, ClamAV, Socket, Aikido, 
       battle.window.days, scored as one cohort. Every figure on this page reads it
       except the trend chart, which is per-run by design. -#}
   {%- set span = ("the last " ~ battle.window.days ~ " days") if battle.window else "this run" %}
-  {%- set curve = battle | ascanDial %}
 
   <div class="cmp-hero">
-    <div>
-      {#- The claim is the like-for-like number: Atomdrift at the -l whose
-          false-positive rate matches the strongest rival's default, against that
-          rival. Generated from the data, so it steps down when the data does. -#}
-      {%- set rival = providers[h.parity.rival].name if h and h.parity else null %}
-      {%- if h and h.parity and h.parity.det > h.parity.rivalDet %}
-      <h1>More zero-day malware detected as hostile than {{ rival }}, at the same false-positive rate — on your
-        own hardware.</h1>
-      <p class="say">Over {{ span }}, set to <code>L{{ h.parity.level }}</code>: <b>{{ h.parity.det | pct1 }}%</b> of
-        live zero-day malware detected as hostile at <b>{{ h.parity.fp | pct1 }}%</b> false positives. {{ rival }} detected
-        {{ h.parity.rivalDet | pct1 }}%, one upload at a time. Atomdrift reads the artifact and decides at scan time;
-        nothing leaves your machine. The shipped default, <code>L{{ dialDefault }}</code>, is beside it.</p>
-      {%- else %}
-      <h1>Zero-day malware detection on your own hardware.</h1>
-      <p class="say">Most engines ask whether anyone has reported a file yet. Atomdrift reads it and decides at scan
-        time, and nothing leaves your machine. Measured every day against live malware under 48 hours old.</p>
-      {%- endif %}
-      {# One action. The install line is the call to action; everything else on the
-         page is reached by scrolling, so it gets no button. #}
-      <div class="instl">curl -fsSL https://install.atomdrift.org/scan.sh | sh</div>
-      <p class="facts">Apache-2.0 · Linux, macOS, Windows, BSD, illumos · no telemetry</p>
-    </div>
-
-    {%- if h and h.split %}
-    {%- set sp = h.split %}
-    <div class="proof">
-      {# The window pools the last few days of runs: one 50-sample night moves a
-         false-positive rate two points per verdict, which is noise, not the
-         engine. The per-run numbers are on the bars and the trend chart below. #}
-      {%- if h.window %}
-      <div class="l win">Last {{ h.window.days }} days · {{ h.window.runs }} runs
-        <span id="fresh" data-at="{{ battle.generated_at }}">· {{ battle.generated_at | dateDisplay }}</span></div>
-      {%- endif %}
-      {# The total is the claim; the split beneath it is what it is made of, each
-         part with its own false-positive cost, so neither hides in the other. #}
-      <div class="scores">
-        {# "Zero-day" is the whole claim: signatures and reputation have had no time to
-           form on a package published this morning, which is exactly the window a
-           supply-chain attack lives in. The cohort line below defines it. #}
-        <div><div class="n" id="d-all">{{ sp.all | pct1 }}%</div><div class="l">Zero-day malware detected</div></div>
-        <div><div class="n fp" id="d-fpAll">{{ sp.fpAll | pct1 }}%</div><div class="l">false positives</div></div>
-      </div>
-      <div class="split">
-        <div><div class="l"><i class="hostile-key"></i>Hostile</div><div class="m" id="d-hostile">{{ sp.hostile | pct1 }}%</div>
-          <div class="f"><span id="d-fpHostile">{{ sp.fpHostile | pct1 }}%</span> false positives</div></div>
-        <div><div class="l"><i class="suspicious-key"></i>Suspicious</div><div class="m" id="d-suspicious">{{ sp.suspicious | pct1 }}%</div>
-          <div class="f"><span id="d-fpSuspicious">{{ sp.fpSuspicious | pct1 }}%</span> false positives</div></div>
-      </div>
-      {#- The headline's like-for-like number, on the card that carries the
-          default, so the two never look like a disagreement. -#}
-      {%- if h.parity and h.parity.det > h.parity.rivalDet and h.parity.level != dialDefault %}
-      <div class="also">at <b>L{{ h.parity.level }}</b>: {{ h.parity.det | pct1 }}% hostile · {{ h.parity.fp | pct1 }}% false positives</div>
-      {%- endif %}
-      {%- if curve %}
-      {%- set dialStop = curve | curveStop(dialDefault) %}
-      {# Server-rendered at the shipped default, so the numbers above are right with
-         JS off; the slider only ever re-reads values already in the page, and moves
-         Atomdrift's point on the chart below with it. #}
-      <div class="dial">
-        <label class="dial-label" for="dial">Sensitivity</label>
-        <input type="range" id="dial" min="0" max="{{ (curve | length) - 1 }}"
-               value="{{ curve | curveIndex(dialDefault) }}" step="1"
-               aria-valuetext="{{ dialStop.label }}: {{ dialStop.all | pct1 }}% detected ({{ dialStop.hostile | pct1 }}% hostile, {{ dialStop.suspicious | pct1 }}% suspicious), {{ dialStop.fpAll | pct1 }}% false positives"
-               aria-describedby="dial-help">
-        <div class="ends"><span>{{ (curve | first).label }}</span><span>{{ (curve | last).label }}</span></div>
-      </div>
-      {%- endif %}
-      <div class="at" id="dial-help">at <b id="dial-l">{{ dialStop.label if curve else "L" ~ dialDefault }}</b> <span id="dial-say">— the shipped default</span></div>
-      <span id="dial-status" class="visually-hidden" aria-live="polite" aria-atomic="true"></span>
-      {#- What L is, in the terms scan's own page uses: a false-positive budget. -#}
-      <p><b>Hostile</b> is a confident detection, <b>suspicious</b> one to review. <code>L<i>N</i></code> expects
-        <i>N</i> hostile false positives per 100 million benign files; raising it moves detections from suspicious to
-        hostile · {{ h.sampleCount }} zero-day samples, median
-        {{ battle.malware_age.median_hours | round(0) if battle.malware_age else 24 }} h old · {{ h.nGood }} known-good</p>
-    </div>
+    {#- The claim is the like-for-like number: Atomdrift at the -l whose
+        false-positive rate matches the strongest rival's default, against that
+        rival. Generated from the data, so it steps down when the data does. -#}
+    {%- set rival = providers[h.parity.rival].name if h and h.parity else null %}
+    {%- if h and h.parity and h.parity.det > h.parity.rivalDet %}
+    <h1>More zero-day malware detected as hostile than {{ rival }}, at the same false-positive rate — on your
+      own hardware.</h1>
+    <p class="say">Over {{ span }}, set to <code>L{{ h.parity.level }}</code>: <b>{{ h.parity.det | pct1 }}%</b> of
+      live zero-day malware detected as hostile at <b>{{ h.parity.fp | pct1 }}%</b> false positives. {{ rival }} detected
+      {{ h.parity.rivalDet | pct1 }}%, one upload at a time. Atomdrift reads the artifact and decides at scan time;
+      nothing leaves your machine. The shipped default is <code>L{{ ascanDefaultLevel }}</code>.</p>
+    {%- else %}
+    <h1>Zero-day malware detection on your own hardware.</h1>
+    <p class="say">Most engines ask whether anyone has reported a file yet. Atomdrift reads it and decides at scan
+      time, and nothing leaves your machine. Measured every day against live malware under 48 hours old.</p>
     {%- endif %}
+    {# One action. The install line is the call to action; everything else on the
+       page is reached by scrolling, so it gets no button. #}
+    <div class="instl">curl -fsSL https://install.atomdrift.org/scan.sh | sh</div>
+    <p class="facts">Apache-2.0 · Linux, macOS, Windows, BSD, illumos · no telemetry</p>
   </div>
 
   {%- set ecos = battle.detection.by_ecosystem | byEcoSize %}
@@ -408,16 +291,6 @@ description: Atomdrift Scan vs. VirusTotal, malcontent, ClamAV, Socket, Aikido, 
   </div>
   <script>
   (function () {
-    // "updated N h ago", amber once a cycle is overdue; the server-rendered date
-    // stands when script is off.
-    const f = document.getElementById('fresh');
-    if (f) {
-      const h = (Date.now() - Date.parse(f.dataset.at)) / 36e5;
-      if (Number.isFinite(h)) {
-        f.textContent = '· ' + (h < 1 ? 'under 1 h' : Math.round(h) + ' h') + ' ago';
-        if (h > 12) f.classList.add('stale');
-      }
-    }
     const pick = document.getElementById('eco-pick');
     if (!pick) return;
     pick.addEventListener('change', function () {
@@ -520,9 +393,7 @@ description: Atomdrift Scan vs. VirusTotal, malcontent, ClamAV, Socket, Aikido, 
       {%- endif %}
     </svg>
   </div>
-  {#- One slider per engine with settings to choose from, strictest to loosest. It
-      and the chart's dots drive the same selection; Atomdrift's also drives the
-      card's dial, and the dial drives it. -#}
+  {#- Each slider and its chart dots select the same engine setting. -#}
   <div class="q-tune">
     {%- for e in q.engines %}{% if e.tuned %}
     {%- set d = e.slider[e.sliderDefault] %}
@@ -565,15 +436,11 @@ description: Atomdrift Scan vs. VirusTotal, malcontent, ClamAV, Socket, Aikido, 
     false-positive rates include files the engine never judged.{% endif %}</p>
   <script>
   (function () {
-    // Selecting a faded dot moves its engine's point there, with the label at the
-    // spot laid out for that setting when the page was built. One chart per
-    // ecosystem; each is wired on its own. window.qSelect lets the hero's dial
-    // drive Atomdrift's point on every chart.
-    const charts = [];
+    // Keep Atomdrift's selected level in sync across ecosystem charts.
+    const atomdriftCharts = [];
     document.querySelectorAll('.qwrap').forEach(function (wrap) {
       const svg = wrap.querySelector('svg.qchart');
       if (!svg) return;
-      const groups = {};
       svg.querySelectorAll('.q-eng').forEach(function (g) {
         const opts = g.querySelectorAll('.q-opt');
         if (!opts.length) return;
@@ -604,10 +471,16 @@ description: Atomdrift Scan vs. VirusTotal, malcontent, ClamAV, Socket, Aikido, 
             knob.querySelector('.q-kval').innerHTML = '<b>' + d.setting + '</b> ' + d.rates;
           }
         }
-        // Atomdrift's dots, its slider and the hero's dial are one control.
+        const isAtomdrift = g.dataset.key === 'ascan';
+        if (isAtomdrift) atomdriftCharts.push({ opts: opts, select: select });
         function pick(o) {
           select(o);
-          if (g.dataset.key === 'ascan' && window.heroSet) window.heroSet(+o.dataset.level);
+          if (!isAtomdrift) return;
+          for (const chart of atomdriftCharts) {
+            if (chart.select === select) continue;
+            const match = Array.from(chart.opts).find((p) => p.dataset.level === o.dataset.level);
+            if (match) chart.select(match);
+          }
         }
         opts.forEach(function (o) {
           o.addEventListener('click', function () { pick(o); });
@@ -615,20 +488,12 @@ description: Atomdrift Scan vs. VirusTotal, malcontent, ClamAV, Socket, Aikido, 
             if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(o); }
           });
         });
-        groups[g.dataset.key] = { opts: opts, select: select };
         if (knob) knob.querySelector('input').addEventListener('input', function () {
           const o = [...opts].find(function (p) { return p.dataset.idx === knob.querySelector('input').value; });
           if (o) pick(o);
         });
       });
-      charts.push(groups);
     });
-    window.qSelect = function (key, level) {
-      charts.forEach(function (groups) {
-        const g = groups[key];
-        if (g) g.opts.forEach(function (o) { if (+o.dataset.level === level) g.select(o); });
-      });
-    };
   })();
   </script>
   {%- endif %}
@@ -805,8 +670,6 @@ description: Atomdrift Scan vs. VirusTotal, malcontent, ClamAV, Socket, Aikido, 
   <div class="meth">History is still collecting. Each run adds a point; the chart appears at two.</div>
   {%- endif %}
 
-  {#- Every known-good file Atomdrift flagged, read off the same samples as the
-      card's false-positive rates, hostile and suspicious alike. -#}
   {%- if h and h.split %}
   {%- set fps = battle.samples | ascanFalsePositives %}
   <h2 id="fp-filetypes">False positives</h2>
@@ -831,48 +694,6 @@ description: Atomdrift Scan vs. VirusTotal, malcontent, ClamAV, Socket, Aikido, 
 
   {%- set badSamples = battle.samples | where("label", "bad") -%}
   {%- set cohortBad = badSamples | whereUnset("excluded") -%}
-  {%- if curve %}
-  <script>
-  (function () {
-    // One stop per -l (settings that change nothing merged into one), scored over
-    // the same samples as the chart: what Atomdrift
-    // detects at that level, split into hostile and suspicious, and the false
-    // positives each costs. Moving the dial moves Atomdrift's point on the chart too.
-    const C = {{ curve | dump | safe }}, DEF = {{ dialDefault }};
-    const el = document.getElementById('dial');
-    if (!el || !C.length) return;
-    // Each figure on the card is #d-<the stop field it shows>.
-    const figs = ['all', 'fpAll', 'hostile', 'fpHostile', 'suspicious', 'fpSuspicious']
-      .map(function (k) { return [k, document.getElementById('d-' + k)]; });
-    const lab = document.getElementById('dial-l'), say = document.getElementById('dial-say');
-    const status = document.getElementById('dial-status');
-    const p1 = (v) => v.toFixed(1) + '%';
-    const stance = (l) => l === DEF ? '— the shipped default'
-      : (l < DEF ? '— fewer marked hostile' : '— more marked hostile');
-    const say1 = (c) => c.label + ': ' + p1(c.all) + ' detected (' + p1(c.hostile) + ' hostile, ' +
-      p1(c.suspicious) + ' suspicious), ' + p1(c.fpAll) + ' false positives';
-    function render() {
-      const c = C[+el.value];
-      figs.forEach(function ([k, e]) { if (e) e.textContent = p1(c[k]); });
-      lab.textContent = c.label;
-      say.textContent = stance(c.l);
-      el.setAttribute('aria-valuetext', say1(c));
-      if (window.qSelect) window.qSelect('ascan', c.l);
-    }
-    // Atomdrift's dots and slider under the chart drive this dial too.
-    window.heroSet = function (level) {
-      const i = C.findIndex(function (c) { return c.l === level; });
-      if (i >= 0 && +el.value !== i) { el.value = i; render(); }
-    };
-    el.addEventListener('input', render);
-    el.addEventListener('change', function () {
-      if (status) status.textContent = say1(C[+el.value]);
-    });
-    render();
-  })();
-  </script>
-  {%- endif %}
-
   <p class="hosted"><a href="https://isotope13.io/" target="_blank" rel="noopener">isotope13.io</a>: new rules the
     hour they clear QA, an API, and someone on the hook.</p>
 

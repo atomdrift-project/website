@@ -209,9 +209,7 @@ module.exports = function(eleventyConfig) {
       bestDet: best ? pct(best.det) : null,
       leads: !best || usDet >= best.det,
       split: ascanSplit(battle),
-      sampleCount: src.nBad,
       nGood: src.nGood,
-      window: src.window,
     };
   });
 
@@ -396,7 +394,7 @@ module.exports = function(eleventyConfig) {
   // the bars: what the engine detects as hostile there, and how many known-good
   // files it detects as hostile with them. One setting per engine is the `default` — the one
   // every other figure on the page uses — and it equals the engine's bar.
-  const DIAL_DEFAULT = 25;   // atomscan's shipped default
+  const ASCAN_DEFAULT_LEVEL = 25;
 
   function opPoint(p) {
     const r = (n, of) => (of ? pct((100 * n) / of) : 0);
@@ -444,50 +442,19 @@ module.exports = function(eleventyConfig) {
     return out;
   }
 
-  // ascanSplit: the hero's figures — everything Atomdrift detects (hostile +
-  // suspicious), split into the two, on the malware and the known-good cohort.
-  // `at` is one of its operating points; without one, its default, from the
-  // leaderboards. Moving -l only moves verdicts between hostile and suspicious —
-  // atomscan's suspicious band ends at a fixed level (gauntlet's
-  // ascanSuspiciousCeiling) — so the total is the same at every stop, and a stop's
-  // suspicious count is the total less what it detects as hostile there.
-  function ascanSplit(battle, at) {
-    const us = (side) => ((battle && battle[side] && battle[side].leaderboard) || [])
-      .find((s) => s.scanner === "ascan");
-    const bad = us("detection"), good = us("false_positive");
-    if (!bad || !bad.supported || !good || !good.supported) return null;
-    const all = bad.hostile + bad.suspicious, fpAll = good.hostile + good.suspicious;
-    const h = at ? at.detected : bad.hostile, fh = at ? at.false_positives : good.hostile;
-    const r = (n, of) => pct((100 * n) / of);
+  // The default false-positive rates for Atomdrift on the known-good cohort.
+  function ascanSplit(battle) {
+    const good = (battle.false_positive?.leaderboard || []).find((row) => row.scanner === "ascan");
+    if (!good || !good.supported) return null;
+    const rate = (n) => pct(100 * n / good.supported);
     return {
-      all: r(all, bad.supported), hostile: r(h, bad.supported), suspicious: r(all - h, bad.supported),
-      fpAll: r(fpAll, good.supported), fpHostile: r(fh, good.supported), fpSuspicious: r(fpAll - fh, good.supported),
+      fpAll: rate(good.hostile + good.suspicious),
+      fpHostile: rate(good.hostile),
+      fpSuspicious: rate(good.suspicious),
     };
   }
 
-  // The hero dial walks Atomdrift's -l settings, merged as the chart merges them:
-  // at each stop, the split above, under the stop's label.
-  eleventyConfig.addFilter("ascanDial", function(battle) {
-    const merged = mergedSettings(battle).ascan || {};
-    const pts = ((battle && battle.operating_points) || [])
-      .filter((p) => p.scanner === "ascan" && (merged[p.setting] || { keep: true }).keep);
-    if (pts.length < 2 || !ascanSplit(battle)) return null;
-    return pts.map((p) => Object.assign(
-      { l: p.level || 0, label: (merged[p.setting] || {}).label || p.setting }, ascanSplit(battle, p)));
-  });
-  eleventyConfig.addFilter("curveStop", function(curve, l) {
-    if (!curve || !curve.length) return null;
-    let out = curve[0];
-    for (const c of curve) if (c.l <= l) out = c;
-    return out;
-  });
-  eleventyConfig.addFilter("curveIndex", function(curve, l) {
-    if (!curve || !curve.length) return 0;
-    let i = 0;
-    for (let k = 0; k < curve.length; k++) if (curve[k].l <= l) i = k;
-    return i;
-  });
-  eleventyConfig.addGlobalData("dialDefault", () => DIAL_DEFAULT);
+  eleventyConfig.addGlobalData("ascanDefaultLevel", () => ASCAN_DEFAULT_LEVEL);
 
   const rateText = (p) => fmtPct(p.det) + "% · " + fmtPct(p.fp) + "% FP";
 
@@ -513,9 +480,7 @@ module.exports = function(eleventyConfig) {
       .sort((a, b) => b.rate - a.rate);
   });
 
-  // ascanFalsePositives: every known-good file Atomdrift flagged, hostile or
-  // suspicious, sorted by file type then name — the rows behind the card's
-  // false-positive rates, from the same samples the leaderboard counts.
+  // Every known-good file Atomdrift flagged, sorted by file type then name.
   eleventyConfig.addFilter("ascanFalsePositives", function(samples) {
     const out = [];
     for (const s of samples || []) {
