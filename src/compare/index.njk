@@ -12,7 +12,7 @@ description: Atomdrift Scan vs. VirusTotal, malcontent, ClamAV, Socket, Aikido, 
   /* one bar palette for every engine: hostile solid, suspicious pale, grey = unreadable.
      Atomdrift is marked by its label, not by a colour of its own. */
   :root {
-    --h: #9abe25; --s: #cfe09a; --na: #dfe3e8; --e: #d64545;
+    --h: #9abe25; --s: #cfe09a; --na: #dfe3e8; --e: #454545;
     --t-hostile: #dc2626; --t-suspicious: #e0a526; --t-benign: #2f9e63; --t-nodata: #7b8494;
   }
 
@@ -284,8 +284,8 @@ description: Atomdrift Scan vs. VirusTotal, malcontent, ClamAV, Socket, Aikido, 
         {%- if s.hostile > 0 %}<span class="hb" style="width:{{ s.hostile / s.supported * 100 }}%"></span>{% endif -%}
         {%- if sus > 0 %}<span class="sb" style="width:{{ sus / s.supported * 100 }}%"></span>{% endif -%}
         {%- if unsup > 0 %}<span class="un" style="width:{{ unsup / s.supported * 100 }}%"></span>{% endif -%}
-        {#- The red segment names its own casualties: which samples the engine
-            failed to read, and what it said. Its own title beats the row's. -#}
+        {#- The error segment's tooltip lists the samples the engine failed to
+            read and the errors it reported. -#}
         {%- if s.errored > 0 %}{% set errs = (battle.samples | errorLines(s.scanner, cohort)) if full else [] %}<span class="eb" style="width:{{ s.errored / s.supported * 100 }}%" role="img" aria-label="{{ p.name or s.scanner }} errored on {{ s.errored }} sample{{ 's' if s.errored != 1 }}: {{ errs | join('; ') }}" title="errored on {{ s.errored }} sample{{ 's' if s.errored != 1 }}
 {%- for l in errs %}
 {{ l }}
