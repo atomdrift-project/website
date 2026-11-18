@@ -7,14 +7,6 @@ title: Projects
   <div class="content">
 
     <h2 style="margin-top: 0;">Projects</h2>
-    <p style="max-width: none; margin-bottom: 1.5em;">A small set of
-    composable, open-source tools for malware analysis.
-    <strong>cleave</strong> decomposes binaries and source into
-    capabilities mapped to ATT&amp;CK and MBC;
-    <strong>azoth</strong> is an open AI model that classifies them;
-    <strong>scan</strong> is the scanner that ties it together.
-    Everything runs locally, and the models improve through cyclotron,
-    Atomdrift's live training loop.</p>
 
     <ul class="proj-list">
       <li>
@@ -28,16 +20,8 @@ title: Projects
         </div>
       </li>
       <li>
-        <span class="proj-name"><a href="/azoth/">azoth</a></span>
-        <span class="badge badge-stable">stable</span>
-        <div class="proj-desc">Open ONNX model bundle for general malware detection. A routed ensemble trained on cleave-extracted capabilities across more than 100 recognized file and container types.</div>
-        <div class="proj-links">
-          <a href="/azoth/">Details</a>
-        </div>
-      </li>
-      <li>
         <span class="proj-name"><a href="/cleave/">cleave</a></span>
-        <span class="badge badge-beta">beta</span>
+        <span class="badge badge-stable">stable</span>
         <div class="proj-desc">Static analysis and capability extraction for source, binaries, bytecode, packages, archives, documents, and deployment configuration.</div>
         <div class="proj-links">
           <a href="/cleave/">Details</a>
@@ -53,26 +37,6 @@ title: Projects
           <a href="/stng/">Details</a>
           <a href="https://github.com/atomdrift-project/stng" target="_blank">Source</a>
           <a href="https://github.com/atomdrift-project/stng/issues" target="_blank">Issues</a>
-        </div>
-      </li>
-      <li>
-        <span class="proj-name"><a href="/filefacts/">filefacts</a></span>
-        <span class="badge badge-stable">stable</span>
-        <div class="proj-desc">Rust library that reads a file and returns ML-ready facts for security pipelines. Extracted from cleave, with one parse pass and lazy cached views: fileid, values, text, literals, comments, metrics, sections, symbols, archive_members, source_ast, and errors.</div>
-        <div class="proj-links">
-          <a href="/filefacts/">Details</a>
-          <a href="https://github.com/atomdrift-project/filefacts" target="_blank">Source</a>
-          <a href="https://github.com/atomdrift-project/filefacts/issues" target="_blank">Issues</a>
-        </div>
-      </li>
-      <li>
-        <span class="proj-name"><a href="/isomer/">isomer</a></span>
-        <span class="badge badge-experimental">experimental</span>
-        <div class="proj-desc">Supply-chain attack detection at a molecular level. A differential analyzer that judges whether the change between two versions — of a tree, repo, package, or container image — is malicious. Built to catch subtle attacks like xz-utils. In heavy development.</div>
-        <div class="proj-links">
-          <a href="/isomer/">Details</a>
-          <a href="https://github.com/atomdrift-project/isomer" target="_blank">Source</a>
-          <a href="https://github.com/atomdrift-project/isomer/issues" target="_blank">Issues</a>
         </div>
       </li>
       <li>
