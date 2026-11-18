@@ -52,7 +52,7 @@
       const y = (value) => bottom - value * (bottom - top);
       const peerName = data.labels[peer.value];
       legend.textContent = peerName;
-      trend.setAttribute("aria-label", `Run-by-run malware detection for Atomdrift and ${peerName}`);
+      trend.setAttribute("aria-label", `Detection rate history for Atomdrift and ${peerName}`);
       for (const value of [0, .5, 1]) yTick(trend, left, right, y(value), 100 * value + "%");
       const ticks = width < 430 ? [[0, "start"], [1, "end"]] : [[0, "start"], [.5, "middle"], [1, "end"]];
       for (const [part, anchor] of ticks) {

@@ -70,7 +70,8 @@
 .scoreboard .sensitivity-control output { color: var(--carbon); font: 600 12px/1.4 ui-monospace, monospace; }
 .scoreboard .sensitivity-control input { width: 100%; min-height: 25px; margin: 0; accent-color: var(--series); }
 .scoreboard .sensitivity-ends { display: flex; justify-content: space-between; color: var(--iron); font-size: 11px; }
-.scoreboard #sensitivity-explanation { margin: 5px 0 0; color: var(--iron); font-size: 13px; }
+.scoreboard #sensitivity-explanation { margin: 8px 0 0; color: var(--iron); font-size: 14px; text-wrap: pretty; }
+.scoreboard #sensitivity-explanation code { white-space: nowrap; }
 @media (max-width: 545px) {
   .scoreboard { padding-inline: 15px; }
   .scoreboard .benchmark-period { display: block; }
