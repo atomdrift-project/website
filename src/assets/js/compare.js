@@ -107,15 +107,15 @@
       engine.endpoints[1].textContent = setting(engine.key, engine.points.at(-1).setting);
       readout(engine);
     }
-    const drawSensitivity = graph(sensitivity, 222, (width) => {
-      const left = 37, right = width - 16, top = 30, bottom = 175;
+    const drawSensitivity = graph(sensitivity, 252, (width) => {
+      const left = 37, right = width - 16, top = 30, bottom = 205;
       const max = Math.max(0, ...series.flatMap((engine) => engine.points.map((p) => p.fp / p.good)));
       const tick = max > .05 ? Math.ceil(max * 20) / 100 : max > .025 ? .01 : .005;
       const steps = Math.max(1, Math.ceil(max / tick));
       const x = (value) => left + value * (right - left);
       const y = (value) => bottom - value / (steps * tick) * (bottom - top);
       mark(sensitivity, "text", { x: 0, y: 13 }, "False positives");
-      mark(sensitivity, "text", { x: (left + right) / 2, y: 218, "text-anchor": "middle" }, "Malware marked hostile");
+      mark(sensitivity, "text", { x: (left + right) / 2, y: 248, "text-anchor": "middle" }, "Malware marked hostile");
       for (let step = 0; step <= steps; step++) {
         const value = step * tick;
         yTick(sensitivity, left, right, y(value), Number((100 * value).toFixed(1)) + "%");

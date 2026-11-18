@@ -34,11 +34,15 @@ description: Compare Atomdrift with other scanners on 30 days of live zero-day m
 
 <div class="main-full scoreboard" id="compare-scoreboard">
   <div class="scoreboard-header">
-    <div>
-      <h1>Zero-day detection</h1>
-      {% if scoreboard.meanAge != null %}<p class="sample-age"><strong>{{ scoreboard.meanAge | pct1 }} h</strong> average malware age at scan</p>{% endif %}
-      <p class="benchmark-period">{% if scoreboard.days %}{{ scoreboard.days }} days · {% endif %}{{ scoreboard.dateRange }}</p>
-    </div>
+    <h1>Zero-day detection</h1>
+    {% if scoreboard.meanAge != null %}<p class="sample-age"><strong>{{ scoreboard.meanAge | pct1 }} h</strong> average malware age at scan</p>{% endif %}
+  </div>
+
+  <div class="scoreboard-toolbar">
+    <p class="benchmark-period">
+      <span>{% if scoreboard.days %}{{ scoreboard.days }} days · {% endif %}{{ scoreboard.dateRange }}</span>
+      <span id="compare-count" aria-live="polite">{{ counts(scoreboard.all) }}</span>
+    </p>
     {% if scoreboard.ecosystems | length %}
     <label for="compare-ecosystem">Ecosystem
       <select id="compare-ecosystem">
@@ -49,7 +53,6 @@ description: Compare Atomdrift with other scanners on 30 days of live zero-day m
     {% endif %}
   </div>
 
-  <p class="sample-count" id="compare-count" aria-live="polite">{{ counts(scoreboard.all) }}</p>
   <table class="scores" aria-label="Scanner benchmark" aria-describedby="compare-count">
     <thead><tr><th scope="col">Engine</th><th scope="col">Malware detected</th><th scope="col">False positives</th></tr></thead>
     <tbody>{{ rows(scoreboard.all) }}</tbody>
@@ -64,44 +67,40 @@ description: Compare Atomdrift with other scanners on 30 days of live zero-day m
     <span><i class="hostile"></i>Hostile</span><span><i class="suspicious"></i>Suspicious</span><span><i class="error"></i>Error</span>
   </div>
 
-  {% if (scoreboard.chart.runs | length) > 1 %}
-  <section class="comparison-section" aria-labelledby="compare-trend">
-    <header class="section-heading">
-      <div>
-        <h2 id="compare-trend">Run by run</h2>
-        <p>Malware detected · all ecosystems</p>
-      </div>
-      <label for="compare-peer">Compare with
-        <select id="compare-peer">
-          {% for key, name in scoreboard.chart.labels %}{% if key != 'ascan' %}
-          <option value="{{ key }}"{% if key == 'malcontent' %} selected{% endif %}>{{ name }}</option>
-          {% endif %}{% endfor %}
-        </select>
-      </label>
-    </header>
-    <div class="legend trend-legend"><span><i class="atomdrift"></i>Atomdrift</span><span><i class="peer"></i><span class="peer-name"></span></span></div>
-    <svg class="trend-plot" role="img" aria-label="Per-run malware detection rates"></svg>
-  </section>
-  {% endif %}
-
   {% if scoreboard.chart.sensitivity.ascan | length and scoreboard.chart.sensitivity.virustotal | length %}
   <section class="comparison-section" aria-labelledby="compare-sensitivity">
-    <header class="section-heading"><div>
-      <h2 id="compare-sensitivity">Tunable Sensitivity - Detection vs False positives</h2>
-      <p>Atomdrift’s <code>-l N</code> flag sets a target of <code>N</code> hostile false positives per 100 million benign samples.</p>
-    </div></header>
-    <svg class="sensitivity-plot" role="img" aria-label="Malware detection versus false positives at measured sensitivity settings"></svg>
+    <h2 id="compare-sensitivity">Tunable Sensitivity - Detection vs False positives</h2>
     <div class="sensitivity-controls">
       {% for key, name in scoreboard.chart.labels %}{% if key == 'ascan' or key == 'virustotal' %}
       <div class="sensitivity-control {{ key }}" data-engine="{{ key }}">
         <label for="sensitivity-{{ key }}"><i aria-hidden="true"></i>{{ name }}</label>
         <output for="sensitivity-{{ key }}"></output>
-        <input id="sensitivity-{{ key }}" type="range" min="0" step="1" aria-label="{{ name }} sensitivity">
+        <input id="sensitivity-{{ key }}" type="range" min="0" step="1" aria-label="{{ name }} sensitivity"{% if key == 'ascan' %} aria-describedby="sensitivity-explanation"{% endif %}>
         <div class="sensitivity-ends"><span></span><span></span></div>
+        {% if key == 'ascan' %}<p id="sensitivity-explanation">Atomdrift’s <code>-l N</code> flag sets a target of <code>N</code> hostile false positives per 100 million benign samples.</p>{% endif %}
       </div>
       {% endif %}{% endfor %}
     </div>
+    <svg class="sensitivity-plot" role="img" aria-label="Malware detection versus false positives at measured sensitivity settings"></svg>
   </section>
+  {% endif %}
+
+  {% if (scoreboard.chart.runs | length) > 1 %}
+  <details class="comparison-section run-history">
+    <summary><h2>Run by run</h2></summary>
+    <div class="section-heading">
+      <p>Malware detected · all ecosystems</p>
+      <label for="compare-peer">Compare with
+        <select id="compare-peer">
+          {% for key, name in scoreboard.chart.labels %}{% if key != 'ascan' %}
+          <option value="{{ key }}"{% if key == 'virustotal' %} selected{% endif %}>{{ name }}</option>
+          {% endif %}{% endfor %}
+        </select>
+      </label>
+    </div>
+    <div class="legend trend-legend"><span><i class="atomdrift"></i>Atomdrift</span><span><i class="peer"></i><span class="peer-name"></span></span></div>
+    <svg class="trend-plot" role="img" aria-label="Per-run malware detection rates"></svg>
+  </details>
   {% endif %}
 </div>
 

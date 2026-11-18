@@ -2,47 +2,55 @@
   --hostile: #9abe25;
   --suspicious: #cfe09a;
   --scan-error: #454545;
-  padding-bottom: 36px;
+  padding-top: clamp(32px, 5vw, 56px);
+  padding-bottom: 56px;
 }
 .scoreboard h1, .scoreboard h2 { font-family: Oxanium, sans-serif; font-weight: 700; line-height: 1.2; margin: 0; }
-.scoreboard h1 { font-size: 27px; letter-spacing: -.5px; }
-.scoreboard h2 { font-size: 19px; letter-spacing: -.3px; }
-.scoreboard-header, .scoreboard .section-heading {
+.scoreboard h1 { font-size: clamp(32px, 5vw, 44px); letter-spacing: -.03em; }
+.scoreboard h2 { font-size: clamp(20px, 3vw, 26px); letter-spacing: -.02em; }
+.scoreboard-toolbar, .scoreboard .section-heading {
   display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 8px 20px;
 }
-.scoreboard .sample-age { margin: 7px 0 0; font-size: 14px; color: var(--iron); }
-.scoreboard .sample-age strong { margin-inline-end: 4px; color: var(--toxic-dark); font: 700 19px/1 Oxanium, sans-serif; }
-.scoreboard :is(.benchmark-period, .sample-count, .section-heading p) { color: var(--iron); font-size: 12px; margin: 4px 0 0; }
-.scoreboard .sample-count { margin: 15px 0 6px; }
-.scoreboard label { font-size: 12px; color: var(--iron); }
+.scoreboard-toolbar { margin: 24px 0 15px; align-items: center; }
+.scoreboard .sample-age { margin: 10px 0 0; font-size: 15px; color: var(--iron); }
+.scoreboard .sample-age strong { margin-inline-end: 5px; color: var(--toxic-dark); font: 700 24px/1 Oxanium, sans-serif; }
+.scoreboard :is(.benchmark-period, .section-heading p) { color: var(--iron); font-size: 13px; margin: 0; }
+.scoreboard .benchmark-period { display: flex; gap: 2px 9px; flex-wrap: wrap; }
+.scoreboard .benchmark-period span + span::before { content: "·"; margin-inline-end: 9px; }
+.scoreboard label { font-size: 13px; color: var(--iron); }
 .scoreboard select { min-height: 35px; padding: 4px 8px; margin-inline-start: 4px; font: inherit; border: 1px solid var(--border); border-radius: 4px; background: var(--white); color: var(--carbon); }
-.scoreboard :is(select, input):focus-visible { outline: 2px solid var(--atomdrift-blue); outline-offset: 2px; }
-.scoreboard .scores { border-collapse: collapse; width: 100%; font-size: 14px; font-variant-numeric: tabular-nums; }
-.scoreboard .scores :is(th, td) { border-bottom: 1px solid var(--border); vertical-align: middle; text-align: start; }
-.scoreboard .scores thead th { font-size: 12px; font-weight: 600; padding: 0 10px 7px 0; color: var(--iron); }
-.scoreboard .scores tbody :is(th, td) { padding: 9px 10px 9px 0; }
+.scoreboard :is(select, input, summary):focus-visible { outline: 2px solid var(--atomdrift-blue); outline-offset: 2px; }
+.scoreboard .scores { border-collapse: collapse; width: 100%; font-size: 15px; font-variant-numeric: tabular-nums; }
+.scoreboard .scores :is(th, td) { border-bottom: 1px solid #efefef; vertical-align: middle; text-align: start; }
+.scoreboard .scores thead th { font-size: 13px; font-weight: 600; padding: 0 10px 10px 0; color: var(--iron); }
+.scoreboard .scores tbody :is(th, td) { padding: 14px 10px 14px 0; }
 .scoreboard .scores thead th:first-child { width: 23%; }
 .scoreboard .scores tbody th { font-weight: 600; }
 .scoreboard .scores tr.own th { color: var(--toxic-dark); }
 .scoreboard .scores :is(th, td):last-child { width: 22%; text-align: end; padding-inline-end: 0; }
 .scoreboard .measure { display: grid; grid-template-columns: minmax(10px, 1fr) minmax(5ch, auto); gap: 10px; align-items: center; }
-.scoreboard .rate { text-align: end; white-space: nowrap; font: 600 13px/1.2 ui-monospace, monospace; }
+.scoreboard .rate { text-align: end; white-space: nowrap; font: 600 15px/1.2 Inter, sans-serif; font-variant-numeric: tabular-nums; }
 .scoreboard .track { display: flex; height: 9px; overflow: hidden; border-radius: 2px; background: var(--mist); }
 .scoreboard .track i { flex: 0 0 auto; }
 .scoreboard .hostile { background: var(--hostile); }
 .scoreboard .suspicious { background: var(--suspicious); }
 .scoreboard .error { margin-inline-start: auto; background: var(--scan-error); }
-.scoreboard .legend { display: flex; flex-wrap: wrap; gap: 4px 16px; color: var(--iron); font-size: 12px; margin-top: 8px; }
+.scoreboard .legend { display: flex; flex-wrap: wrap; gap: 4px 16px; color: var(--iron); font-size: 12px; margin-top: 12px; }
 .scoreboard .legend span { display: inline-flex; gap: 5px; align-items: center; }
 .scoreboard .legend i { width: 9px; height: 9px; border-radius: 1px; }
 .scoreboard .trend-legend i { width: 15px; height: 3px; border-radius: 0; }
 .scoreboard .trend-legend .atomdrift { background: var(--toxic-dark); }
 .scoreboard .trend-legend .peer { border-top: 2px dashed var(--atomdrift-blue); }
-.scoreboard .comparison-section { margin-top: 28px; }
-.scoreboard .comparison-section + .comparison-section { border-top: 1px solid var(--border); padding-top: 18px; }
-.scoreboard :is(.trend-plot, .sensitivity-plot) { display: block; width: 100%; margin-top: 6px; }
-.scoreboard .trend-plot { height: 142px; }
-.scoreboard .sensitivity-plot { height: 222px; }
+.scoreboard .comparison-section { margin-top: clamp(40px, 6vw, 64px); }
+.scoreboard .run-history { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.scoreboard .run-history summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 0; list-style: none; cursor: pointer; }
+.scoreboard .run-history summary::-webkit-details-marker { display: none; }
+.scoreboard .run-history summary::after { content: ""; width: 8px; height: 8px; margin-right: 3px; border: solid var(--slate); border-width: 0 1.5px 1.5px 0; transform: rotate(45deg); }
+.scoreboard .run-history[open] summary::after { transform: rotate(225deg); }
+.scoreboard .run-history .section-heading { align-items: center; }
+.scoreboard :is(.trend-plot, .sensitivity-plot) { display: block; width: 100%; }
+.scoreboard .trend-plot { height: 142px; margin-top: 6px; }
+.scoreboard .sensitivity-plot { height: 252px; margin-top: 20px; }
 .scoreboard svg text { fill: var(--iron); font: 11px Inter, system-ui, sans-serif; }
 .scoreboard svg .grid { stroke: var(--border); stroke-width: 1; }
 .scoreboard svg .series { fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
@@ -54,7 +62,7 @@
 .scoreboard svg .hit:hover { fill: var(--toxic-dim); }
 .scoreboard .ascan { --series: var(--toxic-dark); color: var(--series); }
 .scoreboard .virustotal { --series: var(--atomdrift-blue); color: var(--series); }
-.scoreboard .sensitivity-controls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 13px 30px; }
+.scoreboard .sensitivity-controls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 40px; margin-top: 22px; align-items: start; }
 .scoreboard .sensitivity-control { display: grid; gap: 3px; }
 .scoreboard .sensitivity-control label { color: inherit; font-size: 14px; font-weight: 700; }
 .scoreboard .sensitivity-control label i { display: inline-block; width: 9px; height: 9px; margin-inline-end: 5px; background: currentColor; }
@@ -62,14 +70,18 @@
 .scoreboard .sensitivity-control output { color: var(--carbon); font: 600 12px/1.4 ui-monospace, monospace; }
 .scoreboard .sensitivity-control input { width: 100%; min-height: 25px; margin: 0; accent-color: var(--series); }
 .scoreboard .sensitivity-ends { display: flex; justify-content: space-between; color: var(--iron); font-size: 11px; }
+.scoreboard #sensitivity-explanation { margin: 5px 0 0; color: var(--iron); font-size: 13px; }
 @media (max-width: 545px) {
   .scoreboard { padding-inline: 15px; }
+  .scoreboard .benchmark-period { display: block; }
+  .scoreboard .benchmark-period span { display: block; }
+  .scoreboard .benchmark-period span + span::before { content: none; }
   .scoreboard .scores { font-size: 12px; }
   .scoreboard .scores tbody :is(th, td) { padding-inline-end: 6px; }
   .scoreboard .scores thead th:first-child { width: 27%; }
   .scoreboard .scores :is(th, td):last-child { width: 26%; }
   .scoreboard .measure { gap: 5px; }
-  .scoreboard .rate { font-size: 11px; }
+  .scoreboard .rate { font-size: 12px; }
   .scoreboard .sensitivity-controls { grid-template-columns: 1fr; }
 }
 @media (pointer: coarse) {
