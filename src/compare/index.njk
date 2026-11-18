@@ -4,6 +4,7 @@ title: Compare
 permalink: /compare/
 description: Atomdrift Scan vs. VirusTotal, malcontent, ClamAV, Socket, Aikido, GuardDog and SafeDep on live zero-day supply-chain malware. Measured daily on an identical cohort, every sample published. Local, Apache-2.0, built to be embedded.
 ---
+{%- set battle = battle | visibleBattle(providers) %}
 
 <style>
   .compare { max-width: 1000px; margin: 0 auto; padding: 4px 24px 64px; }
@@ -645,7 +646,7 @@ description: Atomdrift Scan vs. VirusTotal, malcontent, ClamAV, Socket, Aikido, 
     // the latest two valid points when the page is viewed after a long outage
     // or when a clock skew makes the rolling window sparse; Chart.js cannot
     // draw a line from an empty/single-point history series.
-    const ALL = ({{ history | trendPoints | dump | safe }})
+    const ALL = ({{ history | trendPoints(providers) | dump | safe }})
       .filter(p => p && Number.isFinite(Date.parse(p.at)))
       .sort((a, b) => Date.parse(a.at) - Date.parse(b.at));
     const CUTOFF = Date.now() - 30 * 24 * 60 * 60 * 1000;

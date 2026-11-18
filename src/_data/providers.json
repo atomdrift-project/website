@@ -85,5 +85,7 @@
     "slot": 8, "color": "#fe5a80",
     "registries": ["npm", "PyPI", "Maven", "RubyGems", "NuGet", "crates.io", "Go", "Packagist", "GitHub Actions", "GitHub", "VS Code", "Open VSX", "Homebrew", "Terraform"],
     "url": "https://safedep.io/"
-  }
+  },
+  "malscan": { "hidden": true },
+  "ossgadget-backdoor": { "hidden": true }
 }

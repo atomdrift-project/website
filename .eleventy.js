@@ -219,8 +219,10 @@ module.exports = function(eleventyConfig) {
   // only the per-run rates it plots: everything each engine detected, hostile or
   // suspicious — the bars' and the headline's measure. A point recorded before
   // gauntlet kept that rate has none, and the chart draws over the gap.
-  eleventyConfig.addFilter("trendPoints", function(history) {
-    return (history || []).map((p) => ({ at: p.at, bad: p.bad, detected: p.detected || null }));
+  eleventyConfig.addFilter("trendPoints", function(history, providers) {
+    return (history || []).map((p) => ({
+      at: p.at, bad: p.bad, detected: p.detected ? visibleEngineMap(p.detected, providers) : null,
+    }));
   });
 
   // Engine draw order for anything that colors by engine (the quadrant, the trend
@@ -276,10 +278,10 @@ module.exports = function(eleventyConfig) {
       providers = require("./src/_data/providers.json");
       battle = require("./src/_data/battle.json");
     } catch (e) {
-      return providers;
+      return visibleEngineMap(providers, providers);
     }
     const out = {};
-    for (const [key, p] of Object.entries(providers)) out[key] = Object.assign({}, p);
+    for (const [key, p] of Object.entries(visibleEngineMap(providers, providers))) out[key] = Object.assign({}, p);
     const n = vtEngineTotal(battle);
     if (n && out.virustotal) {
       out.virustotal.engines = n;
@@ -883,12 +885,30 @@ module.exports = function(eleventyConfig) {
   }
   eleventyConfig.addFilter("coverage", computeCoverage);
 
-  // An engine is hidden from the rendered charts by setting "hidden": true on its
-  // providers.json entry — for a sporadic entrant whose intermittent points would
-  // misread as a real contestant. The data (battle.json, history.json) is kept
-  // either way. providers.json is the single list every chart draws from, so an
-  // engine can no longer be present in one graph and missing from the next.
+  // providers.json controls which engines appear on the comparison page.
   const isHidden = (providers, key) => !!((providers || {})[key] || {}).hidden;
+  const visibleEngineMap = (entries, providers) => Object.fromEntries(
+    Object.entries(entries).filter(([key]) => !isHidden(providers, key)));
+
+  eleventyConfig.addFilter("visibleBattle", function(battle, providers) {
+    if (!battle) return battle;
+    const visibleRows = (rows) => (rows || []).filter((row) => !isHidden(providers, row.scanner));
+    const visibleEcosystems = (ecosystems) => Object.fromEntries(
+      Object.entries(ecosystems || {}).map(([eco, rows]) => [eco, visibleRows(rows)]));
+    const visibleBenchmark = (benchmark) => benchmark && {
+      ...benchmark,
+      leaderboard: visibleRows(benchmark.leaderboard),
+      by_ecosystem: visibleEcosystems(benchmark.by_ecosystem),
+    };
+    return {
+      ...battle,
+      detection: visibleBenchmark(battle.detection),
+      false_positive: visibleBenchmark(battle.false_positive),
+      operating_points: visibleRows(battle.operating_points),
+      operating_points_by_ecosystem: visibleEcosystems(battle.operating_points_by_ecosystem),
+      versions: battle.versions && visibleEngineMap(battle.versions, providers),
+    };
+  });
 
   // Coverage as a sortable board for the bar chart: one row per engine that has a
   // coverage model, highest coverage first. Hidden engines are omitted.
