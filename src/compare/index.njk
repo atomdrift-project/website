@@ -21,8 +21,8 @@ description: Compare Atomdrift with other scanners on 30 days of live zero-day m
       </div>
     </td>
     <td>
-      <span class="rate">{% if row.falsePositive == null %}—{% else %}{{ row.falsePositive | pct1 }}%{% endif %}</span>
-      {% if cohort.good %}<small class="judged">{{ row.judged }}/{{ cohort.good }} judged</small>{% endif %}
+      {% set falsePositive = row.falsePositive | pct1 %}
+      <span class="rate">{{ '0' if falsePositive == '0.0' else falsePositive }}%</span>
     </td>
   </tr>
   {%- endfor %}
@@ -37,7 +37,7 @@ description: Compare Atomdrift with other scanners on 30 days of live zero-day m
     <div>
       <h1>Zero-day detection</h1>
       {% if scoreboard.meanAge != null %}<p class="sample-age"><strong>{{ scoreboard.meanAge | pct1 }} h</strong> average malware age at scan</p>{% endif %}
-      <p class="benchmark-period">{% if scoreboard.days %}{{ scoreboard.days }} days · {% endif %}{{ scoreboard.dateRange }} · {{ scoreboard.runs }} runs</p>
+      <p class="benchmark-period">{% if scoreboard.days %}{{ scoreboard.days }} days · {% endif %}{{ scoreboard.dateRange }}</p>
     </div>
     {% if scoreboard.ecosystems | length %}
     <label for="compare-ecosystem">Ecosystem
@@ -51,7 +51,7 @@ description: Compare Atomdrift with other scanners on 30 days of live zero-day m
 
   <p class="sample-count" id="compare-count" aria-live="polite">{{ counts(scoreboard.all) }}</p>
   <table class="scores" aria-label="Scanner benchmark" aria-describedby="compare-count">
-    <thead><tr><th scope="col">Engine</th><th scope="col">Malware detected</th><th scope="col">False positives<span class="scope">Hostile only</span></th></tr></thead>
+    <thead><tr><th scope="col">Engine</th><th scope="col">Malware detected</th><th scope="col">False positives</th></tr></thead>
     <tbody>{{ rows(scoreboard.all) }}</tbody>
   </table>
   {% if scoreboard.ecosystems | length %}
@@ -64,7 +64,7 @@ description: Compare Atomdrift with other scanners on 30 days of live zero-day m
     <span><i class="hostile"></i>Hostile</span><span><i class="suspicious"></i>Suspicious</span><span><i class="error"></i>Error</span>
   </div>
 
-  {% if scoreboard.runs > 1 %}
+  {% if (scoreboard.chart.runs | length) > 1 %}
   <section class="comparison-section" aria-labelledby="compare-trend">
     <header class="section-heading">
       <div>

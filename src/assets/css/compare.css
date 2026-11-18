@@ -25,9 +25,6 @@
 .scoreboard .scores tbody th { font-weight: 600; }
 .scoreboard .scores tr.own th { color: var(--toxic-dark); }
 .scoreboard .scores :is(th, td):last-child { width: 22%; text-align: end; padding-inline-end: 0; }
-.scoreboard :is(.judged, .scope) { display: block; color: var(--iron); font-size: 12px; font-weight: 400; }
-.scoreboard .judged { white-space: nowrap; }
-.scoreboard .scope { font-family: ui-monospace, monospace; font-size: 11px; }
 .scoreboard .measure { display: grid; grid-template-columns: minmax(10px, 1fr) minmax(5ch, auto); gap: 10px; align-items: center; }
 .scoreboard .rate { text-align: end; white-space: nowrap; font: 600 13px/1.2 ui-monospace, monospace; }
 .scoreboard .track { display: flex; height: 9px; overflow: hidden; border-radius: 2px; background: var(--mist); }
@@ -72,7 +69,7 @@
   .scoreboard .scores thead th:first-child { width: 27%; }
   .scoreboard .scores :is(th, td):last-child { width: 26%; }
   .scoreboard .measure { gap: 5px; }
-  .scoreboard .rate, .scoreboard .judged { font-size: 11px; }
+  .scoreboard .rate { font-size: 11px; }
   .scoreboard .sensitivity-controls { grid-template-columns: 1fr; }
 }
 @media (pointer: coarse) {

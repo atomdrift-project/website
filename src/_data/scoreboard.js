@@ -11,7 +11,6 @@ module.exports = function () {
     const rows = detection.filter((row) => Object.hasOwn(labels, row.scanner))
       .map((row) => {
         const fp = knownGood.get(row.scanner);
-        const judged = fp ? fp.hostile + fp.suspicious + fp.benign : 0;
         return {
           key: row.scanner,
           name: labels[row.scanner],
@@ -20,8 +19,7 @@ module.exports = function () {
           errors: 100 * (row.errored || 0) / bad,
           breakdown: [[row.hostile, "hostile"], [row.suspicious, "suspicious"], [row.unsupported, "out of scope"],
             [row.nodata, "no record"], [row.errored, "errors"]].filter(([n]) => n).map(([n, label]) => n + " " + label).join(" · "),
-          falsePositive: judged ? 100 * fp.hostile / good : null,
-          judged,
+          falsePositive: good ? 100 * (fp?.hostile ?? 0) / good : 0,
         };
       }).sort((a, b) => (b.hostile + b.suspicious) - (a.hostile + a.suspicious)
         || b.hostile - a.hostile || a.name.localeCompare(b.name));
@@ -68,7 +66,7 @@ module.exports = function () {
   const period = new Intl.DateTimeFormat("en-US", { ...dateOptions, year: "numeric" });
   const dateFrom = battle.window?.from ? Date.parse(battle.window.from) : end;
   return {
-    all, ecosystems, days, runs: runs.length,
+    all, ecosystems, days,
     dateRange: period.formatRange(dateFrom, end),
     meanAge: battle.malware_age?.mean_hours,
     chart: { labels, runs, sensitivity, start, end },
