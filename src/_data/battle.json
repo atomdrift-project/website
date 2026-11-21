@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-21T09:40:43.095173333Z",
+  "generated_at": "2026-11-21T20:38:59.463010628Z",
   "comparisons": [
     {
       "cohort": "bad",
@@ -101,13 +101,13 @@
       "cohort": "bad",
       "left": "ascan",
       "right": "clamav",
-      "sample_count": 1831,
-      "both_flagged": 430,
+      "sample_count": 1832,
+      "both_flagged": 431,
       "left_only": 982,
       "right_only": 13,
       "neither": 406,
-      "left_hostile": 1048,
-      "right_hostile": 443
+      "left_hostile": 1049,
+      "right_hostile": 444
     },
     {
       "cohort": "bad",
@@ -125,13 +125,13 @@
       "cohort": "bad",
       "left": "ascan",
       "right": "malcontent",
-      "sample_count": 1831,
-      "both_flagged": 926,
+      "sample_count": 1832,
+      "both_flagged": 927,
       "left_only": 486,
       "right_only": 113,
       "neither": 306,
-      "left_hostile": 1048,
-      "right_hostile": 634
+      "left_hostile": 1049,
+      "right_hostile": 635
     },
     {
       "cohort": "bad",
@@ -185,13 +185,13 @@
       "cohort": "bad",
       "left": "ascan",
       "right": "virustotal",
-      "sample_count": 1819,
-      "both_flagged": 1045,
+      "sample_count": 1820,
+      "both_flagged": 1046,
       "left_only": 360,
       "right_only": 86,
       "neither": 328,
-      "left_hostile": 1042,
-      "right_hostile": 988
+      "left_hostile": 1043,
+      "right_hostile": 989
     },
     {
       "cohort": "bad",
@@ -209,13 +209,13 @@
       "cohort": "bad",
       "left": "clamav",
       "right": "malcontent",
-      "sample_count": 1884,
-      "both_flagged": 387,
+      "sample_count": 1885,
+      "both_flagged": 388,
       "left_only": 59,
       "right_only": 671,
       "neither": 767,
-      "left_hostile": 446,
-      "right_hostile": 641
+      "left_hostile": 447,
+      "right_hostile": 642
     },
     {
       "cohort": "bad",
@@ -269,13 +269,13 @@
       "cohort": "bad",
       "left": "clamav",
       "right": "virustotal",
-      "sample_count": 1851,
-      "both_flagged": 442,
+      "sample_count": 1852,
+      "both_flagged": 443,
       "left_only": 0,
       "right_only": 692,
       "neither": 717,
-      "left_hostile": 442,
-      "right_hostile": 991
+      "left_hostile": 443,
+      "right_hostile": 992
     },
     {
       "cohort": "bad",
@@ -389,13 +389,13 @@
       "cohort": "bad",
       "left": "malcontent",
       "right": "virustotal",
-      "sample_count": 1851,
-      "both_flagged": 819,
+      "sample_count": 1852,
+      "both_flagged": 820,
       "left_only": 226,
       "right_only": 315,
       "neither": 491,
-      "left_hostile": 635,
-      "right_hostile": 991
+      "left_hostile": 636,
+      "right_hostile": 992
     },
     {
       "cohort": "bad",
@@ -689,16 +689,16 @@
       "models": "480df7c5afc6",
       "traits_date": "2026-11-18",
       "models_date": "2026-11-14",
-      "samples": 110,
+      "samples": 6,
       "remote": 0,
       "remote_rate": 0
     }
   },
   "malware_age": {
-    "n": 1884,
+    "n": 1885,
     "min_hours": 0.8858632272641667,
-    "mean_hours": 8.993229187955977,
-    "median_hours": 6.589828432518611,
+    "mean_hours": 9.000817148822758,
+    "median_hours": 6.591745436954167,
     "max_hours": 34.21432546193556
   },
   "fp_by_filetype": {
@@ -761,61 +761,13 @@
     "types_over_floor": 36
   },
   "ascan_types": [
-    "batch",
-    "c",
-    "cab",
-    "cargo.lock",
-    "cargo.toml",
     "chrome_manifest",
-    "cmake",
-    "composer.json",
-    "data",
-    "desktop_entry",
-    "dockerfile",
-    "docx",
-    "font",
-    "github_actions",
-    "go",
-    "go.mod",
-    "go.sum",
-    "gz",
     "html",
-    "ico",
-    "jar",
     "javascript",
-    "jpeg",
     "json",
-    "kotlin",
-    "lua",
-    "macho",
-    "makefile",
-    "markdown",
-    "mp4",
-    "package.json",
-    "pdf",
-    "pe",
-    "php",
-    "pkg_info",
-    "plist",
     "png",
-    "pnpm-lock.yaml",
-    "powershell",
-    "pyproject.toml",
-    "python",
-    "python_bytecode",
-    "requirements.txt",
-    "rust",
-    "shell",
-    "src_info",
     "svg",
-    "swift",
-    "tar.gz",
-    "text",
-    "vbs",
-    "wasm",
-    "xml",
-    "yaml",
-    "zip"
+    "text"
   ],
   "early_detections": [
     {
@@ -1041,9 +993,9 @@
     {
       "level": 0,
       "hostile": 510,
-      "suspicious": 895,
-      "caught": 1405,
-      "cohort_n": 1884,
+      "suspicious": 896,
+      "caught": 1406,
+      "cohort_n": 1885,
       "fp_hostile": 1,
       "fp_suspicious": 7,
       "fp_flagged": 8,
@@ -1052,9 +1004,9 @@
     {
       "level": 1,
       "hostile": 529,
-      "suspicious": 876,
-      "caught": 1405,
-      "cohort_n": 1884,
+      "suspicious": 877,
+      "caught": 1406,
+      "cohort_n": 1885,
       "fp_hostile": 1,
       "fp_suspicious": 7,
       "fp_flagged": 8,
@@ -1063,9 +1015,9 @@
     {
       "level": 5,
       "hostile": 530,
-      "suspicious": 875,
-      "caught": 1405,
-      "cohort_n": 1884,
+      "suspicious": 876,
+      "caught": 1406,
+      "cohort_n": 1885,
       "fp_hostile": 1,
       "fp_suspicious": 7,
       "fp_flagged": 8,
@@ -1073,10 +1025,10 @@
     },
     {
       "level": 25,
-      "hostile": 1048,
+      "hostile": 1049,
       "suspicious": 363,
-      "caught": 1411,
-      "cohort_n": 1884,
+      "caught": 1412,
+      "cohort_n": 1885,
       "fp_hostile": 5,
       "fp_suspicious": 3,
       "fp_flagged": 8,
@@ -1084,10 +1036,10 @@
     },
     {
       "level": 50,
-      "hostile": 1061,
+      "hostile": 1062,
       "suspicious": 359,
-      "caught": 1420,
-      "cohort_n": 1884,
+      "caught": 1421,
+      "cohort_n": 1885,
       "fp_hostile": 6,
       "fp_suspicious": 2,
       "fp_flagged": 8,
@@ -1095,10 +1047,10 @@
     },
     {
       "level": 500,
-      "hostile": 1405,
+      "hostile": 1406,
       "suspicious": 41,
-      "caught": 1446,
-      "cohort_n": 1884,
+      "caught": 1447,
+      "cohort_n": 1885,
       "fp_hostile": 8,
       "fp_suspicious": 2,
       "fp_flagged": 10,
@@ -1106,10 +1058,10 @@
     },
     {
       "level": 1000,
-      "hostile": 1406,
+      "hostile": 1407,
       "suspicious": 40,
-      "caught": 1446,
-      "cohort_n": 1884,
+      "caught": 1447,
+      "cohort_n": 1885,
       "fp_hostile": 8,
       "fp_suspicious": 2,
       "fp_flagged": 10,
@@ -1117,10 +1069,10 @@
     },
     {
       "level": 2500,
-      "hostile": 1411,
+      "hostile": 1412,
       "suspicious": 35,
-      "caught": 1446,
-      "cohort_n": 1884,
+      "caught": 1447,
+      "cohort_n": 1885,
       "fp_hostile": 8,
       "fp_suspicious": 2,
       "fp_flagged": 10,
@@ -1128,10 +1080,10 @@
     },
     {
       "level": 25000,
-      "hostile": 1446,
+      "hostile": 1447,
       "suspicious": 0,
-      "caught": 1446,
-      "cohort_n": 1884,
+      "caught": 1447,
+      "cohort_n": 1885,
       "fp_hostile": 10,
       "fp_suspicious": 0,
       "fp_flagged": 10,
@@ -1140,9 +1092,9 @@
   ],
   "window": {
     "from": "2026-10-22T21:26:40.297210519Z",
-    "to": "2026-11-21T09:40:43.095173333Z",
+    "to": "2026-11-21T20:38:59.463010628Z",
     "days": 30,
-    "runs": 41
+    "runs": 42
   },
   "operating_points": [
     {
@@ -1150,7 +1102,7 @@
       "setting": "L0",
       "detected": 510,
       "false_positives": 1,
-      "cohort_n": 1884,
+      "cohort_n": 1885,
       "fp_cohort_n": 1979
     },
     {
@@ -1159,7 +1111,7 @@
       "level": 1,
       "detected": 529,
       "false_positives": 1,
-      "cohort_n": 1884,
+      "cohort_n": 1885,
       "fp_cohort_n": 1979
     },
     {
@@ -1168,7 +1120,7 @@
       "level": 5,
       "detected": 530,
       "false_positives": 1,
-      "cohort_n": 1884,
+      "cohort_n": 1885,
       "fp_cohort_n": 1979
     },
     {
@@ -1177,16 +1129,16 @@
       "level": 10,
       "detected": 530,
       "false_positives": 1,
-      "cohort_n": 1884,
+      "cohort_n": 1885,
       "fp_cohort_n": 1979
     },
     {
       "scanner": "ascan",
       "setting": "L25",
       "level": 25,
-      "detected": 1048,
+      "detected": 1049,
       "false_positives": 5,
-      "cohort_n": 1884,
+      "cohort_n": 1885,
       "fp_cohort_n": 1979,
       "default": true
     },
@@ -1194,129 +1146,129 @@
       "scanner": "ascan",
       "setting": "L50",
       "level": 50,
-      "detected": 1061,
+      "detected": 1062,
       "false_positives": 6,
-      "cohort_n": 1884,
+      "cohort_n": 1885,
       "fp_cohort_n": 1979
     },
     {
       "scanner": "ascan",
       "setting": "L100",
       "level": 100,
-      "detected": 1153,
+      "detected": 1154,
       "false_positives": 6,
-      "cohort_n": 1884,
+      "cohort_n": 1885,
       "fp_cohort_n": 1979
     },
     {
       "scanner": "ascan",
       "setting": "L250",
       "level": 250,
-      "detected": 1154,
+      "detected": 1155,
       "false_positives": 6,
-      "cohort_n": 1884,
+      "cohort_n": 1885,
       "fp_cohort_n": 1979
     },
     {
       "scanner": "ascan",
       "setting": "L500",
       "level": 500,
-      "detected": 1405,
+      "detected": 1406,
       "false_positives": 8,
-      "cohort_n": 1884,
+      "cohort_n": 1885,
       "fp_cohort_n": 1979
     },
     {
       "scanner": "ascan",
       "setting": "L1000",
       "level": 1000,
-      "detected": 1406,
+      "detected": 1407,
       "false_positives": 8,
-      "cohort_n": 1884,
+      "cohort_n": 1885,
       "fp_cohort_n": 1979
     },
     {
       "scanner": "ascan",
       "setting": "L2000",
       "level": 2000,
-      "detected": 1411,
+      "detected": 1412,
       "false_positives": 8,
-      "cohort_n": 1884,
+      "cohort_n": 1885,
       "fp_cohort_n": 1979
     },
     {
       "scanner": "ascan",
       "setting": "L2500",
       "level": 2500,
-      "detected": 1411,
+      "detected": 1412,
       "false_positives": 8,
-      "cohort_n": 1884,
+      "cohort_n": 1885,
       "fp_cohort_n": 1979
     },
     {
       "scanner": "virustotal",
       "setting": "n≥6",
-      "detected": 939,
+      "detected": 940,
       "false_positives": 2,
-      "cohort_n": 1884,
+      "cohort_n": 1885,
       "fp_cohort_n": 1979
     },
     {
       "scanner": "virustotal",
       "setting": "n≥5",
-      "detected": 965,
+      "detected": 966,
       "false_positives": 2,
-      "cohort_n": 1884,
+      "cohort_n": 1885,
       "fp_cohort_n": 1979
     },
     {
       "scanner": "virustotal",
       "setting": "n≥4",
-      "detected": 991,
+      "detected": 992,
       "false_positives": 2,
-      "cohort_n": 1884,
+      "cohort_n": 1885,
       "fp_cohort_n": 1979,
       "default": true
     },
     {
       "scanner": "virustotal",
       "setting": "n≥3",
-      "detected": 1016,
+      "detected": 1017,
       "false_positives": 2,
-      "cohort_n": 1884,
+      "cohort_n": 1885,
       "fp_cohort_n": 1979
     },
     {
       "scanner": "virustotal",
       "setting": "n≥2",
-      "detected": 1056,
+      "detected": 1057,
       "false_positives": 2,
-      "cohort_n": 1884,
+      "cohort_n": 1885,
       "fp_cohort_n": 1979
     },
     {
       "scanner": "virustotal",
       "setting": "n≥1",
-      "detected": 1134,
+      "detected": 1135,
       "false_positives": 2,
-      "cohort_n": 1884,
+      "cohort_n": 1885,
       "fp_cohort_n": 1979
     },
     {
       "scanner": "malcontent",
       "setting": "critical",
-      "detected": 641,
+      "detected": 642,
       "false_positives": 19,
-      "cohort_n": 1884,
+      "cohort_n": 1885,
       "fp_cohort_n": 1979,
       "default": true
     },
     {
       "scanner": "malcontent",
       "setting": "critical+high",
-      "detected": 1058,
+      "detected": 1059,
       "false_positives": 145,
-      "cohort_n": 1884,
+      "cohort_n": 1885,
       "fp_cohort_n": 1979
     },
     {
@@ -1324,7 +1276,7 @@
       "setting": "risk≥10",
       "detected": 12,
       "false_positives": 1,
-      "cohort_n": 1884,
+      "cohort_n": 1885,
       "fp_cohort_n": 1979
     },
     {
@@ -1332,7 +1284,7 @@
       "setting": "risk≥9",
       "detected": 22,
       "false_positives": 1,
-      "cohort_n": 1884,
+      "cohort_n": 1885,
       "fp_cohort_n": 1979
     },
     {
@@ -1340,7 +1292,7 @@
       "setting": "risk≥8",
       "detected": 125,
       "false_positives": 3,
-      "cohort_n": 1884,
+      "cohort_n": 1885,
       "fp_cohort_n": 1979
     },
     {
@@ -1348,7 +1300,7 @@
       "setting": "risk≥7",
       "detected": 240,
       "false_positives": 8,
-      "cohort_n": 1884,
+      "cohort_n": 1885,
       "fp_cohort_n": 1979,
       "default": true
     },
@@ -1357,7 +1309,7 @@
       "setting": "risk≥6",
       "detected": 262,
       "false_positives": 8,
-      "cohort_n": 1884,
+      "cohort_n": 1885,
       "fp_cohort_n": 1979
     },
     {
@@ -1365,7 +1317,7 @@
       "setting": "risk≥5",
       "detected": 289,
       "false_positives": 12,
-      "cohort_n": 1884,
+      "cohort_n": 1885,
       "fp_cohort_n": 1979
     },
     {
@@ -1373,16 +1325,16 @@
       "setting": "hostile",
       "detected": 321,
       "false_positives": 0,
-      "cohort_n": 1884,
+      "cohort_n": 1885,
       "fp_cohort_n": 1979,
       "default": true
     },
     {
       "scanner": "clamav",
       "setting": "hostile",
-      "detected": 446,
+      "detected": 447,
       "false_positives": 0,
-      "cohort_n": 1884,
+      "cohort_n": 1885,
       "fp_cohort_n": 1979,
       "default": true
     },
@@ -1391,7 +1343,7 @@
       "setting": "hostile",
       "detected": 0,
       "false_positives": 0,
-      "cohort_n": 1884,
+      "cohort_n": 1885,
       "fp_cohort_n": 1979,
       "default": true
     },
@@ -1400,7 +1352,7 @@
       "setting": "hostile",
       "detected": 0,
       "false_positives": 0,
-      "cohort_n": 1884,
+      "cohort_n": 1885,
       "fp_cohort_n": 1979,
       "default": true
     },
@@ -1409,7 +1361,7 @@
       "setting": "hostile",
       "detected": 0,
       "false_positives": 0,
-      "cohort_n": 1884,
+      "cohort_n": 1885,
       "fp_cohort_n": 1979,
       "default": true
     },
@@ -1418,7 +1370,7 @@
       "setting": "hostile",
       "detected": 252,
       "false_positives": 0,
-      "cohort_n": 1884,
+      "cohort_n": 1885,
       "fp_cohort_n": 1979,
       "default": true
     },
@@ -1427,7 +1379,7 @@
       "setting": "hostile",
       "detected": 297,
       "false_positives": 0,
-      "cohort_n": 1884,
+      "cohort_n": 1885,
       "fp_cohort_n": 1979,
       "default": true
     }
@@ -6335,7 +6287,7 @@
         "setting": "L0",
         "detected": 76,
         "false_positives": 1,
-        "cohort_n": 512,
+        "cohort_n": 513,
         "fp_cohort_n": 54
       },
       {
@@ -6344,7 +6296,7 @@
         "level": 1,
         "detected": 77,
         "false_positives": 1,
-        "cohort_n": 512,
+        "cohort_n": 513,
         "fp_cohort_n": 54
       },
       {
@@ -6353,7 +6305,7 @@
         "level": 5,
         "detected": 77,
         "false_positives": 1,
-        "cohort_n": 512,
+        "cohort_n": 513,
         "fp_cohort_n": 54
       },
       {
@@ -6362,16 +6314,16 @@
         "level": 10,
         "detected": 77,
         "false_positives": 1,
-        "cohort_n": 512,
+        "cohort_n": 513,
         "fp_cohort_n": 54
       },
       {
         "scanner": "ascan",
         "setting": "L25",
         "level": 25,
-        "detected": 440,
+        "detected": 441,
         "false_positives": 1,
-        "cohort_n": 512,
+        "cohort_n": 513,
         "fp_cohort_n": 54,
         "default": true
       },
@@ -6379,129 +6331,129 @@
         "scanner": "ascan",
         "setting": "L50",
         "level": 50,
-        "detected": 440,
+        "detected": 441,
         "false_positives": 1,
-        "cohort_n": 512,
+        "cohort_n": 513,
         "fp_cohort_n": 54
       },
       {
         "scanner": "ascan",
         "setting": "L100",
         "level": 100,
-        "detected": 448,
+        "detected": 449,
         "false_positives": 1,
-        "cohort_n": 512,
+        "cohort_n": 513,
         "fp_cohort_n": 54
       },
       {
         "scanner": "ascan",
         "setting": "L250",
         "level": 250,
-        "detected": 448,
+        "detected": 449,
         "false_positives": 1,
-        "cohort_n": 512,
+        "cohort_n": 513,
         "fp_cohort_n": 54
       },
       {
         "scanner": "ascan",
         "setting": "L500",
         "level": 500,
-        "detected": 482,
+        "detected": 483,
         "false_positives": 1,
-        "cohort_n": 512,
+        "cohort_n": 513,
         "fp_cohort_n": 54
       },
       {
         "scanner": "ascan",
         "setting": "L1000",
         "level": 1000,
-        "detected": 483,
+        "detected": 484,
         "false_positives": 1,
-        "cohort_n": 512,
+        "cohort_n": 513,
         "fp_cohort_n": 54
       },
       {
         "scanner": "ascan",
         "setting": "L2000",
         "level": 2000,
-        "detected": 483,
+        "detected": 484,
         "false_positives": 1,
-        "cohort_n": 512,
+        "cohort_n": 513,
         "fp_cohort_n": 54
       },
       {
         "scanner": "ascan",
         "setting": "L2500",
         "level": 2500,
-        "detected": 483,
+        "detected": 484,
         "false_positives": 1,
-        "cohort_n": 512,
+        "cohort_n": 513,
         "fp_cohort_n": 54
       },
       {
         "scanner": "virustotal",
         "setting": "n≥6",
-        "detected": 474,
+        "detected": 475,
         "false_positives": 0,
-        "cohort_n": 512,
+        "cohort_n": 513,
         "fp_cohort_n": 54
       },
       {
         "scanner": "virustotal",
         "setting": "n≥5",
-        "detected": 477,
+        "detected": 478,
         "false_positives": 0,
-        "cohort_n": 512,
+        "cohort_n": 513,
         "fp_cohort_n": 54
       },
       {
         "scanner": "virustotal",
         "setting": "n≥4",
-        "detected": 478,
+        "detected": 479,
         "false_positives": 0,
-        "cohort_n": 512,
+        "cohort_n": 513,
         "fp_cohort_n": 54,
         "default": true
       },
       {
         "scanner": "virustotal",
         "setting": "n≥3",
-        "detected": 480,
+        "detected": 481,
         "false_positives": 0,
-        "cohort_n": 512,
+        "cohort_n": 513,
         "fp_cohort_n": 54
       },
       {
         "scanner": "virustotal",
         "setting": "n≥2",
-        "detected": 489,
+        "detected": 490,
         "false_positives": 0,
-        "cohort_n": 512,
+        "cohort_n": 513,
         "fp_cohort_n": 54
       },
       {
         "scanner": "virustotal",
         "setting": "n≥1",
-        "detected": 492,
+        "detected": 493,
         "false_positives": 0,
-        "cohort_n": 512,
+        "cohort_n": 513,
         "fp_cohort_n": 54
       },
       {
         "scanner": "malcontent",
         "setting": "critical",
-        "detected": 272,
+        "detected": 273,
         "false_positives": 2,
-        "cohort_n": 512,
+        "cohort_n": 513,
         "fp_cohort_n": 54,
         "default": true
       },
       {
         "scanner": "malcontent",
         "setting": "critical+high",
-        "detected": 405,
+        "detected": 406,
         "false_positives": 4,
-        "cohort_n": 512,
+        "cohort_n": 513,
         "fp_cohort_n": 54
       },
       {
@@ -6509,7 +6461,7 @@
         "setting": "risk≥10",
         "detected": 0,
         "false_positives": 0,
-        "cohort_n": 512,
+        "cohort_n": 513,
         "fp_cohort_n": 54
       },
       {
@@ -6517,7 +6469,7 @@
         "setting": "risk≥9",
         "detected": 0,
         "false_positives": 0,
-        "cohort_n": 512,
+        "cohort_n": 513,
         "fp_cohort_n": 54
       },
       {
@@ -6525,7 +6477,7 @@
         "setting": "risk≥8",
         "detected": 0,
         "false_positives": 0,
-        "cohort_n": 512,
+        "cohort_n": 513,
         "fp_cohort_n": 54
       },
       {
@@ -6533,7 +6485,7 @@
         "setting": "risk≥7",
         "detected": 0,
         "false_positives": 0,
-        "cohort_n": 512,
+        "cohort_n": 513,
         "fp_cohort_n": 54,
         "default": true
       },
@@ -6542,7 +6494,7 @@
         "setting": "risk≥6",
         "detected": 0,
         "false_positives": 0,
-        "cohort_n": 512,
+        "cohort_n": 513,
         "fp_cohort_n": 54
       },
       {
@@ -6550,7 +6502,7 @@
         "setting": "risk≥5",
         "detected": 0,
         "false_positives": 0,
-        "cohort_n": 512,
+        "cohort_n": 513,
         "fp_cohort_n": 54
       },
       {
@@ -6558,16 +6510,16 @@
         "setting": "hostile",
         "detected": 0,
         "false_positives": 0,
-        "cohort_n": 512,
+        "cohort_n": 513,
         "fp_cohort_n": 54,
         "default": true
       },
       {
         "scanner": "clamav",
         "setting": "hostile",
-        "detected": 315,
+        "detected": 316,
         "false_positives": 0,
-        "cohort_n": 512,
+        "cohort_n": 513,
         "fp_cohort_n": 54,
         "default": true
       },
@@ -6576,7 +6528,7 @@
         "setting": "hostile",
         "detected": 0,
         "false_positives": 0,
-        "cohort_n": 512,
+        "cohort_n": 513,
         "fp_cohort_n": 54,
         "default": true
       },
@@ -6585,7 +6537,7 @@
         "setting": "hostile",
         "detected": 0,
         "false_positives": 0,
-        "cohort_n": 512,
+        "cohort_n": 513,
         "fp_cohort_n": 54,
         "default": true
       },
@@ -6594,7 +6546,7 @@
         "setting": "hostile",
         "detected": 0,
         "false_positives": 0,
-        "cohort_n": 512,
+        "cohort_n": 513,
         "fp_cohort_n": 54,
         "default": true
       },
@@ -6603,7 +6555,7 @@
         "setting": "hostile",
         "detected": 0,
         "false_positives": 0,
-        "cohort_n": 512,
+        "cohort_n": 513,
         "fp_cohort_n": 54,
         "default": true
       },
@@ -6612,7 +6564,7 @@
         "setting": "hostile",
         "detected": 0,
         "false_positives": 0,
-        "cohort_n": 512,
+        "cohort_n": 513,
         "fp_cohort_n": 54,
         "default": true
       }
@@ -268355,6 +268307,174 @@
           "severity": "18",
           "detail": "18/38 engines (malicious=18, suspicious=0)",
           "link": "https://www.virustotal.com/gui/file/028a763fc0b4b2e6d1cb81c5db262aa8a3c46c3afc8ff814bb39d472d344f582",
+          "status": "detected"
+        },
+        {
+          "scanner": "vsmarketplace",
+          "tier": "unsupported",
+          "detail": "vsmarketplace only reads registry packages",
+          "status": "skipped"
+        },
+        {
+          "scanner": "vsmarketplace-pr",
+          "tier": "unsupported",
+          "detail": "vsmarketplace-pr only reads registry packages",
+          "status": "skipped"
+        },
+        {
+          "scanner": "vsxsentry",
+          "tier": "unsupported",
+          "detail": "vsxsentry only reads registry packages",
+          "status": "skipped"
+        }
+      ]
+    },
+    {
+      "created_at": "2026-11-20T16:21:11.935492-05:00",
+      "scanned_at": "2026-11-21T20:38:59.463010628Z",
+      "file_types": {
+        "pe": 1
+      },
+      "pool_label": "bad",
+      "filetype": "pe",
+      "filename": "renamed-loopback.exe",
+      "label": "bad",
+      "sha256": "335aae6a9490675c04645df8b55f63a0589cd1c4d8cecc94d33b639420a348a3",
+      "cohort_tier": "corroborated",
+      "cohort_source": "(unattributed)",
+      "cohort_class": "pe",
+      "cohort_stratum": "breadth",
+      "ecosystem": "windows",
+      "verdicts": [
+        {
+          "scanner": "aikido",
+          "tier": "unsupported",
+          "detail": "aikido only reads registry packages",
+          "status": "skipped"
+        },
+        {
+          "scanner": "ascan",
+          "tier": "hostile",
+          "severity": "hostile",
+          "detail": "level 25 (p=0.9341, llm)",
+          "status": "detected"
+        },
+        {
+          "scanner": "bazaar",
+          "tier": "nodata",
+          "detail": "no record",
+          "status": "nodata"
+        },
+        {
+          "scanner": "clamav",
+          "tier": "hostile",
+          "severity": "detected",
+          "detail": "Win.Tool.GodPotato-10019688-1",
+          "status": "detected"
+        },
+        {
+          "scanner": "datadog",
+          "tier": "unsupported",
+          "detail": "datadog only reads registry packages",
+          "status": "skipped"
+        },
+        {
+          "scanner": "extsentry",
+          "tier": "nodata",
+          "detail": "no record",
+          "status": "nodata"
+        },
+        {
+          "scanner": "ghsa",
+          "tier": "unsupported",
+          "detail": "ghsa only reads registry packages",
+          "status": "skipped"
+        },
+        {
+          "scanner": "guarddog",
+          "tier": "unsupported",
+          "detail": "guarddog doesn't support windows",
+          "status": "skipped"
+        },
+        {
+          "scanner": "kmsec",
+          "tier": "nodata",
+          "detail": "no record",
+          "status": "nodata"
+        },
+        {
+          "scanner": "lpm",
+          "tier": "unsupported",
+          "detail": "lpm only reads registry packages",
+          "status": "skipped"
+        },
+        {
+          "scanner": "malcontent",
+          "tier": "hostile",
+          "severity": "critical",
+          "detail": "CRITICAL",
+          "status": "detected"
+        },
+        {
+          "scanner": "malext",
+          "tier": "nodata",
+          "detail": "no record",
+          "status": "nodata"
+        },
+        {
+          "scanner": "malshare",
+          "tier": "nodata",
+          "detail": "no record",
+          "status": "nodata"
+        },
+        {
+          "scanner": "ossf",
+          "tier": "unsupported",
+          "detail": "ossf only reads registry packages",
+          "status": "skipped"
+        },
+        {
+          "scanner": "osv",
+          "tier": "unsupported",
+          "detail": "osv only reads registry packages",
+          "status": "skipped"
+        },
+        {
+          "scanner": "rl",
+          "tier": "nodata",
+          "detail": "no record",
+          "status": "nodata"
+        },
+        {
+          "scanner": "safedep",
+          "tier": "unsupported",
+          "detail": "safedep only reads registry packages",
+          "status": "skipped"
+        },
+        {
+          "scanner": "socket",
+          "tier": "unsupported",
+          "detail": "socket only reads registry packages",
+          "status": "skipped"
+        },
+        {
+          "scanner": "stepsecurity",
+          "tier": "unsupported",
+          "detail": "stepsecurity only reads registry packages",
+          "status": "skipped"
+        },
+        {
+          "scanner": "triage",
+          "tier": "nodata",
+          "detail": "no record",
+          "status": "nodata"
+        },
+        {
+          "scanner": "virustotal",
+          "tier": "hostile",
+          "severity": "43",
+          "detail": "43/69 engines (malicious=43, suspicious=0)",
+          "link": "https://www.virustotal.com/gui/file/335aae6a9490675c04645df8b55f63a0589cd1c4d8cecc94d33b639420a348a3",
           "status": "detected"
         },
         {
@@ -686060,52 +686180,52 @@
       "Windows": [
         {
           "scanner": "virustotal",
-          "hostile": 478,
+          "hostile": 479,
           "suspicious": 14,
           "benign": 13,
           "nodata": 0,
           "errored": 7,
           "unsupported": 0,
-          "supported": 512,
-          "hostile_rate": 0.933594,
-          "flagged_rate": 0.960938,
+          "supported": 513,
+          "hostile_rate": 0.933723,
+          "flagged_rate": 0.961014,
           "rank": 1
         },
         {
           "scanner": "ascan",
-          "hostile": 440,
+          "hostile": 441,
           "suspicious": 43,
           "benign": 21,
           "nodata": 0,
           "errored": 8,
           "unsupported": 0,
-          "supported": 512,
-          "hostile_rate": 0.859375,
-          "flagged_rate": 0.943359,
+          "supported": 513,
+          "hostile_rate": 0.859649,
+          "flagged_rate": 0.94347,
           "rank": 2
         },
         {
           "scanner": "clamav",
-          "hostile": 315,
+          "hostile": 316,
           "suspicious": 0,
           "benign": 197,
           "nodata": 0,
           "unsupported": 0,
-          "supported": 512,
-          "hostile_rate": 0.615234,
-          "flagged_rate": 0.615234,
+          "supported": 513,
+          "hostile_rate": 0.615984,
+          "flagged_rate": 0.615984,
           "rank": 3
         },
         {
           "scanner": "malcontent",
-          "hostile": 272,
+          "hostile": 273,
           "suspicious": 133,
           "benign": 107,
           "nodata": 0,
           "unsupported": 0,
-          "supported": 512,
-          "hostile_rate": 0.53125,
-          "flagged_rate": 0.791016,
+          "supported": 513,
+          "hostile_rate": 0.532164,
+          "flagged_rate": 0.791423,
           "rank": 4
         },
         {
@@ -686114,8 +686234,8 @@
           "suspicious": 0,
           "benign": 0,
           "nodata": 0,
-          "unsupported": 512,
-          "supported": 512,
+          "unsupported": 513,
+          "supported": 513,
           "hostile_rate": 0,
           "flagged_rate": 0,
           "rank": 5
@@ -686126,8 +686246,8 @@
           "suspicious": 0,
           "benign": 0,
           "nodata": 0,
-          "unsupported": 512,
-          "supported": 512,
+          "unsupported": 513,
+          "supported": 513,
           "hostile_rate": 0,
           "flagged_rate": 0,
           "rank": 6
@@ -686139,7 +686259,7 @@
           "benign": 0,
           "nodata": 0,
           "unsupported": 317,
-          "supported": 512,
+          "supported": 513,
           "hostile_rate": 0,
           "flagged_rate": 0,
           "rank": 7
@@ -686151,7 +686271,7 @@
           "benign": 0,
           "nodata": 0,
           "unsupported": 476,
-          "supported": 512,
+          "supported": 513,
           "hostile_rate": 0,
           "flagged_rate": 0,
           "rank": 8
@@ -686164,9 +686284,9 @@
           "nodata": 0,
           "errored": 6,
           "unsupported": 0,
-          "supported": 512,
+          "supported": 513,
           "hostile_rate": 0,
-          "flagged_rate": 0.011719,
+          "flagged_rate": 0.011696,
           "rank": 9
         },
         {
@@ -686175,8 +686295,8 @@
           "suspicious": 0,
           "benign": 0,
           "nodata": 0,
-          "unsupported": 512,
-          "supported": 512,
+          "unsupported": 513,
+          "supported": 513,
           "hostile_rate": 0,
           "flagged_rate": 0,
           "rank": 10
@@ -686187,8 +686307,8 @@
           "suspicious": 0,
           "benign": 0,
           "nodata": 0,
-          "unsupported": 512,
-          "supported": 512,
+          "unsupported": 513,
+          "supported": 513,
           "hostile_rate": 0,
           "flagged_rate": 0,
           "rank": 11
@@ -686468,224 +686588,111 @@
     "weighting": {
       "axis": "class",
       "unseated_classes": [
-        "cab",
-        "ruby"
+        "java"
       ],
       "classes": [
         {
-          "class": "pe",
-          "pool_n": 1476,
-          "pool_share": 0.4487686226816662,
-          "cohort_n": 466,
-          "cohort_share": 0.24734607218683652,
-          "newest_age_hours": 11.809338
-        },
-        {
           "class": "npm",
-          "pool_n": 1046,
-          "pool_share": 0.31802979629066586,
+          "pool_n": 260,
+          "pool_share": 0.7807807807807807,
           "cohort_n": 343,
-          "cohort_share": 0.18205944798301485,
-          "newest_age_hours": 0.233224
-        },
-        {
-          "class": "elf",
-          "pool_n": 220,
-          "pool_share": 0.06688963210702341,
-          "cohort_n": 211,
-          "cohort_share": 0.11199575371549894,
-          "newest_age_hours": 20.777913
-        },
-        {
-          "class": "javascript",
-          "pool_n": 194,
-          "pool_share": 0.058984493767102464,
-          "cohort_n": 91,
-          "cohort_share": 0.048301486199575375,
-          "newest_age_hours": 26.985818
-        },
-        {
-          "class": "macho",
-          "pool_n": 95,
-          "pool_share": 0.028884159318941928,
-          "cohort_n": 52,
-          "cohort_share": 0.027600849256900213,
-          "newest_age_hours": 27.024338
-        },
-        {
-          "class": "shell",
-          "pool_n": 43,
-          "pool_share": 0.01307388263910003,
-          "cohort_n": 31,
-          "cohort_share": 0.016454352441613588,
-          "newest_age_hours": 4.692894
-        },
-        {
-          "class": "python",
-          "pool_n": 32,
-          "pool_share": 0.00972940103374886,
-          "cohort_n": 30,
-          "cohort_share": 0.01592356687898089,
-          "newest_age_hours": 10.968206
-        },
-        {
-          "class": "apk_android",
-          "pool_n": 28,
-          "pool_share": 0.008513225904530252,
-          "cohort_n": 16,
-          "cohort_share": 0.008492569002123142,
-          "newest_age_hours": 26.985818
-        },
-        {
-          "class": "powershell",
-          "pool_n": 25,
-          "pool_share": 0.007601094557616297,
-          "cohort_n": 37,
-          "cohort_share": 0.019639065817409766,
-          "newest_age_hours": 2.090693
-        },
-        {
-          "class": "ole_doc",
-          "pool_n": 20,
-          "pool_share": 0.006080875646093037,
-          "cohort_n": 7,
-          "cohort_share": 0.0037154989384288748,
-          "newest_age_hours": 26.985818
+          "cohort_share": 0.1819628647214854,
+          "newest_age_hours": 1.469695
         },
         {
           "class": "whl",
-          "pool_n": 20,
-          "pool_share": 0.006080875646093037,
+          "pool_n": 23,
+          "pool_share": 0.06906906906906907,
           "cohort_n": 143,
-          "cohort_share": 0.07590233545647558,
-          "newest_age_hours": 10.42627
+          "cohort_share": 0.07586206896551724,
+          "newest_age_hours": 1.394855
         },
         {
           "class": "crx",
-          "pool_n": 18,
-          "pool_share": 0.005472788081483734,
+          "pool_n": 15,
+          "pool_share": 0.04504504504504504,
           "cohort_n": 150,
-          "cohort_share": 0.07961783439490445,
-          "newest_age_hours": 28.726248
+          "cohort_share": 0.07957559681697612,
+          "newest_age_hours": 2.335539
         },
         {
-          "class": "vbs",
-          "pool_n": 18,
-          "pool_share": 0.005472788081483734,
-          "cohort_n": 24,
-          "cohort_share": 0.012738853503184714,
-          "newest_age_hours": 26.981045
-        },
-        {
-          "class": "ole",
-          "pool_n": 12,
-          "pool_share": 0.0036485253876558225,
-          "cohort_n": 3,
-          "cohort_share": 0.0015923566878980893,
-          "newest_age_hours": 25.335546
-        },
-        {
-          "class": "php",
-          "pool_n": 10,
-          "pool_share": 0.0030404378230465185,
-          "cohort_n": 9,
-          "cohort_share": 0.004777070063694267,
-          "newest_age_hours": 13.953198
-        },
-        {
-          "class": "python_sdist",
-          "pool_n": 8,
-          "pool_share": 0.002432350258437215,
-          "cohort_n": 32,
-          "cohort_share": 0.016985138004246284,
-          "newest_age_hours": 22.132179
-        },
-        {
-          "class": "gem",
-          "pool_n": 6,
-          "pool_share": 0.0018242626938279112,
-          "cohort_n": 12,
-          "cohort_share": 0.006369426751592357,
-          "newest_age_hours": 25.904358
-        },
-        {
-          "class": "go_module",
-          "pool_n": 6,
-          "pool_share": 0.0018242626938279112,
-          "cohort_n": 34,
-          "cohort_share": 0.018046709129511677,
-          "newest_age_hours": 26.985818
-        },
-        {
-          "class": "composer",
-          "pool_n": 2,
-          "pool_share": 0.0006080875646093037,
+          "class": "tar.gz",
+          "pool_n": 11,
+          "pool_share": 0.03303303303303303,
           "cohort_n": 4,
-          "cohort_share": 0.0021231422505307855,
-          "newest_age_hours": 28.852597
+          "cohort_share": 0.002122015915119363,
+          "newest_age_hours": 1.390856
         },
         {
-          "class": "ruby",
-          "pool_n": 2,
-          "pool_share": 0.0006080875646093037,
-          "cohort_n": 0,
-          "cohort_share": 0,
-          "newest_age_hours": 21.747413
+          "class": "python",
+          "pool_n": 9,
+          "pool_share": 0.02702702702702703,
+          "cohort_n": 30,
+          "cohort_share": 0.015915119363395226,
+          "newest_age_hours": 8.577042
         },
         {
           "class": "vsix",
-          "pool_n": 2,
-          "pool_share": 0.0006080875646093037,
+          "pool_n": 4,
+          "pool_share": 0.012012012012012012,
           "cohort_n": 4,
-          "cohort_share": 0.0021231422505307855,
-          "newest_age_hours": 28.741332
+          "cohort_share": 0.002122015915119363,
+          "newest_age_hours": 2.34875
         },
         {
-          "class": "zip",
-          "pool_n": 2,
-          "pool_share": 0.0006080875646093037,
-          "cohort_n": 33,
-          "cohort_share": 0.01751592356687898,
-          "newest_age_hours": 13.908344
-        },
-        {
-          "class": "cab",
-          "pool_n": 1,
-          "pool_share": 0.0003040437823046519,
+          "class": "java",
+          "pool_n": 3,
+          "pool_share": 0.009009009009009009,
           "cohort_n": 0,
           "cohort_share": 0,
-          "newest_age_hours": 14.298939
+          "newest_age_hours": 8.995722
         },
         {
-          "class": "crate",
-          "pool_n": 1,
-          "pool_share": 0.0003040437823046519,
-          "cohort_n": 12,
-          "cohort_share": 0.006369426751592357,
-          "newest_age_hours": 27.194351
+          "class": "shell",
+          "pool_n": 3,
+          "pool_share": 0.009009009009009009,
+          "cohort_n": 31,
+          "cohort_share": 0.016445623342175066,
+          "newest_age_hours": 15.767708
         },
         {
           "class": "jsp",
-          "pool_n": 1,
-          "pool_share": 0.0003040437823046519,
+          "pool_n": 2,
+          "pool_share": 0.006006006006006006,
           "cohort_n": 2,
-          "cohort_share": 0.0010615711252653928,
-          "newest_age_hours": 4.720843
+          "cohort_share": 0.0010610079575596816,
+          "newest_age_hours": 10.799353
         },
         {
-          "class": "pkg_arch",
+          "class": "pe",
           "pool_n": 1,
-          "pool_share": 0.0003040437823046519,
-          "cohort_n": 3,
-          "cohort_share": 0.0015923566878980893,
-          "newest_age_hours": 27.162794
+          "pool_share": 0.003003003003003003,
+          "cohort_n": 467,
+          "cohort_share": 0.24774535809018566,
+          "newest_age_hours": 22.884153
+        },
+        {
+          "class": "powershell",
+          "pool_n": 1,
+          "pool_share": 0.003003003003003003,
+          "cohort_n": 37,
+          "cohort_share": 0.019628647214854113,
+          "newest_age_hours": 13.165507
+        },
+        {
+          "class": "python_sdist",
+          "pool_n": 1,
+          "pool_share": 0.003003003003003003,
+          "cohort_n": 32,
+          "cohort_share": 0.016976127320954906,
+          "newest_age_hours": 1.826771
         }
       ],
-      "population_covered": 0.9990878686530861,
-      "stalest_class_hours": 28.852597
+      "population_covered": 0.990990990990991,
+      "stalest_class_hours": 22.884153
     },
     "strata_count": {
-      "breadth": 565,
+      "breadth": 566,
       "fairness": 1319
     },
     "cohort": "bad",
@@ -686693,64 +686700,64 @@
     "leaderboard": [
       {
         "scanner": "ascan",
-        "hostile": 1048,
+        "hostile": 1049,
         "suspicious": 364,
         "benign": 419,
         "nodata": 0,
         "errored": 53,
         "unsupported": 0,
-        "supported": 1884,
-        "hostile_rate": 0.556263,
-        "weighted_hostile_rate": 0.614416,
-        "flagged_rate": 0.749469,
-        "weighted_flagged_rate": 0.806884,
-        "effective_n": 1201.771334,
+        "supported": 1885,
+        "hostile_rate": 0.556499,
+        "weighted_hostile_rate": 0.234383,
+        "flagged_rate": 0.749602,
+        "weighted_flagged_rate": 0.567545,
+        "effective_n": 450.773785,
         "rank": 1
       },
       {
         "scanner": "virustotal",
-        "hostile": 991,
+        "hostile": 992,
         "suspicious": 143,
         "benign": 717,
         "nodata": 0,
         "errored": 33,
         "unsupported": 0,
-        "supported": 1884,
-        "hostile_rate": 0.526008,
-        "weighted_hostile_rate": 0.621081,
-        "flagged_rate": 0.601911,
-        "weighted_flagged_rate": 0.67864,
-        "effective_n": 1201.771334,
+        "supported": 1885,
+        "hostile_rate": 0.52626,
+        "weighted_hostile_rate": 0.047507,
+        "flagged_rate": 0.602122,
+        "weighted_flagged_rate": 0.150539,
+        "effective_n": 450.773785,
         "rank": 2
       },
       {
         "scanner": "malcontent",
-        "hostile": 641,
+        "hostile": 642,
         "suspicious": 417,
         "benign": 826,
         "nodata": 0,
         "unsupported": 0,
-        "supported": 1884,
-        "hostile_rate": 0.340234,
-        "weighted_hostile_rate": 0.382255,
-        "flagged_rate": 0.561571,
-        "weighted_flagged_rate": 0.640211,
-        "effective_n": 1201.771334,
+        "supported": 1885,
+        "hostile_rate": 0.340584,
+        "weighted_hostile_rate": 0.104208,
+        "flagged_rate": 0.561804,
+        "weighted_flagged_rate": 0.384287,
+        "effective_n": 450.773785,
         "rank": 3
       },
       {
         "scanner": "clamav",
-        "hostile": 446,
+        "hostile": 447,
         "suspicious": 0,
         "benign": 1438,
         "nodata": 0,
         "unsupported": 0,
-        "supported": 1884,
-        "hostile_rate": 0.23673,
-        "weighted_hostile_rate": 0.34324,
-        "flagged_rate": 0.23673,
-        "weighted_flagged_rate": 0.34324,
-        "effective_n": 1201.771334,
+        "supported": 1885,
+        "hostile_rate": 0.237135,
+        "weighted_hostile_rate": 0.006638,
+        "flagged_rate": 0.237135,
+        "weighted_flagged_rate": 0.006638,
+        "effective_n": 450.773785,
         "rank": 4
       },
       {
@@ -686759,13 +686766,13 @@
         "suspicious": 0,
         "benign": 0,
         "nodata": 283,
-        "unsupported": 1280,
-        "supported": 1884,
-        "hostile_rate": 0.170382,
-        "weighted_hostile_rate": 0.191277,
-        "flagged_rate": 0.170382,
-        "weighted_flagged_rate": 0.191277,
-        "effective_n": 1201.771334,
+        "unsupported": 1281,
+        "supported": 1885,
+        "hostile_rate": 0.170292,
+        "weighted_hostile_rate": 0.481828,
+        "flagged_rate": 0.170292,
+        "weighted_flagged_rate": 0.481828,
+        "effective_n": 450.773785,
         "rank": 5
       },
       {
@@ -686774,13 +686781,13 @@
         "suspicious": 0,
         "benign": 0,
         "nodata": 461,
-        "unsupported": 1126,
-        "supported": 1884,
-        "hostile_rate": 0.157643,
-        "weighted_hostile_rate": 0.152096,
-        "flagged_rate": 0.157643,
-        "weighted_flagged_rate": 0.152096,
-        "effective_n": 1201.771334,
+        "unsupported": 1127,
+        "supported": 1885,
+        "hostile_rate": 0.15756,
+        "weighted_hostile_rate": 0.405577,
+        "flagged_rate": 0.15756,
+        "weighted_flagged_rate": 0.405577,
+        "effective_n": 450.773785,
         "rank": 6
       },
       {
@@ -686789,13 +686796,13 @@
         "suspicious": 21,
         "benign": 0,
         "nodata": 335,
-        "unsupported": 1276,
-        "supported": 1884,
-        "hostile_rate": 0.133758,
-        "weighted_hostile_rate": 0.131637,
-        "flagged_rate": 0.144904,
-        "weighted_flagged_rate": 0.15024,
-        "effective_n": 1201.771334,
+        "unsupported": 1277,
+        "supported": 1885,
+        "hostile_rate": 0.133687,
+        "weighted_hostile_rate": 0.352465,
+        "flagged_rate": 0.144828,
+        "weighted_flagged_rate": 0.398893,
+        "effective_n": 450.773785,
         "rank": 7
       },
       {
@@ -686804,13 +686811,13 @@
         "suspicious": 49,
         "benign": 318,
         "nodata": 0,
-        "unsupported": 1277,
-        "supported": 1884,
-        "hostile_rate": 0.127389,
-        "weighted_hostile_rate": 0.149067,
-        "flagged_rate": 0.153397,
-        "weighted_flagged_rate": 0.176903,
-        "effective_n": 1201.771334,
+        "unsupported": 1278,
+        "supported": 1885,
+        "hostile_rate": 0.127321,
+        "weighted_hostile_rate": 0.392161,
+        "flagged_rate": 0.153316,
+        "weighted_flagged_rate": 0.462863,
+        "effective_n": 450.773785,
         "rank": 8
       },
       {
@@ -686821,10 +686828,10 @@
         "nodata": 0,
         "errored": 392,
         "unsupported": 802,
-        "supported": 1884,
+        "supported": 1885,
         "hostile_rate": 0,
         "flagged_rate": 0,
-        "effective_n": 1201.771334,
+        "effective_n": 450.773785,
         "rank": 9
       },
       {
@@ -686834,10 +686841,10 @@
         "benign": 0,
         "nodata": 0,
         "unsupported": 1748,
-        "supported": 1884,
+        "supported": 1885,
         "hostile_rate": 0,
-        "flagged_rate": 0.001062,
-        "effective_n": 1201.771334,
+        "flagged_rate": 0.001061,
+        "effective_n": 450.773785,
         "rank": 10
       },
       {
@@ -686848,15 +686855,15 @@
         "nodata": 0,
         "errored": 16,
         "unsupported": 0,
-        "supported": 1884,
+        "supported": 1885,
         "hostile_rate": 0,
-        "flagged_rate": 0.265924,
-        "weighted_flagged_rate": 0.217254,
-        "effective_n": 1201.771334,
+        "flagged_rate": 0.265782,
+        "weighted_flagged_rate": 0.494833,
+        "effective_n": 450.773785,
         "rank": 11
       }
     ],
-    "sample_count": 1884,
+    "sample_count": 1885,
     "higher_is_better": true
   },
   "false_positive": {
@@ -689981,8 +689988,8 @@
         "apinotes",
         "asp",
         "bar",
+        "drv",
         "enc",
-        "hdf5",
         "imports",
         "inc",
         "j2",
@@ -689993,7 +690000,6 @@
         "ole_doc",
         "patterns",
         "pkg_freebsd",
-        "postscript",
         "ps1",
         "rar",
         "scl",
@@ -690005,19 +690011,21 @@
         "txt"
       ],
       "stale_classes": [
-        "postscript",
         "go",
         "tex",
         "ooxml",
+        "drv",
         "ocx",
+        "scr",
         "cpl",
+        "phar",
         "931",
         "cdxml",
         "copreset",
         "adoc",
         "rst",
-        "flatpak",
         "distro",
+        "psd1",
         "adml",
         "admx",
         "mfl",
@@ -690036,7 +690044,6 @@
         "arp",
         "csv2",
         "eff",
-        "glsl",
         "lfo",
         "mma",
         "mse",
@@ -690108,7 +690115,6 @@
         "def",
         "dep",
         "rules",
-        "hdf5",
         "3x",
         "local",
         "me",
@@ -690117,10 +690123,8 @@
         "3avl",
         "3mvec",
         "3nsl",
-        "3sasl",
         "4fs",
         "9s",
-        "3m",
         "3socket",
         "9f",
         "3curses",
@@ -690129,8 +690133,6 @@
         "9e",
         "3c",
         "3lib",
-        "3xcurses",
-        "4p",
         "1b",
         "1ossl",
         "7ossl",
@@ -690143,6 +690145,7 @@
         "npy",
         "com",
         "hex",
+        "swf",
         "pkg_freebsd",
         "hackage",
         "openclaw-skill",
@@ -690151,18 +690154,18 @@
         "pickle",
         "0",
         "asp",
+        "lz",
         "wasm",
         "enc",
-        "tar.zst",
         "glb",
         "font",
-        "rpm",
         "snap",
+        "rpm",
+        "tar.zst",
         "rar",
         "php",
         "conda",
         "tar",
-        "dmg",
         "msi",
         "batch",
         "tar.bz2",
@@ -690176,1900 +690179,1888 @@
         "eslintrc",
         "deb",
         "go-module",
-        "python_bytecode"
+        "python_bytecode",
+        "static_lib",
+        "elf",
+        "perl",
+        "gz"
       ],
       "classes": [
         {
           "class": "npm",
-          "pool_n": 163854,
-          "pool_share": 0.552063153000475,
+          "pool_n": 160571,
+          "pool_share": 0.5522230476111868,
           "cohort_n": 220,
           "cohort_share": 0.11116725618999494,
-          "newest_age_hours": 2.633603
+          "newest_age_hours": 1.901122
         },
         {
           "class": "crate",
-          "pool_n": 29468,
-          "pool_share": 0.09928471073405593,
+          "pool_n": 28634,
+          "pool_share": 0.09847578171213184,
           "cohort_n": 142,
           "cohort_share": 0.0717534108135422,
-          "newest_age_hours": 2.991152
+          "newest_age_hours": 14.065923
         },
         {
           "class": "go-module",
-          "pool_n": 16295,
-          "pool_share": 0.05490173616843495,
+          "pool_n": 15595,
+          "pool_share": 0.05363308709229224,
           "cohort_n": 104,
           "cohort_share": 0.05255179383527034,
-          "newest_age_hours": 521.549332
+          "newest_age_hours": 532.624103
         },
         {
           "class": "go_module",
-          "pool_n": 14354,
-          "pool_share": 0.04836204485803715,
+          "pool_n": 14145,
+          "pool_share": 0.048646362098138746,
           "cohort_n": 27,
           "cohort_share": 0.013643254168772108,
-          "newest_age_hours": 2.4017
+          "newest_age_hours": 3.142516
         },
         {
           "class": "tar.gz",
-          "pool_n": 10592,
-          "pool_share": 0.03568697081902811,
+          "pool_n": 10300,
+          "pool_share": 0.03542294306191793,
           "cohort_n": 41,
           "cohort_share": 0.020717534108135423,
-          "newest_age_hours": 3.235003
+          "newest_age_hours": 3.525308
         },
         {
           "class": "whl",
-          "pool_n": 8839,
-          "pool_share": 0.0297806962867626,
+          "pool_n": 8728,
+          "pool_share": 0.030016645344118416,
           "cohort_n": 75,
           "cohort_share": 0.037897928246589184,
-          "newest_age_hours": 4.441364
+          "newest_age_hours": 6.573856
         },
         {
           "class": "strings",
-          "pool_n": 6823,
-          "pool_share": 0.022988312112748186,
+          "pool_n": 6818,
+          "pool_share": 0.023447924834578294,
           "cohort_n": 41,
           "cohort_share": 0.020717534108135423,
-          "newest_age_hours": 28.224546
+          "newest_age_hours": 39.299317
         },
         {
           "class": "tbd",
-          "pool_n": 6346,
-          "pool_share": 0.021381185500146564,
+          "pool_n": 6330,
+          "pool_share": 0.02176963393999422,
           "cohort_n": 44,
           "cohort_share": 0.02223345123799899,
-          "newest_age_hours": 1091.515065
+          "newest_age_hours": 1102.589836
         },
         {
           "class": "gem",
-          "pool_n": 5957,
-          "pool_share": 0.020070551847521757,
+          "pool_n": 5832,
+          "pool_share": 0.020056951838553917,
           "cohort_n": 118,
           "cohort_share": 0.05962607377463365,
-          "newest_age_hours": 102.404431
+          "newest_age_hours": 113.479202
         },
         {
           "class": "javascript",
-          "pool_n": 5220,
-          "pool_share": 0.017587423307715892,
+          "pool_n": 5208,
+          "pool_share": 0.017910940530725103,
           "cohort_n": 40,
           "cohort_share": 0.0202122283981809,
-          "newest_age_hours": 183.176932
+          "newest_age_hours": 194.251703
         },
         {
           "class": "php",
-          "pool_n": 4810,
-          "pool_share": 0.01620603565327844,
+          "pool_n": 4652,
+          "pool_share": 0.01599878942951866,
           "cohort_n": 41,
           "cohort_share": 0.020717534108135423,
-          "newest_age_hours": 695.636361
+          "newest_age_hours": 706.711133
         },
         {
           "class": "3pm",
-          "pool_n": 2195,
-          "pool_share": 0.007395477808512717,
+          "pool_n": 2192,
+          "pool_share": 0.007538552542885835,
           "cohort_n": 41,
           "cohort_share": 0.020717534108135423,
-          "newest_age_hours": 1091.533102
+          "newest_age_hours": 1102.607873
         },
         {
           "class": "python_sdist",
-          "pool_n": 1889,
-          "pool_share": 0.006364490924956958,
+          "pool_n": 1793,
+          "pool_share": 0.006166343389322218,
           "cohort_n": 37,
           "cohort_share": 0.01869631126831733,
-          "newest_age_hours": 1.437147
+          "newest_age_hours": 6.428585
         },
         {
           "class": "c",
-          "pool_n": 1717,
-          "pool_share": 0.005784981957729538,
+          "pool_n": 1725,
+          "pool_share": 0.005932483182699847,
           "cohort_n": 41,
           "cohort_share": 0.020717534108135423,
-          "newest_age_hours": 37.546105
+          "newest_age_hours": 48.620876
         },
         {
           "class": "pe",
-          "pool_n": 1681,
-          "pool_share": 0.005663689383193566,
+          "pool_n": 1653,
+          "pool_share": 0.005684866493334984,
           "cohort_n": 40,
           "cohort_share": 0.0202122283981809,
-          "newest_age_hours": 469.927778
+          "newest_age_hours": 481.002549
         },
         {
           "class": "gz",
-          "pool_n": 1453,
-          "pool_share": 0.004895503077799079,
+          "pool_n": 1440,
+          "pool_share": 0.004952333787297264,
           "cohort_n": 28,
           "cohort_share": 0.01414855987872663,
-          "newest_age_hours": 499.830887
+          "newest_age_hours": 510.905659
         },
         {
           "class": "nupkg",
-          "pool_n": 1047,
-          "pool_share": 0.0035275923760878427,
+          "pool_n": 1021,
+          "pool_share": 0.003511342220021185,
           "cohort_n": 9,
           "cohort_share": 0.004547751389590703,
-          "newest_age_hours": 620.416099
+          "newest_age_hours": 631.49087
         },
         {
           "class": "3",
-          "pool_n": 994,
-          "pool_share": 0.00334902275246544,
+          "pool_n": 993,
+          "pool_share": 0.003415046840823738,
           "cohort_n": 27,
           "cohort_share": 0.013643254168772108,
-          "newest_age_hours": 37.538346
+          "newest_age_hours": 48.613117
         },
         {
           "class": "zip",
-          "pool_n": 828,
-          "pool_share": 0.0027897292143273483,
+          "pool_n": 809,
+          "pool_share": 0.002782248634669088,
           "cohort_n": 38,
           "cohort_share": 0.019201616978271854,
-          "newest_age_hours": 21.51888
+          "newest_age_hours": 32.593651
         },
         {
           "class": "1",
-          "pool_n": 695,
-          "pool_share": 0.0023416205361805643,
+          "pool_n": 688,
+          "pool_share": 0.0023661150317086928,
           "cohort_n": 14,
           "cohort_share": 0.007074279939363315,
-          "newest_age_hours": 37.517065
+          "newest_age_hours": 48.591837
         },
         {
           "class": "elf",
           "pool_n": 628,
-          "pool_share": 0.0021158815780163947,
+          "pool_share": 0.0021597677905713067,
           "cohort_n": 29,
           "cohort_share": 0.014653865588681153,
-          "newest_age_hours": 499.841541
+          "newest_age_hours": 510.916313
         },
         {
           "class": "composer",
-          "pool_n": 613,
-          "pool_share": 0.002065343005293073,
+          "pool_n": 609,
+          "pool_share": 0.002094424497544468,
           "cohort_n": 9,
           "cohort_share": 0.004547751389590703,
-          "newest_age_hours": 107.794767
+          "newest_age_hours": 118.869538
         },
         {
           "class": "dsc",
-          "pool_n": 588,
-          "pool_share": 0.001981112050754204,
+          "pool_n": 583,
+          "pool_share": 0.0020050073597182674,
           "cohort_n": 41,
           "cohort_share": 0.020717534108135423,
-          "newest_age_hours": 1085.979055
-        },
-        {
-          "class": "pkg_arch",
-          "pool_n": 498,
-          "pool_share": 0.0016778806144142747,
-          "cohort_n": 8,
-          "cohort_share": 0.00404244567963618,
-          "newest_age_hours": 283.319401
+          "newest_age_hours": 1097.053826
         },
         {
           "class": "perl",
           "pool_n": 494,
-          "pool_share": 0.0016644036616880558,
+          "pool_share": 0.0016989256186978113,
           "cohort_n": 40,
           "cohort_share": 0.0202122283981809,
-          "newest_age_hours": 499.831913
+          "newest_age_hours": 510.906684
+        },
+        {
+          "class": "pkg_arch",
+          "pool_n": 483,
+          "pool_share": 0.0016610952911559572,
+          "cohort_n": 8,
+          "cohort_share": 0.00404244567963618,
+          "newest_age_hours": 294.394172
         },
         {
           "class": "kotlin",
-          "pool_n": 473,
-          "pool_share": 0.0015936496598754056,
+          "pool_n": 474,
+          "pool_share": 0.0016301432049853494,
           "cohort_n": 39,
           "cohort_share": 0.019706922688226377,
-          "newest_age_hours": 233.315972
+          "newest_age_hours": 244.390744
         },
         {
           "class": "crx",
-          "pool_n": 409,
-          "pool_share": 0.0013780184162559004,
+          "pool_n": 407,
+          "pool_share": 0.0013997221190486017,
           "cohort_n": 6,
           "cohort_share": 0.003031834259727135,
-          "newest_age_hours": 242.923549
-        },
-        {
-          "class": "xpi",
-          "pool_n": 307,
-          "pool_share": 0.001034356121737314,
-          "cohort_n": 6,
-          "cohort_share": 0.003031834259727135,
-          "newest_age_hours": 238.711009
-        },
-        {
-          "class": "8",
-          "pool_n": 305,
-          "pool_share": 0.0010276176453742044,
-          "cohort_n": 2,
-          "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 37.546105
+          "newest_age_hours": 253.99832
         },
         {
           "class": "deb",
-          "pool_n": 304,
-          "pool_share": 0.0010242484071926496,
+          "pool_n": 307,
+          "pool_share": 0.0010558100504862917,
           "cohort_n": 11,
           "cohort_share": 0.0055583628094997475,
-          "newest_age_hours": 523.811476
+          "newest_age_hours": 534.886247
+        },
+        {
+          "class": "8",
+          "pool_n": 301,
+          "pool_share": 0.001035175326372553,
+          "cohort_n": 2,
+          "cohort_share": 0.001010611419909045,
+          "newest_age_hours": 48.620876
+        },
+        {
+          "class": "xpi",
+          "pool_n": 298,
+          "pool_share": 0.0010248579643156838,
+          "cohort_n": 6,
+          "cohort_share": 0.003031834259727135,
+          "newest_age_hours": 249.78578
         },
         {
           "class": "xz",
-          "pool_n": 273,
-          "pool_share": 0.0009198020235644519,
+          "pool_n": 275,
+          "pool_share": 0.0009457581885463525,
           "cohort_n": 3,
           "cohort_share": 0.0015159171298635675,
-          "newest_age_hours": 17.057741
+          "newest_age_hours": 28.132512
         },
         {
           "class": "shell",
           "pool_n": 267,
-          "pool_share": 0.0008995865944751233,
+          "pool_share": 0.0009182452230613677,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 183.155281
+          "newest_age_hours": 194.230052
         },
         {
           "class": "objective_c",
           "pool_n": 252,
-          "pool_share": 0.0008490480217518017,
+          "pool_share": 0.0008666584127770212,
           "cohort_n": 16,
           "cohort_share": 0.00808489135927236,
-          "newest_age_hours": 1091.533915
+          "newest_age_hours": 1102.608687
         },
         {
           "class": "apk_alpine",
-          "pool_n": 233,
-          "pool_share": 0.0007850324963022611,
+          "pool_n": 232,
+          "pool_share": 0.0007978759990645591,
           "cohort_n": 3,
           "cohort_share": 0.0015159171298635675,
-          "newest_age_hours": 447.72007
+          "newest_age_hours": 458.794841
         },
         {
           "class": "python",
-          "pool_n": 223,
-          "pool_share": 0.0007513401144867134,
+          "pool_n": 224,
+          "pool_share": 0.0007703630335795744,
           "cohort_n": 3,
           "cohort_share": 0.0015159171298635675,
-          "newest_age_hours": 73.536085
+          "newest_age_hours": 84.610856
         },
         {
           "class": "zst",
           "pool_n": 194,
-          "pool_share": 0.0006536322072216251,
+          "pool_share": 0.0006671894130108814,
           "cohort_n": 3,
           "cohort_share": 0.0015159171298635675,
-          "newest_age_hours": 534.00244
+          "newest_age_hours": 545.077211
         },
         {
           "class": "pc",
-          "pool_n": 184,
-          "pool_share": 0.0006199398254060774,
+          "pool_n": 181,
+          "pool_share": 0.0006224808440977811,
           "cohort_n": 13,
           "cohort_share": 0.006568974229408792,
-          "newest_age_hours": 1081.14461
+          "newest_age_hours": 1092.219381
         },
         {
           "class": "clp",
           "pool_n": 177,
-          "pool_share": 0.0005963551581351941,
+          "pool_share": 0.0006087243613552887,
           "cohort_n": 8,
           "cohort_share": 0.00404244567963618,
-          "newest_age_hours": 1091.515065
+          "newest_age_hours": 1102.589836
         },
         {
           "class": "3g",
           "pool_n": 176,
-          "pool_share": 0.0005929859199536393,
+          "pool_share": 0.0006052852406696656,
           "cohort_n": 10,
           "cohort_share": 0.005053057099545225,
-          "newest_age_hours": 1091.533102
+          "newest_age_hours": 1102.607873
         },
         {
           "class": "man",
           "pool_n": 175,
-          "pool_share": 0.0005896166817720845,
+          "pool_share": 0.0006018461199840425,
           "cohort_n": 1,
           "cohort_share": 0.0005053057099545225,
-          "newest_age_hours": 1205.108153
+          "newest_age_hours": 1216.182925
         },
         {
           "class": "twig",
           "pool_n": 163,
-          "pool_share": 0.0005491858235934273,
+          "pool_share": 0.0005605766717565653,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1085.407411
+          "newest_age_hours": 1096.482182
         },
         {
           "class": "vsix",
-          "pool_n": 160,
-          "pool_share": 0.000539078109048763,
+          "pool_n": 153,
+          "pool_share": 0.0005261854649003342,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 301.200364
+          "newest_age_hours": 7.646187
         },
         {
           "class": "swiftdoc",
           "pool_n": 133,
-          "pool_share": 0.00044810867814678424,
+          "pool_share": 0.0004574030511878723,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1091.516652
+          "newest_age_hours": 1102.591424
         },
         {
           "class": "scl",
           "pool_n": 132,
-          "pool_share": 0.00044473943996522944,
+          "pool_share": 0.0004539639305022492,
           "cohort_n": 0,
           "cohort_share": 0,
-          "newest_age_hours": 1091.588506
+          "newest_age_hours": 1102.663277
         },
         {
           "class": "la",
           "pool_n": 126,
-          "pool_share": 0.00042452401087590084,
+          "pool_share": 0.0004333292063885106,
           "cohort_n": 0,
           "cohort_share": 0,
-          "newest_age_hours": 1091.509745
+          "newest_age_hours": 1102.584516
         },
         {
           "class": "imports",
           "pool_n": 123,
-          "pool_share": 0.00041441629633123654,
+          "pool_share": 0.00042301184433164127,
           "cohort_n": 0,
           "cohort_share": 0,
-          "newest_age_hours": 1090.942355
+          "newest_age_hours": 1102.017126
         },
         {
           "class": "bar",
           "pool_n": 120,
-          "pool_share": 0.00040430858178657224,
+          "pool_share": 0.000412694482274772,
           "cohort_n": 0,
           "cohort_share": 0,
-          "newest_age_hours": 1090.949113
+          "newest_age_hours": 1102.023884
         },
         {
           "class": "sha1",
           "pool_n": 118,
-          "pool_share": 0.0003975701054234627,
+          "pool_share": 0.0004058162409035258,
           "cohort_n": 0,
           "cohort_share": 0,
-          "newest_age_hours": 1090.944346
-        },
-        {
-          "class": "d",
-          "pool_n": 111,
-          "pool_share": 0.00037398543815257934,
-          "cohort_n": 2,
-          "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1081.14461
-        },
-        {
-          "class": "3ossl",
-          "pool_n": 110,
-          "pool_share": 0.00037061619997102454,
-          "cohort_n": 0,
-          "cohort_share": 0,
-          "newest_age_hours": 1081.149246
+          "newest_age_hours": 1102.019117
         },
         {
           "class": "makefile",
           "pool_n": 110,
-          "pool_share": 0.00037061619997102454,
+          "pool_share": 0.000378303275418541,
           "cohort_n": 0,
           "cohort_share": 0,
-          "newest_age_hours": 233.315972
+          "newest_age_hours": 244.390744
         },
         {
-          "class": "3proc",
-          "pool_n": 107,
-          "pool_share": 0.00036050848542636024,
-          "cohort_n": 2,
-          "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1081.150208
+          "class": "3ossl",
+          "pool_n": 109,
+          "pool_share": 0.00037486415473291787,
+          "cohort_n": 0,
+          "cohort_share": 0,
+          "newest_age_hours": 1092.224017
         },
         {
           "class": "apinotes",
-          "pool_n": 107,
-          "pool_share": 0.00036050848542636024,
+          "pool_n": 106,
+          "pool_share": 0.0003645467926760486,
           "cohort_n": 0,
           "cohort_share": 0,
-          "newest_age_hours": 1091.520097
+          "newest_age_hours": 1102.594868
         },
         {
-          "class": "4d",
-          "pool_n": 105,
-          "pool_share": 0.0003537700090632507,
+          "class": "d",
+          "pool_n": 106,
+          "pool_share": 0.0003645467926760486,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1081.150208
+          "newest_age_hours": 1092.219381
+        },
+        {
+          "class": "3proc",
+          "pool_n": 104,
+          "pool_share": 0.0003576685513048024,
+          "cohort_n": 2,
+          "cohort_share": 0.001010611419909045,
+          "newest_age_hours": 1092.224979
         },
         {
           "class": "5",
           "pool_n": 103,
-          "pool_share": 0.0003470315327001412,
+          "pool_share": 0.00035422943061917927,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 37.546105
+          "newest_age_hours": 48.620876
+        },
+        {
+          "class": "4d",
+          "pool_n": 99,
+          "pool_share": 0.0003404729478766869,
+          "cohort_n": 2,
+          "cohort_share": 0.001010611419909045,
+          "newest_age_hours": 1092.224979
         },
         {
           "class": "rpm",
-          "pool_n": 100,
-          "pool_share": 0.00033692381815547684,
+          "pool_n": 99,
+          "pool_share": 0.0003404729478766869,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 735.35812
+          "newest_age_hours": 742.900323
         },
         {
           "class": "example",
-          "pool_n": 99,
-          "pool_share": 0.0003335545799739221,
+          "pool_n": 98,
+          "pool_share": 0.0003370338271910638,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1085.358501
-        },
-        {
-          "class": "7ossl",
-          "pool_n": 93,
-          "pool_share": 0.0003133391508845935,
-          "cohort_n": 2,
-          "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1081.149591
+          "newest_age_hours": 1096.433272
         },
         {
           "class": "md",
-          "pool_n": 92,
-          "pool_share": 0.0003099699127030387,
+          "pool_n": 91,
+          "pool_share": 0.0003129599823917021,
           "cohort_n": 1,
           "cohort_share": 0.0005053057099545225,
-          "newest_age_hours": 37.517065
+          "newest_age_hours": 48.591837
+        },
+        {
+          "class": "7ossl",
+          "pool_n": 90,
+          "pool_share": 0.000309520861706079,
+          "cohort_n": 2,
+          "cohort_share": 0.001010611419909045,
+          "newest_age_hours": 1092.224362
         },
         {
           "class": "conda",
-          "pool_n": 84,
-          "pool_share": 0.00028301600725060054,
+          "pool_n": 81,
+          "pool_share": 0.0002785687755354711,
           "cohort_n": 1,
           "cohort_share": 0.0005053057099545225,
-          "newest_age_hours": 665.296133
+          "newest_age_hours": 676.370904
         },
         {
           "class": "github_actions",
           "pool_n": 81,
-          "pool_share": 0.00027290829270593624,
+          "pool_share": 0.0002785687755354711,
           "cohort_n": 1,
           "cohort_share": 0.0005053057099545225,
-          "newest_age_hours": 183.155281
+          "newest_age_hours": 194.230052
         },
         {
           "class": "tar.zst",
           "pool_n": 81,
-          "pool_share": 0.00027290829270593624,
+          "pool_share": 0.0002785687755354711,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 775.07529
+          "newest_age_hours": 741.456332
         },
         {
           "class": "font",
-          "pool_n": 72,
-          "pool_share": 0.00024258514907194334,
+          "pool_n": 73,
+          "pool_share": 0.0002510558100504863,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 767.936721
-        },
-        {
-          "class": "3c",
-          "pool_n": 70,
-          "pool_share": 0.0002358466727088338,
-          "cohort_n": 2,
-          "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1081.149867
+          "newest_age_hours": 773.686818
         },
         {
           "class": "adoc",
           "pool_n": 65,
-          "pool_share": 0.00021900048180105997,
+          "pool_share": 0.0002235428445655015,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1340.118944
+          "newest_age_hours": 1351.193715
+        },
+        {
+          "class": "3c",
+          "pool_n": 64,
+          "pool_share": 0.0002201037238798784,
+          "cohort_n": 2,
+          "cohort_share": 0.001010611419909045,
+          "newest_age_hours": 1092.224639
         },
         {
           "class": "7",
           "pool_n": 64,
-          "pool_share": 0.0002156312436195052,
+          "pool_share": 0.0002201037238798784,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 37.546105
+          "newest_age_hours": 48.620876
         },
         {
           "class": "9f",
-          "pool_n": 62,
-          "pool_share": 0.00020889276725639564,
+          "pool_n": 57,
+          "pool_share": 0.0001960298790805167,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1081.150643
+          "newest_age_hours": 1092.225415
         },
         {
           "class": "tar.xz",
           "pool_n": 57,
-          "pool_share": 0.00019204657634862182,
+          "pool_share": 0.0001960298790805167,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 313.828623
+          "newest_age_hours": 324.903394
         },
         {
           "class": "python_bytecode",
           "pool_n": 51,
-          "pool_share": 0.0001718311472592932,
+          "pool_share": 0.00017539515496677808,
           "cohort_n": 1,
           "cohort_share": 0.0005053057099545225,
-          "newest_age_hours": 512.63258
-        },
-        {
-          "class": "openclaw-skill",
-          "pool_n": 50,
-          "pool_share": 0.00016846190907773842,
-          "cohort_n": 2,
-          "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 937.618618
+          "newest_age_hours": 523.707351
         },
         {
           "class": "admx",
           "pool_n": 49,
-          "pool_share": 0.00016509267089618367,
+          "pool_share": 0.0001685169135955319,
           "cohort_n": 1,
           "cohort_share": 0.0005053057099545225,
-          "newest_age_hours": 1205.340797
+          "newest_age_hours": 1216.415568
+        },
+        {
+          "class": "openclaw-skill",
+          "pool_n": 48,
+          "pool_share": 0.00016507779290990878,
+          "cohort_n": 2,
+          "cohort_share": 0.001010611419909045,
+          "newest_age_hours": 948.693389
         },
         {
           "class": "1ossl",
-          "pool_n": 48,
-          "pool_share": 0.0001617234327146289,
+          "pool_n": 47,
+          "pool_share": 0.0001616386722242857,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1081.149591
+          "newest_age_hours": 1092.224362
         },
         {
           "class": "2",
           "pool_n": 47,
-          "pool_share": 0.00015835419453307412,
+          "pool_share": 0.0001616386722242857,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 37.546105
+          "newest_age_hours": 48.620876
         },
         {
           "class": "jelly",
           "pool_n": 46,
-          "pool_share": 0.00015498495635151934,
+          "pool_share": 0.0001581995515386626,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1090.939798
+          "newest_age_hours": 1102.014569
         },
         {
           "class": "acp",
           "pool_n": 44,
-          "pool_share": 0.00014824647998840982,
+          "pool_share": 0.0001513213101674164,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1091.588506
+          "newest_age_hours": 1102.663277
         },
         {
           "class": "vs",
           "pool_n": 44,
-          "pool_share": 0.00014824647998840982,
+          "pool_share": 0.0001513213101674164,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1091.495808
+          "newest_age_hours": 1102.57058
         },
         {
           "class": "powershell",
           "pool_n": 42,
-          "pool_share": 0.00014150800362530027,
+          "pool_share": 0.0001444430687961702,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 248.047456
+          "newest_age_hours": 259.122227
         },
         {
           "class": "acr",
           "pool_n": 41,
-          "pool_share": 0.00013813876544374552,
+          "pool_share": 0.0001410039481105471,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1091.563322
+          "newest_age_hours": 1102.638093
         },
         {
           "class": "tmpl",
           "pool_n": 38,
-          "pool_share": 0.0001280310508990812,
+          "pool_share": 0.00013068658605367778,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 183.217142
-        },
-        {
-          "class": "3x",
-          "pool_n": 34,
-          "pool_share": 0.00011455409817286213,
-          "cohort_n": 2,
-          "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1081.159197
+          "newest_age_hours": 194.291913
         },
         {
           "class": "jsonl",
           "pool_n": 34,
-          "pool_share": 0.00011455409817286213,
+          "pool_share": 0.00011693010331118539,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1085.385356
+          "newest_age_hours": 1096.460127
         },
         {
           "class": "macho",
-          "pool_n": 32,
-          "pool_share": 0.0001078156218097526,
+          "pool_n": 34,
+          "pool_share": 0.00011693010331118539,
           "cohort_n": 1,
           "cohort_share": 0.0005053057099545225,
-          "newest_age_hours": 310.691187
+          "newest_age_hours": 321.765959
+        },
+        {
+          "class": "3x",
+          "pool_n": 32,
+          "pool_share": 0.0001100518619399392,
+          "cohort_n": 2,
+          "cohort_share": 0.001010611419909045,
+          "newest_age_hours": 1092.233968
         },
         {
           "class": "mdx",
           "pool_n": 32,
-          "pool_share": 0.0001078156218097526,
+          "pool_share": 0.0001100518619399392,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1085.345882
+          "newest_age_hours": 1096.420653
         },
         {
           "class": "tcl",
           "pool_n": 31,
-          "pool_share": 0.00010444638362819782,
+          "pool_share": 0.0001066127412543161,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1091.563322
+          "newest_age_hours": 1102.638093
         },
         {
           "class": "3tcl",
           "pool_n": 30,
-          "pool_share": 0.00010107714544664306,
+          "pool_share": 0.000103173620568693,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1091.533479
+          "newest_age_hours": 1102.608251
         },
         {
           "class": "in",
           "pool_n": 29,
-          "pool_share": 0.00009770790726508828,
+          "pool_share": 0.00009973449988306989,
           "cohort_n": 1,
           "cohort_share": 0.0005053057099545225,
-          "newest_age_hours": 183.176932
+          "newest_age_hours": 194.251703
         },
         {
           "class": "frag",
           "pool_n": 28,
-          "pool_share": 0.00009433866908353352,
+          "pool_share": 0.0000962953791974468,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1090.944346
+          "newest_age_hours": 1102.019117
         },
         {
           "class": "txt",
           "pool_n": 27,
-          "pool_share": 0.00009096943090197875,
+          "pool_share": 0.0000928562585118237,
           "cohort_n": 0,
           "cohort_share": 0,
-          "newest_age_hours": 183.176932
-        },
-        {
-          "class": "name",
-          "pool_n": 26,
-          "pool_share": 0.00008760019272042399,
-          "cohort_n": 1,
-          "cohort_share": 0.0005053057099545225,
-          "newest_age_hours": 1081.14461
+          "newest_age_hours": 194.251703
         },
         {
           "class": "vcf",
           "pool_n": 26,
-          "pool_share": 0.00008760019272042399,
+          "pool_share": 0.0000894171378262006,
           "cohort_n": 1,
           "cohort_share": 0.0005053057099545225,
-          "newest_age_hours": 1091.616396
-        },
-        {
-          "class": "3lib",
-          "pool_n": 25,
-          "pool_share": 0.00008423095453886921,
-          "cohort_n": 1,
-          "cohort_share": 0.0005053057099545225,
-          "newest_age_hours": 1081.149867
+          "newest_age_hours": 1102.691168
         },
         {
           "class": "cpan",
           "pool_n": 25,
-          "pool_share": 0.00008423095453886921,
+          "pool_share": 0.0000859780171405775,
           "cohort_n": 1,
           "cohort_share": 0.0005053057099545225,
-          "newest_age_hours": 316.058523
+          "newest_age_hours": 327.133294
+        },
+        {
+          "class": "name",
+          "pool_n": 25,
+          "pool_share": 0.0000859780171405775,
+          "cohort_n": 1,
+          "cohort_share": 0.0005053057099545225,
+          "newest_age_hours": 1092.219381
         },
         {
           "class": "nix",
           "pool_n": 25,
-          "pool_share": 0.00008423095453886921,
+          "pool_share": 0.0000859780171405775,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1085.402891
+          "newest_age_hours": 1096.477662
         },
         {
           "class": "npy",
           "pool_n": 25,
-          "pool_share": 0.00008423095453886921,
+          "pool_share": 0.0000859780171405775,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1045.481601
+          "newest_age_hours": 1056.556372
         },
         {
           "class": "r",
           "pool_n": 25,
-          "pool_share": 0.00008423095453886921,
+          "pool_share": 0.0000859780171405775,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1091.532601
+          "newest_age_hours": 1102.607372
+        },
+        {
+          "class": "3lib",
+          "pool_n": 24,
+          "pool_share": 0.00008253889645495439,
+          "cohort_n": 1,
+          "cohort_share": 0.0005053057099545225,
+          "newest_age_hours": 1092.224639
         },
         {
           "class": "7z",
           "pool_n": 24,
-          "pool_share": 0.00008086171635731445,
+          "pool_share": 0.00008253889645495439,
           "cohort_n": 1,
           "cohort_share": 0.0005053057099545225,
-          "newest_age_hours": 241.087194
-        },
-        {
-          "class": "9e",
-          "pool_n": 24,
-          "pool_share": 0.00008086171635731445,
-          "cohort_n": 1,
-          "cohort_share": 0.0005053057099545225,
-          "newest_age_hours": 1081.150208
-        },
-        {
-          "class": "dos_com",
-          "pool_n": 24,
-          "pool_share": 0.00008086171635731445,
-          "cohort_n": 2,
-          "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 233.588492
+          "newest_age_hours": 252.161966
         },
         {
           "class": "npmrc",
           "pool_n": 24,
-          "pool_share": 0.00008086171635731445,
+          "pool_share": 0.00008253889645495439,
           "cohort_n": 1,
           "cohort_share": 0.0005053057099545225,
-          "newest_age_hours": 1085.357246
+          "newest_age_hours": 1096.432018
+        },
+        {
+          "class": "9e",
+          "pool_n": 23,
+          "pool_share": 0.0000790997757693313,
+          "cohort_n": 1,
+          "cohort_share": 0.0005053057099545225,
+          "newest_age_hours": 1092.224979
         },
         {
           "class": "ahk",
           "pool_n": 23,
-          "pool_share": 0.00007749247817575967,
+          "pool_share": 0.0000790997757693313,
           "cohort_n": 0,
           "cohort_share": 0,
-          "newest_age_hours": 1085.424694
+          "newest_age_hours": 1096.499465
         },
         {
           "class": "db",
           "pool_n": 23,
-          "pool_share": 0.00007749247817575967,
+          "pool_share": 0.0000790997757693313,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 532.499721
+          "newest_age_hours": 543.574492
+        },
+        {
+          "class": "dos_com",
+          "pool_n": 23,
+          "pool_share": 0.0000790997757693313,
+          "cohort_n": 2,
+          "cohort_share": 0.001010611419909045,
+          "newest_age_hours": 244.663263
         },
         {
           "class": "inc",
           "pool_n": 23,
-          "pool_share": 0.00007749247817575967,
+          "pool_share": 0.0000790997757693313,
           "cohort_n": 0,
           "cohort_share": 0,
-          "newest_age_hours": 1085.334017
-        },
-        {
-          "class": "1b",
-          "pool_n": 22,
-          "pool_share": 0.00007412323999420491,
-          "cohort_n": 2,
-          "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1081.149591
+          "newest_age_hours": 1096.408788
         },
         {
           "class": "axaml",
           "pool_n": 22,
-          "pool_share": 0.00007412323999420491,
+          "pool_share": 0.0000756606550837082,
           "cohort_n": 1,
           "cohort_share": 0.0005053057099545225,
-          "newest_age_hours": 1085.334017
+          "newest_age_hours": 1096.408788
         },
         {
           "class": "fs",
           "pool_n": 22,
-          "pool_share": 0.00007412323999420491,
+          "pool_share": 0.0000756606550837082,
           "cohort_n": 1,
           "cohort_share": 0.0005053057099545225,
-          "newest_age_hours": 1091.495808
+          "newest_age_hours": 1102.57058
         },
         {
           "class": "make",
           "pool_n": 22,
-          "pool_share": 0.00007412323999420491,
+          "pool_share": 0.0000756606550837082,
           "cohort_n": 1,
           "cohort_share": 0.0005053057099545225,
-          "newest_age_hours": 1091.553573
+          "newest_age_hours": 1102.628344
         },
         {
           "class": "mma",
           "pool_n": 22,
-          "pool_share": 0.00007412323999420491,
+          "pool_share": 0.0000756606550837082,
           "cohort_n": 1,
           "cohort_share": 0.0005053057099545225,
-          "newest_age_hours": 1091.563322
+          "newest_age_hours": 1102.638093
         },
         {
           "class": "prl",
           "pool_n": 22,
-          "pool_share": 0.00007412323999420491,
+          "pool_share": 0.0000756606550837082,
           "cohort_n": 1,
           "cohort_share": 0.0005053057099545225,
-          "newest_age_hours": 1091.501893
+          "newest_age_hours": 1102.576664
         },
         {
           "class": "shp",
           "pool_n": 22,
-          "pool_share": 0.00007412323999420491,
+          "pool_share": 0.0000756606550837082,
           "cohort_n": 1,
           "cohort_share": 0.0005053057099545225,
-          "newest_age_hours": 1091.563322
+          "newest_age_hours": 1102.638093
+        },
+        {
+          "class": "1b",
+          "pool_n": 21,
+          "pool_share": 0.0000722215343980851,
+          "cohort_n": 2,
+          "cohort_share": 0.001010611419909045,
+          "newest_age_hours": 1092.224362
+        },
+        {
+          "class": "dmg",
+          "pool_n": 20,
+          "pool_share": 0.000068782413712462,
+          "cohort_n": 2,
+          "cohort_share": 0.001010611419909045,
+          "newest_age_hours": 7.795298
         },
         {
           "class": "cran",
           "pool_n": 19,
-          "pool_share": 0.0000640155254495406,
+          "pool_share": 0.00006534329302683889,
           "cohort_n": 1,
           "cohort_share": 0.0005053057099545225,
-          "newest_age_hours": 319.492561
-        },
-        {
-          "class": "dmg",
-          "pool_n": 19,
-          "pool_share": 0.0000640155254495406,
-          "cohort_n": 2,
-          "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 648.912333
+          "newest_age_hours": 330.567332
         },
         {
           "class": "hackage",
           "pool_n": 19,
-          "pool_share": 0.0000640155254495406,
+          "pool_share": 0.00006534329302683889,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 944.793922
+          "newest_age_hours": 955.868693
         },
         {
           "class": "tpl",
           "pool_n": 18,
-          "pool_share": 0.000060646287267985836,
+          "pool_share": 0.0000619041723412158,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1090.942355
+          "newest_age_hours": 1102.017126
         },
         {
           "class": "arp",
           "pool_n": 17,
-          "pool_share": 0.00005727704908643107,
+          "pool_share": 0.000058465051655592696,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1091.563322
+          "newest_age_hours": 1102.638093
         },
         {
           "class": "debian",
           "pool_n": 17,
-          "pool_share": 0.00005727704908643107,
+          "pool_share": 0.000058465051655592696,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1091.753608
+          "newest_age_hours": 1102.828379
         },
         {
           "class": "enc",
           "pool_n": 17,
-          "pool_share": 0.00005727704908643107,
+          "pool_share": 0.000058465051655592696,
           "cohort_n": 0,
           "cohort_share": 0,
-          "newest_age_hours": 791.616404
+          "newest_age_hours": 802.691175
         },
         {
           "class": "inf",
           "pool_n": 17,
-          "pool_share": 0.00005727704908643107,
+          "pool_share": 0.000058465051655592696,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 27.664097
+          "newest_age_hours": 38.738868
         },
         {
           "class": "jar",
           "pool_n": 17,
-          "pool_share": 0.00005727704908643107,
+          "pool_share": 0.000058465051655592696,
           "cohort_n": 3,
           "cohort_share": 0.0015159171298635675,
-          "newest_age_hours": 614.181046
+          "newest_age_hours": 625.255817
         },
         {
           "class": "ppl",
           "pool_n": 17,
-          "pool_share": 0.00005727704908643107,
+          "pool_share": 0.000058465051655592696,
           "cohort_n": 1,
           "cohort_share": 0.0005053057099545225,
-          "newest_age_hours": 1090.947051
+          "newest_age_hours": 1102.021822
         },
         {
           "class": "reg",
           "pool_n": 17,
-          "pool_share": 0.00005727704908643107,
+          "pool_share": 0.000058465051655592696,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1085.424694
+          "newest_age_hours": 1096.499465
         },
         {
           "class": "tar.bz2",
           "pool_n": 17,
-          "pool_share": 0.00005727704908643107,
+          "pool_share": 0.000058465051655592696,
           "cohort_n": 3,
           "cohort_share": 0.0015159171298635675,
-          "newest_age_hours": 630.676589
+          "newest_age_hours": 641.75136
         },
         {
           "class": "msi",
           "pool_n": 16,
-          "pool_share": 0.0000539078109048763,
+          "pool_share": 0.0000550259309699696,
           "cohort_n": 1,
           "cohort_share": 0.0005053057099545225,
-          "newest_age_hours": 642.136607
+          "newest_age_hours": 653.211378
         },
         {
           "class": "3pcap",
           "pool_n": 15,
-          "pool_share": 0.00005053857272332153,
+          "pool_share": 0.0000515868102843465,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1091.533369
-        },
-        {
-          "class": "9s",
-          "pool_n": 14,
-          "pool_share": 0.00004716933454176676,
-          "cohort_n": 2,
-          "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1081.150835
+          "newest_age_hours": 1102.60814
         },
         {
           "class": "dtd",
           "pool_n": 14,
-          "pool_share": 0.00004716933454176676,
+          "pool_share": 0.0000481476895987234,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1091.553573
+          "newest_age_hours": 1102.628344
+        },
+        {
+          "class": "tar",
+          "pool_n": 14,
+          "pool_share": 0.0000481476895987234,
+          "cohort_n": 3,
+          "cohort_share": 0.0015159171298635675,
+          "newest_age_hours": 665.348881
         },
         {
           "class": "usda",
           "pool_n": 14,
-          "pool_share": 0.00004716933454176676,
+          "pool_share": 0.0000481476895987234,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1091.515065
+          "newest_age_hours": 1102.589836
         },
         {
           "class": "vert",
           "pool_n": 14,
-          "pool_share": 0.00004716933454176676,
+          "pool_share": 0.0000481476895987234,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1090.944346
+          "newest_age_hours": 1102.019117
+        },
+        {
+          "class": "9s",
+          "pool_n": 13,
+          "pool_share": 0.0000447085689131003,
+          "cohort_n": 2,
+          "cohort_share": 0.001010611419909045,
+          "newest_age_hours": 1092.225606
         },
         {
           "class": "copreset",
           "pool_n": 13,
-          "pool_share": 0.00004380009636021199,
+          "pool_share": 0.0000447085689131003,
           "cohort_n": 3,
           "cohort_share": 0.0015159171298635675,
-          "newest_age_hours": 1340.646719
-        },
-        {
-          "class": "tar",
-          "pool_n": 13,
-          "pool_share": 0.00004380009636021199,
-          "cohort_n": 3,
-          "cohort_share": 0.0015159171298635675,
-          "newest_age_hours": 654.27411
+          "newest_age_hours": 1351.72149
         },
         {
           "class": "alias",
           "pool_n": 12,
-          "pool_share": 0.000040430858178657224,
+          "pool_share": 0.000041269448227477196,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1091.691337
+          "newest_age_hours": 1102.766108
         },
         {
           "class": "dict",
           "pool_n": 12,
-          "pool_share": 0.000040430858178657224,
+          "pool_share": 0.000041269448227477196,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1081.14461
+          "newest_age_hours": 1092.219381
         },
         {
           "class": "hex",
           "pool_n": 12,
-          "pool_share": 0.000040430858178657224,
+          "pool_share": 0.000041269448227477196,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 996.072682
-        },
-        {
-          "class": "inl",
-          "pool_n": 12,
-          "pool_share": 0.000040430858178657224,
-          "cohort_n": 2,
-          "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1085.334017
+          "newest_age_hours": 1007.147453
         },
         {
           "class": "meta",
           "pool_n": 12,
-          "pool_share": 0.000040430858178657224,
+          "pool_share": 0.000041269448227477196,
           "cohort_n": 11,
           "cohort_share": 0.0055583628094997475,
-          "newest_age_hours": 1085.441635
+          "newest_age_hours": 1096.516406
         },
         {
           "class": "batch",
           "pool_n": 11,
-          "pool_share": 0.000037061619997102455,
+          "pool_share": 0.0000378303275418541,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 630.949784
+          "newest_age_hours": 642.024555
         },
         {
           "class": "csv2",
           "pool_n": 11,
-          "pool_share": 0.000037061619997102455,
+          "pool_share": 0.0000378303275418541,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1091.563322
+          "newest_age_hours": 1102.638093
         },
         {
           "class": "im4p",
           "pool_n": 11,
-          "pool_share": 0.000037061619997102455,
+          "pool_share": 0.0000378303275418541,
           "cohort_n": 1,
           "cohort_share": 0.0005053057099545225,
-          "newest_age_hours": 310.79626
+          "newest_age_hours": 321.871031
+        },
+        {
+          "class": "inl",
+          "pool_n": 11,
+          "pool_share": 0.0000378303275418541,
+          "cohort_n": 2,
+          "cohort_share": 0.001010611419909045,
+          "newest_age_hours": 1096.408788
         },
         {
           "class": "mount",
           "pool_n": 11,
-          "pool_share": 0.000037061619997102455,
+          "pool_share": 0.0000378303275418541,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1091.688754
+          "newest_age_hours": 1102.763525
         },
         {
           "class": "mse",
           "pool_n": 11,
-          "pool_share": 0.000037061619997102455,
+          "pool_share": 0.0000378303275418541,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1091.563322
+          "newest_age_hours": 1102.638093
         },
         {
           "class": "ikn",
           "pool_n": 10,
-          "pool_share": 0.000033692381815547687,
+          "pool_share": 0.000034391206856231,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1091.515065
+          "newest_age_hours": 1102.589836
         },
         {
           "class": "shape",
           "pool_n": 10,
-          "pool_share": 0.000033692381815547687,
+          "pool_share": 0.000034391206856231,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1091.563322
+          "newest_age_hours": 1102.638093
         },
         {
           "class": "tex",
           "pool_n": 10,
-          "pool_share": 0.000033692381815547687,
+          "pool_share": 0.000034391206856231,
           "cohort_n": 1,
           "cohort_share": 0.0005053057099545225,
-          "newest_age_hours": 1402.961453
+          "newest_age_hours": 1414.036224
         },
         {
           "class": "3mvec",
           "pool_n": 9,
-          "pool_share": 0.000030323143633992918,
+          "pool_share": 0.0000309520861706079,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1081.150835
+          "newest_age_hours": 1092.225606
         },
         {
           "class": "lfo",
           "pool_n": 9,
-          "pool_share": 0.000030323143633992918,
+          "pool_share": 0.0000309520861706079,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1091.563322
+          "newest_age_hours": 1102.638093
         },
         {
           "class": "lst",
           "pool_n": 9,
-          "pool_share": 0.000030323143633992918,
+          "pool_share": 0.0000309520861706079,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1090.948895
-        },
-        {
-          "class": "me",
-          "pool_n": 9,
-          "pool_share": 0.000030323143633992918,
-          "cohort_n": 2,
-          "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1081.151
+          "newest_age_hours": 1102.023666
         },
         {
           "class": "mof",
           "pool_n": 9,
-          "pool_share": 0.000030323143633992918,
+          "pool_share": 0.0000309520861706079,
           "cohort_n": 1,
           "cohort_share": 0.0005053057099545225,
-          "newest_age_hours": 1205.336975
+          "newest_age_hours": 1216.411746
         },
         {
           "class": "net",
           "pool_n": 9,
-          "pool_share": 0.000030323143633992918,
+          "pool_share": 0.0000309520861706079,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1091.563322
+          "newest_age_hours": 1102.638093
         },
         {
           "class": "ahd",
           "pool_n": 8,
-          "pool_share": 0.00002695390545243815,
+          "pool_share": 0.0000275129654849848,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1091.563322
+          "newest_age_hours": 1102.638093
         },
         {
           "class": "cpl",
           "pool_n": 8,
-          "pool_share": 0.00002695390545243815,
+          "pool_share": 0.0000275129654849848,
           "cohort_n": 1,
           "cohort_share": 0.0005053057099545225,
-          "newest_age_hours": 1380.271515
+          "newest_age_hours": 1391.346286
         },
         {
           "class": "def",
           "pool_n": 8,
-          "pool_share": 0.00002695390545243815,
+          "pool_share": 0.0000275129654849848,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1085.298602
+          "newest_age_hours": 1096.373373
         },
         {
           "class": "dep",
           "pool_n": 8,
-          "pool_share": 0.00002695390545243815,
+          "pool_share": 0.0000275129654849848,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1085.298602
+          "newest_age_hours": 1096.373373
         },
         {
           "class": "eff",
           "pool_n": 8,
-          "pool_share": 0.00002695390545243815,
+          "pool_share": 0.0000275129654849848,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1091.563322
+          "newest_age_hours": 1102.638093
+        },
+        {
+          "class": "me",
+          "pool_n": 8,
+          "pool_share": 0.0000275129654849848,
+          "cohort_n": 2,
+          "cohort_share": 0.001010611419909045,
+          "newest_age_hours": 1092.225771
         },
         {
           "class": "mjs",
           "pool_n": 8,
-          "pool_share": 0.00002695390545243815,
+          "pool_share": 0.0000275129654849848,
           "cohort_n": 0,
           "cohort_share": 0,
-          "newest_age_hours": 183.176932
+          "newest_age_hours": 194.251703
         },
         {
           "class": "stl",
           "pool_n": 8,
-          "pool_share": 0.00002695390545243815,
+          "pool_share": 0.0000275129654849848,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1091.495808
-        },
-        {
-          "class": "bz2",
-          "pool_n": 7,
-          "pool_share": 0.00002358466727088338,
-          "cohort_n": 1,
-          "cohort_share": 0.0005053057099545225,
-          "newest_age_hours": 912.075964
+          "newest_age_hours": 1102.57058
         },
         {
           "class": "eslintrc",
           "pool_n": 7,
-          "pool_share": 0.00002358466727088338,
+          "pool_share": 0.0000240738447993617,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 528.670094
+          "newest_age_hours": 539.744865
         },
         {
           "class": "jsp",
           "pool_n": 7,
-          "pool_share": 0.00002358466727088338,
+          "pool_share": 0.0000240738447993617,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 914.959622
+          "newest_age_hours": 926.034393
         },
         {
           "class": "local",
           "pool_n": 7,
-          "pool_share": 0.00002358466727088338,
+          "pool_share": 0.0000240738447993617,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1081.151
+          "newest_age_hours": 1092.225771
         },
         {
           "class": "mfl",
           "pool_n": 7,
-          "pool_share": 0.00002358466727088338,
+          "pool_share": 0.0000240738447993617,
           "cohort_n": 1,
           "cohort_share": 0.0005053057099545225,
-          "newest_age_hours": 1205.336975
+          "newest_age_hours": 1216.411746
         },
         {
           "class": "sb",
           "pool_n": 7,
-          "pool_share": 0.00002358466727088338,
+          "pool_share": 0.0000240738447993617,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1091.539333
+          "newest_age_hours": 1102.614105
         },
         {
           "class": "3cc",
           "pool_n": 6,
-          "pool_share": 0.000020215429089328612,
+          "pool_share": 0.000020634724113738598,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1091.534591
+          "newest_age_hours": 1102.609363
         },
         {
           "class": "3curses",
           "pool_n": 6,
-          "pool_share": 0.000020215429089328612,
+          "pool_share": 0.000020634724113738598,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1081.150336
-        },
-        {
-          "class": "3nsl",
-          "pool_n": 6,
-          "pool_share": 0.000020215429089328612,
-          "cohort_n": 1,
-          "cohort_share": 0.0005053057099545225,
-          "newest_age_hours": 1081.150835
+          "newest_age_hours": 1092.225107
         },
         {
           "class": "4fs",
           "pool_n": 6,
-          "pool_share": 0.000020215429089328612,
+          "pool_share": 0.000020634724113738598,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1081.150835
+          "newest_age_hours": 1092.225606
+        },
+        {
+          "class": "bz2",
+          "pool_n": 6,
+          "pool_share": 0.000020634724113738598,
+          "cohort_n": 1,
+          "cohort_share": 0.0005053057099545225,
+          "newest_age_hours": 923.150735
         },
         {
           "class": "cdxml",
           "pool_n": 6,
-          "pool_share": 0.000020215429089328612,
+          "pool_share": 0.000020634724113738598,
           "cohort_n": 1,
           "cohort_share": 0.0005053057099545225,
-          "newest_age_hours": 1340.757219
+          "newest_age_hours": 1351.83199
         },
         {
           "class": "m3u",
           "pool_n": 6,
-          "pool_share": 0.000020215429089328612,
+          "pool_share": 0.000020634724113738598,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1085.354252
+          "newest_age_hours": 1096.429023
         },
         {
           "class": "ruby",
           "pool_n": 6,
-          "pool_share": 0.000020215429089328612,
+          "pool_share": 0.000020634724113738598,
           "cohort_n": 1,
           "cohort_share": 0.0005053057099545225,
-          "newest_age_hours": 233.857194
+          "newest_age_hours": 244.931965
         },
         {
           "class": "rules",
           "pool_n": 6,
-          "pool_share": 0.000020215429089328612,
+          "pool_share": 0.000020634724113738598,
           "cohort_n": 3,
           "cohort_share": 0.0015159171298635675,
-          "newest_age_hours": 1085.296102
+          "newest_age_hours": 1096.370873
         },
         {
           "class": "snap",
           "pool_n": 6,
-          "pool_share": 0.000020215429089328612,
+          "pool_share": 0.000020634724113738598,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 732.859964
+          "newest_age_hours": 743.934735
         },
         {
           "class": "static_lib",
           "pool_n": 6,
-          "pool_share": 0.000020215429089328612,
+          "pool_share": 0.000020634724113738598,
           "cohort_n": 0,
           "cohort_share": 0,
-          "newest_age_hours": 499.843807
+          "newest_age_hours": 510.918578
         },
         {
           "class": "vars",
           "pool_n": 6,
-          "pool_share": 0.000020215429089328612,
+          "pool_share": 0.000020634724113738598,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1090.948895
+          "newest_age_hours": 1102.023666
         },
         {
           "class": "3avl",
           "pool_n": 5,
-          "pool_share": 0.000016846190907773843,
+          "pool_share": 0.0000171956034281155,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1081.150835
+          "newest_age_hours": 1092.225606
+        },
+        {
+          "class": "3nsl",
+          "pool_n": 5,
+          "pool_share": 0.0000171956034281155,
+          "cohort_n": 1,
+          "cohort_share": 0.0005053057099545225,
+          "newest_age_hours": 1092.225606
         },
         {
           "class": "cube",
           "pool_n": 5,
-          "pool_share": 0.000016846190907773843,
+          "pool_share": 0.0000171956034281155,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1091.510817
+          "newest_age_hours": 1102.585589
         },
         {
           "class": "lua",
           "pool_n": 5,
-          "pool_share": 0.000016846190907773843,
+          "pool_share": 0.0000171956034281155,
           "cohort_n": 4,
           "cohort_share": 0.00202122283981809,
-          "newest_age_hours": 528.784648
+          "newest_age_hours": 539.859419
         },
         {
           "class": "pkg_macos",
           "pool_n": 5,
-          "pool_share": 0.000016846190907773843,
+          "pool_share": 0.0000171956034281155,
           "cohort_n": 1,
           "cohort_share": 0.0005053057099545225,
-          "newest_age_hours": 335.159359
+          "newest_age_hours": 346.23413
         },
         {
           "class": "ps1",
           "pool_n": 5,
-          "pool_share": 0.000016846190907773843,
+          "pool_share": 0.0000171956034281155,
           "cohort_n": 0,
           "cohort_share": 0,
-          "newest_age_hours": 183.217142
+          "newest_age_hours": 194.291913
         },
         {
           "class": "py",
           "pool_n": 5,
-          "pool_share": 0.000016846190907773843,
+          "pool_share": 0.0000171956034281155,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 183.200477
-        },
-        {
-          "class": "shtml",
-          "pool_n": 5,
-          "pool_share": 0.000016846190907773843,
-          "cohort_n": 2,
-          "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1081.151
+          "newest_age_hours": 194.275248
         },
         {
           "class": "tab",
           "pool_n": 5,
-          "pool_share": 0.000016846190907773843,
+          "pool_share": 0.0000171956034281155,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1081.151
+          "newest_age_hours": 1092.225771
         },
         {
           "class": "tmac",
           "pool_n": 5,
-          "pool_share": 0.000016846190907773843,
+          "pool_share": 0.0000171956034281155,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1081.14461
-        },
-        {
-          "class": "url",
-          "pool_n": 5,
-          "pool_share": 0.000016846190907773843,
-          "cohort_n": 1,
-          "cohort_share": 0.0005053057099545225,
-          "newest_age_hours": 1090.943064
+          "newest_age_hours": 1092.219381
         },
         {
           "class": "winget",
           "pool_n": 5,
-          "pool_share": 0.000016846190907773843,
+          "pool_share": 0.0000171956034281155,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1085.402891
+          "newest_age_hours": 1096.477662
         },
         {
           "class": "babelrc",
           "pool_n": 4,
-          "pool_share": 0.000013476952726219075,
+          "pool_share": 0.0000137564827424924,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 528.784648
+          "newest_age_hours": 539.859419
         },
         {
           "class": "glb",
           "pool_n": 4,
-          "pool_share": 0.000013476952726219075,
+          "pool_share": 0.0000137564827424924,
           "cohort_n": 1,
           "cohort_share": 0.0005053057099545225,
-          "newest_age_hours": 770.787395
+          "newest_age_hours": 781.862166
         },
         {
           "class": "graphql",
           "pool_n": 4,
-          "pool_share": 0.000013476952726219075,
+          "pool_share": 0.0000137564827424924,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1090.942538
+          "newest_age_hours": 1102.01731
         },
         {
           "class": "patterns",
           "pool_n": 4,
-          "pool_share": 0.000013476952726219075,
+          "pool_share": 0.0000137564827424924,
           "cohort_n": 0,
           "cohort_share": 0,
-          "newest_age_hours": 183.217142
+          "newest_age_hours": 194.291913
         },
         {
           "class": "reibl",
           "pool_n": 4,
-          "pool_share": 0.000013476952726219075,
+          "pool_share": 0.0000137564827424924,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1091.510817
+          "newest_age_hours": 1102.585589
+        },
+        {
+          "class": "shtml",
+          "pool_n": 4,
+          "pool_share": 0.0000137564827424924,
+          "cohort_n": 2,
+          "cohort_share": 0.001010611419909045,
+          "newest_age_hours": 1092.225771
         },
         {
           "class": "tt",
           "pool_n": 4,
-          "pool_share": 0.000013476952726219075,
+          "pool_share": 0.0000137564827424924,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1085.441635
+          "newest_age_hours": 1096.516406
+        },
+        {
+          "class": "url",
+          "pool_n": 4,
+          "pool_share": 0.0000137564827424924,
+          "cohort_n": 1,
+          "cohort_share": 0.0005053057099545225,
+          "newest_age_hours": 1102.017835
         },
         {
           "class": "wasm",
           "pool_n": 4,
-          "pool_share": 0.000013476952726219075,
+          "pool_share": 0.0000137564827424924,
           "cohort_n": 1,
           "cohort_share": 0.0005053057099545225,
-          "newest_age_hours": 798.003169
+          "newest_age_hours": 809.07794
         },
         {
           "class": "0",
           "pool_n": 3,
-          "pool_share": 0.000010107714544664306,
+          "pool_share": 0.000010317362056869299,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 881.133591
+          "newest_age_hours": 892.208362
         },
         {
           "class": "apk_android",
           "pool_n": 3,
-          "pool_share": 0.000010107714544664306,
+          "pool_share": 0.000010317362056869299,
           "cohort_n": 1,
           "cohort_share": 0.0005053057099545225,
-          "newest_age_hours": 404.989555
+          "newest_age_hours": 416.064326
         },
         {
           "class": "applescript",
           "pool_n": 3,
-          "pool_share": 0.000010107714544664306,
+          "pool_share": 0.000010317362056869299,
           "cohort_n": 3,
           "cohort_share": 0.0015159171298635675,
-          "newest_age_hours": 183.308156
+          "newest_age_hours": 194.382927
         },
         {
           "class": "cache",
           "pool_n": 3,
-          "pool_share": 0.000010107714544664306,
+          "pool_share": 0.000010317362056869299,
           "cohort_n": 1,
           "cohort_share": 0.0005053057099545225,
-          "newest_age_hours": 1085.3338
+          "newest_age_hours": 1096.408571
         },
         {
           "class": "j2",
           "pool_n": 3,
-          "pool_share": 0.000010107714544664306,
+          "pool_share": 0.000010317362056869299,
           "cohort_n": 0,
           "cohort_share": 0,
-          "newest_age_hours": 183.200477
+          "newest_age_hours": 194.275248
         },
         {
           "class": "jsonc",
           "pool_n": 3,
-          "pool_share": 0.000010107714544664306,
+          "pool_share": 0.000010317362056869299,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1085.385356
+          "newest_age_hours": 1096.460127
         },
         {
           "class": "omo",
           "pool_n": 3,
-          "pool_share": 0.000010107714544664306,
+          "pool_share": 0.000010317362056869299,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1091.510817
-        },
-        {
-          "class": "pickle",
-          "pool_n": 3,
-          "pool_share": 0.000010107714544664306,
-          "cohort_n": 1,
-          "cohort_share": 0.0005053057099545225,
-          "newest_age_hours": 908.982425
+          "newest_age_hours": 1102.585589
         },
         {
           "class": "rule",
           "pool_n": 3,
-          "pool_share": 0.000010107714544664306,
+          "pool_share": 0.000010317362056869299,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1091.780389
+          "newest_age_hours": 1102.855161
         },
         {
           "class": "sh",
           "pool_n": 3,
-          "pool_share": 0.000010107714544664306,
+          "pool_share": 0.000010317362056869299,
           "cohort_n": 0,
           "cohort_share": 0,
-          "newest_age_hours": 183.155281
+          "newest_age_hours": 194.230052
         },
         {
           "class": "template",
           "pool_n": 3,
-          "pool_share": 0.000010107714544664306,
+          "pool_share": 0.000010317362056869299,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1085.348568
-        },
-        {
-          "class": "3m",
-          "pool_n": 2,
-          "pool_share": 0.000006738476363109537,
-          "cohort_n": 1,
-          "cohort_share": 0.0005053057099545225,
-          "newest_age_hours": 1081.150643
-        },
-        {
-          "class": "3xcurses",
-          "pool_n": 2,
-          "pool_share": 0.000006738476363109537,
-          "cohort_n": 2,
-          "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1081.149867
+          "newest_age_hours": 1096.423339
         },
         {
           "class": "asp",
           "pool_n": 2,
-          "pool_share": 0.000006738476363109537,
+          "pool_share": 0.0000068782413712462,
           "cohort_n": 0,
           "cohort_share": 0,
-          "newest_age_hours": 880.671256
-        },
-        {
-          "class": "cnf",
-          "pool_n": 2,
-          "pool_share": 0.000006738476363109537,
-          "cohort_n": 3,
-          "cohort_share": 0.0015159171298635675,
-          "newest_age_hours": 1090.949113
-        },
-        {
-          "class": "flatpak",
-          "pool_n": 2,
-          "pool_share": 0.000006738476363109537,
-          "cohort_n": 2,
-          "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1297.731723
-        },
-        {
-          "class": "list",
-          "pool_n": 2,
-          "pool_share": 0.000006738476363109537,
-          "cohort_n": 3,
-          "cohort_share": 0.0015159171298635675,
-          "newest_age_hours": 1085.345882
+          "newest_age_hours": 891.746027
         },
         {
           "class": "mustache",
           "pool_n": 2,
-          "pool_share": 0.000006738476363109537,
+          "pool_share": 0.0000068782413712462,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1085.455766
+          "newest_age_hours": 1096.530537
         },
         {
           "class": "ocx",
           "pool_n": 2,
-          "pool_share": 0.000006738476363109537,
+          "pool_share": 0.0000068782413712462,
           "cohort_n": 1,
           "cohort_share": 0.0005053057099545225,
-          "newest_age_hours": 1380.275526
+          "newest_age_hours": 1391.350297
         },
         {
-          "class": "phs",
+          "class": "pickle",
           "pool_n": 2,
-          "pool_share": 0.000006738476363109537,
-          "cohort_n": 3,
-          "cohort_share": 0.0015159171298635675,
-          "newest_age_hours": 1091.563322
+          "pool_share": 0.0000068782413712462,
+          "cohort_n": 1,
+          "cohort_share": 0.0005053057099545225,
+          "newest_age_hours": 920.057196
         },
         {
           "class": "rst",
           "pool_n": 2,
-          "pool_share": 0.000006738476363109537,
+          "pool_share": 0.0000068782413712462,
           "cohort_n": 3,
           "cohort_share": 0.0015159171298635675,
-          "newest_age_hours": 1332.556924
+          "newest_age_hours": 1343.631695
+        },
+        {
+          "class": "scr",
+          "pool_n": 2,
+          "pool_share": 0.0000068782413712462,
+          "cohort_n": 1,
+          "cohort_share": 0.0005053057099545225,
+          "newest_age_hours": 1391.349478
         },
         {
           "class": "sdb",
           "pool_n": 2,
-          "pool_share": 0.000006738476363109537,
+          "pool_share": 0.0000068782413712462,
           "cohort_n": 1,
           "cohort_share": 0.0005053057099545225,
-          "newest_age_hours": 1091.805185
-        },
-        {
-          "class": "seq",
-          "pool_n": 2,
-          "pool_share": 0.000006738476363109537,
-          "cohort_n": 3,
-          "cohort_share": 0.0015159171298635675,
-          "newest_age_hours": 1091.563322
+          "newest_age_hours": 1102.879957
         },
         {
           "class": "ts",
           "pool_n": 2,
-          "pool_share": 0.000006738476363109537,
+          "pool_share": 0.0000068782413712462,
           "cohort_n": 0,
           "cohort_share": 0,
-          "newest_age_hours": 183.155281
-        },
-        {
-          "class": "vcp",
-          "pool_n": 2,
-          "pool_share": 0.000006738476363109537,
-          "cohort_n": 3,
-          "cohort_share": 0.0015159171298635675,
-          "newest_age_hours": 1091.563322
-        },
-        {
-          "class": "3sasl",
-          "pool_n": 1,
-          "pool_share": 0.0000033692381815547687,
-          "cohort_n": 1,
-          "cohort_share": 0.0005053057099545225,
-          "newest_age_hours": 1081.150835
+          "newest_age_hours": 194.230052
         },
         {
           "class": "3socket",
           "pool_n": 1,
-          "pool_share": 0.0000033692381815547687,
+          "pool_share": 0.0000034391206856231,
           "cohort_n": 2,
           "cohort_share": 0.001010611419909045,
-          "newest_age_hours": 1081.150643
-        },
-        {
-          "class": "4p",
-          "pool_n": 1,
-          "pool_share": 0.0000033692381815547687,
-          "cohort_n": 4,
-          "cohort_share": 0.00202122283981809,
-          "newest_age_hours": 1081.149867
+          "newest_age_hours": 1092.225415
         },
         {
           "class": "931",
           "pool_n": 1,
-          "pool_share": 0.0000033692381815547687,
+          "pool_share": 0.0000034391206856231,
           "cohort_n": 1,
           "cohort_share": 0.0005053057099545225,
-          "newest_age_hours": 1346.41435
+          "newest_age_hours": 1357.489121
         },
         {
           "class": "adml",
           "pool_n": 1,
-          "pool_share": 0.0000033692381815547687,
+          "pool_share": 0.0000034391206856231,
           "cohort_n": 1,
           "cohort_share": 0.0005053057099545225,
-          "newest_age_hours": 1205.340797
+          "newest_age_hours": 1216.415568
+        },
+        {
+          "class": "cnf",
+          "pool_n": 1,
+          "pool_share": 0.0000034391206856231,
+          "cohort_n": 3,
+          "cohort_share": 0.0015159171298635675,
+          "newest_age_hours": 1102.023884
         },
         {
           "class": "com",
           "pool_n": 1,
-          "pool_share": 0.0000033692381815547687,
+          "pool_share": 0.0000034391206856231,
           "cohort_n": 1,
           "cohort_share": 0.0005053057099545225,
-          "newest_age_hours": 1027.427833
+          "newest_age_hours": 1038.502604
         },
         {
           "class": "distro",
           "pool_n": 1,
-          "pool_share": 0.0000033692381815547687,
+          "pool_share": 0.0000034391206856231,
           "cohort_n": 3,
           "cohort_share": 0.0015159171298635675,
-          "newest_age_hours": 1236.974405
+          "newest_age_hours": 1248.049176
         },
         {
           "class": "dockerfile",
           "pool_n": 1,
-          "pool_share": 0.0000033692381815547687,
+          "pool_share": 0.0000034391206856231,
           "cohort_n": 1,
           "cohort_share": 0.0005053057099545225,
-          "newest_age_hours": 234.000652
+          "newest_age_hours": 245.075423
         },
         {
-          "class": "glsl",
+          "class": "drv",
           "pool_n": 1,
-          "pool_share": 0.0000033692381815547687,
-          "cohort_n": 4,
-          "cohort_share": 0.00202122283981809,
-          "newest_age_hours": 1091.563322
+          "pool_share": 0.0000034391206856231,
+          "cohort_n": 0,
+          "cohort_share": 0,
+          "newest_age_hours": 1391.350297
         },
         {
           "class": "go",
           "pool_n": 1,
-          "pool_share": 0.0000033692381815547687,
+          "pool_share": 0.0000034391206856231,
           "cohort_n": 1,
           "cohort_share": 0.0005053057099545225,
-          "newest_age_hours": 1402.983216
-        },
-        {
-          "class": "hdf5",
-          "pool_n": 1,
-          "pool_share": 0.0000033692381815547687,
-          "cohort_n": 0,
-          "cohort_share": 0,
-          "newest_age_hours": 1081.308666
+          "newest_age_hours": 1414.057987
         },
         {
           "class": "ipa",
           "pool_n": 1,
-          "pool_share": 0.0000033692381815547687,
+          "pool_share": 0.0000034391206856231,
           "cohort_n": 1,
           "cohort_share": 0.0005053057099545225,
-          "newest_age_hours": 313.753881
+          "newest_age_hours": 324.828652
+        },
+        {
+          "class": "json5",
+          "pool_n": 1,
+          "pool_share": 0.0000034391206856231,
+          "cohort_n": 1,
+          "cohort_share": 0.0005053057099545225,
+          "newest_age_hours": 194.230052
+        },
+        {
+          "class": "list",
+          "pool_n": 1,
+          "pool_share": 0.0000034391206856231,
+          "cohort_n": 3,
+          "cohort_share": 0.0015159171298635675,
+          "newest_age_hours": 1096.420653
+        },
+        {
+          "class": "lz",
+          "pool_n": 1,
+          "pool_share": 0.0000034391206856231,
+          "cohort_n": 1,
+          "cohort_share": 0.0005053057099545225,
+          "newest_age_hours": 831.36504
         },
         {
           "class": "map",
           "pool_n": 1,
-          "pool_share": 0.0000033692381815547687,
+          "pool_share": 0.0000034391206856231,
           "cohort_n": 7,
           "cohort_share": 0.0035371399696816574,
-          "newest_age_hours": 183.217142
+          "newest_age_hours": 194.291913
         },
         {
           "class": "ole",
           "pool_n": 1,
-          "pool_share": 0.0000033692381815547687,
+          "pool_share": 0.0000034391206856231,
           "cohort_n": 0,
           "cohort_share": 0,
-          "newest_age_hours": 476.829501
+          "newest_age_hours": 487.904273
         },
         {
           "class": "ole_doc",
           "pool_n": 1,
-          "pool_share": 0.0000033692381815547687,
+          "pool_share": 0.0000034391206856231,
           "cohort_n": 0,
           "cohort_share": 0,
-          "newest_age_hours": 339.168361
+          "newest_age_hours": 350.243132
         },
         {
           "class": "ooxml",
           "pool_n": 1,
-          "pool_share": 0.0000033692381815547687,
+          "pool_share": 0.0000034391206856231,
           "cohort_n": 1,
           "cohort_share": 0.0005053057099545225,
-          "newest_age_hours": 1391.033719
+          "newest_age_hours": 1402.10849
+        },
+        {
+          "class": "phar",
+          "pool_n": 1,
+          "pool_share": 0.0000034391206856231,
+          "cohort_n": 3,
+          "cohort_share": 0.0015159171298635675,
+          "newest_age_hours": 1388.676028
+        },
+        {
+          "class": "phs",
+          "pool_n": 1,
+          "pool_share": 0.0000034391206856231,
+          "cohort_n": 3,
+          "cohort_share": 0.0015159171298635675,
+          "newest_age_hours": 1102.638093
         },
         {
           "class": "pkg_freebsd",
           "pool_n": 1,
-          "pool_share": 0.0000033692381815547687,
+          "pool_share": 0.0000034391206856231,
           "cohort_n": 0,
           "cohort_share": 0,
-          "newest_age_hours": 946.389295
+          "newest_age_hours": 957.464066
         },
         {
-          "class": "postscript",
+          "class": "psd1",
           "pool_n": 1,
-          "pool_share": 0.0000033692381815547687,
-          "cohort_n": 0,
-          "cohort_share": 0,
-          "newest_age_hours": 1406.435666
-        },
-        {
-          "class": "ql",
-          "pool_n": 1,
-          "pool_share": 0.0000033692381815547687,
+          "pool_share": 0.0000034391206856231,
           "cohort_n": 1,
           "cohort_share": 0.0005053057099545225,
-          "newest_age_hours": 229.834489
+          "newest_age_hours": 1216.427907
         },
         {
           "class": "rar",
           "pool_n": 1,
-          "pool_share": 0.0000033692381815547687,
+          "pool_share": 0.0000034391206856231,
           "cohort_n": 0,
           "cohort_share": 0,
-          "newest_age_hours": 699.335306
+          "newest_age_hours": 710.410077
+        },
+        {
+          "class": "seq",
+          "pool_n": 1,
+          "pool_share": 0.0000034391206856231,
+          "cohort_n": 3,
+          "cohort_share": 0.0015159171298635675,
+          "newest_age_hours": 1102.638093
         },
         {
           "class": "squashfs",
           "pool_n": 1,
-          "pool_share": 0.0000033692381815547687,
+          "pool_share": 0.0000034391206856231,
           "cohort_n": 0,
           "cohort_share": 0,
-          "newest_age_hours": 533.952135
+          "newest_age_hours": 545.026906
+        },
+        {
+          "class": "swf",
+          "pool_n": 1,
+          "pool_share": 0.0000034391206856231,
+          "cohort_n": 2,
+          "cohort_share": 0.001010611419909045,
+          "newest_age_hours": 969.602384
+        },
+        {
+          "class": "vcp",
+          "pool_n": 1,
+          "pool_share": 0.0000034391206856231,
+          "cohort_n": 3,
+          "cohort_share": 0.0015159171298635675,
+          "newest_age_hours": 1102.638093
         }
       ],
-      "population_covered": 0.9963746997166474,
-      "stalest_class_hours": 1406.435666
+      "population_covered": 0.9963098235043272,
+      "stalest_class_hours": 1414.057987
     },
     "strata_count": {
       "breadth": 540,
@@ -692088,7 +692079,7 @@
         "supported": 1979,
         "hostile_rate": 0,
         "flagged_rate": 0,
-        "effective_n": 595.520203,
+        "effective_n": 595.328752,
         "rank": 1
       },
       {
@@ -692101,7 +692092,7 @@
         "supported": 1979,
         "hostile_rate": 0,
         "flagged_rate": 0,
-        "effective_n": 595.520203,
+        "effective_n": 595.328752,
         "rank": 2
       },
       {
@@ -692115,7 +692106,7 @@
         "supported": 1979,
         "hostile_rate": 0,
         "flagged_rate": 0,
-        "effective_n": 595.520203,
+        "effective_n": 595.328752,
         "rank": 3
       },
       {
@@ -692129,7 +692120,7 @@
         "supported": 1979,
         "hostile_rate": 0,
         "flagged_rate": 0,
-        "effective_n": 595.520203,
+        "effective_n": 595.328752,
         "rank": 4
       },
       {
@@ -692143,8 +692134,8 @@
         "supported": 1979,
         "hostile_rate": 0,
         "flagged_rate": 0.39616,
-        "weighted_flagged_rate": 0.521665,
-        "effective_n": 595.520203,
+        "weighted_flagged_rate": 0.520952,
+        "effective_n": 595.328752,
         "rank": 5
       },
       {
@@ -692157,7 +692148,7 @@
         "supported": 1979,
         "hostile_rate": 0,
         "flagged_rate": 0,
-        "effective_n": 595.520203,
+        "effective_n": 595.328752,
         "rank": 6
       },
       {
@@ -692170,7 +692161,7 @@
         "supported": 1979,
         "hostile_rate": 0,
         "flagged_rate": 0,
-        "effective_n": 595.520203,
+        "effective_n": 595.328752,
         "rank": 7
       },
       {
@@ -692183,10 +692174,10 @@
         "unsupported": 0,
         "supported": 1979,
         "hostile_rate": 0.001011,
-        "weighted_hostile_rate": 0.000071,
+        "weighted_hostile_rate": 0.000072,
         "flagged_rate": 0.001011,
-        "weighted_flagged_rate": 0.000071,
-        "effective_n": 595.520203,
+        "weighted_flagged_rate": 0.000072,
+        "effective_n": 595.328752,
         "rank": 8
       },
       {
@@ -692199,10 +692190,10 @@
         "unsupported": 0,
         "supported": 1979,
         "hostile_rate": 0.002527,
-        "weighted_hostile_rate": 0.002283,
+        "weighted_hostile_rate": 0.002291,
         "flagged_rate": 0.004042,
-        "weighted_flagged_rate": 0.002646,
-        "effective_n": 595.520203,
+        "weighted_flagged_rate": 0.002647,
+        "effective_n": 595.328752,
         "rank": 9
       },
       {
@@ -692215,10 +692206,10 @@
         "unsupported": 1375,
         "supported": 1979,
         "hostile_rate": 0.004042,
-        "weighted_hostile_rate": 0.009585,
+        "weighted_hostile_rate": 0.009564,
         "flagged_rate": 0.006064,
-        "weighted_flagged_rate": 0.018938,
-        "effective_n": 595.520203,
+        "weighted_flagged_rate": 0.018931,
+        "effective_n": 595.328752,
         "rank": 10
       },
       {
@@ -692230,10 +692221,10 @@
         "unsupported": 0,
         "supported": 1979,
         "hostile_rate": 0.009601,
-        "weighted_hostile_rate": 0.010515,
+        "weighted_hostile_rate": 0.010495,
         "flagged_rate": 0.073269,
-        "weighted_flagged_rate": 0.080796,
-        "effective_n": 595.520203,
+        "weighted_flagged_rate": 0.080562,
+        "effective_n": 595.328752,
         "rank": 11
       }
     ],
