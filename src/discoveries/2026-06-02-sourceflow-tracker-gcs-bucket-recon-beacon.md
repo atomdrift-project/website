@@ -68,10 +68,10 @@ Strip the costume and this is the [shop-minis](/discoveries/2026/05/shop-minis-b
 
 | Type | Value |
 | --- | --- |
-| Stage-0 tarball SHA-256 | [`4e87b803b8e6a18cfef9bb81e186d927081290f7870ab3ce6cf9b4c2eaf81e3e`](https://lab.atomdrift.org/file/4e87b803b8e6a18cfef9bb81e186d927081290f7870ab3ce6cf9b4c2eaf81e3e) |
-| Stage-0 index.js SHA-256 | [`e89c7bb78ab236d8872813fcf9dea56166bcf717f07b264d819223f06c3d9afd`](https://lab.atomdrift.org/file/e89c7bb78ab236d8872813fcf9dea56166bcf717f07b264d819223f06c3d9afd) |
+| Stage-0 tarball SHA-256 | [`4e87b803b8e6a18cfef9bb81e186d927081290f7870ab3ce6cf9b4c2eaf81e3e`](https://sha256.is/4e87b803b8e6a18cfef9bb81e186d927081290f7870ab3ce6cf9b4c2eaf81e3e) |
+| Stage-0 index.js SHA-256 | [`e89c7bb78ab236d8872813fcf9dea56166bcf717f07b264d819223f06c3d9afd`](https://sha256.is/e89c7bb78ab236d8872813fcf9dea56166bcf717f07b264d819223f06c3d9afd) |
 | Stage-2 package | `s.ls.ls.ls@1.0.5` |
-| Stage-2 tarball SHA-256 | [`1cc73e93d4577fca7478854b4ada86bc78ed8b83369928fd97b4225809d76b52`](https://lab.atomdrift.org/file/1cc73e93d4577fca7478854b4ada86bc78ed8b83369928fd97b4225809d76b52) |
-| Stage-2 index.js SHA-256 | [`e9105cfb50a1d8d3d8cabbc1a8dfd0a04966d00bbdd8707d65001e930f842bf5`](https://lab.atomdrift.org/file/e9105cfb50a1d8d3d8cabbc1a8dfd0a04966d00bbdd8707d65001e930f842bf5) |
-| Stage-2 test.js SHA-256 | [`6470d87928dbb2ee3950ec33cbc30d1809bf395fadb98cf0d91d6f6e8115d4b0`](https://lab.atomdrift.org/file/6470d87928dbb2ee3950ec33cbc30d1809bf395fadb98cf0d91d6f6e8115d4b0) |
+| Stage-2 tarball SHA-256 | [`1cc73e93d4577fca7478854b4ada86bc78ed8b83369928fd97b4225809d76b52`](https://sha256.is/1cc73e93d4577fca7478854b4ada86bc78ed8b83369928fd97b4225809d76b52) |
+| Stage-2 index.js SHA-256 | [`e9105cfb50a1d8d3d8cabbc1a8dfd0a04966d00bbdd8707d65001e930f842bf5`](https://sha256.is/e9105cfb50a1d8d3d8cabbc1a8dfd0a04966d00bbdd8707d65001e930f842bf5) |
+| Stage-2 test.js SHA-256 | [`6470d87928dbb2ee3950ec33cbc30d1809bf395fadb98cf0d91d6f6e8115d4b0`](https://sha256.is/6470d87928dbb2ee3950ec33cbc30d1809bf395fadb98cf0d91d6f6e8115d4b0) |
 | OOB callback | `http://<data>.ux-foundry.wwwz15e554m201wwajfl7m1ey54z1nq.oastify.com` |

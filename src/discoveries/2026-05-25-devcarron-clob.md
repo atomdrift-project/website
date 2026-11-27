@@ -25,7 +25,7 @@ The tarball is 1.8 MB, eight files — seven scaffolding plus one PE, byte-ident
 
 | Field | Value |
 | --- | --- |
-| SHA-256 | [`300a7dea05c2a588757010ad314fa55cb8ef3acebaa284f58a5cd0fd39bce478`](https://lab.atomdrift.org/file/300a7dea05c2a588757010ad314fa55cb8ef3acebaa284f58a5cd0fd39bce478) |
+| SHA-256 | [`300a7dea05c2a588757010ad314fa55cb8ef3acebaa284f58a5cd0fd39bce478`](https://sha256.is/300a7dea05c2a588757010ad314fa55cb8ef3acebaa284f58a5cd0fd39bce478) |
 | PDB | `explr_server.pdb` |
 | Tauri invoke surface | 53 commands |
 | Startup banner | `Explr web server listening on http://…` |
@@ -74,7 +74,7 @@ Same shape as the later draft, minus the Windows Defender masquerade — the fil
 
 ## Why the earlier draft matters
 
-The [Fallout report](https://lab.atomdrift.org/file/a88d1ea8fb793afddc99ad7f7d4a372fd39468afea5d5ea2a33340e384eb5864) returns malicious at probability 1.0 on the same binary as the [api-rs-node Stage 2 analysis](/discoveries/2026/05/api-rs-node-clob-dropper/#stage-2-what-the-cid-serves), and the byte-identical exe, `meta_data.json`, and `clob.js` skeleton tie `devcarron@gmail.com` and `shinydv412@gmail.com` to one machine (Windows user `mist`) repurposing an in-house `Explr` codebase — the 5½-hour gap is the author shrinking a hashable 4 MB bundled PE down to a 6 KB IPFS-only stager that at-rest scanners no longer catch until the dropper has run.
+The [Fallout report](https://sha256.is/a88d1ea8fb793afddc99ad7f7d4a372fd39468afea5d5ea2a33340e384eb5864) returns malicious at probability 1.0 on the same binary as the [api-rs-node Stage 2 analysis](/discoveries/2026/05/api-rs-node-clob-dropper/#stage-2-what-the-cid-serves), and the byte-identical exe, `meta_data.json`, and `clob.js` skeleton tie `devcarron@gmail.com` and `shinydv412@gmail.com` to one machine (Windows user `mist`) repurposing an in-house `Explr` codebase — the 5½-hour gap is the author shrinking a hashable 4 MB bundled PE down to a 6 KB IPFS-only stager that at-rest scanners no longer catch until the dropper has run.
 
 ## Indicators
 
@@ -82,9 +82,9 @@ The [Fallout report](https://lab.atomdrift.org/file/a88d1ea8fb793afddc99ad7f7d4a
 | --- | --- |
 | Package | `@devcarron/clob@2.73.0` (npm) |
 | npm page | [npmjs.com/package/@devcarron/clob](https://www.npmjs.com/package/@devcarron/clob) |
-| Tarball SHA-256 | [`a88d1ea8fb793afddc99ad7f7d4a372fd39468afea5d5ea2a33340e384eb5864`](https://lab.atomdrift.org/file/a88d1ea8fb793afddc99ad7f7d4a372fd39468afea5d5ea2a33340e384eb5864) |
-| `clob.js` SHA-256 | [`954728b16738a4b44696a599eecde211ece2ccfcc9eb47bfaf4ba5c3ab6715be`](https://lab.atomdrift.org/file/954728b16738a4b44696a599eecde211ece2ccfcc9eb47bfaf4ba5c3ab6715be) |
-| `clob2.0.exe` SHA-256 | [`300a7dea05c2a588757010ad314fa55cb8ef3acebaa284f58a5cd0fd39bce478`](https://lab.atomdrift.org/file/300a7dea05c2a588757010ad314fa55cb8ef3acebaa284f58a5cd0fd39bce478) (== `api-rs-node` IPFS payload) |
+| Tarball SHA-256 | [`a88d1ea8fb793afddc99ad7f7d4a372fd39468afea5d5ea2a33340e384eb5864`](https://sha256.is/a88d1ea8fb793afddc99ad7f7d4a372fd39468afea5d5ea2a33340e384eb5864) |
+| `clob.js` SHA-256 | [`954728b16738a4b44696a599eecde211ece2ccfcc9eb47bfaf4ba5c3ab6715be`](https://sha256.is/954728b16738a4b44696a599eecde211ece2ccfcc9eb47bfaf4ba5c3ab6715be) |
+| `clob2.0.exe` SHA-256 | [`300a7dea05c2a588757010ad314fa55cb8ef3acebaa284f58a5cd0fd39bce478`](https://sha256.is/300a7dea05c2a588757010ad314fa55cb8ef3acebaa284f58a5cd0fd39bce478) (== `api-rs-node` IPFS payload) |
 | C2 endpoint | `45.8.22.112:2026` (HTTP `POST /api/urls?url=<public-ip>:80`) |
 | IPFS payload CID | `bafybeif3zkapj364ofnrvbty7oj5h5ufpxlp4s62usk3ulxrru35e3gssa` |
 | Private gateway | `violet-tricky-quelea-562.mypinata.cloud` |

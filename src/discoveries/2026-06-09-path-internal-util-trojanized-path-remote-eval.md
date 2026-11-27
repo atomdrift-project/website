@@ -98,13 +98,13 @@ This is North Korea's Contagious Interview operation — the BeaverTail loader d
 | --- | --- |
 | Package | `path-internal-util@1.0.2` (npm) |
 | npm page | [npmjs.com/package/path-internal-util](https://www.npmjs.com/package/path-internal-util) |
-| Tarball SHA-256 | [`7d62ba9c7d79e4cb37a67311866645b88245840d765302bc79286a8e3c0f8a95`](https://lab.atomdrift.org/file/7d62ba9c7d79e4cb37a67311866645b88245840d765302bc79286a8e3c0f8a95) |
-| `path.js` SHA-256 | [`98b01dc2b472069106e707749862ea5cfcd1bb2fb339dfeda28047ef1630cbaf`](https://lab.atomdrift.org/file/98b01dc2b472069106e707749862ea5cfcd1bb2fb339dfeda28047ef1630cbaf) |
+| Tarball SHA-256 | [`7d62ba9c7d79e4cb37a67311866645b88245840d765302bc79286a8e3c0f8a95`](https://sha256.is/7d62ba9c7d79e4cb37a67311866645b88245840d765302bc79286a8e3c0f8a95) |
+| `path.js` SHA-256 | [`98b01dc2b472069106e707749862ea5cfcd1bb2fb339dfeda28047ef1630cbaf`](https://sha256.is/98b01dc2b472069106e707749862ea5cfcd1bb2fb339dfeda28047ef1630cbaf) |
 | Stage 2 URL | `https://www.jsonkeeper.com/b/CWOV9` (base64: `aHR0cHM6Ly93d3cuanNvbmtlZXBlci5jb20vYi9DV09WOQ==`) |
-| Stage 2 SHA-256 (snapshot) | [`3d4191faf32641523d277ea8ce36b6fede103e325773f36ab2208e82ed6c9031`](https://lab.atomdrift.org/file/3d4191faf32641523d277ea8ce36b6fede103e325773f36ab2208e82ed6c9031) |
+| Stage 2 SHA-256 (snapshot) | [`3d4191faf32641523d277ea8ce36b6fede103e325773f36ab2208e82ed6c9031`](https://sha256.is/3d4191faf32641523d277ea8ce36b6fede103e325773f36ab2208e82ed6c9031) |
 | Stage 3 URL | `http://216.126.225.83/api/service/55dfb627190b5091e5164c010d6c5c52` (Tier.Net, `216.126.224.0/22`) |
-| Stage 3 SHA-256 (snapshot) | [`aae780b19c4a99cf4f3a22267bc3020cd03900921e43ad69ae83b7b8ee76e17d`](https://lab.atomdrift.org/file/aae780b19c4a99cf4f3a22267bc3020cd03900921e43ad69ae83b7b8ee76e17d) |
-| Stage 4 `scdata` SHA-256 (snapshot) | [`b9fbc752c940f7fcb4ce2ae1a70ed0b4890e9b4818d04e7c6df18102c8a49115`](https://lab.atomdrift.org/file/b9fbc752c940f7fcb4ce2ae1a70ed0b4890e9b4818d04e7c6df18102c8a49115) |
+| Stage 3 SHA-256 (snapshot) | [`aae780b19c4a99cf4f3a22267bc3020cd03900921e43ad69ae83b7b8ee76e17d`](https://sha256.is/aae780b19c4a99cf4f3a22267bc3020cd03900921e43ad69ae83b7b8ee76e17d) |
+| Stage 4 `scdata` SHA-256 (snapshot) | [`b9fbc752c940f7fcb4ce2ae1a70ed0b4890e9b4818d04e7c6df18102c8a49115`](https://sha256.is/b9fbc752c940f7fcb4ce2ae1a70ed0b4890e9b4818d04e7c6df18102c8a49115) |
 | Dropped files | `$TMPDIR/0001.dat`, `$TMPDIR/scdata`, `$TMPDIR/.npm/vhost.ctl` (pid lock) |
 | Exfil endpoint | `http://216.126.225.83/api/service/makelog` |
 | Campaign UID | `55dfb627190b5091e5164c010d6c5c52` (telemetry `t='104'`) |

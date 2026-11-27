@@ -78,13 +78,13 @@ Every archive also carries a file no code loads: a 570-line scraper for the Isla
 
 | Type | Value |
 | --- | --- |
-| `1.0.2` tarball SHA-256 | [`8241a0b7e11687ee6713a0094cf9f834adeaf9c66ffa1b88dba42bd171a110ec`](https://lab.atomdrift.org/file/8241a0b7e11687ee6713a0094cf9f834adeaf9c66ffa1b88dba42bd171a110ec) |
-| `1.0.3` tarball SHA-256 | [`a6bf1478bfa5ffa0791da533555ee35421e644d4d8d11d3c7f1afe2372e56289`](https://lab.atomdrift.org/file/a6bf1478bfa5ffa0791da533555ee35421e644d4d8d11d3c7f1afe2372e56289) |
-| `1.0.2` index.js SHA-256 | [`f0f5387c6e4f8b07ef1928d4257dfa9383163bb8988d05ef36da0ffbdcea8ac4`](https://lab.atomdrift.org/file/f0f5387c6e4f8b07ef1928d4257dfa9383163bb8988d05ef36da0ffbdcea8ac4) |
-| `1.0.3` index.js SHA-256 | [`9f8f7da91c17db216f18fcceff1006e57c18a67cf575064863454145ee6bdb76`](https://lab.atomdrift.org/file/9f8f7da91c17db216f18fcceff1006e57c18a67cf575064863454145ee6bdb76) |
-| `1.0.5` tarball SHA-256 | [`7550e1db05f30636ba0c61b09b5647a65d801d6fc9efa181f368a18ed4b41147`](https://lab.atomdrift.org/file/7550e1db05f30636ba0c61b09b5647a65d801d6fc9efa181f368a18ed4b41147) |
-| `1.0.5` index.js SHA-256 | [`0ed7fc907c2df0f4f7900b20f5e5bd7c6b1c08e9c0be871c3448c7c2220c878c`](https://lab.atomdrift.org/file/0ed7fc907c2df0f4f7900b20f5e5bd7c6b1c08e9c0be871c3448c7c2220c878c) |
-| `scripts/inject.js` SHA-256 (all three versions) | [`b1970350a7bc69bef9cf4061fd46571d344e2c11dde87f0e69ea28e983340eae`](https://lab.atomdrift.org/file/b1970350a7bc69bef9cf4061fd46571d344e2c11dde87f0e69ea28e983340eae) |
-| `ibbl_statment.php` SHA-256 (all three versions) | [`1a29874be6538470d99c55ea6de2cc95e44d1c8187fde1eba75dcd01cde728f0`](https://lab.atomdrift.org/file/1a29874be6538470d99c55ea6de2cc95e44d1c8187fde1eba75dcd01cde728f0) |
+| `1.0.2` tarball SHA-256 | [`8241a0b7e11687ee6713a0094cf9f834adeaf9c66ffa1b88dba42bd171a110ec`](https://sha256.is/8241a0b7e11687ee6713a0094cf9f834adeaf9c66ffa1b88dba42bd171a110ec) |
+| `1.0.3` tarball SHA-256 | [`a6bf1478bfa5ffa0791da533555ee35421e644d4d8d11d3c7f1afe2372e56289`](https://sha256.is/a6bf1478bfa5ffa0791da533555ee35421e644d4d8d11d3c7f1afe2372e56289) |
+| `1.0.2` index.js SHA-256 | [`f0f5387c6e4f8b07ef1928d4257dfa9383163bb8988d05ef36da0ffbdcea8ac4`](https://sha256.is/f0f5387c6e4f8b07ef1928d4257dfa9383163bb8988d05ef36da0ffbdcea8ac4) |
+| `1.0.3` index.js SHA-256 | [`9f8f7da91c17db216f18fcceff1006e57c18a67cf575064863454145ee6bdb76`](https://sha256.is/9f8f7da91c17db216f18fcceff1006e57c18a67cf575064863454145ee6bdb76) |
+| `1.0.5` tarball SHA-256 | [`7550e1db05f30636ba0c61b09b5647a65d801d6fc9efa181f368a18ed4b41147`](https://sha256.is/7550e1db05f30636ba0c61b09b5647a65d801d6fc9efa181f368a18ed4b41147) |
+| `1.0.5` index.js SHA-256 | [`0ed7fc907c2df0f4f7900b20f5e5bd7c6b1c08e9c0be871c3448c7c2220c878c`](https://sha256.is/0ed7fc907c2df0f4f7900b20f5e5bd7c6b1c08e9c0be871c3448c7c2220c878c) |
+| `scripts/inject.js` SHA-256 (all three versions) | [`b1970350a7bc69bef9cf4061fd46571d344e2c11dde87f0e69ea28e983340eae`](https://sha256.is/b1970350a7bc69bef9cf4061fd46571d344e2c11dde87f0e69ea28e983340eae) |
+| `ibbl_statment.php` SHA-256 (all three versions) | [`1a29874be6538470d99c55ea6de2cc95e44d1c8187fde1eba75dcd01cde728f0`](https://sha256.is/1a29874be6538470d99c55ea6de2cc95e44d1c8187fde1eba75dcd01cde728f0) |
 | Injected host-file marker | `SELF-DESTRUCT-ARMED` |
 | Hardcoded email | `mohiuddin767272@gmail.com` |

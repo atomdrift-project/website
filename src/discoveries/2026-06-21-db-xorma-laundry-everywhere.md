@@ -115,11 +115,11 @@ axios.<span class="tok-fn">get</span>(C2).<span class="tok-fn">then</span>((res)
 
 | Indicator | Value |
 | --- | --- |
-| Stage 1 tarball (`db-xorma`) SHA-256 | [50631ecc747eab0af192ad4f328081047fe320d5b19bf8746c27b6c5e25861a6](https://lab.atomdrift.org/file/50631ecc747eab0af192ad4f328081047fe320d5b19bf8746c27b6c5e25861a6) |
-| Stage 1 `index.js` SHA-256 | [392b84c49a18b431b6f454c715a8f6b43e63f95d47b44b55dd70a85c8ed8c465](https://lab.atomdrift.org/file/392b84c49a18b431b6f454c715a8f6b43e63f95d47b44b55dd70a85c8ed8c465) |
-| Stage 2 tarball (`db-dx-connector`) SHA-256 | [2a94901a01417bf2c0096556725ca56619f176b0c79d3d6a1fcf4ff48e35e35b](https://lab.atomdrift.org/file/2a94901a01417bf2c0096556725ca56619f176b0c79d3d6a1fcf4ff48e35e35b) |
-| Stage 2 `index.js` SHA-256 | [5ec319f44610644a95e0cfaccf4fba6cbe3b2f0a1532f9179bcff3d22b121cbe](https://lab.atomdrift.org/file/5ec319f44610644a95e0cfaccf4fba6cbe3b2f0a1532f9179bcff3d22b121cbe) |
-| Stage 3 payload SHA-256 | [8cd5ddcaed0e7f15b570a531d59f1dd6698d9bd7246dbf87c59e877a8720b6ff](https://lab.atomdrift.org/file/8cd5ddcaed0e7f15b570a531d59f1dd6698d9bd7246dbf87c59e877a8720b6ff) |
+| Stage 1 tarball (`db-xorma`) SHA-256 | [50631ecc747eab0af192ad4f328081047fe320d5b19bf8746c27b6c5e25861a6](https://sha256.is/50631ecc747eab0af192ad4f328081047fe320d5b19bf8746c27b6c5e25861a6) |
+| Stage 1 `index.js` SHA-256 | [392b84c49a18b431b6f454c715a8f6b43e63f95d47b44b55dd70a85c8ed8c465](https://sha256.is/392b84c49a18b431b6f454c715a8f6b43e63f95d47b44b55dd70a85c8ed8c465) |
+| Stage 2 tarball (`db-dx-connector`) SHA-256 | [2a94901a01417bf2c0096556725ca56619f176b0c79d3d6a1fcf4ff48e35e35b](https://sha256.is/2a94901a01417bf2c0096556725ca56619f176b0c79d3d6a1fcf4ff48e35e35b) |
+| Stage 2 `index.js` SHA-256 | [5ec319f44610644a95e0cfaccf4fba6cbe3b2f0a1532f9179bcff3d22b121cbe](https://sha256.is/5ec319f44610644a95e0cfaccf4fba6cbe3b2f0a1532f9179bcff3d22b121cbe) |
+| Stage 3 payload SHA-256 | [8cd5ddcaed0e7f15b570a531d59f1dd6698d9bd7246dbf87c59e877a8720b6ff](https://sha256.is/8cd5ddcaed0e7f15b570a531d59f1dd6698d9bd7246dbf87c59e877a8720b6ff) |
 | Stage 3 dead-drop | `https://www.jsonkeeper.com/b/ZIAIK` |
 | C2 | `http://5.231.107.229/api/service/6818cc25a53cf93f290d85c334d8a3b8` |
 | Campaign id | `6818cc25a53cf93f290d85c334d8a3b8` |

@@ -101,10 +101,10 @@ Strip the wrapper and this is [web-dotenv](/discoveries/2026/05/web-dotenv-jsonk
 
 | Indicator | Value |
 | --- | --- |
-| Tarball SHA-256 | [1fdd44688b0c659850b1afb6163655e5f7e8ba087fb7638d6a8d4d924e8dd2e0](https://lab.atomdrift.org/file/1fdd44688b0c659850b1afb6163655e5f7e8ba087fb7638d6a8d4d924e8dd2e0) |
-| `index.js` SHA-256 | [1f7b28a203a45563eb516228ba2beda4810887717cc64c49ab8dd5fdcf9458e5](https://lab.atomdrift.org/file/1f7b28a203a45563eb516228ba2beda4810887717cc64c49ab8dd5fdcf9458e5) |
-| Stage-2 Gist body SHA-256 | [6c9787cc8feefde605f56b1acda9476639cdcd4fdf25cef3c380021ad65cfd99](https://lab.atomdrift.org/file/6c9787cc8feefde605f56b1acda9476639cdcd4fdf25cef3c380021ad65cfd99) |
-| Stage-3 `0001.dat` SHA-256 | [448c74b0598bb0c37d90f93888220a121cf575252617e27ef6be6b71c210078e](https://lab.atomdrift.org/file/448c74b0598bb0c37d90f93888220a121cf575252617e27ef6be6b71c210078e) |
+| Tarball SHA-256 | [1fdd44688b0c659850b1afb6163655e5f7e8ba087fb7638d6a8d4d924e8dd2e0](https://sha256.is/1fdd44688b0c659850b1afb6163655e5f7e8ba087fb7638d6a8d4d924e8dd2e0) |
+| `index.js` SHA-256 | [1f7b28a203a45563eb516228ba2beda4810887717cc64c49ab8dd5fdcf9458e5](https://sha256.is/1f7b28a203a45563eb516228ba2beda4810887717cc64c49ab8dd5fdcf9458e5) |
+| Stage-2 Gist body SHA-256 | [6c9787cc8feefde605f56b1acda9476639cdcd4fdf25cef3c380021ad65cfd99](https://sha256.is/6c9787cc8feefde605f56b1acda9476639cdcd4fdf25cef3c380021ad65cfd99) |
+| Stage-3 `0001.dat` SHA-256 | [448c74b0598bb0c37d90f93888220a121cf575252617e27ef6be6b71c210078e](https://sha256.is/448c74b0598bb0c37d90f93888220a121cf575252617e27ef6be6b71c210078e) |
 | Gist URL | `https://gist.github.com/metabrainai000/198a0bbec7a6018e9250615d26e37b90` |
 | Gist API | `https://api.github.com/gists/198a0bbec7a6018e9250615d26e37b90` |
 | Gist owner | `metabrainai000` |

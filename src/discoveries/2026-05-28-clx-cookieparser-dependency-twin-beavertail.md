@@ -138,11 +138,11 @@ This is the same kit as [web-dotenv](/discoveries/2026/05/web-dotenv-jsonkeeper-
 
 | Type | Value |
 | --- | --- |
-| `1.4.7` index.js SHA-256 | [`1cbaf1823f0b004173454333a22b770fa1c36825b02b81bb258223c3fb6fc7b8`](https://lab.atomdrift.org/file/1cbaf1823f0b004173454333a22b770fa1c36825b02b81bb258223c3fb6fc7b8) |
-| `1.4.4` / `1.4.5` index.js SHA-256 | [`cc0cdf989e892a9f282f17b7511133916ed90e9cb3fbb49db60fe44ce3aece56`](https://lab.atomdrift.org/file/cc0cdf989e892a9f282f17b7511133916ed90e9cb3fbb49db60fe44ce3aece56) |
-| `1.4.7` tarball SHA-256 | [`aa0717bcd8e84d37588654679f1b79b21ee81fd0b65aaf1ab4324f7e5ea13973`](https://lab.atomdrift.org/file/aa0717bcd8e84d37588654679f1b79b21ee81fd0b65aaf1ab4324f7e5ea13973) |
-| Companion index.js SHA-256 | [`9eb97dcae23527bc66606235e0ad5d2c89692d311120dec3a636acf479e53047`](https://lab.atomdrift.org/file/9eb97dcae23527bc66606235e0ad5d2c89692d311120dec3a636acf479e53047) |
-| Companion tarball SHA-256 | [`5f22aac4634708cd73c3e2fc3e1ff94e2c4d48b0be8368351a2c707a8fd84819`](https://lab.atomdrift.org/file/5f22aac4634708cd73c3e2fc3e1ff94e2c4d48b0be8368351a2c707a8fd84819) |
+| `1.4.7` index.js SHA-256 | [`1cbaf1823f0b004173454333a22b770fa1c36825b02b81bb258223c3fb6fc7b8`](https://sha256.is/1cbaf1823f0b004173454333a22b770fa1c36825b02b81bb258223c3fb6fc7b8) |
+| `1.4.4` / `1.4.5` index.js SHA-256 | [`cc0cdf989e892a9f282f17b7511133916ed90e9cb3fbb49db60fe44ce3aece56`](https://sha256.is/cc0cdf989e892a9f282f17b7511133916ed90e9cb3fbb49db60fe44ce3aece56) |
+| `1.4.7` tarball SHA-256 | [`aa0717bcd8e84d37588654679f1b79b21ee81fd0b65aaf1ab4324f7e5ea13973`](https://sha256.is/aa0717bcd8e84d37588654679f1b79b21ee81fd0b65aaf1ab4324f7e5ea13973) |
+| Companion index.js SHA-256 | [`9eb97dcae23527bc66606235e0ad5d2c89692d311120dec3a636acf479e53047`](https://sha256.is/9eb97dcae23527bc66606235e0ad5d2c89692d311120dec3a636acf479e53047) |
+| Companion tarball SHA-256 | [`5f22aac4634708cd73c3e2fc3e1ff94e2c4d48b0be8368351a2c707a8fd84819`](https://sha256.is/5f22aac4634708cd73c3e2fc3e1ff94e2c4d48b0be8368351a2c707a8fd84819) |
 | Stage-2 loader | `https://www.jsonkeeper.com/b/MYUKZ` |
 | Stage-2 backup (dormant) | `https://www.jsonkeeper.com/b/HY6M6` |
 | Stage-3 geolocation source | `https://ipinfo.io/json?token=8e5005610fd390` |
@@ -150,10 +150,10 @@ This is the same kit as [web-dotenv](/discoveries/2026/05/web-dotenv-jsonkeeper-
 | Stage-3 sandbox blocklist | `Home PC, suraj, imran, Rishabh Verma, vboxuser, Shah faisal, Developer, Programador` |
 | Stage-3/4 C2 | `http://216.126.225.83/api/service/acd4ab512f1e10ba62a6f23b7038b725` |
 | Stage-4 loader | `$TMPDIR/0001.dat` (re-obfuscated per fetch; snapshots `b0eb15b8…`, `3231629620…`) |
-| `scdata.js` (Socket.IO RAT) SHA-256 | [`126d0ed4e6c29d54625884bedcd164af2c38bc887a198d03ad1cf0fd8fe9b761`](https://lab.atomdrift.org/file/126d0ed4e6c29d54625884bedcd164af2c38bc887a198d03ad1cf0fd8fe9b761) |
-| `ldata.js` (browser/wallet stealer) SHA-256 | [`38b4d90b63e49abd76fb8974379c9c75af032ab259cc138d1a88baf3c27dfaa3`](https://lab.atomdrift.org/file/38b4d90b63e49abd76fb8974379c9c75af032ab259cc138d1a88baf3c27dfaa3) |
-| `captured_spawn_11.js` (file grabber) SHA-256 | [`0de58bc71e6a7f7e0fd1a174a1413765a727e460edd79386a0c0359b6b0498b0`](https://lab.atomdrift.org/file/0de58bc71e6a7f7e0fd1a174a1413765a727e460edd79386a0c0359b6b0498b0) |
-| `captured_spawn_12.js` (clipboard) SHA-256 | [`98485250e2ed047b5f893fcdaa2a779614972063a4c3587b9046256b0ddb8b45`](https://lab.atomdrift.org/file/98485250e2ed047b5f893fcdaa2a779614972063a4c3587b9046256b0ddb8b45) |
+| `scdata.js` (Socket.IO RAT) SHA-256 | [`126d0ed4e6c29d54625884bedcd164af2c38bc887a198d03ad1cf0fd8fe9b761`](https://sha256.is/126d0ed4e6c29d54625884bedcd164af2c38bc887a198d03ad1cf0fd8fe9b761) |
+| `ldata.js` (browser/wallet stealer) SHA-256 | [`38b4d90b63e49abd76fb8974379c9c75af032ab259cc138d1a88baf3c27dfaa3`](https://sha256.is/38b4d90b63e49abd76fb8974379c9c75af032ab259cc138d1a88baf3c27dfaa3) |
+| `captured_spawn_11.js` (file grabber) SHA-256 | [`0de58bc71e6a7f7e0fd1a174a1413765a727e460edd79386a0c0359b6b0498b0`](https://sha256.is/0de58bc71e6a7f7e0fd1a174a1413765a727e460edd79386a0c0359b6b0498b0) |
+| `captured_spawn_12.js` (clipboard) SHA-256 | [`98485250e2ed047b5f893fcdaa2a779614972063a4c3587b9046256b0ddb8b45`](https://sha256.is/98485250e2ed047b5f893fcdaa2a779614972063a4c3587b9046256b0ddb8b45) |
 | File exfil | `http://216.126.224.220:5976/upload` (multipart) |
 | Clipboard exfil | `http://216.126.225.83/npm-compiler.log` |
 | RAT C2 | `216.126.225.83` (Socket.IO), `/api/service/makelog` |

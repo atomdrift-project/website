@@ -188,9 +188,9 @@ The miner is dead on arrival, but the cookie grab fires on every page load from 
 | Type | Value |
 | --- | --- |
 | Tarball | `v018-axios-cdntest-1.0.2.tgz` |
-| Tarball SHA-256 | [`75d203f0cec8ff16969967c3841d243b1166a3049f788e9ebd6160f2705f3260`](https://lab.atomdrift.org/file/75d203f0cec8ff16969967c3841d243b1166a3049f788e9ebd6160f2705f3260) |
-| `index.js` SHA-256 | [`68ca1c801b60f550147c9c8ba54a952c223077c93cd845ef1815ec25f7fa7553`](https://lab.atomdrift.org/file/68ca1c801b60f550147c9c8ba54a952c223077c93cd845ef1815ec25f7fa7553) |
-| `xmr-min.js` SHA-256 | [`d4e79df98be10a6f358cfd304fe9f0bb4b55226bc79bd132a2032e6138f663c3`](https://lab.atomdrift.org/file/d4e79df98be10a6f358cfd304fe9f0bb4b55226bc79bd132a2032e6138f663c3) |
+| Tarball SHA-256 | [`75d203f0cec8ff16969967c3841d243b1166a3049f788e9ebd6160f2705f3260`](https://sha256.is/75d203f0cec8ff16969967c3841d243b1166a3049f788e9ebd6160f2705f3260) |
+| `index.js` SHA-256 | [`68ca1c801b60f550147c9c8ba54a952c223077c93cd845ef1815ec25f7fa7553`](https://sha256.is/68ca1c801b60f550147c9c8ba54a952c223077c93cd845ef1815ec25f7fa7553) |
+| `xmr-min.js` SHA-256 | [`d4e79df98be10a6f358cfd304fe9f0bb4b55226bc79bd132a2032e6138f663c3`](https://sha256.is/d4e79df98be10a6f358cfd304fe9f0bb4b55226bc79bd132a2032e6138f663c3) |
 | Delivery URL | `https://cdn.jsdelivr.net/npm/v018-axios-cdntest@1.0.2/xmr-min.js` |
 | Exfil webhook | `https://webhook.site/ef6e7978-f936-4664-b3ff-296a250e1735` |
 | Mining pool | `pool.supportxmr.com:4444` |

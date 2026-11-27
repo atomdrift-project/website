@@ -60,8 +60,8 @@ The library keeps its promise of high throughput; the build script keeps a copy 
 | Type | Value |
 | --- | --- |
 | Crate | `onering-1.4.1.crate` |
-| Crate SHA-256 | [`bf1a59c082131ee826cda6c5c2a50857286f8dbb5f9851c368d1117d558ad41e`](https://lab.atomdrift.org/file/bf1a59c082131ee826cda6c5c2a50857286f8dbb5f9851c368d1117d558ad41e) |
-| `build.rs` SHA-256 | [`d46497217da839e05b88c745b655ccaa49e0bdd45e2b706d132711c79fb38c28`](https://lab.atomdrift.org/file/d46497217da839e05b88c745b655ccaa49e0bdd45e2b706d132711c79fb38c28) |
+| Crate SHA-256 | [`bf1a59c082131ee826cda6c5c2a50857286f8dbb5f9851c368d1117d558ad41e`](https://sha256.is/bf1a59c082131ee826cda6c5c2a50857286f8dbb5f9851c368d1117d558ad41e) |
+| `build.rs` SHA-256 | [`d46497217da839e05b88c745b655ccaa49e0bdd45e2b706d132711c79fb38c28`](https://sha256.is/d46497217da839e05b88c745b655ccaa49e0bdd45e2b706d132711c79fb38c28) |
 | Sentry DSN | `https://8197ee42c4f59c83f4cc6d48f5bae821@o4511539639222272.ingest.de.sentry.io/4511539669368912` |
 | Exfil endpoint | `https://o4511539639222272.ingest.de.sentry.io/api/4511539669368912/envelope/` |
 

@@ -95,13 +95,13 @@ It's impersonation all the way down — a library built to fake browser fingerpr
 | Type | Value |
 | --- | --- |
 | Module zip | `github.com-mehdimin11-surf-v0.0.0-20260613092640-ad5ed84dc67c.zip` |
-| Module zip SHA-256 | [`6a48ef430e554a2826d0afcdf0c24a9ef7d3e0b76c39975c39181ffe2b18020b`](https://lab.atomdrift.org/file/6a48ef430e554a2826d0afcdf0c24a9ef7d3e0b76c39975c39181ffe2b18020b) |
+| Module zip SHA-256 | [`6a48ef430e554a2826d0afcdf0c24a9ef7d3e0b76c39975c39181ffe2b18020b`](https://sha256.is/6a48ef430e554a2826d0afcdf0c24a9ef7d3e0b76c39975c39181ffe2b18020b) |
 | Payload archive | `Software-v1.1-alpha.1.zip` |
-| Payload archive SHA-256 | [`5eefdc7551235432c91e85b80d1a9ef3976055d09ffbbe54c12338da3c559852`](https://lab.atomdrift.org/file/5eefdc7551235432c91e85b80d1a9ef3976055d09ffbbe54c12338da3c559852) |
+| Payload archive SHA-256 | [`5eefdc7551235432c91e85b80d1a9ef3976055d09ffbbe54c12338da3c559852`](https://sha256.is/5eefdc7551235432c91e85b80d1a9ef3976055d09ffbbe54c12338da3c559852) |
 | Obfuscated loader | `uix.txt` |
-| `uix.txt` SHA-256 | [`8cede35b80b1deaf732c2b178d908f91b3e7a0c114d06dfae9075b8a9bf78b8f`](https://lab.atomdrift.org/file/8cede35b80b1deaf732c2b178d908f91b3e7a0c114d06dfae9075b8a9bf78b8f) |
+| `uix.txt` SHA-256 | [`8cede35b80b1deaf732c2b178d908f91b3e7a0c114d06dfae9075b8a9bf78b8f`](https://sha256.is/8cede35b80b1deaf732c2b178d908f91b3e7a0c114d06dfae9075b8a9bf78b8f) |
 | Bundled interpreter | `luajit.exe` |
-| `luajit.exe` SHA-256 | [`f3e34c9e36f3be065d80d456281d31dd1cc85eb4980db7fa8c1b0eb6f29c25d8`](https://lab.atomdrift.org/file/f3e34c9e36f3be065d80d456281d31dd1cc85eb4980db7fa8c1b0eb6f29c25d8) |
+| `luajit.exe` SHA-256 | [`f3e34c9e36f3be065d80d456281d31dd1cc85eb4980db7fa8c1b0eb6f29c25d8`](https://sha256.is/f3e34c9e36f3be065d80d456281d31dd1cc85eb4980db7fa8c1b0eb6f29c25d8) |
 | Download URL | `https://github.com/mehdimin11/surf/raw/refs/heads/main/examples/Software-v1.1-alpha.1.zip` |
 | C2 (screenshot exfil) | `213.176.73.151` |
 | C2 endpoint | `POST /api/NTE3YjdjNWU1NjYzNjU2YTA1N2Y=` (multipart/form-data) |

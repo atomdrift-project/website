@@ -89,9 +89,9 @@ Strip the costume and it's an ordinary credential stealer; the worm part is the 
 
 | Type | Value |
 | --- | --- |
-| Tarball SHA-256 | [`e3dcc5f7caf2bfe749f2050c39b1f01654e52d45918204b9b8b1c55bf8908395`](https://lab.atomdrift.org/file/e3dcc5f7caf2bfe749f2050c39b1f01654e52d45918204b9b8b1c55bf8908395) |
-| `index.js` SHA-256 | [`d9409a6b1fcfe0ef2ba83aab3ff2a4a14770e659c0209829e8551fd50aa67873`](https://lab.atomdrift.org/file/d9409a6b1fcfe0ef2ba83aab3ff2a4a14770e659c0209829e8551fd50aa67873) |
-| `binding.gyp` SHA-256 | [`ef641e956f91d501b748085996303c96a64d67f63bfeef0dda175e5aa19cca90`](https://lab.atomdrift.org/file/ef641e956f91d501b748085996303c96a64d67f63bfeef0dda175e5aa19cca90) |
+| Tarball SHA-256 | [`e3dcc5f7caf2bfe749f2050c39b1f01654e52d45918204b9b8b1c55bf8908395`](https://sha256.is/e3dcc5f7caf2bfe749f2050c39b1f01654e52d45918204b9b8b1c55bf8908395) |
+| `index.js` SHA-256 | [`d9409a6b1fcfe0ef2ba83aab3ff2a4a14770e659c0209829e8551fd50aa67873`](https://sha256.is/d9409a6b1fcfe0ef2ba83aab3ff2a4a14770e659c0209829e8551fd50aa67873) |
+| `binding.gyp` SHA-256 | [`ef641e956f91d501b748085996303c96a64d67f63bfeef0dda175e5aa19cca90`](https://sha256.is/ef641e956f91d501b748085996303c96a64d67f63bfeef0dda175e5aa19cca90) |
 | Bun runtime | `https://github.com/oven-sh/bun/releases/download/bun-v1.3.13/bun-<os>-<arch>.zip` |
 | Bun staging dir | `/tmp/b-<random>/bun` |
 | Dropped payload | `/tmp/p<random>.js` |
