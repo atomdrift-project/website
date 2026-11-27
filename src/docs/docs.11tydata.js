@@ -12,6 +12,11 @@ module.exports = {
   eleventyComputed: {
     // Tool name = the folder under src/docs/ (parts: ["", "docs", <tool>, <slug>]).
     tool: (data) => data.page.filePathStem.split("/")[2],
+    // <title> names the tool, so "FAQ" on four tools gives four distinct titles.
+    pageTitle: (data) => {
+      const [, , tool, slug] = data.page.filePathStem.split("/");
+      return slug === "index" ? data.title : `${data.title} · ${tool}`;
+    },
     permalink: (data) => {
       const [, , tool, slug] = data.page.filePathStem.split("/");
       return slug === "index" ? `/${tool}/` : `/${tool}/${slug}/`;

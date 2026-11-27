@@ -31,12 +31,12 @@ The published package is an empty suit: a one-line `index.js`, npm's stock test 
 }
 </code></pre>
 
-| | Trait | What it caught |
+| <span class="visually-hidden">Severity</span> | Trait | What it caught |
 | --- | --- | --- |
-| <span class="sev-dot hostile" title="hostile"></span> | `objectives/supply-chain/metadata-anomaly/dependency/direct-url::dep-bucket-gcs` | Dependency value is a GCS bucket URL: `storage.googleapis.com/lscunpentest/pack_ux_foundry.tgz` |
-| <span class="sev-dot hostile" title="hostile"></span> | `objectives/supply-chain/metadata-anomaly/dependency/direct-url::url-dep-minimal-metadata` | URL dependency paired with skeletal metadata (`lspodcc`) |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `objectives/supply-chain/metadata-anomaly/versioning::npm-version-major-40-plus` | Version `99.91.9` — a dependency-confusion squat signal |
-| <span class="sev-dot notable" title="notable"></span> | `objectives/supply-chain/metadata-anomaly/package/npm::npm-init-default-test` | Stock `npm init` placeholder test script |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `objectives/supply-chain/metadata-anomaly/dependency/direct-url::dep-bucket-gcs` | Dependency value is a GCS bucket URL: `storage.googleapis.com/lscunpentest/pack_ux_foundry.tgz` |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `objectives/supply-chain/metadata-anomaly/dependency/direct-url::url-dep-minimal-metadata` | URL dependency paired with skeletal metadata (`lspodcc`) |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `objectives/supply-chain/metadata-anomaly/versioning::npm-version-major-40-plus` | Version `99.91.9` — a dependency-confusion squat signal |
+| <span class="sev-dot notable" aria-hidden="true"></span>notable | `objectives/supply-chain/metadata-anomaly/package/npm::npm-init-default-test` | Stock `npm init` placeholder test script |
 
 ## Stage 2 — pack_ux_foundry: the preinstall beacon
 
@@ -51,14 +51,14 @@ The tarball is a faithful copy of the public `network-speed` module with the mal
 <span class="tok-fn">getNetworkDownloadSpeedData</span>(hd);
 </code></pre>
 
-| | Trait | What it caught |
+| <span class="visually-hidden">Severity</span> | Trait | What it caught |
 | --- | --- | --- |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `objectives/supply-chain/install-hook/scripts/lifecycle::silent-obfuscated-npm-dropper` | `preinstall` runs `node test.js > /dev/null 2>&1` |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `objectives/exfiltration/dns/tunnel::subdomain-encode` | Victim data encoded as the leftmost subdomain label of `wwwz15e554m201wwajfl7m1ey54z1nq.oastify.com` |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `objectives/supply-chain/recon-exfil/dns::dns-lookup-with-canary-domain` | Host recon resolved through an `oast` canary domain |
-| <span class="sev-dot notable" title="notable"></span> | `objectives/exfiltration/oob/endpoint::oastify` | Callback host is a Burp Collaborator subdomain on `oastify.com` |
-| <span class="sev-dot notable" title="notable"></span> | `objectives/supply-chain/recon-exfil/package::npm-victim-id-recon` | Collects host identity via `os.networkInterfaces` and `os.homedir` |
-| <span class="sev-dot notable" title="notable"></span> | `objectives/supply-chain/trojanized/library/framework::preinstall-hook` | A `preinstall` hook grafted onto a copied library |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `objectives/supply-chain/install-hook/scripts/lifecycle::silent-obfuscated-npm-dropper` | `preinstall` runs `node test.js > /dev/null 2>&1` |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `objectives/exfiltration/dns/tunnel::subdomain-encode` | Victim data encoded as the leftmost subdomain label of `wwwz15e554m201wwajfl7m1ey54z1nq.oastify.com` |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `objectives/supply-chain/recon-exfil/dns::dns-lookup-with-canary-domain` | Host recon resolved through an `oast` canary domain |
+| <span class="sev-dot notable" aria-hidden="true"></span>notable | `objectives/exfiltration/oob/endpoint::oastify` | Callback host is a Burp Collaborator subdomain on `oastify.com` |
+| <span class="sev-dot notable" aria-hidden="true"></span>notable | `objectives/supply-chain/recon-exfil/package::npm-victim-id-recon` | Collects host identity via `os.networkInterfaces` and `os.homedir` |
+| <span class="sev-dot notable" aria-hidden="true"></span>notable | `objectives/supply-chain/trojanized/library/framework::preinstall-hook` | A `preinstall` hook grafted onto a copied library |
 
 ## Same recipe as shop-minis
 

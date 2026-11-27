@@ -61,12 +61,12 @@ The zip holds three files and no ambiguity: `Launcher.cmd` is the entire detonat
 </code></pre>
 {% endraw %}
 
-| | File | Trait | Evidence |
+| <span class="visually-hidden">Severity</span> | File | Trait | Evidence |
 | --- | --- | --- | --- |
-| <span class="sev-dot hostile" title="hostile"></span> | `Software-v1.1-alpha.1.zip` | `objectives/supply-chain/hidden-payload/exec` | `Launcher.cmd` runs `luajit.exe uix.txt` — archive ships its own interpreter to execute the payload (T1195.002) |
-| <span class="sev-dot hostile" title="hostile"></span> | `…zip!!uix.txt` | `objectives/anti-static/obfuscation/code-metrics/structure` | 309 KB single-line packed return-function loader, indexed string-permutation decoder (T1027) |
-| <span class="sev-dot notable" title="notable"></span> | `luajit.exe` | `micro-behaviors/process/interpreter/lua` | Stock LuaJIT VM — the bring-your-own runtime, benign in itself |
-| <span class="sev-dot notable" title="notable"></span> | `luajit.exe` | `objectives/evasion/process/injection/shellcode` | W^X flips via `VirtualProtect` + `CreateThread` — inherent to a JIT, flagged on the byte pattern |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `Software-v1.1-alpha.1.zip` | `objectives/supply-chain/hidden-payload/exec` | `Launcher.cmd` runs `luajit.exe uix.txt` — archive ships its own interpreter to execute the payload (T1195.002) |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `…zip!!uix.txt` | `objectives/anti-static/obfuscation/code-metrics/structure` | 309 KB single-line packed return-function loader, indexed string-permutation decoder (T1027) |
+| <span class="sev-dot notable" aria-hidden="true"></span>notable | `luajit.exe` | `micro-behaviors/process/interpreter/lua` | Stock LuaJIT VM — the bring-your-own runtime, benign in itself |
+| <span class="sev-dot notable" aria-hidden="true"></span>notable | `luajit.exe` | `objectives/evasion/process/injection/shellcode` | W^X flips via `VirtualProtect` + `CreateThread` — inherent to a JIT, flagged on the byte pattern |
 
 Run under an instrumented LuaJIT harness, the 309 KB line unfolds into an FFI shellcode loader that walks the `PEB_LDR_DATA` chain by hand to resolve its APIs, then photographs the desktop and mails it home. The bitmap leaves as a multipart POST to a hardcoded IP, wrapped in the usual misdirection: a geolocation lookup, a decoy Polygon RPC call, and a Tor/I2P-shaped fallback address. The behavior we trapped is a screenshot stealer, but one instrumented run only exercises the branches it reaches — and that live `eth_call` against a smart contract is the kind of hook that could fetch a second stage, drain a wallet, or open remote control we never tripped, so read the screenshot as the floor of this payload's ambition, not the ceiling.
 

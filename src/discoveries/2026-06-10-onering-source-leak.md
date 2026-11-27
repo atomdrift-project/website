@@ -32,13 +32,13 @@ At build time — before a line of the library compiles — the script shells ou
 
 Every step bails silently on error, and the diff itself is one such failure: a repo with a single commit has no `HEAD^`, so the leak does nothing there and fires only against projects with history worth taking.
 
-| | File | Trait | Evidence |
+| <span class="visually-hidden">Severity</span> | File | Trait | Evidence |
 | --- | --- | --- | --- |
-| <span class="sev-dot hostile" title="hostile"></span> | `build.rs` | `objectives/supply-chain/recon-exfil/install-hook` | Assembles a Sentry envelope from `git log` + `git diff HEAD^ HEAD` and POSTs it |
-| <span class="sev-dot hostile" title="hostile"></span> | `build.rs` | `objectives/supply-chain/install-hook/build/behavioral` | Build script reads the environment and POSTs the payload outbound via curl |
-| <span class="sev-dot notable" title="notable"></span> | `build.rs` | `micro-behaviors/process/create/direct` | Spawns `git` and `curl` subprocesses via `Command::new` |
-| <span class="sev-dot notable" title="notable"></span> | `build.rs` | `micro-behaviors/os/env/access` | Reads `OUT_DIR` to walk up into the consuming repo |
-| <span class="sev-dot notable" title="notable"></span> | `build.rs` | `micro-behaviors/communications/http/download/curl` | `Command::new("curl")` POSTs to `ingest.de.sentry.io` |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `build.rs` | `objectives/supply-chain/recon-exfil/install-hook` | Assembles a Sentry envelope from `git log` + `git diff HEAD^ HEAD` and POSTs it |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `build.rs` | `objectives/supply-chain/install-hook/build/behavioral` | Build script reads the environment and POSTs the payload outbound via curl |
+| <span class="sev-dot notable" aria-hidden="true"></span>notable | `build.rs` | `micro-behaviors/process/create/direct` | Spawns `git` and `curl` subprocesses via `Command::new` |
+| <span class="sev-dot notable" aria-hidden="true"></span>notable | `build.rs` | `micro-behaviors/os/env/access` | Reads `OUT_DIR` to walk up into the consuming repo |
+| <span class="sev-dot notable" aria-hidden="true"></span>notable | `build.rs` | `micro-behaviors/communications/http/download/curl` | `Command::new("curl")` POSTs to `ingest.de.sentry.io` |
 
 ## Package metadata
 

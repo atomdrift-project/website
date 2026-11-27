@@ -127,10 +127,10 @@ False positives:
 
 Surviving traits — the Tauri surface itself:
 
-|  | Trait | What it caught |
+| <span class="visually-hidden">Severity</span> | Trait | What it caught |
 | --- | --- | --- |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `command-and-control/backdoor/control/file-manager` | Tauri `*_sftp` + `execute_command*` exposed over HTTP |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `discovery/system/fingerprint/info` | `GetSystemInfo`, drive and volume enumeration |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `command-and-control/backdoor/control/file-manager` | Tauri `*_sftp` + `execute_command*` exposed over HTTP |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `discovery/system/fingerprint/info` | `GetSystemInfo`, drive and volume enumeration |
 
 ## The campaign does not close the loop
 
@@ -144,19 +144,19 @@ As shipped, the chain between dropper and binary never connects, leaving the rea
 
 The [Fallout report](https://lab.atomdrift.org/file/75a602995eeebbeee9c0af1e6e83f2384d5426cb64af78f4475f261add329410) returns malicious at probability 1.0, clustering on IPFS delivery, stealth spawn, multi-platform persistence, and the Windows Defender masquerade:
 
-|  | Trait | What it caught |
+| <span class="visually-hidden">Severity</span> | Trait | What it caught |
 | --- | --- | --- |
-| <span class="sev-dot hostile" title="hostile"></span> | `command-and-control/dropper/delivery/blockchain` | Four IPFS gateways fronting one CID |
-| <span class="sev-dot hostile" title="hostile"></span> | `command-and-control/dropper/execution/persistence` | Download → Run key + LaunchAgents + XDG autostart |
-| <span class="sev-dot hostile" title="hostile"></span> | `command-and-control/dropper/execution/stealth-spawn` | `detached:true` + `stdio:'ignore'` + `windowsHide:true` + `unref()` co-located |
-| <span class="sev-dot hostile" title="hostile"></span> | `evasion/masquerade/identity/fabricated` | Drops as `windows defender host.exe` |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `command-and-control/channel/http-beacon` | `POST /api/urls?url=<ip>` to `170.205.31.203:2026` |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `command-and-control/infrastructure/ip-port` | Hardcoded IPv4 endpoint, no DNS |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `evasion/self-delete/file/script` | `fs.unlink(dest, () => {})` on every failure path |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `evasion/masquerade/identity/user-agent` | Chrome 124 UA in dropper requests |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `persistence/system/launchd/core` | LaunchAgents plist with `RunAtLoad` |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `persistence/system/init/boot` | `~/.config/autostart/clob.desktop` |
-| <span class="sev-dot notable" title="notable"></span> | `persistence/login/registry/autostart` | `HKCU\…\Run` with VBS launcher |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `command-and-control/dropper/delivery/blockchain` | Four IPFS gateways fronting one CID |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `command-and-control/dropper/execution/persistence` | Download → Run key + LaunchAgents + XDG autostart |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `command-and-control/dropper/execution/stealth-spawn` | `detached:true` + `stdio:'ignore'` + `windowsHide:true` + `unref()` co-located |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `evasion/masquerade/identity/fabricated` | Drops as `windows defender host.exe` |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `command-and-control/channel/http-beacon` | `POST /api/urls?url=<ip>` to `170.205.31.203:2026` |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `command-and-control/infrastructure/ip-port` | Hardcoded IPv4 endpoint, no DNS |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `evasion/self-delete/file/script` | `fs.unlink(dest, () => {})` on every failure path |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `evasion/masquerade/identity/user-agent` | Chrome 124 UA in dropper requests |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `persistence/system/launchd/core` | LaunchAgents plist with `RunAtLoad` |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `persistence/system/init/boot` | `~/.config/autostart/clob.desktop` |
+| <span class="sev-dot notable" aria-hidden="true"></span>notable | `persistence/login/registry/autostart` | `HKCU\…\Run` with VBS launcher |
 
 ## Likely actor
 

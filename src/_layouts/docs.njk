@@ -9,9 +9,10 @@ layout: base.njk
     {{ content | safe }}
   </div>
 
-  <aside class="sidebar docs-search">
-    <h3>Search the docs</h3>
+  <aside class="sidebar docs-search" aria-labelledby="docs-search-title">
+    <h3 id="docs-search-title">Search the docs</h3>
     <div id="docs-search"></div>
+    <p id="docs-search-status" class="visually-hidden" role="status"></p>
     <p class="docs-search-hint">Searches every tool's documentation.</p>
   </aside>
 </div>
@@ -21,9 +22,21 @@ layout: base.njk
 <script src="/pagefind/pagefind-ui.js"></script>
 <script>
   window.addEventListener("DOMContentLoaded", function () {
-    if (window.PagefindUI) {
-      new PagefindUI({ element: "#docs-search", showImages: false, showSubResults: true });
-    }
+    if (!window.PagefindUI) return;
+    new PagefindUI({ element: "#docs-search", showImages: false, showSubResults: true });
+    // Pagefind names its input only by title and never announces results:
+    // label the input and mirror its result message into a status region.
+    var root = document.getElementById("docs-search");
+    var status = document.getElementById("docs-search-status");
+    var sync = function () {
+      var input = root.querySelector("input");
+      if (input && !input.hasAttribute("aria-label")) input.setAttribute("aria-label", "Search the docs");
+      var message = root.querySelector(".pagefind-ui__message");
+      var text = message ? message.textContent : "";
+      if (status.textContent !== text) status.textContent = text;
+    };
+    new MutationObserver(sync).observe(root, { childList: true, subtree: true, characterData: true });
+    sync();
   });
 </script>
 

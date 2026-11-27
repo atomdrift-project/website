@@ -45,16 +45,16 @@ Method 2's comment promises `id`; the call is a `bash -i >& /dev/tcp` reverse sh
 
 The [Fallout report](https://lab.atomdrift.org/file/8b02bd641c856c510d26da46d003ac076dd754f8bab42143b676f9478ed5501e) labels the archive against the [open cleave-traits taxonomy](https://github.com/atomdrift-project/traits), with [azoth](/azoth/) returning a malicious verdict at probability 1.0:
 
-|  | Trait | What it caught |
+| <span class="visually-hidden">Severity</span> | Trait | What it caught |
 | --- | --- | --- |
-| <span class="sev-dot hostile" title="hostile"></span> | `objectives/supply-chain/recon-exfil/pipeline` | npm package shaped to harvest CI/CD identity |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `objectives/command-and-control/reverse-shell/dup` | Bash reverse shell via `/dev/tcp` |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `objectives/discovery/system/fingerprint/runtime` | User information collection |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `objectives/supply-chain/metadata-anomaly/package/npm` | Placeholder author, no repository URL |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `objectives/evasion/masquerade/naming/placeholder` | Author field set to a test placeholder |
-| <span class="sev-dot notable" title="notable"></span> | `micro-behaviors/process/create/shell/bridge` | Synchronous shell execution |
-| <span class="sev-dot notable" title="notable"></span> | `objectives/supply-chain/recon-exfil/install-hook` | Package collects victim identifiers |
-| <span class="sev-dot notable" title="notable"></span> | `metadata/package/fields/bin` | Declared CLI binary as the execution surface |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `objectives/supply-chain/recon-exfil/pipeline` | npm package shaped to harvest CI/CD identity |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `objectives/command-and-control/reverse-shell/dup` | Bash reverse shell via `/dev/tcp` |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `objectives/discovery/system/fingerprint/runtime` | User information collection |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `objectives/supply-chain/metadata-anomaly/package/npm` | Placeholder author, no repository URL |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `objectives/evasion/masquerade/naming/placeholder` | Author field set to a test placeholder |
+| <span class="sev-dot notable" aria-hidden="true"></span>notable | `micro-behaviors/process/create/shell/bridge` | Synchronous shell execution |
+| <span class="sev-dot notable" aria-hidden="true"></span>notable | `objectives/supply-chain/recon-exfil/install-hook` | Package collects victim identifiers |
+| <span class="sev-dot notable" aria-hidden="true"></span>notable | `metadata/package/fields/bin` | Declared CLI binary as the execution surface |
 
 The reverse shell hands the attacker an interactive terminal on whatever ran the package, with that user's privileges, for as long as the TCP connection holds — narrower blast radius than a `preinstall` compromise since execution has to happen, but enough to reach SSH agents, npm and GitHub tokens, and CI deploy keys, so treat any host that ran it as compromised.
 

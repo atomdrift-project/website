@@ -8,17 +8,16 @@ tool: cleave
   <div class="content" data-pagefind-body>
 
     <div class="project-header">
-      <img src="/assets/images/cleave.svg" alt="cleave" class="proj-logo">
+      <h1 class="project-title"><img src="/assets/images/cleave.svg" alt="cleave" class="proj-logo"></h1>
       <span class="badge badge-stable">stable</span>
-      <h1 class="visually-hidden">cleave</h1>
     </div>
     {% include "docs-nav.njk" %}
     <p>cleave answers one question: <em>what can this program do?</em>
     It unpacks the file, extracts structural facts, and matches them against
-    the public <a href="https://github.com/atomdrift-project/traits" target="_blank">Atomdrift traits</a>
+    the public <a href="https://github.com/atomdrift-project/traits">Atomdrift traits</a>
     rule set, aligned broadly to
-    <a href="https://github.com/MBCProject/mbc-markdown" target="_blank">MBC</a> and
-    <a href="https://attack.mitre.org/" target="_blank">MITRE ATT&amp;CK</a>.
+    <a href="https://github.com/MBCProject/mbc-markdown">MBC</a> and
+    <a href="https://attack.mitre.org/">MITRE ATT&amp;CK</a>.
     Every finding points back to the strings, symbols, imports, or metadata
     that produced it. Apache-2.0, no telemetry.</p>
 
@@ -56,7 +55,7 @@ tool: cleave
 <pre class="install-block">brew install atomdrift-project/tap/cleave             # macOS / Linux</pre>
 
     <p>Prebuilt binaries for macOS, Linux, Windows, FreeBSD, and illumos are on the
-    <a href="https://github.com/atomdrift-project/cleave/releases" target="_blank">releases
+    <a href="https://github.com/atomdrift-project/cleave/releases">releases
     page</a>.</p>
 
     <p>From source (Rust 1.97+):</p>
@@ -71,26 +70,26 @@ cleave diff v1.2.0/ v1.3.0/                   # release-to-release diff
 cleave --format jsonl --min-crit suspicious   # streaming JSON for pipelines</pre>
 
     <p style="margin-top: 12px; font-size: 0.8125rem;">Optional:
-    <a href="https://github.com/rizinorg/rizin" target="_blank">rizin</a> for disassembly,
-    <a href="https://github.com/upx/upx" target="_blank">upx</a> for unpacking, and upstream
-    <a href="https://7-zip.org/" target="_blank">7-Zip</a> for disk images (p7zip cannot read APFS, so
+    <a href="https://github.com/rizinorg/rizin">rizin</a> for disassembly,
+    <a href="https://github.com/upx/upx">upx</a> for unpacking, and upstream
+    <a href="https://7-zip.org/">7-Zip</a> for disk images (p7zip cannot read APFS, so
     <code>.dmg</code> contents go unscanned).</p>
 
   </div>
 
-  <div class="sidebar">
+  <aside class="sidebar" aria-label="Project links">
 
     <h3>Links</h3>
     <ul>
-      <li><a href="https://github.com/atomdrift-project/cleave" target="_blank">Source code</a></li>
-      <li><a href="https://github.com/atomdrift-project/cleave/releases" target="_blank">Releases</a></li>
-      <li><a href="https://github.com/atomdrift-project/cleave/issues" target="_blank">Bug tracker</a></li>
+      <li><a href="https://github.com/atomdrift-project/cleave">Source code</a></li>
+      <li><a href="https://github.com/atomdrift-project/cleave/releases">Releases</a></li>
+      <li><a href="https://github.com/atomdrift-project/cleave/issues">Bug tracker</a></li>
     </ul>
 
     <h3>Contributing</h3>
     <ul>
-      <li><a href="https://github.com/atomdrift-project/cleave" target="_blank">Fork on GitHub</a></li>
-      <li><a href="https://github.com/atomdrift-project/cleave/issues" target="_blank">Open an issue</a></li>
+      <li><a href="https://github.com/atomdrift-project/cleave">Fork on GitHub</a></li>
+      <li><a href="https://github.com/atomdrift-project/cleave/issues">Open an issue</a></li>
     </ul>
 
     <h3>Project Info</h3>
@@ -107,5 +106,5 @@ cleave --format jsonl --min-crit suspicious   # streaming JSON for pipelines</pr
       <li><a href="/scan/">scan</a> — AI malware detection</li>
     </ul>
 
-  </div>
+  </aside>
 </div>

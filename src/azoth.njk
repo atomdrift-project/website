@@ -7,15 +7,14 @@ title: "azoth — Open-Source AI Model for General Malware Detection"
   <div class="content">
 
     <div class="project-header">
-      <img src="/assets/images/azoth.svg" alt="azoth" class="proj-logo">
+      <h1 class="project-title"><img src="/assets/images/azoth.svg" alt="azoth" class="proj-logo"></h1>
       <span class="badge badge-stable">stable</span>
-      <h1 class="visually-hidden">azoth</h1>
     </div>
 
     <p>Azoth is the model bundle behind <a href="/scan/">Atomdrift Scan</a>.
     It takes <a href="/cleave/">cleave</a>'s report of what a file can do,
-    expressed as <a href="https://attack.mitre.org/" target="_blank">MITRE ATT&amp;CK</a>
-    techniques and <a href="https://github.com/MBCProject/mbc-markdown" target="_blank">MBC</a>
+    expressed as <a href="https://attack.mitre.org/">MITRE ATT&amp;CK</a>
+    techniques and <a href="https://github.com/MBCProject/mbc-markdown">MBC</a>
     behaviors, and returns a score. Scan applies your false-positive budget
     to that score and calls the file benign, suspicious, or hostile.</p>
 
@@ -69,7 +68,7 @@ title: "azoth — Open-Source AI Model for General Malware Detection"
     corpus. Published numbers come from a locked 2.2-million-row test
     partition, disjoint from training and calibration. Per-filetype PR AUC,
     ROC AUC, F1, and recall at L25 are on
-    <a href="https://github.com/atomdrift-project/azoth" target="_blank">GitHub</a>,
+    <a href="https://github.com/atomdrift-project/azoth">GitHub</a>,
     next to the weights, pipeline, and harness. Read the contributing
     capabilities, not just the verdict.</p>
 
@@ -78,23 +77,23 @@ title: "azoth — Open-Source AI Model for General Malware Detection"
     label, and publish malware samples. The training corpus draws from:</p>
 
     <ul>
-      <li><a href="https://bazaar.abuse.ch/" target="_blank">MalwareBazaar</a> (abuse.ch)</li>
-      <li><a href="https://virusshare.com/" target="_blank">VirusShare</a></li>
-      <li><a href="https://dasfreak.github.io/Backstabbers-Knife-Collection/" target="_blank">Backstabber's Knife Collection</a></li>
-      <li><a href="https://github.com/DataDog/malicious-software-packages-dataset" target="_blank">DataDog Malicious Software Packages Dataset</a></li>
-      <li><a href="https://vx-underground.org/" target="_blank">VX Underground</a></li>
-      <li><a href="https://github.com/lxyeternal/pypi_malregistry" target="_blank">PyPI MalRegistry</a></li>
-      <li><a href="https://github.com/MalwareSamples/Linux-Malware-Samples" target="_blank">Linux Malware Samples</a></li>
-      <li><a href="https://github.com/timb-machine/linux-malware" target="_blank">Tim (Wadhwa-)Brown's Linux Malware Repo</a></li>
-      <li><a href="https://github.com/HynekPetrak/javascript-malware-collection" target="_blank">JavaScript Malware Collection</a></li>
-      <li><a href="https://github.com/objective-see/Malware" target="_blank">Objective-See macOS Malware Collection</a></li>
-      <li><a href="https://practicalsecurityanalytics.com/pe-malware-machine-learning-dataset/" target="_blank">Practical Security Analytics PE Malware ML Dataset</a></li>
-      <li><a href="https://github.com/Cryakl/Ultimate-RAT-Collection" target="_blank">Ultimate RAT Collection</a></li>
+      <li><a href="https://bazaar.abuse.ch/">MalwareBazaar</a> (abuse.ch)</li>
+      <li><a href="https://virusshare.com/">VirusShare</a></li>
+      <li><a href="https://dasfreak.github.io/Backstabbers-Knife-Collection/">Backstabber's Knife Collection</a></li>
+      <li><a href="https://github.com/DataDog/malicious-software-packages-dataset">DataDog Malicious Software Packages Dataset</a></li>
+      <li><a href="https://vx-underground.org/">VX Underground</a></li>
+      <li><a href="https://github.com/lxyeternal/pypi_malregistry">PyPI MalRegistry</a></li>
+      <li><a href="https://github.com/MalwareSamples/Linux-Malware-Samples">Linux Malware Samples</a></li>
+      <li><a href="https://github.com/timb-machine/linux-malware">Tim (Wadhwa-)Brown's Linux Malware Repo</a></li>
+      <li><a href="https://github.com/HynekPetrak/javascript-malware-collection">JavaScript Malware Collection</a></li>
+      <li><a href="https://github.com/objective-see/Malware">Objective-See macOS Malware Collection</a></li>
+      <li><a href="https://practicalsecurityanalytics.com/pe-malware-machine-learning-dataset/">Practical Security Analytics PE Malware ML Dataset</a></li>
+      <li><a href="https://github.com/Cryakl/Ultimate-RAT-Collection">Ultimate RAT Collection</a></li>
     </ul>
 
   </div>
 
-  <div class="sidebar">
+  <aside class="sidebar" aria-label="Project links">
 
     <h3>Project Info</h3>
     <dl class="stats">
@@ -109,5 +108,5 @@ title: "azoth — Open-Source AI Model for General Malware Detection"
       <li><a href="/cleave/">cleave</a> — capability extraction</li>
     </ul>
 
-  </div>
+  </aside>
 </div>

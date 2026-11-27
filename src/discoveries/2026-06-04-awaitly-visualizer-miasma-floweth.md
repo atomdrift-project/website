@@ -39,12 +39,12 @@ npm builds any package that ships a `binding.gyp` with no install script, no que
 <span class="tok-kw">const</span> _p = <span class="tok-fn">_d</span>(<span class="tok-str">"20cdcd…"</span>, …)   <span class="tok-com">// blob 2: 668 KB worm (run under Bun)</span>
 </code></pre>
 
-| | Trait | What it caught |
+| <span class="visually-hidden">Severity</span> | Trait | What it caught |
 | --- | --- | --- |
-| <span class="sev-dot hostile" title="hostile"></span> | `objectives/supply-chain/hidden-payload/eval` | Megabyte single-line `eval` of a char-code array |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `objectives/anti-static/obfuscation/encoding/content` | Encoded Node.js `require` payload |
-| <span class="sev-dot notable" title="notable"></span> | `micro-behaviors/data/encode/caesar` | `String.fromCharCode` alphabet rotation |
-| <span class="sev-dot notable" title="notable"></span> | `objectives/supply-chain/hidden-payload/runtime` | Text is over 30% digits — embedded ciphertext |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `objectives/supply-chain/hidden-payload/eval` | Megabyte single-line `eval` of a char-code array |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `objectives/anti-static/obfuscation/encoding/content` | Encoded Node.js `require` payload |
+| <span class="sev-dot notable" aria-hidden="true"></span>notable | `micro-behaviors/data/encode/caesar` | `String.fromCharCode` alphabet rotation |
+| <span class="sev-dot notable" aria-hidden="true"></span>notable | `objectives/supply-chain/hidden-payload/runtime` | Text is over 30% digits — embedded ciphertext |
 
 ## Stage 2 — Brings its own Bun, then seeps out
 
@@ -61,13 +61,13 @@ The blobs are a 907-byte loader and a 668 KB worm, and the loader's one job is t
 
 cleave, now on the decrypted 668 KB blob:
 
-| | Trait | What it caught |
+| <span class="visually-hidden">Severity</span> | Trait | What it caught |
 | --- | --- | --- |
-| <span class="sev-dot hostile" title="hostile"></span> | `objectives/anti-static/obfuscation/tools/js-obfuscator` | Advanced array-shuffle self-defense (obfuscator.io) |
-| <span class="sev-dot hostile" title="hostile"></span> | `objectives/exfiltration/http/upload` | Creates a GitHub repo and uploads to it (`auto_init`) |
-| <span class="sev-dot notable" title="notable"></span> | `objectives/discovery/cloud/metadata` | AWS IMDSv2 header `X-aws-ec2-metadata-token` |
-| <span class="sev-dot notable" title="notable"></span> | `objectives/credential-access/api-harvest/token` | `npm_[A-Za-z0-9]{36,}` token regex |
-| <span class="sev-dot notable" title="notable"></span> | `micro-behaviors/os/env/vars/cicd` | Reads `GITHUB_REPOSITORY` |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `objectives/anti-static/obfuscation/tools/js-obfuscator` | Advanced array-shuffle self-defense (obfuscator.io) |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `objectives/exfiltration/http/upload` | Creates a GitHub repo and uploads to it (`auto_init`) |
+| <span class="sev-dot notable" aria-hidden="true"></span>notable | `objectives/discovery/cloud/metadata` | AWS IMDSv2 header `X-aws-ec2-metadata-token` |
+| <span class="sev-dot notable" aria-hidden="true"></span>notable | `objectives/credential-access/api-harvest/token` | `npm_[A-Za-z0-9]{36,}` token regex |
+| <span class="sev-dot notable" aria-hidden="true"></span>notable | `micro-behaviors/os/env/vars/cicd` | Reads `GITHUB_REPOSITORY` |
 
 Cloud and secret stores in reach, by endpoint:
 

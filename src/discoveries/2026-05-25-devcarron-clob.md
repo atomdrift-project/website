@@ -58,19 +58,19 @@ Both bundled `meta_data.json` files match on four host facts — two npm account
 
 Same shape as the later draft, minus the Windows Defender masquerade — the file drops as `clob2.0.exe`, not `windows defender host.exe`:
 
-|  | Trait | What it caught |
+| <span class="visually-hidden">Severity</span> | Trait | What it caught |
 | --- | --- | --- |
-| <span class="sev-dot hostile" title="hostile"></span> | `command-and-control/dropper/delivery/blockchain` | Four IPFS gateways for one CID |
-| <span class="sev-dot hostile" title="hostile"></span> | `command-and-control/dropper/execution/persistence` | Download → Run key + LaunchAgents + XDG autostart |
-| <span class="sev-dot hostile" title="hostile"></span> | `command-and-control/dropper/execution/stealth-spawn` | `detached:true` + `stdio:'ignore'` + `windowsHide:true` + `unref()` |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `command-and-control/channel/http-beacon` | `POST /api/urls?url=<ip>` to `45.8.22.112:2026` |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `command-and-control/infrastructure/ip-port` | Hardcoded IPv4 endpoint, no DNS |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `command-and-control/infrastructure/blockchain/multi-chain` | Pinata + Cloudflare + ipfs.io fallback chain |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `evasion/self-delete/file/script` | `fs.unlink(dest, () => {})` on every failure path |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `evasion/masquerade/identity/user-agent` | Chrome 124 UA in dropper requests |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `persistence/system/launchd/core` | LaunchAgents plist with `RunAtLoad` |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `persistence/system/init/boot` | `~/.config/autostart/clob.desktop` |
-| <span class="sev-dot notable" title="notable"></span> | `persistence/login/registry/autostart` | `HKCU\…\Run` with VBS launcher |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `command-and-control/dropper/delivery/blockchain` | Four IPFS gateways for one CID |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `command-and-control/dropper/execution/persistence` | Download → Run key + LaunchAgents + XDG autostart |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `command-and-control/dropper/execution/stealth-spawn` | `detached:true` + `stdio:'ignore'` + `windowsHide:true` + `unref()` |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `command-and-control/channel/http-beacon` | `POST /api/urls?url=<ip>` to `45.8.22.112:2026` |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `command-and-control/infrastructure/ip-port` | Hardcoded IPv4 endpoint, no DNS |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `command-and-control/infrastructure/blockchain/multi-chain` | Pinata + Cloudflare + ipfs.io fallback chain |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `evasion/self-delete/file/script` | `fs.unlink(dest, () => {})` on every failure path |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `evasion/masquerade/identity/user-agent` | Chrome 124 UA in dropper requests |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `persistence/system/launchd/core` | LaunchAgents plist with `RunAtLoad` |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `persistence/system/init/boot` | `~/.config/autostart/clob.desktop` |
+| <span class="sev-dot notable" aria-hidden="true"></span>notable | `persistence/login/registry/autostart` | `HKCU\…\Run` with VBS launcher |
 
 ## Why the earlier draft matters
 

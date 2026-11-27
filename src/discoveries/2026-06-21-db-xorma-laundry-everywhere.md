@@ -31,11 +31,11 @@ Most malicious npm packages smuggle their payload inside the tarball — an obfu
 
 The dropper lives only in the CommonJS build — the `module` entry bundlers prefer is clean — so it fires server-side under require and never shows up in the browser bundle the README sells. On first call `db-dx-connector` isn't installed, the require throws, and the catch installs it then runs its connect method, so the second stage arrives on demand rather than in the tarball.
 
-| | File | Trait | Evidence |
+| <span class="visually-hidden">Severity</span> | File | Trait | Evidence |
 | --- | --- | --- | --- |
-| <span class="sev-dot hostile" title="hostile"></span> | `dist/index.js` | `objectives/supply-chain/install-hook/scripts/dynamic-install` | Installs `db-dx-connector` via the aliased API when its `require` fails [T1195.002] |
-| <span class="sev-dot hostile" title="hostile"></span> | `dist/index.js` | `objectives/supply-chain/impersonation/package-manager` | Third-party installer imported under the name `npm` [T1195.002] |
-| <span class="sev-dot notable" title="notable"></span> | `dist/index.js` | `micro-behaviors/process/create/exec` | Commented-out `execSync` reinstalling `clsx-js` — prior-campaign leftover |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `dist/index.js` | `objectives/supply-chain/install-hook/scripts/dynamic-install` | Installs `db-dx-connector` via the aliased API when its `require` fails [T1195.002] |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `dist/index.js` | `objectives/supply-chain/impersonation/package-manager` | Third-party installer imported under the name `npm` [T1195.002] |
+| <span class="sev-dot notable" aria-hidden="true"></span>notable | `dist/index.js` | `micro-behaviors/process/create/exec` | Commented-out `execSync` reinstalling `clsx-js` — prior-campaign leftover |
 
 ## Laundering the install through oubliette
 
@@ -68,11 +68,11 @@ db-dx-connector is a near-verbatim clone of Divblox's real `dx-db-connector`, au
 </code></pre>
 {% endraw %}
 
-| | File | Trait | Evidence |
+| <span class="visually-hidden">Severity</span> | File | Trait | Evidence |
 | --- | --- | --- | --- |
-| <span class="sev-dot hostile" title="hostile"></span> | `index.js` | `objectives/command-and-control/dropper/delivery/fetch-eval` | JsonKeeper payload fetched and run via `Module._compile` [T1102.001, T1059.007] |
-| <span class="sev-dot hostile" title="hostile"></span> | `index.js` | `objectives/supply-chain/hidden-payload/exec` | npm package compiles a hidden remote payload [T1195.002, T1059.007] |
-| <span class="sev-dot hostile" title="hostile"></span> | `index.js` | `objectives/supply-chain/trojanized/package` | Trojanized clone of `dx-db-connector` that stages the JsonKeeper payload [T1195.002] |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `index.js` | `objectives/command-and-control/dropper/delivery/fetch-eval` | JsonKeeper payload fetched and run via `Module._compile` [T1102.001, T1059.007] |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `index.js` | `objectives/supply-chain/hidden-payload/exec` | npm package compiles a hidden remote payload [T1195.002, T1059.007] |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `index.js` | `objectives/supply-chain/trojanized/package` | Trojanized clone of `dx-db-connector` that stages the JsonKeeper payload [T1195.002] |
 
 ## Stage 3 — the BeaverTail loader
 
@@ -90,12 +90,12 @@ axios.<span class="tok-fn">get</span>(C2).<span class="tok-fn">then</span>((res)
 </code></pre>
 {% endraw %}
 
-| | File | Trait | Evidence |
+| <span class="visually-hidden">Severity</span> | File | Trait | Evidence |
 | --- | --- | --- | --- |
-| <span class="sev-dot hostile" title="hostile"></span> | `stage3 payload` | `objectives/command-and-control/dropper/execution/network-stage` | Obfuscated downloader fetches and runs the next Node stage [T1105] |
-| <span class="sev-dot hostile" title="hostile"></span> | `stage3 payload` | `objectives/supply-chain/hidden-payload/runtime` | Obfuscated loader hides staged execution at runtime |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `stage3 payload` | `objectives/anti-static/obfuscation/obfuscator/js-obfuscator` | javascript-obfuscator string-array + rotation decoder |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `stage3 payload` | `micro-behaviors/process/create/spawn` | `windowsHide` spawn of `node 0001.dat` from `tmpdir` |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `stage3 payload` | `objectives/command-and-control/dropper/execution/network-stage` | Obfuscated downloader fetches and runs the next Node stage [T1105] |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `stage3 payload` | `objectives/supply-chain/hidden-payload/runtime` | Obfuscated loader hides staged execution at runtime |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `stage3 payload` | `objectives/anti-static/obfuscation/obfuscator/js-obfuscator` | javascript-obfuscator string-array + rotation decoder |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `stage3 payload` | `micro-behaviors/process/create/spawn` | `windowsHide` spawn of `node 0001.dat` from `tmpdir` |
 
 ## Package metadata
 

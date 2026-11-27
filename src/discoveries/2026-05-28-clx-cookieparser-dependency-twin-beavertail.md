@@ -50,11 +50,11 @@ The weaponized 1.4.7 drops the real signing dependency and reaches for the attac
 }
 </code></pre>
 
-| | Trait | What it caught |
+| <span class="visually-hidden">Severity</span> | Trait | What it caught |
 | --- | --- | --- |
-| <span class="sev-dot hostile" title="hostile"></span> | `objectives/supply-chain/impersonation/npm-clone::clx-cookieparser-cookie-parser-clone` | A package named `clx-cookieparser` carrying `expressjs/cookie-parser` as its repository |
-| <span class="sev-dot hostile" title="hostile"></span> | `objectives/supply-chain/install-hook/scripts/dynamic-install::clx-cookieparser-runtime-stage-install` | `execSync` npm install of the twin at require-time, `windowsHide: true` |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `objectives/supply-chain/impersonation/npm-clone::cookie-parser-upstream-repo` | Repository shorthand points at `expressjs/cookie-parser` |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `objectives/supply-chain/impersonation/npm-clone::clx-cookieparser-cookie-parser-clone` | A package named `clx-cookieparser` carrying `expressjs/cookie-parser` as its repository |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `objectives/supply-chain/install-hook/scripts/dynamic-install::clx-cookieparser-runtime-stage-install` | `execSync` npm install of the twin at require-time, `windowsHide: true` |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `objectives/supply-chain/impersonation/npm-clone::cookie-parser-upstream-repo` | Repository shorthand points at `expressjs/cookie-parser` |
 
 ## Stage 2 — clx-cookie-signature: the courier
 
@@ -65,12 +65,12 @@ The twin is a faithful clone too, with one line bolted to the top: fetch a jsonk
 <span class="tok-com">//   https://www.jsonkeeper.com/b/HY6M6</span>
 </code></pre>
 
-| | Trait | What it caught |
+| <span class="visually-hidden">Severity</span> | Trait | What it caught |
 | --- | --- | --- |
-| <span class="sev-dot hostile" title="hostile"></span> | `objectives/command-and-control/dropper/delivery/fetch-eval::axios-jsonkeeper-content-eval-loader` | `eval(r.data.content_o)` on a jsonkeeper.com response |
-| <span class="sev-dot hostile" title="hostile"></span> | `objectives/supply-chain/impersonation/npm-clone::clx-cookie-signature-upstream-clone` | Clones the cookie-signature identity (`TJ Holowaychuk`, `visionmedia` repo) |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `objectives/anti-static/obfuscation/encoding/hex::hex-pair-regex-decode` | `/../g` + `fromCharCode` decode behind the dormant HY6M6 link |
-| <span class="sev-dot notable" title="notable"></span> | `objectives/command-and-control/infrastructure/paste::jsonkeeper` | cleave classifies `jsonkeeper.com` as paste-hosted delivery infrastructure |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `objectives/command-and-control/dropper/delivery/fetch-eval::axios-jsonkeeper-content-eval-loader` | `eval(r.data.content_o)` on a jsonkeeper.com response |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `objectives/supply-chain/impersonation/npm-clone::clx-cookie-signature-upstream-clone` | Clones the cookie-signature identity (`TJ Holowaychuk`, `visionmedia` repo) |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `objectives/anti-static/obfuscation/encoding/hex::hex-pair-regex-decode` | `/../g` + `fromCharCode` decode behind the dormant HY6M6 link |
+| <span class="sev-dot notable" aria-hidden="true"></span>notable | `objectives/command-and-control/infrastructure/paste::jsonkeeper` | cleave classifies `jsonkeeper.com` as paste-hosted delivery infrastructure |
 
 ## Stage 3 — the jsonkeeper loader
 
@@ -92,11 +92,11 @@ Deobfuscated, the `c3` profiler is the bluntest part of the chain.
 });
 </code></pre>
 
-| | Trait | What it caught |
+| <span class="visually-hidden">Severity</span> | Trait | What it caught |
 | --- | --- | --- |
-| <span class="sev-dot hostile" title="hostile"></span> | `objectives/command-and-control/dropper/execution/network-stage::obfuscated-node-hidden-stage-scaffold` | Obfuscated Node loader: profile → install HTTP libs → beacon → write `0001.dat` → run |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `objectives/anti-static/obfuscation/tools/js-obfuscator::obfuscated-eval-npm-trojan` | Full obfuscator.io toolkit wrapped around an eval |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `micro-behaviors/process/create/spawn::windowshide-obfuscated-expression` | `windowsHide` set through a computed expression |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `objectives/command-and-control/dropper/execution/network-stage::obfuscated-node-hidden-stage-scaffold` | Obfuscated Node loader: profile → install HTTP libs → beacon → write `0001.dat` → run |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `objectives/anti-static/obfuscation/tools/js-obfuscator::obfuscated-eval-npm-trojan` | Full obfuscator.io toolkit wrapped around an eval |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `micro-behaviors/process/create/spawn::windowshide-obfuscated-expression` | `windowsHide` set through a computed expression |
 
 ## Stage 4 — 0001.dat: the InvisibleFerret kit
 
@@ -119,16 +119,16 @@ Deobfuscated, the clipboard watcher is the same routine web-dotenv ran.
   { message: clip, host: os.<span class="tok-fn">hostname</span>(), uid: <span class="tok-str">'acd4ab…'</span>, t: <span class="tok-str">'101'</span> });
 </code></pre>
 
-| | Trait | What it caught |
+| <span class="visually-hidden">Severity</span> | Trait | What it caught |
 | --- | --- | --- |
-| <span class="sev-dot hostile" title="hostile"></span> | `objectives/command-and-control/remote-command/control::node-socketio-remote-control-rat` | `scdata.js`: `node-pty`, `mouseClick`, `keyTap`, terminal I/O over Socket.IO |
-| <span class="sev-dot hostile" title="hostile"></span> | `objectives/exfiltration/stealer/credential/browser::js-browser-wallet-upload-exfil` | `ldata.js`: MetaMask/Phantom/Coinbase extension IDs + `Login Data` |
-| <span class="sev-dot hostile" title="hostile"></span> | `objectives/exfiltration/stealer/file::js-targeted-file-upload-exfil` | `captured_spawn_11.js`: `scanDir` over dev/config dirs → multipart upload |
-| <span class="sev-dot hostile" title="hostile"></span> | `objectives/exfiltration/stealer/credential/clipboard::js-clipboard-exfil-external-ip` | `captured_spawn_12.js`: `pbpaste` / `Get-Clipboard` → literal IPv4 |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `well-known/malware/dropper/lazarus::makelog-url` | `scdata.js` + `captured_spawn_12.js`: GlassWorm/Lazarus `/api/service/makelog` endpoint |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `objectives/credential-access/wallet/lazarus::wallet-extension-path` | `ldata.js`: `/Local Extension Settings/` wallet path (Lazarus) |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `objectives/anti-analysis/vm-detect/vendor::comprehensive-evasion` | `scdata.js` checks for `virtualbox` and other hypervisors |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `objectives/evasion/masquerade/process/title::process-title-npm-masquerade` | `ldata.js` sets `process.title` to an `npm-`like name |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `objectives/command-and-control/remote-command/control::node-socketio-remote-control-rat` | `scdata.js`: `node-pty`, `mouseClick`, `keyTap`, terminal I/O over Socket.IO |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `objectives/exfiltration/stealer/credential/browser::js-browser-wallet-upload-exfil` | `ldata.js`: MetaMask/Phantom/Coinbase extension IDs + `Login Data` |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `objectives/exfiltration/stealer/file::js-targeted-file-upload-exfil` | `captured_spawn_11.js`: `scanDir` over dev/config dirs → multipart upload |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `objectives/exfiltration/stealer/credential/clipboard::js-clipboard-exfil-external-ip` | `captured_spawn_12.js`: `pbpaste` / `Get-Clipboard` → literal IPv4 |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `well-known/malware/dropper/lazarus::makelog-url` | `scdata.js` + `captured_spawn_12.js`: GlassWorm/Lazarus `/api/service/makelog` endpoint |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `objectives/credential-access/wallet/lazarus::wallet-extension-path` | `ldata.js`: `/Local Extension Settings/` wallet path (Lazarus) |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `objectives/anti-analysis/vm-detect/vendor::comprehensive-evasion` | `scdata.js` checks for `virtualbox` and other hypervisors |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `objectives/evasion/masquerade/process/title::process-title-npm-masquerade` | `ldata.js` sets `process.title` to an `npm-`like name |
 
 ## Same operator as web-dotenv
 

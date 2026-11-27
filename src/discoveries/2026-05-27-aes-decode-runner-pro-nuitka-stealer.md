@@ -102,21 +102,21 @@ Winpatch used to arrive via cracked-software lures and fake installers; seeing i
 
 ## Traits observed
 
-|  | Trait | What it caught |
+| <span class="visually-hidden">Severity</span> | Trait | What it caught |
 | --- | --- | --- |
-| <span class="sev-dot hostile" title="hostile"></span> | `objectives/supply-chain/install-hook/library/import-time-eval` | `require()` of the package calls `pkg.run()` → `new Function("require", …)(require)` on a decrypted blob |
-| <span class="sev-dot hostile" title="hostile"></span> | `objectives/anti-static/obfuscation/encoding/aes-gcm-static-key` | Stage-1 JS is `aes-256-gcm` with passphrase, salt, and ciphertext all hardcoded in `defaults.js` |
-| <span class="sev-dot hostile" title="hostile"></span> | `objectives/command-and-control/dropper/execution/network-stage/curl-powershell-vbs` | `curl.exe -k` → `Expand-Archive` → `wscript update.vbs` chain written by the decrypted stager |
-| <span class="sev-dot hostile" title="hostile"></span> | `well-known/malware/rat/winpatch` | Winpatch RAT family — cleave matches twelve campaign rules (`campaign-htxp-exchange`, `svr-url-key`, `campaign-uuid-helper`, six `cmd-*`, `chrome-cookie-task`, `stealer-cookie-dump-banner`, `stealer-dump-filename`) plus `stealer-lssass-typo` and `stealer-impersonation-typo` |
-| <span class="sev-dot hostile" title="hostile"></span> | `objectives/credential-access/browser/chromium/app-bound-key-theft` | `aNCryptOpenStorageProvider("Microsoft Software Key Storage Provider")` → `aNCryptOpenKey("Google Chromekey1")` → `app_bound_encrypted_key` + `xor_key`, gated by `SeDebugPrivilege` + `lsass.exe` token impersonation |
-| <span class="sev-dot hostile" title="hostile"></span> | `objectives/exfiltration/stealer/credential/browser/chrome-login-data-sqlite` | `SELECT origin_url, username_value, password_value, date_created FROM logins` → `chrome_logins_dump.txt` |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `objectives/command-and-control/remote-access/custom-protocol/arc4-md5` | `htxp0825Exchange` posts ARC4-encrypted, MD5-checksummed `application/octet-stream` bodies to `SVR0825URL` with seven `COMMAND0825…` verbs |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `objectives/persistence/login/registry/autostart` | `HKCU\…\Run` writes `wscript.exe …update.vbs` |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `objectives/anti-static/packing/nuitka/standalone` | Three `.pyd` modules with `__nuitka_version__`, `__compiled__`, `PyMarshal_ReadObjectFromString`; constants hidden in compressed blob |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `objectives/evasion/masquerade/identity/legitimate-binary` | `chost.exe` is unmodified CPython 3.10 `python.exe` renamed (PDB `python.pdb`, PSF cert string) |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `objectives/command-and-control/infrastructure/typosquat-domain` | `nvidiadriver.net` lookalike on Hetzner, Express + helmet front-end serving `winpatch-bd9e.win` as `win-driver-bd9e.zip` |
-| <span class="sev-dot notable" title="notable"></span> | `objectives/evasion/self-delete/file/script` | `fs.unlinkSync("settings.ps1")` on the stager's `exit` event |
-| <span class="sev-dot notable" title="notable"></span> | `objectives/supply-chain/metadata-anomaly/package/npm` | Empty `author`, no repo URL, 10 versions in 24 h, declared `start`/`test`/`decode` scripts all point at a `crypto/lib.min.js` not shipped in the tarball |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `objectives/supply-chain/install-hook/library/import-time-eval` | `require()` of the package calls `pkg.run()` → `new Function("require", …)(require)` on a decrypted blob |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `objectives/anti-static/obfuscation/encoding/aes-gcm-static-key` | Stage-1 JS is `aes-256-gcm` with passphrase, salt, and ciphertext all hardcoded in `defaults.js` |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `objectives/command-and-control/dropper/execution/network-stage/curl-powershell-vbs` | `curl.exe -k` → `Expand-Archive` → `wscript update.vbs` chain written by the decrypted stager |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `well-known/malware/rat/winpatch` | Winpatch RAT family — cleave matches twelve campaign rules (`campaign-htxp-exchange`, `svr-url-key`, `campaign-uuid-helper`, six `cmd-*`, `chrome-cookie-task`, `stealer-cookie-dump-banner`, `stealer-dump-filename`) plus `stealer-lssass-typo` and `stealer-impersonation-typo` |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `objectives/credential-access/browser/chromium/app-bound-key-theft` | `aNCryptOpenStorageProvider("Microsoft Software Key Storage Provider")` → `aNCryptOpenKey("Google Chromekey1")` → `app_bound_encrypted_key` + `xor_key`, gated by `SeDebugPrivilege` + `lsass.exe` token impersonation |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `objectives/exfiltration/stealer/credential/browser/chrome-login-data-sqlite` | `SELECT origin_url, username_value, password_value, date_created FROM logins` → `chrome_logins_dump.txt` |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `objectives/command-and-control/remote-access/custom-protocol/arc4-md5` | `htxp0825Exchange` posts ARC4-encrypted, MD5-checksummed `application/octet-stream` bodies to `SVR0825URL` with seven `COMMAND0825…` verbs |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `objectives/persistence/login/registry/autostart` | `HKCU\…\Run` writes `wscript.exe …update.vbs` |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `objectives/anti-static/packing/nuitka/standalone` | Three `.pyd` modules with `__nuitka_version__`, `__compiled__`, `PyMarshal_ReadObjectFromString`; constants hidden in compressed blob |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `objectives/evasion/masquerade/identity/legitimate-binary` | `chost.exe` is unmodified CPython 3.10 `python.exe` renamed (PDB `python.pdb`, PSF cert string) |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `objectives/command-and-control/infrastructure/typosquat-domain` | `nvidiadriver.net` lookalike on Hetzner, Express + helmet front-end serving `winpatch-bd9e.win` as `win-driver-bd9e.zip` |
+| <span class="sev-dot notable" aria-hidden="true"></span>notable | `objectives/evasion/self-delete/file/script` | `fs.unlinkSync("settings.ps1")` on the stager's `exit` event |
+| <span class="sev-dot notable" aria-hidden="true"></span>notable | `objectives/supply-chain/metadata-anomaly/package/npm` | Empty `author`, no repo URL, 10 versions in 24 h, declared `start`/`test`/`decode` scripts all point at a `crypto/lib.min.js` not shipped in the tarball |
 
 ## Indicators
 

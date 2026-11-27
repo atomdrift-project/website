@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ title }} - The Atomdrift Project</title>
+  <title>{{ pageTitle or title }} - The Atomdrift Project</title>
   <meta name="description" content="{{ description or 'Open-source, local-first supply-chain attack detection across binaries, packages, scripts, and source — Apache 2.0.' }}">
 
   <meta property="og:type" content="website">
-  <meta property="og:title" content="{{ title }} - The Atomdrift Project">
+  <meta property="og:title" content="{{ pageTitle or title }} - The Atomdrift Project">
   <meta property="og:description" content="{{ description or 'Open-source, local-first supply-chain attack detection across binaries, packages, scripts, and source — Apache 2.0.' }}">
 {% if noindex %}
   <meta name="robots" content="noindex, nofollow">
@@ -41,9 +41,9 @@
         </a>
       </div>
       <div class="header-links">
-        <a href="https://github.com/atomdrift-project" target="_blank" rel="noopener">GitHub<span class="visually-hidden"> (opens in a new tab)</span></a>
+        <a href="https://github.com/atomdrift-project">GitHub</a>
         <a href="https://install.atomdrift.org/" class="install-link">Install <span aria-hidden="true">&darr;</span></a>
-        <a href="https://lab.atomdrift.org/" class="hl" target="_blank" rel="noopener">Lab<span class="visually-hidden"> (opens in a new tab)</span></a>
+        <a href="https://lab.atomdrift.org/" class="hl">Lab</a>
       </div>
     </div>
   </header>
@@ -54,10 +54,10 @@
     <div class="nav-inner">
       <a href="/"{% if page.url == "/" %} class="active" aria-current="page"{% endif %}>Home</a>
       {# Discovery posts keep their /discoveries/ URLs, but they are listed under News now. #}
-      <a href="/news/"{% if page.url and (page.url.startsWith("/news") or page.url.startsWith("/discoveries")) %} class="active" aria-current="page"{% endif %}>News</a>
+      <a href="/news/"{% if page.url == "/news/" %} class="active" aria-current="page"{% elif page.url and (page.url.startsWith("/news") or page.url.startsWith("/discoveries")) %} class="active" aria-current="true"{% endif %}>News</a>
       <a href="/mission/"{% if page.url == "/mission/" %} class="active" aria-current="page"{% endif %}>Mission</a>
-      <a href="/compare/"{% if page.url and page.url.startsWith("/compare") %} class="active" aria-current="page"{% endif %}>Compare</a>
-      <a href="/projects/"{% if page.url == "/projects/" or page.url == "/cleave/" or page.url == "/stng/" or page.url == "/scan/" or page.url == "/azoth/" or page.url == "/isomer/" or page.url == "/hood/" %} class="active" aria-current="page"{% endif %}>Projects</a>
+      <a href="/compare/"{% if page.url == "/compare/" %} class="active" aria-current="page"{% endif %}>Compare</a>
+      <a href="/projects/"{% if page.url == "/projects/" %} class="active" aria-current="page"{% elif page.url == "/cleave/" or page.url == "/stng/" or page.url == "/scan/" or page.url == "/azoth/" or page.url == "/isomer/" or page.url == "/hood/" %} class="active" aria-current="true"{% endif %}>Projects</a>
       <a href="https://api.atomdrift.org/">API</a>
       <a href="/support/"{% if page.url == "/support/" %} class="active" aria-current="page"{% endif %}>Support</a>
     </div>

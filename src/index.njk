@@ -1,11 +1,12 @@
 ---
 layout: base.njk
-title: Atomdrift - probably the world's best malware detection stack.
+title: Probably the world's best malware detection stack
 ---
 
 <div class="main">
   <div class="content">
 
+    <h1 class="visually-hidden">Atomdrift</h1>
     <h2>About</h2>
     <p>
 Atomdrift is quietly building the next-generation of open-source malware and supply-chain attack
@@ -14,9 +15,9 @@ subtle supply-chain attacks such as the <a href="https://en.wikipedia.org/wiki/X
 </p>
 
 <p>With <a href="/scan">Atomdrift Scan</a>, we already offer better malware detection than any OSS or commercial offering. We're not stopping there though.
-Everything is <a href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank" rel="noopener">Apache 2.0</a>, designed for integration into any pipeline or product, supporting any platform you might need to secure: from MacBooks to Windows PCs to IBM mainframes.</p>
+Everything is <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache 2.0</a>, designed for integration into any pipeline or product, supporting any platform you might need to secure: from MacBooks to Windows PCs to IBM mainframes.</p>
 
-    <h2>News <a href="/feed.xml" class="rss-link" title="RSS Feed"><svg class="rss-icon" viewBox="0 0 24 24" fill="currentColor"><circle cx="6.18" cy="17.82" r="2.18"/><path d="M4 4.44v2.83c7.03 0 12.73 5.7 12.73 12.73h2.83c0-8.59-6.97-15.56-15.56-15.56zm0 5.66v2.83c3.9 0 7.07 3.17 7.07 7.07h2.83c0-5.47-4.43-9.9-9.9-9.9z"/></svg></a></h2>
+    <h2>News <a href="/feed.xml" class="rss-link"><span class="visually-hidden">RSS feed</span><svg class="rss-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><circle cx="6.18" cy="17.82" r="2.18"/><path d="M4 4.44v2.83c7.03 0 12.73 5.7 12.73 12.73h2.83c0-8.59-6.97-15.56-15.56-15.56zm0 5.66v2.83c3.9 0 7.07 3.17 7.07 7.07h2.83c0-5.47-4.43-9.9-9.9-9.9z"/></svg></a></h2>
     <ul class="news-list">
       {%- for post in collections.posts %}
       {% if loop.index <= 2 %}
@@ -32,17 +33,17 @@ Everything is <a href="https://www.apache.org/licenses/LICENSE-2.0" target="_bla
 
   </div>
 
-  <div class="sidebar">
+  <aside class="sidebar" aria-label="Lab and project info">
 
     <div class="lab-callout">
-      <strong>&#9883; Atomdrift Lab</strong>
+      <strong><span aria-hidden="true">&#9883;</span> Atomdrift Lab</strong>
       <p>Submit files for free malware analysis. Open to researchers, defenders, and the curious.</p>
-      <a href="https://lab.atomdrift.org/" target="_blank">Open the Lab &rarr;</a>
+      <a href="https://lab.atomdrift.org/">Open the Lab &rarr;</a>
     </div>
 
     <h3>Get the Code</h3>
     <ul>
-      <li><a href="https://github.com/atomdrift-project" target="_blank">GitHub</a></li>
+      <li><a href="https://github.com/atomdrift-project">GitHub</a></li>
     </ul>
 
     <h3>Project Info</h3>
@@ -51,5 +52,5 @@ Everything is <a href="https://www.apache.org/licenses/LICENSE-2.0" target="_bla
       <dt>Languages</dt><dd>Rust, Go</dd>
     </dl>
 
-  </div>
+  </aside>
 </div>

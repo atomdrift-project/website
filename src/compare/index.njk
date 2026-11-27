@@ -10,7 +10,7 @@ description: Compare Atomdrift with other scanners on 30 days of live zero-day m
   {% for row in cohort.rows -%}
   <tr{% if row.key == 'ascan' %} class="own"{% endif %}>
     <th scope="row">{{ row.name }}</th>
-    <td class="detection"{% if row.breakdown %} title="{{ row.breakdown }}"{% endif %}>
+    <td class="detection">
       <div class="measure">
         <span class="track" aria-hidden="true">
           {% if row.hostile %}<i class="hostile" style="width:{{ row.hostile }}%"></i>{% endif %}
@@ -19,6 +19,7 @@ description: Compare Atomdrift with other scanners on 30 days of live zero-day m
         </span>
         <span class="rate">{{ (row.hostile + row.suspicious) | pct1 }}%</span>
       </div>
+      {% if row.breakdown %}<span class="breakdown">{{ row.breakdown }}</span>{% endif %}
     </td>
     <td>
       {% set falsePositive = row.falsePositive | pct1 %}
@@ -63,7 +64,7 @@ description: Compare Atomdrift with other scanners on 30 days of live zero-day m
       <template data-cohort="{{ loop.index }}" data-count="{{ counts(ecosystem) }}"><table><tbody>{{ rows(ecosystem) }}</tbody></table></template>
     {% endfor %}
   {% endif %}
-  <div class="legend" aria-label="Malware verdicts">
+  <div class="legend" role="group" aria-label="Malware verdicts">
     <span><i class="hostile"></i>Hostile</span><span><i class="suspicious"></i>Suspicious</span><span><i class="error"></i>Error</span>
   </div>
 
@@ -100,6 +101,20 @@ description: Compare Atomdrift with other scanners on 30 days of live zero-day m
     </div>
     <div class="legend trend-legend"><span><i class="atomdrift"></i>Atomdrift</span><span><i class="peer"></i><span class="peer-name"></span></span></div>
     <svg class="trend-plot" role="img" aria-label="Per-run malware detection rates"></svg>
+    <details class="chart-data">
+      <summary>Data</summary>
+      <div class="table-scroll" role="region" aria-label="Detection rate per run" tabindex="0">
+        <table>
+          <caption class="visually-hidden">Malware detected per run, all ecosystems</caption>
+          <thead><tr><th scope="col">Run (UTC)</th><th scope="col">Samples</th>{% for key, name in scoreboard.chart.labels %}<th scope="col">{{ name }}</th>{% endfor %}</tr></thead>
+          <tbody>
+          {%- for run in scoreboard.chart.runs %}
+            <tr><th scope="row">{{ run.at | dateTimeUTC }}</th><td>{{ run.n }}</td>{% for key, name in scoreboard.chart.labels %}<td>{% if run.values[key] != null %}{{ (run.values[key] * 100) | pct1 }}%{% else %}—{% endif %}</td>{% endfor %}</tr>
+          {%- endfor %}
+          </tbody>
+        </table>
+      </div>
+    </details>
   </details>
   {% endif %}
 </div>

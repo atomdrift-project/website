@@ -9,7 +9,7 @@ function admonition(name, defaultTitle) {
     render(tokens, idx) {
       if (tokens[idx].nesting !== 1) return "</div>\n";
       const title = tokens[idx].info.trim().slice(name.length).trim();
-      return `<div class="admonition ${name}">\n` +
+      return `<div class="admonition ${name}" role="note">\n` +
         `<p class="admonition-title">${title || defaultTitle}</p>\n`;
     },
   }];
@@ -49,6 +49,11 @@ module.exports = function(eleventyConfig) {
       }
       return defaultFence(tokens, idx, options, env, self);
     };
+
+    // Wide tables scroll in their own region instead of widening the page.
+    md.renderer.rules.table_open = () =>
+      '<div class="table-scroll" role="region" aria-label="Table" tabindex="0">\n<table>\n';
+    md.renderer.rules.table_close = () => "</table>\n</div>\n";
   });
 
   // Everything we publish, newest first: release notes and project news from
@@ -78,6 +83,12 @@ module.exports = function(eleventyConfig) {
     const year = d.getUTCFullYear();
     const month = String(d.getUTCMonth() + 1).padStart(2, "0");
     return `${year}/${month}`;
+  });
+
+  // "YYYY-MM-DD HH:MM" in UTC, for per-run rows on the /compare/ page.
+  eleventyConfig.addFilter("dateTimeUTC", function(date) {
+    if (date == null) return "";
+    return new Date(date).toISOString().slice(0, 16).replace("T", " ");
   });
 
   eleventyConfig.addFilter("slugStripDate", function(slug) {
@@ -1127,6 +1138,13 @@ module.exports = function(eleventyConfig) {
       return lines.slice(0, ERROR_TIP_MAX).concat("…and " + rest + " more");
     }
     return lines;
+  });
+
+  // Code blocks scroll horizontally; make every <pre> focusable so keyboard
+  // users can scroll it (Safari does not focus scroll containers on its own).
+  eleventyConfig.addTransform("focusablePre", function(content) {
+    if (!this.page.outputPath || !this.page.outputPath.endsWith(".html")) return content;
+    return content.replace(/<pre\b(?![^>]*\b(?:tabindex|class="mermaid"))/g, '<pre tabindex="0"');
   });
 
   // Pull the first <img> src out of rendered post content, for listing thumbnails.

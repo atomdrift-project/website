@@ -29,12 +29,12 @@ The base64 carries a leading tab — the only nod to obfuscation — and decodes
 - `1.0.0` (2026-05-22) inlined the entire Stage 2 obfuscator inside `configfix()`
 - `1.0.2` (three days later) outsourced it to jsonkeeper for a smaller tarball and a mutable payload
 
-| | Trait | What it caught |
+| <span class="visually-hidden">Severity</span> | Trait | What it caught |
 | --- | --- | --- |
-| <span class="sev-dot hostile" title="hostile"></span> | `supply-chain/install-hook/build/build-system-trojan` | `configfix()` injected into the upstream `dotenv` library init |
-| <span class="sev-dot hostile" title="hostile"></span> | `command-and-control/remote-command/protocol/eval-http-response-data` | `eval(r.data.content)` on a fetched HTTP body |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `anti-static/obfuscation/encoding/content/malware` | `atob('CWh0dHBz…')` masking the Stage-2 URL |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `supply-chain/recon-exfil/npm-install-targeting` | Name-prefix lookalike of `dotenv` |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `supply-chain/install-hook/build/build-system-trojan` | `configfix()` injected into the upstream `dotenv` library init |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `command-and-control/remote-command/protocol/eval-http-response-data` | `eval(r.data.content)` on a fetched HTTP body |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `anti-static/obfuscation/encoding/content/malware` | `atob('CWh0dHBz…')` masking the Stage-2 URL |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `supply-chain/recon-exfil/npm-install-targeting` | Name-prefix lookalike of `dotenv` |
 
 ## Stage 2: the jsonkeeper loader
 
@@ -52,12 +52,12 @@ The bin is 19 KB of obfuscator.io output that does exactly two things:
 
 `--no-save` keeps the install out of the manifest and lockfile; the deps land under `$TMPDIR/node_modules/` where the next stage resolves them. The hex tail is the campaign UID, reappearing in every Stage-3 exfil packet, and `socket.io-client` is pre-positioned but unused as shipped — wiring for a later iteration.
 
-| | Trait | What it caught |
+| <span class="visually-hidden">Severity</span> | Trait | What it caught |
 | --- | --- | --- |
-| <span class="sev-dot hostile" title="hostile"></span> | `command-and-control/remote-command/protocol/eval-http-response-data` | `eval` of HTTP body from a hardcoded IP |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `command-and-control/dropper/execution/network-stage/fetch-write-exec` | Silent `npm install` of runtime deps into `os.tmpdir()` before fetching Stage 3 |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `anti-static/obfuscation/tools/js-obfuscator/decoder-loop-keyword-triad` | Obfuscator.io string-array, decoder, and `while(!![])` rotation |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `command-and-control/infrastructure/ip-port` | `http://216.126.224.247/` hardcoded, no DNS |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `command-and-control/remote-command/protocol/eval-http-response-data` | `eval` of HTTP body from a hardcoded IP |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `command-and-control/dropper/execution/network-stage/fetch-write-exec` | Silent `npm install` of runtime deps into `os.tmpdir()` before fetching Stage 3 |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `anti-static/obfuscation/tools/js-obfuscator/decoder-loop-keyword-triad` | Obfuscator.io string-array, decoder, and `while(!![])` rotation |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `command-and-control/infrastructure/ip-port` | `http://216.126.224.247/` hardcoded, no DNS |
 
 ## Stage 3: stealer + clipper
 
@@ -102,16 +102,16 @@ fs.<span class="tok-fn">writeFile</span>(path.<span class="tok-fn">join</span>(o
 });
 </code></pre>
 
-| | Trait | What it caught |
+| <span class="visually-hidden">Severity</span> | Trait | What it caught |
 | --- | --- | --- |
-| <span class="sev-dot hostile" title="hostile"></span> | `command-and-control/dropper/execution/network-stage/obfuscated-node-staged-loader` | Obfuscator-decoded `require` + base64/XOR string decoders + `windowsHide`-via-expression spawn |
-| <span class="sev-dot hostile" title="hostile"></span> | `command-and-control/dropper/execution/network-stage/spawn-node` | `node $TMPDIR/scdata` and `node $TMPDIR/ldata` detached |
-| <span class="sev-dot hostile" title="hostile"></span> | `exfiltration/stealer/file/javascript/js-targeted-file-upload-exfil` | Sensitive-path filter → `216.126.224.220:5976/upload` multipart sink |
-| <span class="sev-dot hostile" title="hostile"></span> | `exfiltration/stealer/credential/browser/javascript/js-browser-wallet-upload-exfil` | Wallet globs (`*metamask*`, `*solana*`, `*secret phrase*`) into an external-IP upload |
-| <span class="sev-dot hostile" title="hostile"></span> | `exfiltration/stealer/credential/clipboard/javascript/js-clipboard-exfil-external-ip` | `pbpaste` + `powershell Get-Clipboard` polled every 750 ms, POSTed to a literal IPv4 |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `exfiltration/sensitive-data/javascript/js-system-info-exfiltration` | `Get-CimInstance Win32_LogicalDisk` drive enumeration sent to C2 |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `anti-static/obfuscation/payload/data-file/js-obfuscator-runtime-data-file` | `scdata` and `ldata` themselves: obfuscator loop + `decodeURIComponent` + `function c(b,d)` |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `evasion/masquerade/path/log` | Exfil URL named `/npm-compiler.log` |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `command-and-control/dropper/execution/network-stage/obfuscated-node-staged-loader` | Obfuscator-decoded `require` + base64/XOR string decoders + `windowsHide`-via-expression spawn |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `command-and-control/dropper/execution/network-stage/spawn-node` | `node $TMPDIR/scdata` and `node $TMPDIR/ldata` detached |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `exfiltration/stealer/file/javascript/js-targeted-file-upload-exfil` | Sensitive-path filter → `216.126.224.220:5976/upload` multipart sink |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `exfiltration/stealer/credential/browser/javascript/js-browser-wallet-upload-exfil` | Wallet globs (`*metamask*`, `*solana*`, `*secret phrase*`) into an external-IP upload |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `exfiltration/stealer/credential/clipboard/javascript/js-clipboard-exfil-external-ip` | `pbpaste` + `powershell Get-Clipboard` polled every 750 ms, POSTed to a literal IPv4 |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `exfiltration/sensitive-data/javascript/js-system-info-exfiltration` | `Get-CimInstance Win32_LogicalDisk` drive enumeration sent to C2 |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `anti-static/obfuscation/payload/data-file/js-obfuscator-runtime-data-file` | `scdata` and `ldata` themselves: obfuscator loop + `decodeURIComponent` + `function c(b,d)` |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `evasion/masquerade/path/log` | Exfil URL named `/npm-compiler.log` |
 
 ## Why this works
 

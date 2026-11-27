@@ -13,9 +13,10 @@ title: "hood — Supply-Chain Firewall (experiment)"
   .content .hood-cov th, .content .hood-cov td { border-bottom: 1px solid var(--border); padding: 6px 10px 6px 0; text-align: left; }
   .content .hood-cov thead th { font-family: 'Oxanium', sans-serif; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--iron); border-bottom: 1px solid var(--graphite); }
   .content .hood-cov td:first-child, .content .hood-cov th:first-child { font-family: 'SF Mono', Consolas, monospace; font-size: 13px; }
+  .content .hood-cov tbody th { font-weight: 400; }
   .content .hood-cov td:not(:first-child), .content .hood-cov th:not(:first-child) { text-align: center; width: 15%; }
-  .content .hood-cov .yes { color: #1D9E75; font-weight: 700; }
-  .content .hood-cov .part { color: #EF9F27; font-weight: 700; }
+  .content .hood-cov .yes { color: #15803d; font-weight: 700; }
+  .content .hood-cov .part { color: #b45309; font-weight: 700; }
   .content .hood-cov .no { color: var(--slate); }
   .cov-wrap { overflow-x: auto; }
   .cov-legend { font-size: 12.5px; color: var(--slate); margin: 4px 0 0; }
@@ -25,9 +26,8 @@ title: "hood — Supply-Chain Firewall (experiment)"
   <div class="content" data-pagefind-body>
 
     <div class="project-header">
-      <img src="/assets/images/hood.svg" alt="hood" class="proj-logo">
+      <h1 class="project-title"><img src="/assets/images/hood.svg" alt="hood" class="proj-logo"></h1>
       <span class="badge badge-experimental">experimental</span>
-      <h1 class="visually-hidden">hood</h1>
     </div>
 
     <figure class="hood-photo">
@@ -81,49 +81,49 @@ title: "hood — Supply-Chain Firewall (experiment)"
     three related tools. Only hood classifies the contents of a private
     artifact locally; the others decide from a feed or from metadata.</p>
 
-    <div class="cov-wrap">
+    <div class="cov-wrap" role="region" aria-label="Coverage table" tabindex="0">
     <table class="hood-cov">
       <thead>
         <tr>
-          <th>Tool</th>
-          <th>hood</th>
-          <th><a href="https://github.com/safedep/pmg" target="_blank">PMG</a></th>
-          <th><a href="https://github.com/DataDog/supply-chain-firewall" target="_blank">SCFW</a></th>
-          <th><a href="https://github.com/AikidoSec/safe-chain" target="_blank">Safe&nbsp;Chain</a></th>
+          <th scope="col">Tool</th>
+          <th scope="col">hood</th>
+          <th scope="col"><a href="https://github.com/safedep/pmg">PMG</a></th>
+          <th scope="col"><a href="https://github.com/DataDog/supply-chain-firewall">SCFW</a></th>
+          <th scope="col"><a href="https://github.com/AikidoSec/safe-chain">Safe&nbsp;Chain</a></th>
         </tr>
       </thead>
       <tbody>
-        <tr><td>curl</td><td class="yes">✅</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
-        <tr><td>wget</td><td class="yes">✅</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
-        <tr><td>npm</td><td class="yes">✅</td><td class="yes">✅</td><td class="yes">✅</td><td class="yes">✅</td></tr>
-        <tr><td>npx</td><td class="yes">✅</td><td class="yes">✅</td><td class="no">—</td><td class="yes">✅</td></tr>
-        <tr><td>pnpm</td><td class="yes">✅</td><td class="yes">✅</td><td class="no">—</td><td class="yes">✅</td></tr>
-        <tr><td>pnpx</td><td class="yes">✅</td><td class="yes">✅</td><td class="no">—</td><td class="yes">✅</td></tr>
-        <tr><td>yarn</td><td class="yes">✅</td><td class="yes">✅</td><td class="no">—</td><td class="yes">✅</td></tr>
-        <tr><td>rush</td><td class="yes">✅</td><td class="no">—</td><td class="no">—</td><td class="yes">✅</td></tr>
-        <tr><td>rushx</td><td class="yes">✅</td><td class="no">—</td><td class="no">—</td><td class="yes">✅</td></tr>
-        <tr><td>bun</td><td class="yes">✅</td><td class="yes">✅</td><td class="no">—</td><td class="yes">✅</td></tr>
-        <tr><td>bunx</td><td class="yes">✅</td><td class="no">—</td><td class="no">—</td><td class="yes">✅</td></tr>
-        <tr><td>pip</td><td class="yes">✅</td><td class="yes">✅</td><td class="yes">✅</td><td class="yes">✅</td></tr>
-        <tr><td>pip3</td><td class="yes">✅</td><td class="yes">✅</td><td class="no">—</td><td class="yes">✅</td></tr>
-        <tr><td>pipx</td><td class="yes">✅</td><td class="yes">✅</td><td class="no">—</td><td class="yes">✅</td></tr>
-        <tr><td>uv</td><td class="yes">✅</td><td class="yes">✅</td><td class="no">—</td><td class="yes">✅</td></tr>
-        <tr><td>uvx</td><td class="yes">✅</td><td class="yes">✅</td><td class="no">—</td><td class="yes">✅</td></tr>
-        <tr><td>poetry</td><td class="yes">✅</td><td class="yes">✅</td><td class="yes">✅</td><td class="yes">✅</td></tr>
-        <tr><td>pdm</td><td class="yes">✅</td><td class="no">—</td><td class="no">—</td><td class="yes">✅</td></tr>
-        <tr><td>go</td><td class="yes">✅</td><td class="part">◐</td><td class="no">—</td><td class="no">—</td></tr>
-        <tr><td>cargo</td><td class="yes">✅</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
-        <tr><td>brew</td><td class="yes">✅</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
-        <tr><td>pacman</td><td class="yes">✅</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
-        <tr><td>yay</td><td class="yes">✅</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
-        <tr><td>paru</td><td class="yes">✅</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
-        <tr><td>makepkg</td><td class="yes">✅</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
-        <tr><td>dnf</td><td class="yes">✅</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
-        <tr><td>yum</td><td class="yes">✅</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
-        <tr><td>zypper</td><td class="yes">✅</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
-        <tr><td>rpm</td><td class="yes">✅</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
-        <tr><td>apk</td><td class="yes">✅</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
-        <tr><td>pkg</td><td class="yes">✅</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+        <tr><th scope="row">curl</th><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td></tr>
+        <tr><th scope="row">wget</th><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td></tr>
+        <tr><th scope="row">npm</th><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td></tr>
+        <tr><th scope="row">npx</th><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td></tr>
+        <tr><th scope="row">pnpm</th><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td></tr>
+        <tr><th scope="row">pnpx</th><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td></tr>
+        <tr><th scope="row">yarn</th><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td></tr>
+        <tr><th scope="row">rush</th><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td></tr>
+        <tr><th scope="row">rushx</th><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td></tr>
+        <tr><th scope="row">bun</th><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td></tr>
+        <tr><th scope="row">bunx</th><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td></tr>
+        <tr><th scope="row">pip</th><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td></tr>
+        <tr><th scope="row">pip3</th><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td></tr>
+        <tr><th scope="row">pipx</th><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td></tr>
+        <tr><th scope="row">uv</th><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td></tr>
+        <tr><th scope="row">uvx</th><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td></tr>
+        <tr><th scope="row">poetry</th><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td></tr>
+        <tr><th scope="row">pdm</th><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td></tr>
+        <tr><th scope="row">go</th><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td><td class="part"><span aria-hidden="true">◐</span><span class="visually-hidden">experimental or explicit</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td></tr>
+        <tr><th scope="row">cargo</th><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td></tr>
+        <tr><th scope="row">brew</th><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td></tr>
+        <tr><th scope="row">pacman</th><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td></tr>
+        <tr><th scope="row">yay</th><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td></tr>
+        <tr><th scope="row">paru</th><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td></tr>
+        <tr><th scope="row">makepkg</th><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td></tr>
+        <tr><th scope="row">dnf</th><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td></tr>
+        <tr><th scope="row">yum</th><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td></tr>
+        <tr><th scope="row">zypper</th><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td></tr>
+        <tr><th scope="row">rpm</th><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td></tr>
+        <tr><th scope="row">apk</th><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td></tr>
+        <tr><th scope="row">pkg</th><td class="yes"><span aria-hidden="true">✅</span><span class="visually-hidden">automatic</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td><td class="no"><span aria-hidden="true">—</span><span class="visually-hidden">unsupported</span></td></tr>
       </tbody>
     </table>
     </div>
@@ -145,12 +145,12 @@ hood install</pre>
 
   </div>
 
-  <div class="sidebar">
+  <aside class="sidebar" aria-label="Project links">
 
     <h3>Links</h3>
     <ul>
-      <li><a href="https://github.com/atomdrift-project/hood" target="_blank">Source code</a></li>
-      <li><a href="https://github.com/atomdrift-project/hood/issues" target="_blank">Bug tracker</a></li>
+      <li><a href="https://github.com/atomdrift-project/hood">Source code</a></li>
+      <li><a href="https://github.com/atomdrift-project/hood/issues">Bug tracker</a></li>
     </ul>
 
     <h3>Project Info</h3>
@@ -168,5 +168,5 @@ hood install</pre>
       <li><a href="/isomer/">isomer</a> — differential analysis</li>
     </ul>
 
-  </div>
+  </aside>
 </div>

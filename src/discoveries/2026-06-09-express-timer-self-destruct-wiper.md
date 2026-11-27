@@ -49,14 +49,14 @@ child.<span class="tok-fn">unref</span>(); process.<span class="tok-fn">exit</sp
 });
 </code></pre>
 
-| | Trait | What it caught |
+| <span class="visually-hidden">Severity</span> | Trait | What it caught |
 | --- | --- | --- |
-| <span class="sev-dot hostile" title="hostile"></span> | `objectives/impact/wipe/disk/mass-delete` | deletes `<cwd>/src` — armed at import and again via the grafted `/robots.txt` route |
-| <span class="sev-dot hostile" title="hostile"></span> | `objectives/impact/services/stop` | kills the project's Node + PM2 processes (`pkill`, `pm2 delete all`, `taskkill`) |
-| <span class="sev-dot hostile" title="hostile"></span> | `objectives/command-and-control/trigger/activation` | `?verify=destroy` fires the wipe on demand over HTTP |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `objectives/supply-chain/install-hook/scripts/lifecycle` | `postinstall` runs the injector, which appends the self-destruct snippet to the host entrypoint |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `objectives/supply-chain/metadata-anomaly/manifest/npm` | install hooks with no repository; mature version lacking provenance |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `objectives/supply-chain/metadata-anomaly/package/npm` | missing standard metadata; placeholder author, no repo |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `objectives/impact/wipe/disk/mass-delete` | deletes `<cwd>/src` — armed at import and again via the grafted `/robots.txt` route |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `objectives/impact/services/stop` | kills the project's Node + PM2 processes (`pkill`, `pm2 delete all`, `taskkill`) |
+| <span class="sev-dot hostile" aria-hidden="true"></span>hostile | `objectives/command-and-control/trigger/activation` | `?verify=destroy` fires the wipe on demand over HTTP |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `objectives/supply-chain/install-hook/scripts/lifecycle` | `postinstall` runs the injector, which appends the self-destruct snippet to the host entrypoint |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `objectives/supply-chain/metadata-anomaly/manifest/npm` | install hooks with no repository; mature version lacking provenance |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `objectives/supply-chain/metadata-anomaly/package/npm` | missing standard metadata; placeholder author, no repo |
 
 ## The orphan file — ibbl_statment.php
 
@@ -68,11 +68,11 @@ Every archive also carries a file no code loads: a 570-line scraper for the Isla
 <span class="tok-fn">define</span>(<span class="tok-str">"PASS"</span>, <span class="tok-str">"So•••••••"</span>);   <span class="tok-com">// author's real bank login, masked here</span>
 </code></pre>
 
-| | Trait | What it caught |
+| <span class="visually-hidden">Severity</span> | Trait | What it caught |
 | --- | --- | --- |
-| <span class="sev-dot suspicious" title="suspicious"></span> | `objectives/credential-access/financial/account` | hardcoded-login scraper for `agent.islamibankbd.com` |
-| <span class="sev-dot notable" title="notable"></span> | `micro-behaviors/communications/email/send/mail-func` | `mohiuddin767272@gmail.com` |
-| <span class="sev-dot notable" title="notable"></span> | `micro-behaviors/communications/http/curl` | `curl_exec` against the bank portal |
+| <span class="sev-dot suspicious" aria-hidden="true"></span>suspicious | `objectives/credential-access/financial/account` | hardcoded-login scraper for `agent.islamibankbd.com` |
+| <span class="sev-dot notable" aria-hidden="true"></span>notable | `micro-behaviors/communications/email/send/mail-func` | `mohiuddin767272@gmail.com` |
+| <span class="sev-dot notable" aria-hidden="true"></span>notable | `micro-behaviors/communications/http/curl` | `curl_exec` against the bank portal |
 
 ## Indicators
 
