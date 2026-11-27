@@ -6,7 +6,7 @@ packageName: aes-decode-runner-pro
 ecosystem: npm
 ---
 
-Dressed up as an AES-GCM tutorial library — two real codec deps wired in so the math actually works — `aes-decode-runner-pro` fires its chain the moment you `require()` it:
+Dressed as an AES-GCM tutorial library — two real codec deps wired in so the math works — `aes-decode-runner-pro` fires its chain the moment you `require()` it:
 
 <pre class="lang-js"><code><span class="tok-com">// index.js</span>
 <span class="tok-kw">const</span> pkg = <span class="tok-builtin">require</span>(<span class="tok-str">"./custom-codec"</span>);

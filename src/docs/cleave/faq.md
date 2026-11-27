@@ -9,7 +9,7 @@ No. Analysis is local and cleave has no cloud-scoring API.
 ## Does it need network access?
 
 The first analysis downloads a compatible traits bundle. The CLI also performs
-a best-effort release notice check at most daily. After setup, set
+a best-effort release check at most once a day. After setup, set
 `CLEAVE_NO_UPDATE_CHECK=1` to suppress that check.
 
 ## Is cleave a malware verdict engine?

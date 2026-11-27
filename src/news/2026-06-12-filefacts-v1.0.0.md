@@ -4,7 +4,7 @@ date: 2026-06-12
 summary: "filefacts reaches 1.0.0 with richer package identity, new PE/.NET malware features, better evidence offsets, and explicit AST failure metrics for large-scale security ML pipelines."
 ---
 
-[filefacts](https://github.com/atomdrift-project/filefacts) v1.0.0 is the stable line for the parser behind cleave's feature extraction. The headline for ML work is simple: more samples now land in the right format bucket, more package identity becomes structured data, and skipped or truncated source analysis is visible instead of silent.
+[filefacts](https://github.com/atomdrift-project/filefacts) v1.0.0 is the stable line for the parser behind cleave's feature extraction. The headline for ML work: more samples now land in the right format bucket, more package identity becomes structured data, and skipped or truncated source analysis is visible instead of silent.
 
 For supply-chain models, the point is not prettier names. It is fewer collapsed classes, more provenance features, better evidence offsets, and explicit failure signals when static analysis is bounded for corpus-scale safety.
 

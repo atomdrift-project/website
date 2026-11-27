@@ -22,7 +22,7 @@ jsDelivr never garbage-collects an old npm version, and `v018-axios-cdntest` tre
 
 ## A miner that mines nothing
 
-The headline payload is the part that doesn't work: `xmr-min.js` advertises a cryptonight "Stealth Cryptojacker v3.0," but computes a toy multiply-add hash, never starts its Web Worker pool, and POSTs JSON-RPC shares to a stratum TCP port over XHR — so it submits to nothing and mines nothing. The stealth is the only part that works: idle and tab-visibility pausing, a single-injection guard, and a 10% throttle all fire; the mining doesn't.
+The headline payload is the part that doesn't work: `xmr-min.js` advertises a cryptonight "Stealth Cryptojacker v3.0," but computes a toy multiply-add hash, never starts its Web Worker pool, and POSTs JSON-RPC shares to a stratum TCP port over XHR — so it submits to nothing and mines nothing. The stealth is the only part that works: idle and tab-visibility pausing, a single-injection guard, and a 10% throttle all fire.
 
 <pre class="lang-js"><code><span class="tok-com">// "cryptonight" in the banner; a non-crypto multiply-add in the body</span>
 <span class="tok-kw">function</span> <span class="tok-fn">simpleHash</span>(data){

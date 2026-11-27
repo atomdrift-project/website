@@ -12,7 +12,7 @@ ecosystem: crates.io
 
 ## build.rs POSTs your git diff to Sentry
 
-At build time — before a line of the library compiles — the script shells out to git for the latest commit's author and email, then for that commit's full diff: the developer's newest, often-unpublished source changes. It packs both into a Sentry envelope and posts them to an ingest endpoint hard-coded in the source, so to a network monitor and to Sentry's own servers the leak is indistinguishable from a Rust app reporting a crash — traffic that is rarely inspected and almost never blocked. The cleverer half is *where* it runs: the build script reads cargo's `OUT_DIR` and walks up past the `target/` directory into its parent, landing not in onering's own tree but in the consuming project's repo — so it harvests the victim developer's unreleased commit, not the library's.
+At build time the script shells out to git for the latest commit's author and email, then for that commit's full diff: the developer's newest, often-unpublished source changes. It packs both into a Sentry envelope and posts them to an ingest endpoint hard-coded in the source, so to a network monitor and to Sentry's own servers the leak is indistinguishable from a Rust app reporting a crash — traffic that is rarely inspected and almost never blocked. The cleverer half is *where* it runs: the build script reads cargo's `OUT_DIR` and walks up past the `target/` directory into its parent, landing not in onering's own tree but in the consuming project's repo — so it harvests the victim developer's unreleased commit.
 
 {% raw %}
 <pre class="lang-js"><code><span class="tok-com">// build.rs — cargo runs this before a single line of the library compiles</span>

@@ -8,7 +8,7 @@ ecosystem: npm
 
 <img src="/assets/images/sqlite-node-createsql-dprk-agitprop.jpg" alt="A North Korean propaganda poster — a worker barks into a radio under a banner reading 'Let's unconditionally fulfill this year's people's economic plan!' — standing in for the Contagious Interview crew making its quota again: a fourth npm sample of the same BeaverTail-to-InvisibleFerret kit, this time delivered from a GitHub Gist." style="width: 60%; height: auto;">
 
-The package is 707 bytes, and almost none of them are malicious. Its entire `index.js` fetches one GitHub Gist through the API and evals the response — npm does the fetching, npm does the detonating, and the actual weapon never ships in the tarball. What unrolls from there is the same DPRK Contagious Interview kit this site has now caught four times; the only thing that changed is the wrapper.
+The package is 707 bytes, and almost none of them are malicious. Its entire `index.js` fetches one GitHub Gist through the API and evals the response — npm does the fetching, npm does the detonating, and the weapon never ships in the tarball. What unrolls from there is the same DPRK Contagious Interview kit this site has now caught four times; only the wrapper changed.
 
 ## Package metadata
 
@@ -25,7 +25,7 @@ The package is 707 bytes, and almost none of them are malicious. Its entire `ind
 
 ## Stage 1 — the Gist dead-drop
 
-The loader pulls the Gist's first file from the GitHub API and evals its text, so GitHub is the dead-drop and the operator can swap the payload without ever republishing to npm.
+The loader pulls the Gist's first file from the GitHub API and evals its text, so GitHub is the dead-drop and the operator can swap the payload without republishing to npm.
 
 {% raw %}
 <pre class="lang-js"><code><span class="tok-com">// index.js — the entire package</span>
@@ -66,7 +66,7 @@ The Gist body is a javascript-obfuscator blob; decoded, it does four things in o
 
 ## Stage 3 — the fan-out
 
-`0001.dat` is where the 707 bytes finally pay off: it writes and spawns four payloads, none of which ever touched the registry. Together they are a complete InvisibleFerret kit — a node-pty remote shell, a multipart file-stealer, and a clipboard watcher — every packet stamped with the same campaign id the download URL carried. Its glob list reads like a crypto-wallet shopping run — seed-phrase and private-key filename patterns, dotenv files, browser and wallet directories — and the loot is POSTed as multipart form-data to port 7626.
+`0001.dat` is where the 707 bytes finally pay off: it writes and spawns four payloads, none of which touched the registry. Together they are a complete InvisibleFerret kit — a node-pty remote shell, a multipart file-stealer, and a clipboard watcher — every packet stamped with the same campaign id the download URL carried. Its glob list reads like a crypto-wallet shopping run — seed-phrase and private-key filename patterns, dotenv files, browser and wallet directories — and the loot is POSTed as multipart form-data to port 7626.
 
 | Drop | Role | Sink |
 | --- | --- | --- |
@@ -95,7 +95,7 @@ The on-disk stage-3 file is one obfuscated line, so the four drops above were re
 
 ## Same kit, new address
 
-Strip the wrapper and this is [web-dotenv](/discoveries/2026/05/web-dotenv-jsonkeeper-redirector/), [clx-cookieparser](/discoveries/2026/05/clx-cookieparser-dependency-twin-beavertail/), and [path-internal-util](/discoveries/2026/06/path-internal-util-trojanized-path-remote-eval/) one more time — the same scdata control client, the same makelog exfil path, the same node-pty shell, the same seed-phrase globs, all already pinned to North Korea's Contagious Interview campaign via [dprk-research.kmsec.uk](https://dprk-research.kmsec.uk/). What's new is the address: the C2 is `144.172.117.57` with an upload port of 7626, off the Tier.Net 216.126.224.0/22 range every prior sample leaned on, and stage 2 now hides in a public GitHub Gist instead of a jsonkeeper blob. Same operators, same quota — they've just moved the dead-drop onto GitHub and rented a fresh IP to collect.
+Strip the wrapper and this is [web-dotenv](/discoveries/2026/05/web-dotenv-jsonkeeper-redirector/), [clx-cookieparser](/discoveries/2026/05/clx-cookieparser-dependency-twin-beavertail/), and [path-internal-util](/discoveries/2026/06/path-internal-util-trojanized-path-remote-eval/) one more time — the same scdata control client, the same makelog exfil path, the same node-pty shell, the same seed-phrase globs, all already pinned to North Korea's Contagious Interview campaign via [dprk-research.kmsec.uk](https://dprk-research.kmsec.uk/). What's new is the address: the C2 is `144.172.117.57` with an upload port of 7626, off the Tier.Net 216.126.224.0/22 range every prior sample leaned on, and stage 2 now hides in a public GitHub Gist instead of a jsonkeeper blob. Same operators, same quota — they've moved the dead-drop onto GitHub and rented a fresh IP to collect.
 
 ## Indicators
 

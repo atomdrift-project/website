@@ -1,7 +1,7 @@
 ---
 title: "Lab outage: btrfs cannot delete its way out of a full disk"
 date: 2026-05-07T18:00:00Z
-summary: "The lab's PostgreSQL master is offline: btrfs filled up and now refuses to delete files — or even snapshots — because it is out of space. No data was lost, thanks to our distributed replica architecture. We are moving the master to ZFS on OmniOS and teaching the lab to fail over to a replica. ETA back online: today."
+summary: "The lab's PostgreSQL master is offline: btrfs filled up and now refuses to delete files — or even snapshots — because it is out of space. No data was lost, thanks to the distributed replicas. We are moving the master to ZFS on OmniOS and teaching the lab to fail over to a replica. ETA back online: today."
 ---
 
 The lab is down.

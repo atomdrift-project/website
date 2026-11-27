@@ -5,7 +5,7 @@ title: "FAQ"
 ## Are files uploaded?
 
 No. Static analysis and ONNX inference run locally. Files are uploaded only
-when you explicitly configure hopper write-back. `--llm` sends extracted
+when you configure hopper write-back. `--llm` sends extracted
 evidence to the endpoint you configure, not the original file.
 
 ## Does Scan need network access?

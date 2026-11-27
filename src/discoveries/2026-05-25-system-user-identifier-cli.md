@@ -1,7 +1,7 @@
 ---
 title: "system-user-identifier-cli: an 'identity helper' that just opens a reverse shell"
 date: 2026-05-25
-summary: "799 bytes, two files, and a name like a thousand throwaway npx tools — it really does check your user id, then drops a bash /dev/tcp reverse shell and calls home."
+summary: "799 bytes, two files, and a name like a thousand throwaway npx tools — it does check your user id, then drops a bash /dev/tcp reverse shell and calls home."
 packageName: system-user-identifier-cli
 ecosystem: npm
 ---
@@ -71,7 +71,7 @@ Eight major-version bumps in three hours, from a throwaway gmail under a default
 | Versions published | 1.0.0, 2.0.0, 3.0.0, 4.0.0, 5.0.0, 6.0.0, 7.0.0, 7.0.1 |
 | Downloads API | `package not found` |
 
-Every signal leans cheap — a Tencent Cloud VPS for C2, a hard-coded IP with no DNS, no staging, no persistence, `Your Name` in the author field, Chinese comments, and a textbook one-liner — reading like one person publishing cheaply to see if `npx` traffic finds the port, but the recipe works and the next hand on it may not be so unsophisticated.
+Every signal leans cheap — a Tencent Cloud VPS for C2, a hard-coded IP with no DNS, no staging, no persistence, `Your Name` in the author field, Chinese comments, and a textbook one-liner — reading like one person publishing to see if `npx` traffic finds the port, but the recipe works and the next hand on it may not be so unsophisticated.
 
 ## Indicators
 

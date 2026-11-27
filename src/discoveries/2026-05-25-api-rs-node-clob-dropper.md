@@ -1,7 +1,7 @@
 ---
 title: "api-rs-node: a fake Rust bridge that doxxed its own author"
 date: 2026-05-25
-summary: "A 'high-performance Rust bridge' that's really a Windows dropper — IPFS payload, registry persistence, a beacon on port 2026 — whose author bundled their own config files and named the very machine they built it on."
+summary: "A 'high-performance Rust bridge' that's really a Windows dropper — IPFS payload, registry persistence, a beacon on port 2026 — whose author bundled their own config files and named the machine they built it on."
 packageName: api-rs-node
 ecosystem: npm
 ---

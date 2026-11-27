@@ -1,6 +1,6 @@
 ---
 layout: base.njk
-title: "azoth — Open-Source AI Model for General Malware Detection"
+title: "azoth — Open-source AI model for general malware detection"
 ---
 
 <div class="main">
@@ -45,8 +45,7 @@ title: "azoth — Open-Source AI Model for General Malware Detection"
     has its own directory holding a <code>models/seed_*.onnx</code> ensemble
     and <code>feature_spec.json</code>, the features those models expect.
     Scores are the models' raw probabilities; there is no separate
-    calibrator. The
-    deployed default is L25: 0.25 expected false positives per million benign
+    calibrator. The deployed default is L25: 0.25 expected false positives per million benign
     files.</p>
 
     <h2>Design</h2>
@@ -69,8 +68,7 @@ title: "azoth — Open-Source AI Model for General Malware Detection"
     partition, disjoint from training and calibration. Per-filetype PR AUC,
     ROC AUC, F1, and recall at L25 are on
     <a href="https://github.com/atomdrift-project/azoth">GitHub</a>,
-    next to the weights, pipeline, and harness. Read the contributing
-    capabilities, not just the verdict.</p>
+    next to the weights, pipeline, and harness.</p>
 
     <h2>Dataset providers</h2>
     <p>Azoth is only as good as its corpus. Thanks to the people who collect,
@@ -95,7 +93,7 @@ title: "azoth — Open-Source AI Model for General Malware Detection"
 
   <aside class="sidebar" aria-label="Project links">
 
-    <h3>Project Info</h3>
+    <h3>Project info</h3>
     <dl class="stats">
       <dt>Status</dt><dd>Stable</dd>
       <dt>License</dt><dd>Apache 2.0</dd>

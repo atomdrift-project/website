@@ -8,8 +8,7 @@ title: "Integrations"
 stng --simple malware.bin > strings.txt
 ```
 
-Use simple output when the consumer only needs decoded text. It intentionally
-omits offsets, methods, classifications, and other context.
+Use simple output when the consumer only needs decoded text. It omits offsets, methods, classifications, and other context.
 
 ## Structured pipelines
 

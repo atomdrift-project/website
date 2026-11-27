@@ -8,11 +8,11 @@ ecosystem: Go
 
 <img src="/assets/images/surf-byo-interpreter.jpg" alt="The 'Surf's Up' movie poster — a polished release sleeve over an animated-penguin comedy; the package dresses a Windows LuaJIT dropper in the same way, and the penguin winks at the Linux support the README promises while the zip is Windows-only." style="width: 60%; height: auto;">
 
-The real `surf` is a genuinely slick Go library for HTTP requests that impersonate real browser TLS and HTTP/2 fingerprints — this package is that library, cloned file-for-file, with exactly two things changed: the README, and what's hiding in the examples folder.
+The real `surf` is a slick Go library for HTTP requests that impersonate real browser TLS and HTTP/2 fingerprints — this package is that library, cloned file-for-file, with exactly two things changed: the README, and what's hiding in the examples folder.
 
 ## A download button on a library you import
 
-A Go module is something you `go get`; you do not double-click it. This clone's `go.mod` still declares the upstream `github.com/enetx/surf` it forked from — a rename the author never made — while its README has been rewritten from a developer reference into a glossy "Download Surf" product page. A download badge and seven separate links all point at one file served off GitHub's raw URL, and the steps walk a Windows user through extracting and running it; the genuine library ships no executable at all.
+A Go module is something you `go get`; you do not double-click it. This clone's `go.mod` still declares the upstream `github.com/enetx/surf` it forked from — a rename the author never made — while its README has been rewritten from a developer reference into a glossy "Download Surf" product page. A download badge and six more links all point at one file served off GitHub's raw URL, and the steps walk a Windows user through extracting and running it; the genuine library ships no executable at all.
 
 What gives it away as crude rather than clever is that the page doesn't match its own payload — it promises Linux and macOS builds named like `surf-linux-amd64` and a version-printing command, yet the zip is Windows-only and bolted to a library with no CLI to print anything: a generic "download our app" template stamped onto a Go package by something that never looked inside the box.
 
@@ -28,7 +28,7 @@ What gives it away as crude rather than clever is that the page doesn't match it
 
 ## What's in the box
 
-The zip holds three files and no ambiguity: `Launcher.cmd` is the entire detonator in 28 bytes, starting a stock 878 KB LuaJIT interpreter against the payload — a 309 KB text file that is one single line of fully-packed Lua. Shipping the interpreter alongside the script is the whole move: the `.exe` is an unmodified, recognizable LuaJIT that scanners wave through, while the malicious logic rides in a text file they read as inert. Underneath, the logic is a return-function loader wrapped in an indexed string-permutation decoder; cleave fingerprints the obfuscation as `T1027`, and static analysis stops there.
+The zip holds three files and no ambiguity: `Launcher.cmd` is the entire detonator in 28 bytes, starting a stock 878 KB LuaJIT interpreter against the payload — a 309 KB text file that is a single line of fully-packed Lua. Shipping the interpreter alongside the script is the whole move: the `.exe` is an unmodified, recognizable LuaJIT that scanners wave through, while the malicious logic rides in a text file they read as inert. Underneath, the logic is a return-function loader wrapped in an indexed string-permutation decoder; cleave fingerprints the obfuscation as `T1027`, and static analysis stops there.
 
 {% raw %}
 <pre class="lang-js"><code><span class="tok-com">:: Launcher.cmd — the whole detonator, 28 bytes</span>

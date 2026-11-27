@@ -8,7 +8,7 @@ The Atomdrift research lab will be offline for several hours today while enginee
 
 That crawler is [forager](https://github.com/isotope13-dev/forager), a Go service that polls public package registries for new and updated releases and feeds them to [litmus](https://github.com/atomdrift-project/litmus) and [cleave](https://github.com/atomdrift-project/cleave) for malware analysis. Open-source maintainers do not publish on a schedule; they publish continuously, and forager ingests continuously to match.
 
-forager presently tracks more than 100 marketplaces. A sample, drawn from its `pkg/registry` tree:
+forager tracks more than 100 marketplaces. A sample, drawn from its `pkg/registry` tree:
 
 - **Language registries:** [npm](https://www.npmjs.com/), [PyPI](https://pypi.org/), [crates.io](https://crates.io/), [RubyGems](https://rubygems.org/), [Maven Central](https://central.sonatype.com/), [NuGet](https://www.nuget.org/), [Packagist](https://packagist.org/), [Hex](https://hex.pm/), [Hackage](https://hackage.haskell.org/), [CPAN](https://www.cpan.org/), [CRAN](https://cran.r-project.org/), [LuaRocks](https://luarocks.org/), [Clojars](https://clojars.org/), [pub.dev](https://pub.dev/), Go modules, [unpkg](https://unpkg.com/).
 - **OS repositories:** [Homebrew](https://brew.sh/), [Alpine](https://pkgs.alpinelinux.org/), [Arch](https://archlinux.org/packages/) and the [AUR](https://aur.archlinux.org/), [Debian](https://www.debian.org/distrib/packages), [Fedora](https://packages.fedoraproject.org/), [RPM Fusion](https://rpmfusion.org/), [Wolfi](https://github.com/wolfi-dev), [FreeBSD ports](https://www.freebsd.org/ports/), [NetBSD pkgsrc](https://pkgsrc.org/), [OpenBSD ports](https://www.openbsd.org/ports.html).

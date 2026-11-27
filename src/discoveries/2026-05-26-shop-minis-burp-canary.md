@@ -1,7 +1,7 @@
 ---
 title: "shop-minis: a Shopify-shaped canary that rats you out to Burp"
 date: 2026-05-26
-summary: "A 762-byte dependency-confusion probe wearing the name of Shopify's private Shop Minis package, that slurps your CI env vars and ships them out two ways at once — HTTPS and DNS — to a Burp Collaborator."
+summary: "A 762-byte dependency-confusion probe wearing the name of Shopify's private Shop Minis package, that slurps your CI env vars and ships them out two ways — HTTPS and DNS — to a Burp Collaborator."
 packageName: shop-minis
 ecosystem: npm
 ---

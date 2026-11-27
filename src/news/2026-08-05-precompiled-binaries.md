@@ -40,7 +40,7 @@ Prefer to do it by hand? Every artifact is on the
 
 ::: note macOS notarization is still pending
 Our macOS binaries are in Apple's notarization queue. Until they clear, Gatekeeper
-will complain about the downloaded builds — installing via Homebrew avoids that
-in the meantime. We expect notarization to come through tomorrow, and we'll
+will complain about the downloaded builds — installing via Homebrew avoids that.
+We expect notarization to come through tomorrow, and we'll
 update here once it does.
 :::

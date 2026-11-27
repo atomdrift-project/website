@@ -53,7 +53,8 @@ atomscan -f json ./release
 ```
 
 Exit codes are `0` for all benign, `1` when anything is hostile, `2` when
-something is suspicious but nothing is hostile, and `3` for analysis errors.
+something is suspicious but nothing is hostile, `3` for analysis errors, and `4`
+when the rule set is incomplete (re-run).
 
 ## Run fully offline
 

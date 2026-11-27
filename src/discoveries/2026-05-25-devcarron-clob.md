@@ -74,7 +74,7 @@ Same shape as the later draft, minus the Windows Defender masquerade — the fil
 
 ## Why the earlier draft matters
 
-The [Fallout report](https://sha256.is/a88d1ea8fb793afddc99ad7f7d4a372fd39468afea5d5ea2a33340e384eb5864) returns malicious at probability 1.0 on the same binary as the [api-rs-node Stage 2 analysis](/discoveries/2026/05/api-rs-node-clob-dropper/#stage-2-what-the-cid-serves), and the byte-identical exe, `meta_data.json`, and `clob.js` skeleton tie `devcarron@gmail.com` and `shinydv412@gmail.com` to one machine (Windows user `mist`) repurposing an in-house `Explr` codebase — the 5½-hour gap is the author shrinking a hashable 4 MB bundled PE down to a 6 KB IPFS-only stager that at-rest scanners no longer catch until the dropper has run.
+The [Fallout report](https://sha256.is/a88d1ea8fb793afddc99ad7f7d4a372fd39468afea5d5ea2a33340e384eb5864) returns malicious at probability 1.0 on the same binary as the [api-rs-node Stage 2 analysis](/discoveries/2026/05/api-rs-node-clob-dropper/#stage-2-what-the-cid-serves), and the byte-identical exe, `meta_data.json`, and `clob.js` skeleton tie `devcarron@gmail.com` and `shinydv412@gmail.com` to one machine (Windows user `mist`) repurposing an in-house `Explr` codebase — the 5½-hour gap is the author shrinking a hashable 4 MB bundled PE to a 6 KB IPFS-only stager that at-rest scanners no longer catch until the dropper has run.
 
 ## Indicators
 

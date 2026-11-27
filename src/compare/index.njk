@@ -2,7 +2,7 @@
 layout: base.njk
 title: Compare
 permalink: /compare/
-description: Compare Atomdrift with other scanners on 30 days of live zero-day malware and known-good samples. Explore detection and false positives at different sensitivity settings.
+description: Detection and false positives for Atomdrift and other scanners on 30 days of live zero-day malware and known-good samples, at each sensitivity setting.
 ---
 <link rel="stylesheet" href="/assets/css/compare.css">
 
@@ -70,7 +70,7 @@ description: Compare Atomdrift with other scanners on 30 days of live zero-day m
 
   {% if scoreboard.chart.sensitivity.ascan | length and scoreboard.chart.sensitivity.virustotal | length %}
   <section class="comparison-section" aria-labelledby="compare-sensitivity">
-    <h2 id="compare-sensitivity">Tunable Sensitivity - Detection vs False positives</h2>
+    <h2 id="compare-sensitivity">Sensitivity: detection vs. false positives</h2>
     <p id="sensitivity-explanation">Use Atomdrift’s <code>-l N</code> flag to target <code>N</code> hostile false positives per 100 million benign samples.</p>
     <div class="sensitivity-controls">
       {% for key, name in scoreboard.chart.labels %}{% if key == 'ascan' or key == 'virustotal' %}
@@ -88,7 +88,7 @@ description: Compare Atomdrift with other scanners on 30 days of live zero-day m
 
   {% if (scoreboard.chart.runs | length) > 1 %}
   <details class="comparison-section run-history" open>
-    <summary><h2>Detection Rate History</h2></summary>
+    <summary><h2>Detection rate history</h2></summary>
     <div class="section-heading">
       <p>Malware detected · all ecosystems</p>
       <label for="compare-peer">Compare with

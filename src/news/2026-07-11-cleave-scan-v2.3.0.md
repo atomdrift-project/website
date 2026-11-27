@@ -5,7 +5,7 @@ summary: "The headline is performance — rebuilt regex internals, parallel arch
 ---
 
 The headline of [cleave](/cleave/) and [Atomdrift Scan](/scan/) v2.3.0 is
-performance, and the numbers are worth saying plainly: expect roughly a third
+performance: expect roughly a third
 of the memory use and twice the speed on the same workloads. The verdicts stay
 deterministic — same input, same output — and where they *do* change, it's
 because detection got more accurate, not because the engine got looser.
@@ -36,7 +36,7 @@ benign model verdict all the way to hostile. Best of the lot: a hostile
 transitive dependency now surfaces at the archive root instead of hiding in
 the manifest.
 
-**And some genuinely new things landed too.** Archive entries now report
+**And some new things landed too.** Archive entries now report
 entropy, magic bytes, and extension/type mismatches. Scan reports record
 provenance — registry sidecars, fetch URLs, and the id and sha256 of embedded
 files — so a verdict says where its bytes came from. `--format=interpret`

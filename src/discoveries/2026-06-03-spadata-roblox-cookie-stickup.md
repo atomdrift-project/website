@@ -1,7 +1,7 @@
 ---
 title: "spadata: Gimme all your Roblox — the PyPI DataStore lib that isn't"
 date: 2026-06-03
-summary: "It promises a Roblox DataStore library and ships none of it — just an __init__.py that, on import, DPAPI-decrypts your Roblox session cookie and posts the cleartext to a Discord webhook; the README can't even spell its own name."
+summary: "It promises a Roblox DataStore library and ships none of it — an __init__.py that, on import, DPAPI-decrypts your Roblox session cookie and posts the cleartext to a Discord webhook; the README can't even spell its own name."
 packageName: spadata
 ecosystem: PyPI
 ---
@@ -26,7 +26,7 @@ ecosystem: PyPI
 
 ## One import, one cookie, one webhook
 
-The wheel holds two files and no product: `__init__.py` calls the stealer at import time inside a bare try/except, so the theft fires when Python loads the package and any error dies silently. It copies Roblox's local cookie store `robloxcookies.dat` to the temp folder, reads the base64 field, and — since Roblox keeps it DPAPI-encrypted — calls `win32crypt.CryptUnprotectData` to unlock the loot before taking it. The cleartext `.ROBLOSECURITY` cookie then posts straight to a hardcoded Discord webhook, captioned `Decrypted Content:`; replayed in a browser it walks past the password and 2FA, handing over the Robux, the inventory, and the resale value in one string.
+The wheel holds two files and no product: `__init__.py` calls the stealer at import time inside a bare try/except, so the theft fires when Python loads the package and any error dies silently. It copies Roblox's local cookie store `robloxcookies.dat` to the temp folder, reads the base64 field, and — since Roblox keeps it DPAPI-encrypted — calls `win32crypt.CryptUnprotectData` to unlock the loot before taking it. The cleartext `.ROBLOSECURITY` cookie then posts to a hardcoded Discord webhook, captioned `Decrypted Content:`; replayed in a browser it walks past the password and 2FA, handing over the Robux, the inventory, and the resale value in one string.
 
 <pre class="lang-js"><code><span class="tok-com"># __init__.py — import is the trigger</span>
 <span class="tok-kw">from</span> .main <span class="tok-kw">import</span> retrieve_roblox_cookies

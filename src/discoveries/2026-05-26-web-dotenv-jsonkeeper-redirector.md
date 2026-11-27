@@ -61,7 +61,7 @@ The bin is 19 KB of obfuscator.io output that does exactly two things:
 
 ## Stage 3: stealer + clipper
 
-The 110 KB body from `216.126.224.247` writes two files to `os.tmpdir()`, detaches them, and also passes each inline as `node -e` to `spawn()` as a fallback:
+The 110 KB body from `216.126.224.247` writes two files to `os.tmpdir()`, detaches them, and passes each inline as `node -e` to `spawn()` as a fallback:
 
 <pre class="lang-js"><code>fs.<span class="tok-fn">writeFile</span>(path.<span class="tok-fn">join</span>(os.<span class="tok-fn">tmpdir</span>(), <span class="tok-str">'scdata'</span>), &lt;stealer&gt;);
 fs.<span class="tok-fn">writeFile</span>(path.<span class="tok-fn">join</span>(os.<span class="tok-fn">tmpdir</span>(), <span class="tok-str">'ldata'</span>),  &lt;clipper&gt;);

@@ -29,7 +29,7 @@ on your machine.
 Findings are deterministic when the bytes, traits bundle, options, platform
 filters, and installed analysis tools are fixed. Reports include an analysis
 timestamp, and adding or upgrading Rizin can add facts, so serialized output is
-not inherently byte-for-byte stable across environments.
+not byte-for-byte stable across environments.
 
 ## Network behavior
 

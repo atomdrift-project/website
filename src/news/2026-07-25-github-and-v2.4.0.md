@@ -8,7 +8,7 @@ Atomdrift has a new home: every repository now lives on
 [GitHub](https://github.com/atomdrift-project). Codeberg's abrupt new policy
 direction left our AI-assisted, self-reinforcement-learning workflow out in the
 cold ([the long version is here](https://choosehappy.dev/posts/2026/so-long-codeberg-and-thanks-for-all-the-fish/)),
-and the genuinely painful part wasn't the principle — it was re-pinning every Go
+and the painful part wasn't the principle — it was re-pinning every Go
 and Rust dependency across all **30 of our repositories** by hand.
 
 **A coordinated v2.4.0.** The headline is dependencies as first-class citizens.
@@ -16,7 +16,7 @@ and Rust dependency across all **30 of our repositories** by hand.
 gives each one its own verdict — a hostile transitive package surfaces as
 itself, not as a footnote on its parent. Worker mode sweeps every resolvable
 dependency (interactive scans stay gated to fresh releases, where supply-chain
-compromise actually shows up), and Go pseudo-versions are now dated correctly so
+compromise shows up), and Go pseudo-versions are now dated correctly so
 that gate works.
 
 **Built to scale.** Scan handles files up to 16 GiB, streaming oversized

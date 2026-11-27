@@ -1,6 +1,6 @@
 ---
 layout: base.njk
-title: "cleave — Software Decomposition Engine"
+title: "cleave — Software decomposition engine"
 tool: cleave
 ---
 
@@ -15,11 +15,11 @@ tool: cleave
     <p>cleave answers one question: <em>what can this program do?</em>
     It unpacks the file, extracts structural facts, and matches them against
     the public <a href="https://github.com/atomdrift-project/traits">Atomdrift traits</a>
-    rule set, aligned broadly to
+    rule set, broadly aligned with
     <a href="https://github.com/MBCProject/mbc-markdown">MBC</a> and
     <a href="https://attack.mitre.org/">MITRE ATT&amp;CK</a>.
     Every finding points back to the strings, symbols, imports, or metadata
-    that produced it. Apache-2.0, no telemetry.</p>
+    that produced it. Apache 2.0, no telemetry.</p>
 
     <ul class="feature-list">
       <li><strong>Triage.</strong> Run it on a release, a suspicious sample, or a directory of dropped files. <code>cleave diff old/ new/</code> shows new capabilities, tampered headers, and provenance anomalies between versions.</li>
@@ -38,7 +38,7 @@ tool: cleave
     </ul>
 
     <h2>Open, inspectable rules</h2>
-    <p>The rule set is a mix. Hand-written rules are precise for the patterns
+    <p>Hand-written rules are precise for the patterns
     humans understand well. AI-derived rules come from a training corpus of
     about a million samples and cover the long tail across 20+ languages,
     which no team keeps up with by hand.</p>
@@ -92,7 +92,7 @@ cleave --format jsonl --min-crit suspicious   # streaming JSON for pipelines</pr
       <li><a href="https://github.com/atomdrift-project/cleave/issues">Open an issue</a></li>
     </ul>
 
-    <h3>Project Info</h3>
+    <h3>Project info</h3>
     <dl class="stats">
       <dt>Version</dt><dd>3.0.0</dd>
       <dt>Release Date</dt><dd>2026-11-17</dd>

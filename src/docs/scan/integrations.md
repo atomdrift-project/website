@@ -10,7 +10,8 @@ The simplest integration is the CLI's exit status:
 atomscan ./artifact
 ```
 
-`0` is benign, `1` hostile, `2` suspicious, and `3` an analysis error. Decide
+`0` is benign, `1` hostile, `2` suspicious, `3` an analysis error, and `4` an
+incomplete rule set (re-run). Decide
 explicitly whether suspicious results should block your pipeline.
 
 For a stable network boundary in CI, install bundles ahead of time and run:
@@ -34,8 +35,8 @@ so a future reviewer knows which models and rules produced them.
 ## Long-running service and workers
 
 Scan also provides an HTTP server and distributed hopper workers for teams that
-do not want to pay CLI startup cost per request. Use the maintained upstream
-documentation for the security and resource controls:
+do not want to pay CLI startup cost per request. Upstream documentation covers
+security and resource controls:
 
 - [Integration guide](https://github.com/atomdrift-project/scan/blob/main/docs/INTEGRATION.md)
 - [Server API](https://github.com/atomdrift-project/scan/blob/main/docs/SERVER_API.md)

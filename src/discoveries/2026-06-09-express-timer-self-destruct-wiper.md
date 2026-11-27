@@ -1,7 +1,7 @@
 ---
 title: "express-timer: an npm 'security helper' that self-destructs your src/"
 date: 2026-06-09
-summary: "Most malicious npm packages steal; this one just deletes your source tree a minute after you install it — and its author fumbled their own online-banking password into the very same tarball."
+summary: "Most malicious npm packages steal; this one deletes your source tree a minute after you install it — and its author fumbled their own online-banking password into the same tarball."
 packageName: express-timer
 ecosystem: npm
 ---

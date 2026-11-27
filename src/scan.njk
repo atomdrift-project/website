@@ -1,6 +1,6 @@
 ---
 layout: base.njk
-title: "Atomdrift Scan — Open-Source, Local, Deterministic, AI-Powered Malware Scanner"
+title: "Atomdrift Scan — Open-source local malware scanner"
 tool: scan
 ---
 
@@ -19,16 +19,15 @@ tool: scan
     scores it, and exits with a status code your CI can act on.
     <em>(Scan was previously released as litmus.)</em></p>
     <p>Nothing leaves your machine. <a href="/cleave/">cleave</a> extracts
-    what each file can do, <a href="/azoth/">azoth</a> scores those
-    capabilities on your CPU, and every verdict lists the capabilities that
-    drove it. No cloud scanner, no API key, no GPU, no telemetry. The models
+    what each file can do and <a href="/azoth/">azoth</a> scores those
+    capabilities on your CPU. No cloud scanner, no API key, no GPU, no telemetry. The models
     retrain continuously from new samples, threat feeds, and published
     research, and ship about 1,000 rule updates a day.</p>
     <p>Sensitivity is a false-positive budget, not a dial labelled medium.
     <code>-l 25</code>, the default, means 25 false positives per 100 million
     benign files. <code>-l 0</code> means none observed. Go higher when
     missing something costs more than a second look.</p>
-    <p>It is measured every day against live zero-day malware, next to
+    <p>Measured daily against live zero-day malware, next to
     VirusTotal, Socket, ClamAV, and others.
     <a href="/compare/">See the numbers &rarr;</a></p>
 
@@ -104,7 +103,7 @@ $ atomscan url https://example.com/download</pre>
       <li><a href="https://github.com/atomdrift-project/scan/issues">Open an issue</a></li>
     </ul>
 
-    <h3>Project Info</h3>
+    <h3>Project info</h3>
     <dl class="stats">
       <dt>Version</dt><dd>2.13.0</dd>
       <dt>Release Date</dt><dd>2026-10-17</dd>
